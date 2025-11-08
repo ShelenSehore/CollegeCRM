@@ -1,0 +1,96 @@
+﻿
+
+.register-container {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 100%;
+}
+.form-container {
+    background: #d8d8d8;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px #aaa;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 13px;
+}
+
+.row, .sub-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+label {
+    min-width: 90px;
+    font-weight: 600;
+}
+
+select, input[type="text"], input[type="number"], input[type="date"] {
+    padding: 3px 6px;
+    font-size: 13px;
+    border: 1px solid #999;
+    border-radius: 2px;
+    width: 100%;
+    max-width: 120px;
+    box-sizing: border-box;
+}
+
+select {
+    cursor: pointer;
+}
+
+.top-row {
+    margin-bottom: 10px;
+}
+
+.small-input {
+    max-width: 60px;
+}
+
+.wide-input {
+    flex-grow: 1;
+    max-width: 300px;
+}
+
+.grid-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 12px;
+}
+
+    .grid-table th, .grid-table td {
+        border: 1px solid #999;
+        padding: 4px 6px;
+        text-align: left;
+    }
+
+.grid-container {
+    overflow-x: auto;
+    border: 1px solid #999;
+    margin-top: 10px;
+}
+
+.buttons-row {
+    margin-top: 15px;
+    text-align: right;
+}
+
+button {
+    font-size: 13px;
+    padding: 5px 15px;
+    margin-left: 8px;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid #666;
+    background-color: #eee;
+}
+
+    button:hover {
+        background-color: #ddd;
+    }

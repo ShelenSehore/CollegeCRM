@@ -88,7 +88,7 @@ header {
     align-items: center;
     justify-content: center;
     border-radius: 0px 50px 50px 0px;
-    background-color: var(--secondary-color);
+    background-color: #cee969;
     cursor: pointer;
 }
 
@@ -106,6 +106,7 @@ header {
     border-radius: 50%;
     left: 19px;
     top: 8px;
+   
 }
 
 .dp {
@@ -129,6 +130,7 @@ header {
 
 .dpicn {
     height: 42px;
+    background-color: #cee969;
 }
 
 .main {

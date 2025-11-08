@@ -1,0 +1,243 @@
+﻿<html>
+
+<head>
+    <title>College CRM</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/MasterResponsive.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/Master.css" />
+    <link href="css/Registration.css" rel="stylesheet" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/Master.js"></script>
+    
+
+
+</head>
+
+<body>
+    <header>
+        <div class="logosec">
+            <div class="logo">College CRM</div>
+            <img src="https://media.College CRM.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
+                 class="icn menuicn" id="menuicn" alt="menu-icon" />
+        </div>
+        <div class="searchbar">
+            <input type="text" placeholder="Search" />
+            <div class="searchbtn">
+                <img src="https://media.College CRM.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+                     class="icn srchicn" alt="search-icon" />
+            </div>
+        </div>
+
+        <div class="message">
+            <div class="circle"></div>
+            <img src="https://media.College CRM.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="" />
+            <div class="dp">
+                <img src="https://media.College CRM.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
+                     class="dpicn" alt="dp" />
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="navcontainer">
+            <nav class="nav">
+                <div class="nav-upper-options">
+                    <div class="nav-option option1">
+                        <h3>Dashboard</h3>
+                    </div>
+
+                    <div class="option2 nav-option">
+                        <h3>Student</h3>
+                    </div>
+
+                    <div class="nav-option option3">
+                        <h3>Report</h3>
+                    </div>
+
+                    <div class="nav-option option4">
+                        <h3>Institution</h3>
+                    </div>
+
+                    <div class="nav-option option5">
+                        <h3>Profile</h3>
+                    </div>
+
+                    <div class="nav-option option6">
+                        <h3>Settings</h3>
+                    </div>
+
+                    <div class="nav-option logout">
+                        <h3>Logout</h3>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="main">
+            <div class="register-container">
+                <h2>Registration</h2>
+                <div class="form-container" role="form">
+                    <div class="top-row row">
+                        <label for="reg_no">Reg No :-</label>
+                        <input type="number" id="reg_no" name="reg_no" value="2" class="small-input" />
+                    </div>
+
+                    <div class="row">
+                        <label for="session">Session :-</label>
+                        <select id="session" name="session">
+                            <option value="" selected>Select</option>
+                            <option value="2029-2030">2029-2030</option>
+                            <option value="2030-2031">2030-2031</option>
+                        </select>
+
+                        <label for="year">Year :-</label>
+                        <select id="year" name="year">
+                            <option value="" selected>Select</option>
+                            <option value="1 year">1 year</option>
+                            <option value="2 year">2 year</option>
+                        </select>
+
+                        <label for="subject">Subject :-</label>
+                        <select id="subject" name="subject">
+                            <option value="" selected>Select</option>
+                            <option value="BBA">BBA</option>
+                            <option value="MBA">MBA</option>
+                        </select>
+
+                        <label for="course">Course :-</label>
+                        <select id="course" name="course" style="min-width: 200px;">
+                            <option value="" selected>Select</option>
+                            <option value="Management">Management</option>
+                            <option value="Marketing">Marketing</option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <label for="form_no">Form NO :-</label>
+                        <input type="number" id="form_no" name="form_no" value="0" class="small-input" />
+
+                        <label for="scho_no">Scho.No :-</label>
+                        <input type="number" id="scho_no" name="scho_no" value="0" class="small-input" />
+
+                        <label for="sem">Sem :-</label>
+                        <input type="number" id="sem" name="sem" value="0" class="small-input" />
+
+                        <label for="reg_pvt">Reg/Pvt :-</label>
+                        <select id="reg_pvt" name="reg_pvt">
+                            <option value="Regular" selected>Regular</option>
+                            <option value="Private">Private</option>
+                        </select>
+
+                        <label for="status">Status :-</label>
+                        <select id="status" name="status">
+                            <option value="New" selected>New</option>
+                            <option value="Old">Old</option>
+                        </select>
+
+                        <label for="scolership">Scolership %</label>
+                        <select id="scolership" name="scolership">
+                            <option value="0" selected>0</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+
+                        <label for="disc_by">Disc By :-</label>
+                        <select id="disc_by" name="disc_by">
+                            <option value="None" selected>None</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+
+                        <label for="disc_resign">Disc Resign :-</label>
+                        <select id="disc_resign" name="disc_resign">
+                            <option value="None" selected>None</option>
+                            <option value="Resigned">Resigned</option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <label for="name">Name :-</label>
+                        <input type="text" id="name" name="name" class="wide-input" />
+
+                        <label for="fname">F Name :-</label>
+                        <input type="text" id="fname" name="fname" class="wide-input" />
+                    </div>
+
+                    <div class="row">
+                        <label for="mname">M Name :-</label>
+                        <input type="text" id="mname" name="mname" class="wide-input" />
+
+                        <label for="dob">DOB :-</label>
+                        <input type="date" id="dob" name="dob" value="2025-11-01" />
+
+                        <label for="caste">Caste :-</label>
+                        <select id="caste" name="caste">
+                            <option value="" selected>Select</option>
+                            <option value="OBC">OBC</option>
+                            <option value="SC">SC</option>
+                            <option value="General">General</option>
+                        </select>
+
+                        <label for="gender">Gender :-</label>
+                        <select id="gender" name="gender">
+                            <option value="" selected>Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+
+                        <label for="mob_no">Mob.No :-</label>
+                        <input type="number" id="mob_no" name="mob_no" value="0" class="small-input" />
+                    </div>
+
+                    <div class="grid-container">
+                        <table class="grid-table" role="grid" aria-label="Student records">
+                            <thead>
+                                <tr>
+                                    <th>Session</th>
+                                    <th>Form No</th>
+                                    <th>Year</th>
+                                    <th>Subject</th>
+                                    <th>Course</th>
+                                    <th>Reg No</th>
+                                    <th>Semester</th>
+                                    <th>Name</th>
+                                    <th>F Name</th>
+                                    <th>DOB</th>
+                                    <th>Contact</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2029-2030</td>
+                                    <td>1012</td>
+                                    <td>1 Year</td>
+                                    <td>BBA</td>
+                                    <td>MANAGEMENT</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>REENA</td>
+                                    <td>VERMA</td>
+                                    <td>07/05/2015</td>
+                                    <td>1234567</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="buttons-row">
+                        <button type="submit">Submit</button>
+                        <button type="reset">Reset</button>
+                        <button type="button" onclick="window.close();">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="./index.js"></script>
+</body>
+
+</html>
