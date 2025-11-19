@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+
+
+
+<div class="main">
+    <div class="register-container">
+        <h2>Class Master</h2>
+        <div class="form-container" role="form">
+            <div class="top-row row">
+                <label for="reg_no">Class Name</label>
+                <input type="text" id="fname" name="fname" class="wide-input" />
+            
+                <button type="submit">Submit</button>
+                <button type="button" onclick="window.close();">Cancel</button>
+            </div>
+
+            <div class="grid-container">
+                <table class="grid-table" role="grid" aria-label="Student records">
+                    <thead>
+                        <tr>
+                            <th>Se NO</th>
+                            <th>Class Name</th>
+                            <th>CreateBy</th>
+                            <th>CraeteDatetime</th>
+                            <th>UpdateBy</th>
+                            <th>UpdateDatetime</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2029-2030</td>
+                            <td>1012</td>
+                            <td>1 Year</td>
+                            <td>BBA</td>
+                            <td>MANAGEMENT</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
