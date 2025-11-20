@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\CollegeCRM\\CRM\\CRM\\CRM.csproj": {}
+    "D:\\Projects\\College\\CRM\\CRM.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\CollegeCRM\\CRM\\CRM\\CRM.csproj": {
+    "D:\\Projects\\College\\CRM\\CRM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\CollegeCRM\\CRM\\CRM\\CRM.csproj",
+        "projectUniqueName": "D:\\Projects\\College\\CRM\\CRM.csproj",
         "projectName": "CRM",
-        "projectPath": "D:\\Projects\\CollegeCRM\\CRM\\CRM\\CRM.csproj",
+        "projectPath": "D:\\Projects\\College\\CRM\\CRM.csproj",
         "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\CollegeCRM\\CRM\\CRM\\obj\\",
+        "outputPath": "D:\\Projects\\College\\CRM\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,18 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.32, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.32, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

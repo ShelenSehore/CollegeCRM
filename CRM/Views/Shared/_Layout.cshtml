@@ -1,82 +1,48 @@
-﻿<html>
-
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>College CRM</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/MasterResponsive.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/Master.css" />
-    <link href="css/Student.css" rel="stylesheet" />
-    <script src="js/jquery.min.js"></script>
-    <script src="js/Master.js"></script>
-
-    <!--https://www.svgrepo.com/collection/chunk-16px-thick-interface-icons/-->
-
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CRM</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
-
 <body>
     <header>
-        <div class="logosec">
-            <div class="logo">College CRM</div>
-            <img src="img/hamerLine.svg"
-                 class="icn menuicn" id="menuicn" alt="menu-icon" />
-        </div>
-        <div class="searchbar">
-            <input type="text" placeholder="Search" />
-            <div class="searchbtn">
-                <img src="img/Search.svg"
-                     class="icn srchicn" alt="search-icon" />
-            </div>
-        </div>
-
-        <div class="message">
-            <div class="circle"></div>
-            <img src="img/Search.svg" class="icn" alt="" />
-            <div class="dp">
-                <img src="img/Admin.svg"
-                     class="dpicn" alt="dp" />
-            </div>
-        </div>
-    </header>
-
-    <div class="main-container">
-        <div class="navcontainer">
-            <nav class="nav">
-                <div class="nav-upper-options">
-                    <div class="nav-option option1">
-                        <h3>Dashboard</h3>
-                    </div>
-
-                    <div class="option2 nav-option">
-                        <h3>Student</h3>
-                    </div>
-
-                    <div class="nav-option option3">
-                        <h3>Report</h3>
-                    </div>
-
-                    <div class="nav-option option4">
-                        <h3>Institution</h3>
-                    </div>
-
-                    <div class="nav-option option5">
-                        <h3>Profile</h3>
-                    </div>
-
-                    <div class="nav-option option6">
-                        <h3>Settings</h3>
-                    </div>
-
-                    <div class="nav-option logout">
-                        <h3>Logout</h3>
-                    </div>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CRM</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
-        </div>
-
-        @RenderBody()
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
 
-    <script src="./index.js"></script>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - CRM - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
 </body>
-
 </html>

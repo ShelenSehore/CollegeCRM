@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CRM.BusinessModels.Tables
+namespace CRM.Models
 {
     public class MstClass
     {
@@ -13,5 +13,6 @@ namespace CRM.BusinessModels.Tables
         public string UpdatedBy { get; set; }
         public DateTime? CreateDatetime { get; set; }
         public DateTime? UpdateDatetime { get; set; }
+
     }
 }

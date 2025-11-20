@@ -1,4 +1,5 @@
 ﻿using CRM.Models;
+using CRM.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,14 +13,16 @@ namespace CRM.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly MstClassRepository _repo;
+        public HomeController(ILogger<HomeController> logger, MstClassRepository repo)
         {
+            _repo = repo;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
+           
             return View();
         }
 

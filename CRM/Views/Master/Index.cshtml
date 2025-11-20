@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<CRM.Models.MstClass>
+
+@{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
@@ -12,7 +14,7 @@
             <div class="top-row row">
                 <label for="reg_no">Class Name</label>
                 <input type="text" id="fname" name="fname" class="wide-input" />
-            
+
                 <button type="submit">Submit</button>
                 <button type="button" onclick="window.close();">Cancel</button>
             </div>
@@ -31,15 +33,18 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach (var item in Model)
+                        {
                         <tr>
-                            <td>2029-2030</td>
-                            <td>1012</td>
-                            <td>1 Year</td>
-                            <td>BBA</td>
-                            <td>MANAGEMENT</td>
                             <td>1</td>
-                            <td>0</td>
+                            <td>@item.Name</td>
+                            <td>@item.CreateBy</td>
+                            <td>@item.UpdatedBy</td>
+                            <td>@item.CreateDatetime</td>
+                            <td>@item.UpdateDatetime</td>
+
                         </tr>
+                        }
                     </tbody>
                 </table>
             </div>

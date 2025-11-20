@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CRM.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,18 @@ namespace CRM.Controllers
     public class MasterController : Controller
     {
         private readonly ILogger<MasterController> _logger;
+        private readonly MstClassRepository _classRepo;
 
-        public MasterController(ILogger<MasterController> logger)
+        public MasterController(ILogger<MasterController> logger, MstClassRepository classRepo)
         {
+            _classRepo = classRepo;
             _logger = logger;
         }
         public IActionResult Index()
         {
-            return View();
+            var data = _classRepo.GetAll();
+
+            return View(data);
         }
     }
 }
