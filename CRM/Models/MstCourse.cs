@@ -6,19 +6,17 @@ using System.Threading.Tasks;
 
 namespace CRM.Models
 {
-    public class MstClass
+    public class MstCourse
     {
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Class name is required")]
         [StringLength(100)]
-        public string Name { get; set; }
-
-        public string CreateBy { get; set; }
-        public DateTime CreateDatetime { get; set; }
-
+        public string CourseName { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? CreatedDatetime { get; set; }
         public string UpdatedBy { get; set; }
-        public DateTime? UpdateDatetime { get; set; }
+        public DateTime? UpdatedDatetime { get; set; }
 
     }
 }

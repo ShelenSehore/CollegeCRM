@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/MasterResponsive.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/Master.css" />
+    <script src="~/js/jquery.min.js"></script>
     <link href="css/Registration.css" rel="stylesheet" />
     <script src="js/jquery.min.js"></script>
     <script src="js/Master.js"></script>
@@ -74,7 +75,7 @@
             </nav>
         </div>
         @RenderBody()
-
+        @RenderSection("Scripts", required: false)
     </div>
 
 </body>

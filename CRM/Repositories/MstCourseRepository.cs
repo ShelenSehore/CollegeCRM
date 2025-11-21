@@ -7,44 +7,43 @@ using System.Threading.Tasks;
 
 namespace CRM.Repositories
 {
-    public class MstClassRepository
+    public class MstCourseRepository
     {
         private readonly CollegeContext _context;
-        public MstClassRepository(CollegeContext context)
+        public MstCourseRepository(CollegeContext context)
         {
             _context = context;
         }
 
-        public List<MstClass> GetAll()
+        public List<MstCourse> GetAll()
         {
-            return _context.MstClass.ToList();
+            return _context.MstCourse.ToList();
         }
-
-        public void Add(MstClass model)
+        public void Add(MstCourse model)
         {
-            _context.MstClass.Add(model);
+            _context.MstCourse.Add(model);
             _context.SaveChanges();
         }
 
-        public void Update(MstClass model)
+        public void Update(MstCourse model)
         {
-            _context.MstClass.Update(model);
+            _context.MstCourse.Update(model);
             _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var item = _context.MstClass.Find(id);
+            var item = _context.MstCourse.Find(id);
             if (item != null)
             {
-                _context.MstClass.Remove(item);
+                _context.MstCourse.Remove(item);
                 _context.SaveChanges();
             }
         }
 
-        public MstClass GetById(int id)
+        public MstCourse GetById(int id)
         {
-            return _context.MstClass.Find(id);
+            return _context.MstCourse.Find(id);
         }
 
     }
