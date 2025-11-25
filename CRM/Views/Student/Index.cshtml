@@ -1,0 +1,200 @@
+﻿@model CRM.Models.Student
+
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+
+
+}
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="#">Student</a></li>
+                        <li class="breadcrumb-item active">Add New Student</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form asp-action="Create" method="post">
+
+                            <!-- COLLEGE DETAILS -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fas fa-university"></i> College Detail</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Course</label>
+                                                <input asp-for="Course" class="form-control" placeholder="Enter Course">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Class</label>
+                                                <input asp-for="Class" class="form-control" placeholder="Enter Class">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Roll No</label>
+                                                <input asp-for="RollNo" class="form-control" placeholder="Roll No">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Form No</label>
+                                                <input asp-for="AdmissionFormNo" class="form-control" placeholder="Form No">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- PERSONAL DETAILS -->
+                            <div class="card card-info mt-3">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fas fa-user"></i> Student Personal Detail</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>First Name</label>
+                                                        <input asp-for="StudentName" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Last Name</label>
+                                                        <input class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-2">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Father Name</label>
+                                                        <input asp-for="FatherName" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Mother Name</label>
+                                                        <input asp-for="MotherName" class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Mobile No</label>
+                                                        <input asp-for="MobileNoOne" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-2">
+                                                <div class="col-md-4">
+                                                    <label>DOB</label>
+                                                    <input asp-for="DOB" type="date" class="form-control">
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label>Gender</label>
+                                                    <select asp-for="Gender" class="form-control">
+                                                        <option>Select</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label>Caste</label>
+                                                    <select asp-for="Caste" class="form-control">
+                                                        <option>Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-2">
+                                                <div class="col-md-4">
+                                                    <label>Aadhaar No</label>
+                                                    <input asp-for="AadhaarNo" class="form-control">
+                                                </div>
+
+                                                <div class="col-md-8">
+                                                    <label>Address</label>
+                                                    <textarea asp-for="Address" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Photo -->
+                                        <div class="col-md-3 offset-md-1">
+                                            <label>Student Photo</label>
+                                            <div class="border p-2 text-center" style="height: 200px;">
+                                                <i class="fas fa-camera fa-3x text-muted"></i>
+                                                <p class="text-muted">Upload Photo</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4 mb-5">
+
+                                <button class="btn btn-primary px-4" type="submit">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+
+                                <button class="btn btn-danger px-4">
+                                    <i class="fas fa-times"></i> Exit
+                                </button>
+
+                            </div>
+
+                        </form>
+
+
+
+                    </div>
+                   
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

@@ -14,7 +14,8 @@ namespace CRM.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly MstClassRepository _repo;
-        public HomeController(ILogger<HomeController> logger, MstClassRepository repo)
+        public HomeController(ILogger<HomeController> logger, 
+            MstClassRepository repo)
         {
             _repo = repo;
             _logger = logger;

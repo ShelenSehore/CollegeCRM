@@ -33,6 +33,7 @@ namespace CRM
             services.AddControllersWithViews();
             services.AddScoped<MstClassRepository>();
             services.AddScoped<MstCourseRepository>();
+            services.AddScoped<StudentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
