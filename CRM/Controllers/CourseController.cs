@@ -12,8 +12,8 @@ namespace CRM.Controllers
     public class CourseController : Controller
     {
         private readonly MstCourseRepository _courseRepo;
-        private readonly ILogger<MasterController> _logger;
-        public CourseController(ILogger<MasterController> logger,
+        private readonly ILogger<CourseController> _logger;
+        public CourseController(ILogger<CourseController> logger,
            MstCourseRepository courseRepo)
         {
             _courseRepo = courseRepo;
