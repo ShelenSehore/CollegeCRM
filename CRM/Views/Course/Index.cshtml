@@ -2,6 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    var baseUrl = ViewBag.BaseUrl;
 }
 
 
@@ -146,6 +147,7 @@
 @section Scripts {
     <script type="text/javascript">
         // INSERT
+        var BASE_URL = "@baseUrl";
         function saveClass() {
             var name = $("#className").val();
 

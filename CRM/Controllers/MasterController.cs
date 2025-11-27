@@ -1,7 +1,9 @@
-﻿using CRM.Models;
+﻿using CRM.Data;
+using CRM.Models;
 using CRM.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +15,21 @@ namespace CRM.Controllers
     {
         private readonly ILogger<MasterController> _logger;
         private readonly MstClassRepository _classRepo;
-       
-        public MasterController(ILogger<MasterController> logger, 
+        private readonly string _baseUrl;
+
+        public MasterController(ILogger<MasterController> logger,
+            IOptions<AppSettings> config,
             MstClassRepository classRepo)
         {
             _classRepo = classRepo;
             _logger = logger;
+            _baseUrl = config.Value.BaseUrl;
         }
 
         #region Class Master
         public IActionResult Index()
         {
+            ViewBag.BaseUrl = _baseUrl;
             var data = _classRepo.GetAll();
 
 

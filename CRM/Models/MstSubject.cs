@@ -10,8 +10,6 @@ namespace CRM.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Subject name is required")]
-        [StringLength(100)]
         public string Name { get; set; }
 
         public string Course { get; set; }

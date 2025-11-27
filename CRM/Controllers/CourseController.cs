@@ -1,7 +1,9 @@
-﻿using CRM.Models;
+﻿using CRM.Data;
+using CRM.Models;
 using CRM.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +15,18 @@ namespace CRM.Controllers
     {
         private readonly MstCourseRepository _courseRepo;
         private readonly ILogger<CourseController> _logger;
+        private readonly string _baseUrl;
         public CourseController(ILogger<CourseController> logger,
+             IOptions<AppSettings> config,
            MstCourseRepository courseRepo)
         {
             _courseRepo = courseRepo;
             _logger = logger;
+            _baseUrl = config.Value.BaseUrl;
         }
         public IActionResult Index()
         {
+            ViewBag.BaseUrl = _baseUrl;
             var data = _courseRepo.GetAll();
 
 
