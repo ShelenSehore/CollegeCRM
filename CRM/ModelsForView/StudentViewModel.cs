@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CRM.Models
+namespace CRM.ModelsForView
 {
-    public class Student
+    public class StudentViewModel
     {
         public int Id { get; set; }
         public int? AdmissionFormNo { get; set; }
@@ -35,7 +36,10 @@ namespace CRM.Models
         public string? FatherMobileNo { get; set; }
         public string? Address { get; set; }
         public string? Minority { get; set; }
+        public string SelectedClass { get; set; }
+        public string SelectedCourse { get; set; }
+        public List<SelectListItem> ClassList { get; set; }
+        public List<SelectListItem> CourseList { get; set; }
 
-        public string? Photo { get; set; }
     }
 }
