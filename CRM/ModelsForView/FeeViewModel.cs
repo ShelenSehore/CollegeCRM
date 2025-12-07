@@ -20,6 +20,9 @@ namespace CRM.ModelsForView
         public List<SelectListItem> FeeList { get; set; }
         public string SelectedFee { get; set; }
 
+        public List<SelectListItem> CourseList { get; set; }
+        public string SelectedCourse { get; set; }
+
         public List<FeeListModel> FeeClassList { get; set; }
         
 

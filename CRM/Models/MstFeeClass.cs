@@ -11,5 +11,7 @@ namespace CRM.Models
         public int Id { get; set; }
         public int FeeId { get; set; }
         public string Class { get; set; }
+
+        public string Course { get; set; }
     }
 }

@@ -13,5 +13,7 @@ namespace CRM.ModelsForView
         public int Amount { get; set; }
         public string FeeName { get; set; }
         public string Class { get; set; }
+
+        public string Course { get; set; }
     }
 }

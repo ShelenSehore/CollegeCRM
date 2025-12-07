@@ -41,7 +41,7 @@ namespace CRM.Repositories
             }
         }
 
-        public MstFeeClass GetById(int id)
+        public MstFee GetById(int id)
         {
             return _context.MstFee.Find(id);
         }
