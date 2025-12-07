@@ -1,0 +1,84 @@
+﻿@model CRM.ModelsForView.FeeViewModel
+
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    var baseUrl = ViewBag.BaseUrl;
+}
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item active"><a href="#">Fee</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                        Add new Fee
+                    </button>
+
+
+
+
+
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Class Name</th>
+                                    <th>Create By</th>
+                                    <th>Create Date</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int i = 1;
+                                }
+                                @foreach (var item in Model.FeeClassList)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@item.FeeName</td>
+                                        <td>@item.Amount</td>
+                                        <td>@item.Class</td>
+                                        <td>
+                                            <button data-toggle="modal" data-target="#editModal" onclick="editClass(@item.Id)"> <i class="fas fa-edit"></i> Edit</button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-success" onclick="deleteClass(@item.Id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

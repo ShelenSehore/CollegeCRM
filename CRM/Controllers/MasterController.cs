@@ -32,7 +32,6 @@ namespace CRM.Controllers
             ViewBag.BaseUrl = _baseUrl;
             var data = _classRepo.GetAll();
 
-
             return View(data);
         }
 
