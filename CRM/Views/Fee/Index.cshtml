@@ -47,7 +47,6 @@
                                     <th>Course</th>
                                     <th>Fee Name</th>
                                     <th>Amount</th>
-                                    <th>Edit</th>
                                     <th>Delete</th>
 
                                 </tr>
@@ -55,7 +54,6 @@
                             <tbody>
                                 @{
                                     int i = 1;
-
 
                                 }
                                 @if (Model.FeeClassList != null)
@@ -70,7 +68,11 @@
                                     <td>@item.Amount</td>
 
                                     <td>
-                                        <button class="btn btn-success" onclick="DeleteFee(@item.Id)">Delete</button>
+                                        <a class="btn btn-danger btn-sm" onclick="DeleteFee(@item.Id)">
+                                            <i class="fas fa-trash">
+                                            </i>
+                                            Delete
+                                        </a>
                                     </td>
                                 </tr>
                                         i++;

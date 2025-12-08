@@ -63,10 +63,20 @@
                                         <td>@item.CreateBy</td>
                                         <td>@item.CreateDatetime</td>
                                         <td>
-                                            <button data-toggle="modal" data-target="#editModal" onclick="editClass(@item.Id)"> <i class="fas fa-edit"></i> Edit</button>
+
+                                            <a class="btn btn-info btn-sm" data-toggle="modal" data-target="#editModal" onclick="editClass(@item.Id)">
+                                                <i class="fas fa-pencil-alt">
+                                                </i>
+                                                Edit
+                                            </a>
+
                                         </td>
                                         <td>
-                                            <button class="btn btn-success" onclick="deleteClass(@item.Id)">Delete</button>
+                                            <a class="btn btn-danger btn-sm" onclick="deleteClass(@item.Id)">
+                                                <i class="fas fa-trash">
+                                                </i>
+                                                Delete
+                                            </a>
                                         </td>
                                     </tr>
                                     i++;

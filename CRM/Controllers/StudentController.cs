@@ -38,10 +38,10 @@ namespace CRM.Controllers
 
 
             model.ClassList = _classRepo.GetAll()
-                        .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
+                        .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
                         .ToList();
             model.CourseList = _courseRepo.GetAll()
-                        .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.CourseName })
+                        .Select(x => new SelectListItem { Value = x.CourseName.ToString(), Text = x.CourseName })
                         .ToList();
 
             ViewBag.BaseUrl = _baseUrl;
@@ -57,7 +57,7 @@ namespace CRM.Controllers
                 return View(student);
             }
 
-            student.AdmissionDate = DateTime.Now;
+            //student.AdmissionDate = DateTime.Now;
 
             _repoStudent.Add(student);
 
