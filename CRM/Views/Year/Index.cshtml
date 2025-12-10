@@ -129,14 +129,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add New Class</h4>
+                <h4 class="modal-title">Add New Year</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Course Name</label>
+                    <label>Year Name</label>
                     <input type="text" id="className" class="form-control" />
                 </div>
             </div>
@@ -167,7 +167,7 @@
                 return;
             }
 
-            $.post("https://localhost:44382/Master/Create", { className: name }, function (res) {
+            $.post(BASE_URL+"/Year/Create", { className: name }, function (res) {
                 if (res.success) location.reload();
                 else alert(res.message);
             });
@@ -175,7 +175,7 @@
 
         // OPEN EDIT POPUP
         function editClass(id) {
-            $.get("https://localhost:44382/Master/Get?id=" + id, function (data) {
+            $.get(BASE_URL +"/Year/Get?id=" + id, function (data) {
                 $("#editId").val(data.id);
                 $("#editName").val(data.name);
                 $("#editModal").show();
@@ -184,7 +184,7 @@
 
         // UPDATE
         function updateClass() {
-            $.post("https://localhost:44382/Master/Update",
+            $.post(BASE_URL +"/Year/Update",
                 {
                     id: $("#editId").val(),
                     className: $("#editName").val()
@@ -202,7 +202,7 @@
         // DELETE
         function deleteClass(id) {
             if (confirm("Are you sure?")) {
-                $.post("https://localhost:44382/Master/Delete", { id: id }, function () {
+                $.post(BASE_URL +"/Year/Delete", { id: id }, function () {
                     location.reload();
                 });
             }

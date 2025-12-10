@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace CRM.Controllers
 {
-    public class MasterController : Controller
+    public class YearController : Controller
     {
-        private readonly ILogger<MasterController> _logger;
+        private readonly ILogger<YearController> _logger;
         private readonly MstClassRepository _classRepo;
         private readonly string _baseUrl;
 
-        public MasterController(ILogger<MasterController> logger,
+        public YearController(ILogger<YearController> logger,
             IOptions<AppSettings> config,
             MstClassRepository classRepo)
         {
@@ -25,6 +25,7 @@ namespace CRM.Controllers
             _logger = logger;
             _baseUrl = config.Value.BaseUrl;
         }
+
 
         #region Year Master 
         public IActionResult Index()   //----------Year
@@ -85,8 +86,5 @@ namespace CRM.Controllers
         }
 
         #endregion
-
-
-
     }
 }

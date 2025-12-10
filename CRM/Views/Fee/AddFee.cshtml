@@ -1,0 +1,201 @@
+﻿@model CRM.ModelsForView.FeeViewModel
+
+@{
+    ViewData["Title"] = "Add Fee";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+
+    var baseUrl = ViewBag.BaseUrl;
+}
+
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="#">Fee</a></li>
+                        <li class="breadcrumb-item active">Add New Fee</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form asp-action="Create" method="post">
+
+                            <!-- COLLEGE DETAILS -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fas fa-university"></i> Class Detail</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Session</label>
+                                                <select class="form-control">
+                                                    <option>Select</option>
+                                                    <option>2025</option>
+                                                    <option>2026</option>
+                                                    <option>2027</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>NewOld</label>
+                                                <select class="form-control">
+                                                    <option>Select</option>
+                                                    <option>New</option>
+                                                    <option>Old</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Year</label>
+                                                <select id="ddlClass"  class="form-control"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Subject</label>
+                                                <select id="ddlClass"  class="form-control"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Course</label>
+                                                <select id="ddlSubject" class="form-control"></select>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- PERSONAL DETAILS -->
+                            <div class="card card-info mt-3">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fas fa-user"></i> Fee Detail</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>New Admin Fee</label>
+                                                        <input class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>C. Money</label>
+                                                        <input class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-2">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Tution Fee</label>
+                                                        <input  class="form-control">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Other Fees</label>
+                                                        <input  class="form-control">
+                                                    </div>
+                                                </div>
+
+                                              
+                                               
+                                            </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card card-info mt-3">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fas fa-user"></i> Total Fee </h3>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="row">
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Total Fee</label>
+                                                    <input class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Total + C. Money</label>
+                                                    <input class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="text-center mt-4 mb-5">
+
+                                <button class="btn btn-primary px-4" type="submit">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+
+                                <button class="btn btn-danger px-4">
+                                    <i class="fas fa-times"></i> Exit
+                                </button>
+
+                            </div>
+
+                        </form>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+

@@ -20,15 +20,18 @@ namespace CRM.Controllers
         private readonly MstClassRepository _classRepo;
         private readonly MstCourseRepository _courseRepo;
         private readonly MstFeeRepository _feeRepo;
+        private readonly MstSubjectRepository _subjecctRepo;
         private readonly string _baseUrl;
 
         public FeeController(ILogger<FeeController> logger,
            IOptions<AppSettings> config,
            MstFeeClassRepository FeeClassRepo,
+           MstSubjectRepository subjecctRepo,
            MstFeeRepository fee,
            MstCourseRepository courseRepo,
            MstClassRepository classRepo)
         {
+            _subjecctRepo = subjecctRepo;
             _courseRepo = courseRepo;
             _FeeClassRepo = FeeClassRepo;
             _classRepo = classRepo;
@@ -42,49 +45,54 @@ namespace CRM.Controllers
             ViewBag.BaseUrl = _baseUrl;
             var model = new FeeViewModel();
 
-            model.CourseList = _courseRepo.GetAll()
-                     .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.CourseName })
+            model.CourseList = _subjecctRepo.GetAll()
+                     .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name + x.Class + x.Course })
                      .ToList();
 
-            model.ClassList = _classRepo.GetAll()
-                       .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
-                       .ToList();
+            
 
-            model.FeeList = _feeRepo.GetAll()
-                      .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Type })
-                      .ToList();
+            //model.FeeList = _feeRepo.GetAll()
+            //          .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Type })
+            //          .ToList();
 
-            var feeList = _FeeClassRepo.GetAll();
+            //var feeList = _FeeClassRepo.GetAll();
 
-            if (feeList != null) 
-            {
-                List<FeeListModel> feeClasssList = new List<FeeListModel>();
-                foreach (var row in feeList) 
-                {
-                    FeeListModel obj = new FeeListModel();
-                    obj.Id = row.Id;
-                    obj.FeeId = row.FeeId;
-                    obj.FeeName = _feeRepo.GetAll()
-                                    .Where(x => x.Id == row.FeeId)
-                                    .Select(x => x.Type)
-                                    .FirstOrDefault();
-                    obj.Amount = _feeRepo.GetAll()
-                                    .Where(x => x.Id == row.FeeId)
-                                    .Select(x => x.Amount)
-                                    .FirstOrDefault();
+            //if (feeList != null) 
+            //{
+            //    List<FeeListModel> feeClasssList = new List<FeeListModel>();
+            //    foreach (var row in feeList) 
+            //    {
+            //        FeeListModel obj = new FeeListModel();
+            //        obj.Id = row.Id;
+            //        obj.FeeId = row.FeeId;
+            //        obj.FeeName = _feeRepo.GetAll()
+            //                        .Where(x => x.Id == row.FeeId)
+            //                        .Select(x => x.Type)
+            //                        .FirstOrDefault();
+            //        obj.Amount = _feeRepo.GetAll()
+            //                        .Where(x => x.Id == row.FeeId)
+            //                        .Select(x => x.Amount)
+            //                        .FirstOrDefault();
 
-                    obj.Course = row.Course;
-                    obj.Class = row.Class;
+            //        obj.Course = row.Course;
+            //        obj.Class = row.Class;
 
-                    feeClasssList.Add(obj);
-                }
-                model.FeeClassList = feeClasssList.OrderBy(x=>x.Class).ToList();
+            //        feeClasssList.Add(obj);
+            //    }
+            //    model.FeeClassList = feeClasssList.OrderBy(x=>x.Class).ToList();
 
-            }
+            //}
 
 
 
             return View(model);
+        }
+
+
+        public IActionResult AddFee() 
+        {
+
+            return View();
         }
 
 
