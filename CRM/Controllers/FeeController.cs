@@ -16,7 +16,7 @@ namespace CRM.Controllers
     public class FeeController : Controller
     {
         private readonly ILogger<FeeController> _logger;
-        private readonly MstFeeClassRepository _FeeClassRepo;
+        
         private readonly MstClassRepository _classRepo;
         private readonly MstCourseRepository _courseRepo;
         private readonly MstFeeRepository _feeRepo;
@@ -25,7 +25,7 @@ namespace CRM.Controllers
 
         public FeeController(ILogger<FeeController> logger,
            IOptions<AppSettings> config,
-           MstFeeClassRepository FeeClassRepo,
+           
            MstSubjectRepository subjecctRepo,
            MstFeeRepository fee,
            MstCourseRepository courseRepo,
@@ -33,7 +33,7 @@ namespace CRM.Controllers
         {
             _subjecctRepo = subjecctRepo;
             _courseRepo = courseRepo;
-            _FeeClassRepo = FeeClassRepo;
+            
             _classRepo = classRepo;
             _feeRepo = fee;
             _logger = logger;
@@ -45,43 +45,49 @@ namespace CRM.Controllers
             ViewBag.BaseUrl = _baseUrl;
             var model = new FeeViewModel();
 
-            model.CourseList = _subjecctRepo.GetAll()
-                     .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name + x.Class + x.Course })
-                     .ToList();
 
-            
 
-            //model.FeeList = _feeRepo.GetAll()
-            //          .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Type })
-            //          .ToList();
+           var varSubject = _subjecctRepo.GetAll();
+            var varFee = _feeRepo.GetAll();
 
-            //var feeList = _FeeClassRepo.GetAll();
+            if (varFee != null)
+            {
+                List<FeeListModel> feeClasssList = new List<FeeListModel>();
+                foreach (var row in varFee)
+                {
+                    FeeListModel obj = new FeeListModel();
 
-            //if (feeList != null) 
-            //{
-            //    List<FeeListModel> feeClasssList = new List<FeeListModel>();
-            //    foreach (var row in feeList) 
-            //    {
-            //        FeeListModel obj = new FeeListModel();
-            //        obj.Id = row.Id;
-            //        obj.FeeId = row.FeeId;
-            //        obj.FeeName = _feeRepo.GetAll()
-            //                        .Where(x => x.Id == row.FeeId)
-            //                        .Select(x => x.Type)
-            //                        .FirstOrDefault();
-            //        obj.Amount = _feeRepo.GetAll()
-            //                        .Where(x => x.Id == row.FeeId)
-            //                        .Select(x => x.Amount)
-            //                        .FirstOrDefault();
+                    var temName = varSubject
+                                    .Where(x => x.Id == Convert.ToInt32(row.Course))
+                                    .Select(x => x.Name)
+                                    .FirstOrDefault();
+                    var temCourse = varSubject
+                                    .Where(x => x.Id == Convert.ToInt32(row.Course))
+                                    .Select(x => x.Course)
+                                    .FirstOrDefault();
+                    var temClass = varSubject
+                                    .Where(x => x.Id == Convert.ToInt32(row.Course))
+                                    .Select(x => x.Class)
+                                    .FirstOrDefault();
 
-            //        obj.Course = row.Course;
-            //        obj.Class = row.Class;
+                    obj.SubjectName = temName+" / "+ temCourse + " / " + temClass + " / " ;
+                   
+                    obj.Id = row.Id;
+                    obj.NewOld = row.NewOld;
+                    obj.Session = row.Session;
+                    obj.Year = row.Year;
+                    obj.NewStudentFee = row.NewStudentFee;
+                    obj.CMoney = row.CMoney;
+                    obj.TutionFee = row.TutionFee;
+                    obj.OtherFee = row.OtherFee;
+                    obj.TotalFee = row.TotalFee;
+                    obj.TotalFeeCM = row.TotalFeeCM;
 
-            //        feeClasssList.Add(obj);
-            //    }
-            //    model.FeeClassList = feeClasssList.OrderBy(x=>x.Class).ToList();
+                    feeClasssList.Add(obj);
+                }
+                model.FeeClassList = feeClasssList.OrderBy(x => x.Course).ToList();
 
-            //}
+            }
 
 
 
@@ -91,27 +97,49 @@ namespace CRM.Controllers
 
         public IActionResult AddFee() 
         {
+            ViewBag.BaseUrl = _baseUrl;
+            var model = new FeeViewModel();
 
-            return View();
+            //MstCourse
+            model.ClassList = _courseRepo.GetAll()
+                       .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.CourseName })
+                       .ToList();
+
+            //MstSubject
+            model.SubjectList = _subjecctRepo.GetAll()
+                     .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name +" / " + x.Course + " / " + x.Class })
+                     .ToList();
+
+            return View(model);
         }
 
 
 
         [HttpPost]
-        public IActionResult FeePost(string feeId , string className, string couseName)
+        public IActionResult FeePost(FeeViewModel feeViewModel)
         {
-            if (string.IsNullOrWhiteSpace(className))
-                return Json(new { success = false, message = "Course name is required" });
+            //if (string.IsNullOrWhiteSpace(className))
+            //    return Json(new { success = false, message = "Course name is required" });
 
-            var model = new MstFeeClass
+            var model = new MstFee
             {
-                FeeId = Convert.ToInt32(feeId),
-                Class = className,
-                Course = couseName
+
+                NewOld = feeViewModel.NewOld,
+                Session = feeViewModel.Session,
+                Year = feeViewModel.Year,
+                Subject = feeViewModel.Subject,
+                Course = feeViewModel.Course,
+                NewStudentFee = feeViewModel.NewStudentFee,
+                CMoney = feeViewModel.CMoney,
+                TutionFee = feeViewModel.TutionFee,
+                OtherFee = feeViewModel.OtherFee,
+                TotalFee = feeViewModel.TotalFee,
+                TotalFeeCM = feeViewModel.TotalFeeCM
+
 
             };
 
-            _FeeClassRepo.Add(model);
+            _feeRepo.Add(model);
 
             return Json(new { success = true });
         }
@@ -120,15 +148,15 @@ namespace CRM.Controllers
         [HttpPost]
         public IActionResult DeleteFee(int id)
         {
-            _FeeClassRepo.Delete(id);
+            //_FeeClassRepo.Delete(id);
             return Json(new { success = true });
         }
 
         public IActionResult GetFee(int id)
         {
-            var data = _FeeClassRepo.GetById(id);
+            // var data = _FeeClassRepo.GetById(id);
 
-            return Json(data);
+            return Json(new { success = true });
         }
 
 

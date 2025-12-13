@@ -11,7 +11,6 @@ namespace CRM.Models
         public string NewOld { get; set; }
         public string Session { get; set; }
         public string Year { get; set; }
-
         public string Subject { get; set; }
         public string Course { get; set; }
         public int NewStudentFee { get; set; }
@@ -20,6 +19,6 @@ namespace CRM.Models
         public int OtherFee { get; set; }
         public int TotalFee { get; set; }
         public int TotalFeeCM { get; set; }
-        
+
     }
 }

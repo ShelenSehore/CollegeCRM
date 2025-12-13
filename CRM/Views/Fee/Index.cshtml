@@ -27,10 +27,8 @@
                 <!-- left column -->
                 <div class="col-md-12">
 
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                        Add new Fee
-                    </button>
-
+                    <a class="btn btn-default" href="@Url.Action("AddFee", "Fee")">Add new Fee</a>
+                   
 
 
 
@@ -43,10 +41,16 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10px">#</th>
-                                    <th>Class</th>
-                                    <th>Course</th>
-                                    <th>Fee Name</th>
-                                    <th>Amount</th>
+                                    <th>SubjectCourse</th>
+                                    <th>NewOld</th>
+                                    <th>Session</th>
+                                    <th>Year</th>
+                                    <th>NewStudentFee</th>
+                                    <th>CMoney</th>
+                                    <th>TutionFee</th>
+                                    <th>OtherFee</th>
+                                    <th>TotalFee</th>
+                                    <th>TotalFeeCM</th>
                                     <th>Delete</th>
 
                                 </tr>
@@ -60,21 +64,26 @@
                                 {
                                     @foreach (var item in Model.FeeClassList)
                                     {
-                                <tr>
-                                    <td>@i</td>
-                                    <td>@item.Class</td>
-                                    <td>@item.Course</td>
-                                    <td>@item.FeeName</td>
-                                    <td>@item.Amount</td>
-
-                                    <td>
-                                        <a class="btn btn-danger btn-sm" onclick="DeleteFee(@item.Id)">
-                                            <i class="fas fa-trash">
-                                            </i>
-                                            Delete
-                                        </a>
-                                    </td>
-                                </tr>
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@item.SubjectName</td>
+                                            <td>@item.NewOld</td>
+                                            <td>@item.Session</td>
+                                            <td>@item.Year</td>
+                                            <td>@item.NewStudentFee</td>
+                                            <td>@item.CMoney</td>
+                                            <td>@item.TutionFee</td>
+                                            <td>@item.OtherFee</td>
+                                            <td>@item.TotalFee</td>
+                                            <td>@item.TotalFeeCM</td>
+                                            <td>
+                                                <a class="btn btn-danger btn-sm" onclick="DeleteFee(@item.Id)">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                                    Delete
+                                                </a>
+                                            </td>
+                                        </tr>
                                         i++;
                                     }
                                 }
@@ -95,41 +104,7 @@
 @*Modal Popup Start*@
 
 
-<div class="modal fade" id="modal-default">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Add New Fee</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Select Course</label>
-                    <select id="ddlCourse" asp-for="SelectedCourse" asp-items="Model.CourseList" class="form-control"></select>
-                </div>
 
-                <div class="form-group">
-                    <label>Select Class</label>
-                    <select id="ddlClass" asp-for="SelectedClass" asp-items="Model.ClassList" class="form-control"></select>
-                </div>
-
-
-                <div class="form-group">
-                    <label>Select Fee</label>
-                    <select id="ddlFee" asp-for="SelectedFee" asp-items="Model.FeeList" class="form-control"></select>
-                </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="saveFee()"><i class="fas fa-save"></i> Save changes</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
 @*Model popup End*@
 
 

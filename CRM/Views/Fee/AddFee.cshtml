@@ -35,143 +35,120 @@
 
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form asp-action="Create" method="post">
+                        <form asp-action="FeePost" method="post">
 
                             <!-- COLLEGE DETAILS -->
                             <div class="card card-primary">
                                 <div class="card-header">
                                     <h3 class="card-title"><i class="fas fa-university"></i> Class Detail</h3>
                                 </div>
-
                                 <div class="card-body">
+
                                     <div class="row">
-
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Session</label>
-                                                <select class="form-control">
-                                                    <option>Select</option>
-                                                    <option>2025</option>
-                                                    <option>2026</option>
-                                                    <option>2027</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>NewOld</label>
-                                                <select class="form-control">
-                                                    <option>Select</option>
-                                                    <option>New</option>
-                                                    <option>Old</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Year</label>
-                                                <select id="ddlClass"  class="form-control"></select>
-                                            </div>
-                                        </div>
-
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Subject</label>
-                                                <select id="ddlClass"  class="form-control"></select>
+                                                <select id="ddlSubject" asp-for="Subject" asp-items="Model.ClassList" class="form-control"></select>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Course</label>
-                                                <select id="ddlSubject" class="form-control"></select>
-                                            </div>
-                                        </div>
-
-
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- PERSONAL DETAILS -->
-                            <div class="card card-info mt-3">
-                                <div class="card-header">
-                                    <h3 class="card-title"><i class="fas fa-user"></i> Fee Detail</h3>
-                                </div>
-
-                                <div class="card-body">
-                                    <div class="row">
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>New Admin Fee</label>
-                                                        <input class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>C. Money</label>
-                                                        <input class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row mt-2">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Tution Fee</label>
-                                                        <input  class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Other Fees</label>
-                                                        <input  class="form-control">
-                                                    </div>
-                                                </div>
-
-                                              
-                                               
-                                            </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card card-info mt-3">
-                                <div class="card-header">
-                                    <h3 class="card-title"><i class="fas fa-user"></i> Total Fee </h3>
-                                </div>
-                                <div class="card-body">
-
-                                    <div class="row">
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Total Fee</label>
-                                                    <input class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Total + C. Money</label>
-                                                    <input class="form-control">
-                                                </div>
+                                                <select id="ddlCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control"></select>
                                             </div>
                                         </div>
                                     </div>
 
-                                </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Session</label>
+                                                <select id="ddlSession" class="form-control" asp-for="Session">
+                                                    <option>Select</option>
+                                                    <option>2025-2026</option>
+                                                    <option>2026-2027</option>
+                                                    <option>2027-2028</option>
+                                                </select>
+                                            </div>
+                                        </div>
 
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>NewOld</label>
+                                                <select id="ddlNewOld" class="form-control" asp-for="NewOld">
+                                                    <option>Select</option>
+                                                    <option>New</option>
+                                                    <option>Old</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Year</label>
+                                                <select id="ddlYear" class="form-control" asp-for="Year">
+                                                    <option>Select</option>
+                                                    <option>2026</option>
+                                                    <option>2027</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>New Admin Fee</label>
+                                                <input id="txtNewStudentFee" asp-for="NewStudentFee" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>C. Money</label>
+                                                <input  id="txtCMoney" asp-for="CMoney"   class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Tution Fee</label>
+                                                <input id="txtTutionFee" asp-for="TutionFee"  class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Other Fees</label>
+                                                <input   id="txtOtherFee" asp-for="OtherFee" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Total Fee</label>
+                                                <input  id="txtTotalFeeCM" asp-for="TotalFee" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Total + C. Money</label>
+                                                <input class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
                             </div>
+                            
+
+                          
 
                             <div class="text-center mt-4 mb-5">
 
