@@ -141,14 +141,14 @@ namespace CRM.Controllers
 
             _feeRepo.Add(model);
 
-            return Json(new { success = true });
+            return RedirectToAction("index");
         }
 
 
         [HttpPost]
         public IActionResult DeleteFee(int id)
         {
-            //_FeeClassRepo.Delete(id);
+            _feeRepo.Delete(id);
             return Json(new { success = true });
         }
 

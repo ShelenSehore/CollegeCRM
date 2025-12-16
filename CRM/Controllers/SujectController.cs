@@ -50,21 +50,6 @@ namespace CRM.Controllers
             model.SubjectList = _subjecctRepo.GetAll();
             return View(model);
 
-            //    var list =
-            //(from s in _context.MstSubject
-            // join c in _context.MstClass on s.ClassId equals c.Id
-            // join co in _context.MstCourse on s.CourseId equals co.Id
-            // select new SubjectViewModel
-            // {
-            //     Id = s.Id,
-            //     SubjectName = s.Name,
-            //     ClassName = c.Name,
-            //     CourseName = co.CourseName
-            // }).ToList();
-
-
-
-
         }
 
         [HttpPost]

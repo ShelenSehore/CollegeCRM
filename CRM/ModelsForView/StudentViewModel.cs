@@ -14,9 +14,11 @@ namespace CRM.ModelsForView
         public string? EnRollNo { get; set; }
         public DateTime? AdmissionDate { get; set; }
         public string? Class { get; set; }
+        public string? Course { get; set; }
+        public string? Subject { get; set; }
         public string? RollNo { get; set; }
         public string? RegEx { get; set; }
-        public string? Course { get; set; }
+       
         public string? SchoolarNo { get; set; }
         public string? NewOld { get; set; }
         public string? SubCode { get; set; }
@@ -38,8 +40,11 @@ namespace CRM.ModelsForView
         public string? Minority { get; set; }
         public string SelectedClass { get; set; }
         public string SelectedCourse { get; set; }
+        public string SelectedSubject { get; set; }
         public List<SelectListItem> ClassList { get; set; }
         public List<SelectListItem> CourseList { get; set; }
+
+        public List<SelectListItem> SubjectList { get; set; }
 
     }
 }
