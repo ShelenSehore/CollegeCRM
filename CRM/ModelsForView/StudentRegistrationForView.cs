@@ -16,6 +16,8 @@ namespace CRM.ModelsForView
         public string? Year { get; set; }
         public string? Subject { get; set; }
         public string? Course { get; set; }
+        public string? Class { get; set; }
+        
         public string? Sem { get; set; }
         public string? RegPvt { get; set; }
         public string? Status { get; set; }

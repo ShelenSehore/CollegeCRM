@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CRM.Models.Student>
+﻿@model IEnumerable<CRM.Models.StudentRegistration>
 @{
     ViewData["Title"] = "List";
 }
@@ -29,11 +29,12 @@
                                 <thead>
                                     <tr role="row">
                                         <th class="sorting sorting_asc" style="width: 10px">#</th>
+                                        <th class="sorting">RegNo</th>
+                                        <th class="sorting">FormNo</th>
                                         <th class="sorting">Student</th>
-                                        <th class="sorting">Class</th>
+                                        <th class="sorting">Year</th>
+                                        <th class="sorting">Subject</th>
                                         <th class="sorting">Course</th>
-                                        <th class="sorting">RegEx</th>
-                                        <th class="sorting">Caste</th>
                                         <th class="sorting">MobileNo</th>
                                         <th class="sorting">View</th>
                                     </tr>
@@ -45,20 +46,21 @@
                                     }
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>@i</td>
-                                            <td>@item.StudentName</td>
-                                            <td>@item.Class</td>
-                                            <td>@item.Course</td>
-                                            <td>@item.RegEx</td>
-                                            <td>@item.Caste</td>
-                                            <td>@item.MobileNoOne</td>
-                                            <td>
-                                                <a class="btn btn-default" href="@Url.Action("index", "Student")">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@item.RegNo</td>
+                                        <td>@item.FormNo</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Year</td>
+                                        <td>@item.Subject</td>
+                                        <td>@item.Course</td>
+                                        <td>@item.MobileNo</td>
+                                        <td>
+                                            <a class="btn btn-default" href="@Url.Action("RegistrationUpdate?Id=1", "Student")">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
                                         i++;
                                     }
                                 </tbody>

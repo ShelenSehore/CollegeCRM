@@ -78,7 +78,7 @@ namespace CRM.Controllers
         public IActionResult List()
         {
             ViewBag.BaseUrl = _baseUrl;
-            var data = _repoStudent.GetAll();
+            var data = _repoStudentRegi.GetAll();
 
 
             return View(data);
@@ -89,17 +89,19 @@ namespace CRM.Controllers
         {
             var model = new StudentRegistrationForView();
 
-
+            //----  MstClass = Year
             model.ClassList = _classRepo.GetAll()
                        .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
                        .ToList();
+
+            // --- MstSubject  = Subject
             model.CourseList = _courseRepo.GetAll()
                         .Select(x => new SelectListItem { Value = x.CourseName.ToString(), Text = x.CourseName })
                         .ToList();
 
-           
+            //---MstCourse = Class
             model.SubjectList = _subjecctRepo.GetAll()
-                     .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Class+ "/ " + x.Name + " / " + x.Course })
+                     .Select(x => new SelectListItem { Value = x.Course.ToString(), Text = x.Course })
                      .ToList();
 
             ViewBag.BaseUrl = _baseUrl;
@@ -114,12 +116,7 @@ namespace CRM.Controllers
             {
                 return View(student);
             }
-            student.RegNo = 1;
-            student.FormNo = 1;
-            student.SchoNo = 1;
-            student.Session = "tet";
-            student.Subject = "tet";
-            student.Course = "tet";
+            
             student.CreateBy = "Admin";
             student.CreateDate = DateTime.Now.Date;
             student.IsMove = false;
@@ -136,6 +133,36 @@ namespace CRM.Controllers
 
             TempData["msg"] = "Student Added Successfully!";
             return RedirectToAction("Index");
+        }
+
+
+        public IActionResult RegistrationUpdate(int Id)
+        {
+
+           var getValue =  _repoStudentRegi.GetById(Id);
+
+            var model = new StudentRegistrationForView();
+
+
+
+            //----  MstClass = Year
+            model.ClassList = _classRepo.GetAll()
+                       .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
+                       .ToList();
+
+            // --- MstSubject  = Subject
+            model.CourseList = _courseRepo.GetAll()
+                        .Select(x => new SelectListItem { Value = x.CourseName.ToString(), Text = x.CourseName })
+                        .ToList();
+
+            //---MstCourse = Class
+            model.SubjectList = _subjecctRepo.GetAll()
+                     .Select(x => new SelectListItem { Value = x.Course.ToString(), Text = x.Course })
+                     .ToList();
+
+            ViewBag.BaseUrl = _baseUrl;
+            //var data = _repoStudent.GetAll();
+            return View(model);
         }
 
 

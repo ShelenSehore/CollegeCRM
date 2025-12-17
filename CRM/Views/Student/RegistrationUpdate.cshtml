@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
-    ViewData["Title"] = "Registration";
+    ViewData["Title"] = "Registration Update";
     var baseUrl = ViewBag.BaseUrl;
 }
 
@@ -14,7 +14,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><a href="#">Student</a></li>
-                        <li class="breadcrumb-item active">New Registration</li>
+                        <li class="breadcrumb-item active">Update Registration</li>
                     </ol>
                 </div>
             </div>
@@ -178,64 +178,64 @@
                                 <div class="card-body">
                                     <div class="row">
 
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>First Name</label>
-                                                        <input asp-for="Name" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>MobileNo</label>
-                                                        <input asp-for="MobileNo" class="form-control">
-                                                    </div>
-                                                </div>
-                                           
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Father Name</label>
-                                                        <input asp-for="FatherName" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>FatherMobileNo</label>
-                                                        <input asp-for="MotherName" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                           
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>DOB</label>
-                                                    <input asp-for="DOB" type="date" class="form-control">
-                                                </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>First Name</label>
+                                                <input asp-for="Name" class="form-control">
                                             </div>
+                                        </div>
 
-                                                <div class="col-md-4">
-                                                    <label>Gender</label>
-                                                    <select asp-for="Gender" class="form-control">
-                                                        <option>Select</option>
-                                                        <option>Male</option>
-                                                        <option>Femle</option>
-                                                    </select>
-                                                </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>MobileNo</label>
+                                                <input asp-for="MobileNo" class="form-control">
+                                            </div>
+                                        </div>
 
-                                             
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Father Name</label>
+                                                <input asp-for="FatherName" class="form-control">
+                                            </div>
+                                        </div>
 
-                                                <div class="col-md-4">
-                                                    <label>Caste</label>
-                                                    <select asp-for="Caste" class="form-control">
-                                                        <option>Select</option>
-                                                        <option>Gen</option>
-                                                        <option>OBC</option>
-                                                        <option>SC</option>
-                                                        <option>ST</option>
-                                                    </select>
-                                                </div>
-                                           
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>FatherMobileNo</label>
+                                                <input asp-for="MotherName" class="form-control">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>DOB</label>
+                                                <input asp-for="DOB" type="date" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label>Gender</label>
+                                            <select asp-for="Gender" class="form-control">
+                                                <option>Select</option>
+                                                <option>Male</option>
+                                                <option>Femle</option>
+                                            </select>
+                                        </div>
+
+
+
+                                        <div class="col-md-4">
+                                            <label>Caste</label>
+                                            <select asp-for="Caste" class="form-control">
+                                                <option>Select</option>
+                                                <option>Gen</option>
+                                                <option>OBC</option>
+                                                <option>SC</option>
+                                                <option>ST</option>
+                                            </select>
+                                        </div>
+
 
 
                                     </div>
@@ -245,7 +245,7 @@
                             <div class="text-center mt-4 mb-5">
 
                                 <button class="btn btn-primary px-4" type="submit">
-                                    <i class="fas fa-save"></i> Save
+                                    <i class="fas fa-save"></i> Update
                                 </button>
 
                                 <button class="btn btn-danger px-4">
