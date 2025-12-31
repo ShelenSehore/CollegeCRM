@@ -44,6 +44,10 @@ namespace CRM.Repositories
 
         public Student GetById(int id)
         {
+            //var teee = _context.Student.FirstOrDefault(x=>x.Id == id);
+            var teee = _context.Student.Where(x => x.Id == id)
+                      .FirstOrDefault();
+
             return _context.Student.Find(id);
         }
 

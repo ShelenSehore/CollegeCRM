@@ -1,6 +1,8 @@
-﻿@model IEnumerable<CRM.Models.StudentRegistration>
+﻿@model CRM.ModelsForView.StudentListView
 @{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
     ViewData["Title"] = "List";
+    var baseUrl = ViewBag.BaseUrl;
 }
 
 <div class="content-wrapper">
@@ -24,8 +26,57 @@
             <div class="card-body">
                 <div class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Class</label>
+                                <select id="ddlClass" asp-items="Model.ClassList" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <select id="ddlSubject" asp-items="Model.CourseList" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Course</label>
+                                <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Reg/Pvt.</label>
+                                <select id="ddlRegPvt" class="form-control">
+                                    <option>Select</option>
+                                    <option>Reguler</option>
+                                    <option>Private</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row" style="margin-bottom:5px !important">
                         <div class="col-sm-12">
-                            <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                            
+                                <div class="input-group input-group-sm">
+                                    <input id="txtSearch" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                                    <div class="input-group-append">
+                                        <button id="btnSearch" onclick="SearchStudent()" class="btn btn-navbar" type="submit">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="testDiv"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
                                 <thead>
                                     <tr role="row">
                                         <th class="sorting sorting_asc" style="width: 10px">#</th>
@@ -41,34 +92,15 @@
                                 </thead>
 
                                 <tbody>
-                                    @{
-                                        int i = 1;
-                                    }
-                                    @foreach (var item in Model)
-                                    {
-                                    <tr>
-                                        <td>@i</td>
-                                        <td>@item.RegNo</td>
-                                        <td>@item.FormNo</td>
-                                        <td>@item.Name</td>
-                                        <td>@item.Year</td>
-                                        <td>@item.Subject</td>
-                                        <td>@item.Course</td>
-                                        <td>@item.MobileNo</td>
-                                        <td>
-                                            <a class="btn btn-default" href="@Url.Action("RegistrationUpdate?Id=1", "Student")">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                        i++;
-                                    }
+                                   
                                 </tbody>
 
 
                             </table>
+                          
                         </div>
-                    </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="example1_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div>
+                    </div>
+                   
                 </div>
             </div>
             <!-- /.card-body -->
@@ -79,4 +111,54 @@
     </section>
     <!-- /.content -->
 </div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        // INSERT
+
+        var BASE_URL = "@baseUrl";
+
+
+
+        function SearchStudent() {
+
+            var name = $("#txtSearch").val();
+            var varClass = $('#ddlClass option:selected').text();
+            var varSubject = $('#ddlSubject option:selected').text();
+            var varCourse = $('#ddlCourse option:selected').text();
+            var varRegPvt = $('#ddlRegPvt option:selected').text();
+
+            $.post(BASE_URL + "/Student/SearchList", {
+                name: name,
+                classes: varClass,
+                subject: varSubject,
+                course: varCourse,
+                regPvt: varRegPvt
+            },
+                function (res) {
+                    TableData(res)  //--------pass records for generate tabble
+                }
+            );
+        }
+
+        function TableData(tableData)
+        {
+            
+            $.each(tableData.data, function (index, element) {
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.id + "</td><td>" + element.formNo +
+                    "</td><td>" + element.name + "</td><td>" + element.session + "</td><td>" + element.subject +
+                    "</td><td>" + element.course + "</td><td>" + element.mobileNo +
+                    "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i></a></td></tr>");
+                
+            });
+
+          
+           
+        }
+
+
+
+    </script>
+}
 

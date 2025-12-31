@@ -38,21 +38,50 @@ namespace CRM.Controllers
             _baseUrl = config.Value.BaseUrl;
             _subjecctRepo = subjecctRepo;
         }
-        public IActionResult Index()
+        public IActionResult Index(int? id)
         {
             var model = new StudentViewModel();
 
+            var varStudentDetail = _repoStudentRegi.GetById(id.Value);
+            if (varStudentDetail != null)
+            {
+                model.StudentName = varStudentDetail.Name;
+                model.FatherName = varStudentDetail.FatherName;
+                model.MotherName = varStudentDetail.MotherName;
+                model.DOB = varStudentDetail.DOB;
+                model.AdmissionFormNo = varStudentDetail.FormNo;
+                model.SchoolarNo = varStudentDetail.SchoNo.ToString();
+                //model.EnRollNo = varStudentDetail.Session;
+                model.Year = varStudentDetail.Year;
+                model.Subject = varStudentDetail.Subject;
+                model.Course = varStudentDetail.Course;
+                model.Caste = varStudentDetail.Caste;
+                model.Gender = varStudentDetail.Gender;
+                model.MobileNoOne = varStudentDetail.MobileNo;
+            }
 
             model.ClassList = _classRepo.GetAll()
-                        .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
+                        .Select(x => new SelectListItem {
+                            Value = x.Name.ToString(), 
+                            Text = x.Name 
+                        })
                         .ToList();
             model.CourseList = _courseRepo.GetAll()
-                        .Select(x => new SelectListItem { Value = x.CourseName.ToString(), Text = x.CourseName })
+                        .Select(x => new SelectListItem {
+                            Value = x.CourseName.ToString(), 
+                            Text = x.CourseName 
+                        })
                         .ToList();
 
             model.SubjectList = _subjecctRepo.GetAll()
-                       .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Course })
+                       .Select(x => new SelectListItem { 
+                           Value = x.Id.ToString(), 
+                           Text = x.Course 
+                       })
                        .ToList();
+
+            
+
 
             ViewBag.BaseUrl = _baseUrl;
             //var data = _repoStudent.GetAll();
@@ -75,13 +104,50 @@ namespace CRM.Controllers
             return RedirectToAction("Index");
         }
 
+
+
+
+
         public IActionResult List()
         {
             ViewBag.BaseUrl = _baseUrl;
+            var model = new StudentListView();
+
+            //----  MstClass = Year
+            model.ClassList = _classRepo.GetAll()
+                       .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
+                       .ToList();
+
+            // --- MstSubject  = Subject
+            model.CourseList = _courseRepo.GetAll()
+                        .Select(x => new SelectListItem { Value = x.CourseName.ToString(), Text = x.CourseName })
+                        .ToList();
+
+            //---MstCourse = Class
+            model.SubjectList = _subjecctRepo.GetAll()
+                     .Select(x => new SelectListItem { Value = x.Course.ToString(), Text = x.Course })
+                     .ToList();
+
+
+
+            //--------Get List
+            var data = _repoStudentRegi.GetAll();
+
+            model.StudentList = data;
+
+            return View(model);
+        }
+
+        public IActionResult SearchList(string name, string classes, string subject, string course, string regPvt)
+        {
+           
+
+            //--------Get List
             var data = _repoStudentRegi.GetAll();
 
 
-            return View(data);
+
+            return Json(new { success = true, data = data });
         }
 
 
