@@ -159,6 +159,13 @@ namespace CRM.Controllers
             return Json(new { success = true });
         }
 
+        //---------------------Submit Fee---------------
+
+        public IActionResult SearchForFee() 
+        {
+            return View();
+        }
+
 
     }
 }
