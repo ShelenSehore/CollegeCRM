@@ -143,7 +143,7 @@ namespace CRM.Controllers
            
 
             //--------Get List
-            var data = _repoStudentRegi.GetAll();
+            var data = _repoStudentRegi.FilterList(name, classes, subject, course, regPvt);
 
 
 
