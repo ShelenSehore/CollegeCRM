@@ -120,21 +120,23 @@
                                                 <select id="ddlClass" asp-for="Class" asp-items="Model.ClassList" class="form-control"></select>
                                             </div>
                                         </div>
-
-
-
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>RollNo</label>
-                                                <input asp-for="RollNo" class="form-control" placeholder="Roll No">
+                                                <label>Subject</label>
+                                                <select id="ddlSubject" asp-for="Subject" asp-items="Model.SubjectList" class="form-control"></select>
                                             </div>
                                         </div>
-
 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Course</label>
-                                                <select id="ddlSubject" asp-for="Course" asp-items="Model.CourseList" class="form-control"></select>
+                                                <select id="ddlCourse" asp-for="Course" asp-items="Model.CourseList" class="form-control"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>RollNo</label>
+                                                <input asp-for="RollNo" class="form-control" placeholder="Roll No">
                                             </div>
                                         </div>
                                         <div class="col-md-4">

@@ -13,16 +13,17 @@ using System.Threading.Tasks;
 
 namespace CRM.Controllers
 {
-    public class StudentController : Controller
+    public class AdmissionController : Controller
     {
         private readonly StudentRepository _repoStudent;
         private readonly StudentRegistrationRepository _repoStudentRegi;
-        private readonly ILogger<StudentController> _logger;
+        private readonly ILogger<AdmissionController> _logger;
         private readonly MstCourseRepository _courseRepo;
         private readonly MstClassRepository _classRepo;
         private readonly string _baseUrl;
         private readonly MstSubjectRepository _subjecctRepo;
-        public StudentController(ILogger<StudentController> logger,
+
+        public AdmissionController(ILogger<AdmissionController> logger,
             IOptions<AppSettings> config,
             MstClassRepository classRepo,
            MstCourseRepository courseRepo,
@@ -38,87 +39,7 @@ namespace CRM.Controllers
             _baseUrl = config.Value.BaseUrl;
             _subjecctRepo = subjecctRepo;
         }
-        public IActionResult Index(int? id)
-        {
-            var model = new StudentViewModel();
-            if (id == null)
-                return View("List");
-
-            var varStudentDetail = _repoStudentRegi.GetById(id.Value);
-            if (varStudentDetail != null)
-            {
-                model.StudentName = varStudentDetail.Name;
-                model.FatherName = varStudentDetail.FatherName;
-                model.MotherName = varStudentDetail.MotherName;
-                model.DOB = varStudentDetail.DOB;
-                model.AdmissionFormNo = varStudentDetail.FormNo;
-                model.SchoolarNo = varStudentDetail.SchoNo.ToString();
-                //model.EnRollNo = varStudentDetail.Session;
-                model.Year = varStudentDetail.Year;
-                model.Subject = varStudentDetail.Subject;
-                model.Course = varStudentDetail.Course;
-                model.Caste = varStudentDetail.Caste;
-                model.Gender = varStudentDetail.Gender;
-                model.MobileNoOne = varStudentDetail.MobileNo;
-            }
-
-            model.ClassList = _classRepo.GetAll()
-                        .Select(x => new SelectListItem {
-                            Value = x.Name.ToString(), 
-                            Text = x.Name ,
-                            Selected = x.Name == model.Year
-                        })
-                        .ToList();
-
-          
-            model.Class = model.Year;
-
-            model.SubjectList = _courseRepo.GetAll()
-                        .Select(x => new SelectListItem {
-                            Value = x.CourseName.ToString(), 
-                            Text = x.CourseName ,
-                            Selected = x.CourseName == model.Subject
-                        })
-                        .ToList();
-            model.Subject = model.Subject;
-
-            model.CourseList = _subjecctRepo.GetAll()
-                       .Select(x => new SelectListItem { 
-                           Value = x.Id.ToString(), 
-                           Text = x.Course ,
-                           Selected = x.Course == model.Course
-                       })
-                       .ToList();
-            model.Course = model.Course;
-
-
-
-            ViewBag.BaseUrl = _baseUrl;
-            //var data = _repoStudent.GetAll();
-            return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult Create(Student student)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(student);
-            }
-
-            //student.AdmissionDate = DateTime.Now;
-
-            _repoStudent.Add(student);
-
-            TempData["msg"] = "Student Added Successfully!";
-            return RedirectToAction("List");
-        }
-
-
-
-
-
-        public IActionResult List()
+        public IActionResult Index()
         {
             ViewBag.BaseUrl = _baseUrl;
             var model = new StudentListView();
@@ -148,9 +69,12 @@ namespace CRM.Controllers
             return View(model);
         }
 
+
+
+
         public IActionResult SearchList(string name, string classes, string subject, string course, string regPvt)
         {
-           
+
 
             //--------Get List
             var data = _repoStudentRegi.FilterList(name, classes, subject, course, regPvt);
@@ -161,8 +85,10 @@ namespace CRM.Controllers
         }
 
 
-        public IActionResult Registration()
+
+        public IActionResult NewAdmission()
         {
+            ViewBag.BaseUrl = _baseUrl;
             var model = new StudentRegistrationForView();
 
             //----  MstClass = Year
@@ -186,26 +112,27 @@ namespace CRM.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegistrationPost(StudentRegistration student)
+        public IActionResult NewAdmissionPost(StudentRegistration student)
         {
             if (!ModelState.IsValid)
             {
                 return View(student);
             }
-            
+
             student.CreateBy = "Admin";
             student.CreateDate = DateTime.Now.Date;
             student.IsMove = false;
 
-            try {
+            try
+            {
                 _repoStudentRegi.Add(student);
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
             }
 
 
-          
+
 
             TempData["msg"] = "Student Added Successfully!";
             return RedirectToAction("Index");
@@ -215,7 +142,7 @@ namespace CRM.Controllers
         public IActionResult RegistrationUpdate(int Id)
         {
 
-           var getValue =  _repoStudentRegi.GetById(Id);
+            var getValue = _repoStudentRegi.GetById(Id);
 
             var model = new StudentRegistrationForView();
 
@@ -240,7 +167,6 @@ namespace CRM.Controllers
             //var data = _repoStudent.GetAll();
             return View(model);
         }
-
 
 
     }

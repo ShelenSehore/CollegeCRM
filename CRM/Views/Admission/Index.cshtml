@@ -1,9 +1,10 @@
-﻿
+﻿@model CRM.ModelsForView.StudentListView
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
-    ViewData["Title"] = "Fee Submission";
+    ViewData["Title"] = "List";
     var baseUrl = ViewBag.BaseUrl;
 }
+
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -12,7 +13,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item"><a href="#">Student</a></li>
+                        <li class="breadcrumb-item"><a href="#">Admission</a></li>
                         <li class="breadcrumb-item active"><a href="#">List</a></li>
                     </ol>
                 </div>
@@ -29,19 +30,19 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Class</label>
-                                <select id="ddlClass" class="form-control"> <option>Select</option></select>
+                                <select id="ddlClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Subject</label>
-                                <select id="ddlSubject" class="form-control"> <option>Select</option></select>
+                                <select id="ddlSubject" asp-items="Model.CourseList" class="form-control"> <option>Select</option></select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Course</label>
-                                <select id="ddlCourse" class="form-control"> <option>Select</option></select>
+                                <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -111,4 +112,67 @@
     <!-- /.content -->
 </div>
 
-@*https://www.youtube.com/watch?v=TrPvQvbp3Cg*@
+
+@section Scripts {
+    <script type="text/javascript">
+        // INSERT
+
+        var BASE_URL = "@baseUrl";
+
+
+        window.onload = function () {
+
+            // Example 3: Change events (optional)
+            $("#ddlClass, #ddlSubject, #ddlCourse, #ddlRegPvt").change(function () {
+                $("#tblStudentList tbody").empty();
+                SearchStudent();
+            });
+
+            SearchStudent();
+
+            //$("#ddlClass ddlSubject ddlCourse ddlRegPvt").change(function () {
+            //    SearchStudent();
+            //});
+        };
+
+
+        function SearchStudent() {
+
+            var name = $("#txtSearch").val();
+            var varClass = $('#ddlClass option:selected').text();
+            var varSubject = $('#ddlSubject option:selected').text();
+            var varCourse = $('#ddlCourse option:selected').text();
+            var varRegPvt = $('#ddlRegPvt option:selected').text();
+
+            $.post(BASE_URL + "/Admission/SearchList", {
+                name: name,
+                classes: varClass,
+                subject: varSubject,
+                course: varCourse,
+                regPvt: varRegPvt
+            },
+                function (res) {
+                    TableData(res)  //--------pass records for generate tabble
+                }
+            );
+        }
+
+        function TableData(tableData)
+        {
+            $("#tblStudentList tbody").empty();
+            $.each(tableData.data, function (index, element) {
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.id + "</td><td>" + element.formNo +
+                    "</td><td>" + element.name + "</td><td>" + element.session + "</td><td>" + element.subject +
+                    "</td><td>" + element.course + "</td><td>" + element.mobileNo +
+                    "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i></a></td></tr>");
+
+            });
+
+
+
+        }
+
+
+
+    </script>
+}
