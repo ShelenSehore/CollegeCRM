@@ -52,5 +52,33 @@ namespace CRM.Repositories
         }
 
 
+        public List<Student> FilterList(string name, string classes, string subject, string course, string regPvt)
+        {
+            IQueryable<Student> query = _context.Student;
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                query = query.Where(x => x.StudentName.ToLower().Contains(name.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(classes) && (classes != "Select"))
+            {
+                query = query.Where(x => x.Class.ToLower().Contains(classes.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(subject) && (subject != "Select"))
+            {
+                query = query.Where(x => x.Course.ToLower().Contains(subject.ToLower()));
+            }
+            //if (!string.IsNullOrWhiteSpace(course) && (course != "Select"))
+            //{
+            //    query = query.Where(x => x.Course.ToLower().Contains(course.ToLower()));
+            //}
+            if (!string.IsNullOrWhiteSpace(regPvt) && (regPvt != "Select"))
+            {
+                query = query.Where(x => x.RegEx.ToLower().Contains(regPvt.ToLower()));
+            }
+            return query.ToList();
+            //return _context.StudentRegistration.ToList(); 
+        }
+
     }
 }

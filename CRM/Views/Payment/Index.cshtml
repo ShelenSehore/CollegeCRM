@@ -1,0 +1,176 @@
+﻿@model CRM.ModelsForView.StudentListView
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    ViewData["Title"] = "Payment";
+    var baseUrl = ViewBag.BaseUrl;
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="#">Payment</a></li>
+                        <li class="breadcrumb-item active"><a href="#">List</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="card">
+            <div class="card-body">
+                <div class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Class</label>
+                                <select id="ddlClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <select id="ddlSubject" asp-items="Model.CourseList" class="form-control"> <option>Select</option></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Course</label>
+                                <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Is Regular</label>
+                                <select id="ddlRegPvt" class="form-control">
+                                    <option>Select</option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row" style="margin-bottom:5px !important">
+                        <div class="col-sm-12">
+
+                            <div class="input-group input-group-sm">
+                                <input id="txtSearch" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                                <div class="input-group-append">
+                                    <button id="btnSearch" onclick="SearchStudent()" class="btn btn-navbar" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="testDiv"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting sorting_asc" style="width: 10px">#</th>
+                                        <th class="sorting">RegNo</th>
+                                        <th class="sorting">FormNo</th>
+                                        <th class="sorting">Student</th>
+                                        <th class="sorting">Year</th>
+                                        <th class="sorting">Subject</th>
+                                        <th class="sorting">Course</th>
+                                        <th class="sorting">MobileNo</th>
+                                        <th class="sorting">View</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                </tbody>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+
+
+    </section>
+    <!-- /.content -->
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        // INSERT
+
+        var BASE_URL = "@baseUrl";
+
+
+        window.onload = function () {
+
+            // Example 3: Change events (optional)
+            $("#ddlClass, #ddlSubject, #ddlCourse, #ddlRegPvt").change(function () {
+                $("#tblStudentList tbody").empty();
+                SearchStudent();
+            });
+
+            SearchStudent();
+
+        };
+
+
+        function SearchStudent() {
+
+            var name = $("#txtSearch").val();
+            var varClass = $('#ddlClass option:selected').text();
+            var varSubject = $('#ddlSubject option:selected').text();
+            var varCourse = $('#ddlCourse option:selected').text();
+            var varRegPvt = $('#ddlRegPvt option:selected').text();
+
+            $.post(BASE_URL + "/Payment/SearchList", {
+                name: name,
+                classes: varClass,
+                subject: varSubject,
+                course: varCourse,
+                regPvt: varRegPvt
+            },
+                function (res) {
+                    TableData(res)  //--------pass records for generate tabble
+                }
+            );
+        }
+
+        function TableData(tableData)
+        {
+            $("#tblStudentList tbody").empty();
+            debugger;
+            $.each(tableData.data, function (index, element) {
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.schoolarNo + "</td><td>" + element.rollNo +
+                    "</td><td>" + element.studentName + "</td><td>" + element.class + "</td><td>" + element.course +
+                    "</td><td>" + element.course + "</td><td>" + element.mobileNoOne +
+                    "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' >Payment</a></td></tr>");
+
+            });
+
+
+
+        }
+
+
+
+    </script>
+}
+
