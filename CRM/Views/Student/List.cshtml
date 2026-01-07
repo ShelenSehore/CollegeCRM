@@ -62,17 +62,18 @@
                             
                                 <div class="input-group input-group-sm">
                                     <input id="txtSearch" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                                    <div class="input-group-append">
-                                        <button id="btnSearch" onclick="SearchStudent()" class="btn btn-navbar" type="submit">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
                                 </div>
                            
                         </div>
                     </div>
                     <div class="row">
-                        <div id="testDiv"></div>
+                        <div class=" float-lg-right">
+                            <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+                            <button type="reset" class="btn btn-flat" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
+                            <form id="frmDownloadExcel"></form>
+                           <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i> Download Excel</button>
+                            
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
@@ -135,6 +136,25 @@
             //});
         };
 
+        function DownloadExcel()
+        {
+
+            $('form#frmDownloadExcel').submit();
+            
+        }
+
+        
+        function Reset() {
+
+           $("#txtSearch").val('');
+           $('#ddlClass option:selected').prop("selected", false);
+           $('#ddlSubject option:selected').prop("selected", false);
+           $('#ddlCourse option:selected').prop("selected", false);
+           $('#ddlRegPvt option:selected').prop("selected", false);
+
+            SearchStudent();
+        }
+
 
         function SearchStudent() {
 
@@ -170,6 +190,29 @@
 
           
            
+        }
+
+
+        //----------Download excel file-------------
+        function ExcelDownload() {
+
+            var name = $("#txtSearch").val();
+            var varClass = $('#ddlClass option:selected').text();
+            var varSubject = $('#ddlSubject option:selected').text();
+            var varCourse = $('#ddlCourse option:selected').text();
+            var varRegPvt = $('#ddlRegPvt option:selected').text();
+
+            $.post(BASE_URL + "/Student/DownloadExcel", {
+                name: name,
+                classes: varClass,
+                subject: varSubject,
+                course: varCourse,
+                regPvt: varRegPvt
+            },
+                function (res) {
+                    TableData(res)  //--------pass records for generate tabble
+                }
+            );
         }
 
 

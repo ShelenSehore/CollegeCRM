@@ -1,4 +1,5 @@
-﻿using CRM.Data;
+﻿using ClosedXML.Excel;
+using CRM.Data;
 using CRM.Models;
 using CRM.ModelsForView;
 using CRM.Repositories;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -239,6 +241,61 @@ namespace CRM.Controllers
             ViewBag.BaseUrl = _baseUrl;
             //var data = _repoStudent.GetAll();
             return View(model);
+        }
+
+
+        [HttpPost]
+        public IActionResult DownloadExcel(string name, string classes, string subject, string course, string regPvt)
+        {
+            try {
+
+                var students = _repoStudentRegi.GetAll();
+                // var students = _repoStudentRegi.FilterList(name, classes, subject, course, regPvt);
+                using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Student List");
+
+                // Header
+                worksheet.Cell(1, 1).Value = "Id";
+                worksheet.Cell(1, 2).Value = "Student Name";
+                worksheet.Cell(1, 3).Value = "Mobile";
+                worksheet.Cell(1, 4).Value = "Course";
+                worksheet.Cell(1, 5).Value = "Mobile";
+
+                worksheet.Row(1).Style.Font.Bold = true;
+
+                int row = 2;
+                foreach (var item in students)
+                {
+                    worksheet.Cell(row, 1).Value = item.Id;
+                    worksheet.Cell(row, 2).Value = item.Name;
+                    worksheet.Cell(row, 3).Value = item.MobileNo;
+                    worksheet.Cell(row, 4).Value = item.Course;
+                    worksheet.Cell(row, 5).Value = item.MobileNo;
+                    row++;
+                }
+
+                worksheet.Columns().AdjustToContents();
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    return File(
+                        stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "StudentList.xlsx"
+                    );
+                }
+
+
+            }
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            
         }
 
 
