@@ -11,3 +11,153 @@ CREATE TABLE [dbo].[MstClass](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+
+--------------------
+
+
+CREATE TABLE [dbo].[MstCourse](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CourseName] [varchar](200) NULL,
+	[CreatedBy] [varchar](50) NULL,
+	[CreatedDatetime] [datetime] NULL,
+	[UpdatedBy] [varchar](50) NULL,
+	[UpdatedDatetime] [datetime] NULL,
+ CONSTRAINT [PK_MstCourse] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+--------------------------------
+
+
+CREATE TABLE [dbo].[MstFee](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[NewOld] [varchar](50) NULL,
+	[Session] [varchar](100) NULL,
+	[Year] [varchar](50) NULL,
+	[Subject] [varchar](50) NULL,
+	[Course] [varchar](100) NULL,
+	[NewStudentFee] [int] NULL,
+	[CMoney] [int] NULL,
+	[TutionFee] [int] NULL,
+	[OtherFee] [int] NULL,
+	[TotalFee] [int] NULL,
+	[TotalFeeCM] [int] NULL,
+ CONSTRAINT [PK_MstFee] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+-------------------------
+
+CREATE TABLE [dbo].[MstFeeClass](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FeeId] [int] NULL,
+	[Class] [varchar](100) NULL,
+	[Course] [varchar](50) NULL,
+ CONSTRAINT [PK_MstFeeClasss] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+------------------------------------------------------------
+
+
+
+CREATE TABLE [dbo].[MstSubject](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NULL,
+	[Course] [varchar](50) NULL,
+	[Class] [varchar](50) NULL,
+ CONSTRAINT [PK_MstSubject] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+---------------------------------------
+
+
+CREATE TABLE [dbo].[Student](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[AdmissionFormNo] [int] NULL,
+	[Year] [varchar](50) NULL,
+	[EnRollNo] [varchar](50) NULL,
+	[AdmissionDate] [datetime] NULL,
+	[Class] [varchar](50) NULL,
+	[RollNo] [varchar](50) NULL,
+	[RegEx] [varchar](50) NULL,
+	[Course] [varchar](50) NULL,
+	[SchoolarNo] [varchar](50) NULL,
+	[NewOld] [varchar](50) NULL,
+	[SubCode] [varchar](50) NULL,
+	[Medium] [varchar](50) NULL,
+	[Gender] [varchar](10) NULL,
+	[Caste] [varchar](50) NULL,
+	[AadhaarNo] [varchar](50) NULL,
+	[StudentName] [varchar](100) NULL,
+	[DOB] [date] NULL,
+	[SamagraID] [varchar](50) NULL,
+	[FatherName] [varchar](100) NULL,
+	[MobileNoOne] [varchar](100) NULL,
+	[MobileNoTwo] [varchar](100) NULL,
+	[MotherName] [varchar](100) NULL,
+	[TC] [varchar](10) NULL,
+	[PH] [varchar](100) NULL,
+	[FatherMobileNo] [varchar](100) NULL,
+	[Address] [varchar](500) NULL,
+	[Minority] [varchar](10) NULL,
+	[Photo] [varchar](50) NULL,
+ CONSTRAINT [PK_Student] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+----------------------------------
+
+
+CREATE TABLE [dbo].[StudentRegistration](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[RegNo] [int] NULL,
+	[FormNo] [int] NULL,
+	[SchoNo] [int] NULL,
+	[Session] [varchar](50) NULL,
+	[Year] [varchar](50) NULL,
+	[Subject] [varchar](50) NULL,
+	[Course] [varchar](50) NULL,
+	[Sem] [varchar](50) NULL,
+	[RegPvt] [varchar](50) NULL,
+	[Status] [varchar](50) NULL,
+	[Name] [varchar](100) NULL,
+	[FatherName] [varchar](100) NULL,
+	[MotherName] [varchar](100) NULL,
+	[DOB] [datetime] NULL,
+	[Caste] [varchar](50) NULL,
+	[Gender] [varchar](10) NULL,
+	[MobileNo] [varchar](50) NULL,
+	[Scholership] [varchar](50) NULL,
+	[DisBy] [varchar](50) NULL,
+	[DisResion] [varchar](100) NULL,
+	[CreateBy] [varchar](50) NULL,
+	[CreateDate] [datetime] NULL,
+	[UpdateBy] [varchar](50) NULL,
+	[UpdateDate] [datetime] NULL,
+	[IsMove] [bit] NULL,
+ CONSTRAINT [PK_StudentRegistration] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
