@@ -10,6 +10,7 @@ namespace CRM.Models
         public int Id { get; set; }
         public int? AdmissionFormNo { get; set; }
         public string? Year { get; set; }
+        public string? Session { get; set; }
         public string? EnRollNo { get; set; }
         public DateTime? AdmissionDate { get; set; }
         public string? Class { get; set; }
@@ -37,5 +38,11 @@ namespace CRM.Models
         public string? Minority { get; set; }
 
         public string? Photo { get; set; }
+
+        public string CreateBy { get; set; }
+        public DateTime CreateDatetime { get; set; }
+
+        public string UpdatedBy { get; set; }
+        public DateTime? UpdateDatetime { get; set; }
     }
 }

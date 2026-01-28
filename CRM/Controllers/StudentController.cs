@@ -22,7 +22,9 @@ namespace CRM.Controllers
         private readonly ILogger<StudentController> _logger;
         private readonly MstCourseRepository _courseRepo;
         private readonly MstClassRepository _classRepo;
+        private readonly MstYearRepository _yearRepo;
         private readonly string _baseUrl;
+        private readonly MstSessionRepository _sessionRepo;
         private readonly MstSubjectRepository _subjecctRepo;
         public StudentController(ILogger<StudentController> logger,
             IOptions<AppSettings> config,
@@ -30,6 +32,8 @@ namespace CRM.Controllers
            MstCourseRepository courseRepo,
             MstSubjectRepository subjecctRepo,
             StudentRepository repoStudent,
+            MstYearRepository yearRepo,
+            MstSessionRepository sessionRepo,
              StudentRegistrationRepository repoStudentRegi)
         {
             _repoStudent = repoStudent;
@@ -39,6 +43,8 @@ namespace CRM.Controllers
             _logger = logger;
             _baseUrl = config.Value.BaseUrl;
             _subjecctRepo = subjecctRepo;
+            _yearRepo = yearRepo;
+            _sessionRepo = sessionRepo;
         }
         public IActionResult Index(int? id)
         {
@@ -52,23 +58,40 @@ namespace CRM.Controllers
                         .ToList();
 
           
-            model.Class = model.Year;
+           
 
-            model.SubjectList = _courseRepo.GetAll()
-                        .Select(x => new SelectListItem {
-                            Value = x.CourseName.ToString(), 
-                            Text = x.CourseName 
-                        })
-                        .ToList();
-            model.Subject = model.Subject;
-
-            model.CourseList = _subjecctRepo.GetAll()
-                       .Select(x => new SelectListItem { 
-                           Value = x.Id.ToString(), 
-                           Text = x.Course 
+           
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
                        })
                        .ToList();
-            model.Course = model.Course;
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
 
 
             if (id.HasValue)
@@ -108,10 +131,12 @@ namespace CRM.Controllers
         {
             if (!ModelState.IsValid)
             {
+              
                 return View(student);
             }
 
-            //student.AdmissionDate = DateTime.Now;
+            student.CreateBy = "Admin";
+            student.CreateDatetime = DateTime.Now;
 
             _repoStudent.Add(student);
 

@@ -49,12 +49,9 @@
 
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>Year</label>
-                                                <select asp-for="Year" class="form-control">
+                                                <label>Session</label>
+                                                <select asp-for="Session" asp-items="Model.SessionList" class="form-control">
                                                     <option>Select</option>
-                                                    <option>2025</option>
-                                                    <option>2026</option>
-                                                    <option>2027</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -95,7 +92,7 @@
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>AdmissionFormNo</label>
+                                                <label>Admission Form No</label>
                                                 <input asp-for="AdmissionFormNo" class="form-control" placeholder="Form No">
                                             </div>
                                         </div>
@@ -117,22 +114,26 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Class</label>
-                                                <select id="ddlClass" asp-for="Class" asp-items="Model.ClassList" class="form-control"></select>
+                                                <select id="ddlClass" asp-for="Class" asp-items="Model.ClassList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>Subject</label>
-                                                <select id="ddlSubject" asp-for="Subject" asp-items="Model.SubjectList" class="form-control"></select>
+                                                <label>Course</label>
+                                                <select id="ddlSubject" asp-for="Course" asp-items="Model.SubjectList" class="form-control"></select>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>Course</label>
-                                                <select id="ddlCourse" asp-for="Course" asp-items="Model.CourseList" class="form-control"></select>
+                                                <label>Year</label>
+                                                <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control"></select>
                                             </div>
                                         </div>
+                                    
+
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>RollNo</label>

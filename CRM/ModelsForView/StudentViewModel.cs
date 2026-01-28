@@ -11,6 +11,7 @@ namespace CRM.ModelsForView
         public int Id { get; set; }
         public int? AdmissionFormNo { get; set; }
         public string? Year { get; set; }
+        public string? Session { get; set; }
         public string? EnRollNo { get; set; }
         public DateTime? AdmissionDate { get; set; }
         public string? Class { get; set; }
@@ -44,6 +45,8 @@ namespace CRM.ModelsForView
         public List<SelectListItem> ClassList { get; set; }
         public List<SelectListItem> CourseList { get; set; }
 
+        public List<SelectListItem> YearList { get; set; }
+        public List<SelectListItem> SessionList { get; set; }
         public List<SelectListItem> SubjectList { get; set; }
 
     }
