@@ -46,6 +46,45 @@
                                 <div class="card-body">
                                     <div class="row">
 
+
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Session</label>
+                                                <select asp-for="Session" asp-items="Model.SessionList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Year</label>
+                                                <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Course</label>
+                                                <select id="ddlSubject" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Class</label>
+                                                <select id="ddlClass" asp-for="Class" asp-items="Model.ClassList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Reg NO</label>
@@ -66,41 +105,6 @@
                                                 <input asp-for="SchoNo" type="number" class="form-control">
                                             </div>
                                         </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Session</label>
-                                                <select id="ddlSession" asp-for="Session" class="form-control">
-                                                    <option>Select</option>
-                                                    <option>2025-2026</option>
-                                                    <option>2026-2027</option>
-                                                    <option>2027-2028</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Year</label>
-                                                <select id="ddlSubject" asp-for="Year" asp-items="Model.ClassList" class="form-control"></select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Subject</label>
-                                                <select id="ddlCourse" asp-for="Subject" asp-items="Model.CourseList" class="form-control"></select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Class</label>
-                                                <select id="ddlSubject" asp-for="Course" asp-items="Model.SubjectList" class="form-control"></select>
-                                            </div>
-                                        </div>
-
-
-
 
 
                                         <div class="col-md-2">
@@ -243,6 +247,68 @@
                                 </div>
                             </div>
 
+
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fas fa-university"></i> Academic Detail</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>12th school Name</label>
+                                                <input type="text" asp-for="SchoolName"  class="form-control" placeholder="12th school Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Passsing Year</label>
+                                                <select id="ddlAcademicYear" asp-for="PassingYear" asp-items="Model.SubjectList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Board</label>
+                                                <input type="text" asp-for="Board"  class="form-control" placeholder="Board">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Max. Marks</label>
+                                                <input type="text" asp-for="MaxMark"  class="form-control" placeholder="Max. Marks">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Obtain Marks</label>
+                                                <input type="text" asp-for="ObtMark"  class="form-control" placeholder="Obtain Marks">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Result</label>
+                                                <input type="text" asp-for="Result"  class="form-control" placeholder="Result">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Parcentage</label>
+                                                <input type="text" asp-for="Parcent"  class="form-control" placeholder="Parcentage">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="text-center mt-4 mb-5">
 
                                 <button class="btn btn-primary px-4" type="submit">
@@ -254,6 +320,7 @@
                                 </button>
 
                             </div>
+
 
                         </form>
 

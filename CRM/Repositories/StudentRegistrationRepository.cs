@@ -24,6 +24,14 @@ namespace CRM.Repositories
         {
             _context.StudentRegistration.Add(model);
             _context.SaveChanges();
+           
+        }
+
+        public int SaveAndGetId(StudentRegistration model)
+        {
+            _context.StudentRegistration.Add(model);
+            var IsSave = _context.SaveChanges();
+            return model.Id;
         }
 
         public void Update(StudentRegistration model)

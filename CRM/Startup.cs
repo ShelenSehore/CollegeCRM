@@ -40,7 +40,7 @@ namespace CRM
             services.AddScoped<MstFeeRepository>();
             services.AddScoped<MstYearRepository>();
             services.AddScoped<MstSessionRepository>();
-            
+            services.AddScoped<AcademicRepository>();
 
         }
 

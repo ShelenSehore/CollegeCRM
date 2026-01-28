@@ -42,8 +42,19 @@ namespace CRM.ModelsForView
         public string SelectedSubject { get; set; }
         public List<SelectListItem> ClassList { get; set; }
         public List<SelectListItem> CourseList { get; set; }
-
+        public List<SelectListItem> YearList { get; set; }
+        public List<SelectListItem> SessionList { get; set; }
+        
         public List<SelectListItem> SubjectList { get; set; }
+
+        //--------------Academic Detail---------------
+        public string SchoolName { get; set; }
+        public string PassingYear { get; set; }
+        public string Board { get; set; }
+        public string MaxMark { get; set; }
+        public string ObtMark { get; set; }
+        public string Result { get; set; }
+        public string Parcent { get; set; }
 
 
     }

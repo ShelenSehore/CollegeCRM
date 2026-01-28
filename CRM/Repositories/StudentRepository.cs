@@ -26,6 +26,13 @@ namespace CRM.Repositories
             _context.SaveChanges();
         }
 
+        public int SaveAndGetId(Student model)
+        {
+            _context.Student.Add(model);
+            var IsSave = _context.SaveChanges();
+            return model.Id;
+        }
+
         public void Update(Student model)
         {
             _context.Student.Update(model);
