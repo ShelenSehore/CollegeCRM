@@ -43,32 +43,11 @@ namespace CRM.Controllers
         public IActionResult Index(int? id)
         {
             var model = new StudentViewModel();
-            if (id == null)
-                return View("List");
-
-            var varStudentDetail = _repoStudentRegi.GetById(id.Value);
-            if (varStudentDetail != null)
-            {
-                model.StudentName = varStudentDetail.Name;
-                model.FatherName = varStudentDetail.FatherName;
-                model.MotherName = varStudentDetail.MotherName;
-                model.DOB = varStudentDetail.DOB;
-                model.AdmissionFormNo = varStudentDetail.FormNo;
-                model.SchoolarNo = varStudentDetail.SchoNo.ToString();
-                //model.EnRollNo = varStudentDetail.Session;
-                model.Year = varStudentDetail.Year;
-                model.Subject = varStudentDetail.Subject;
-                model.Course = varStudentDetail.Course;
-                model.Caste = varStudentDetail.Caste;
-                model.Gender = varStudentDetail.Gender;
-                model.MobileNoOne = varStudentDetail.MobileNo;
-            }
-
+           
             model.ClassList = _classRepo.GetAll()
                         .Select(x => new SelectListItem {
                             Value = x.Name.ToString(), 
-                            Text = x.Name ,
-                            Selected = x.Name == model.Year
+                            Text = x.Name 
                         })
                         .ToList();
 
@@ -78,8 +57,7 @@ namespace CRM.Controllers
             model.SubjectList = _courseRepo.GetAll()
                         .Select(x => new SelectListItem {
                             Value = x.CourseName.ToString(), 
-                            Text = x.CourseName ,
-                            Selected = x.CourseName == model.Subject
+                            Text = x.CourseName 
                         })
                         .ToList();
             model.Subject = model.Subject;
@@ -87,11 +65,36 @@ namespace CRM.Controllers
             model.CourseList = _subjecctRepo.GetAll()
                        .Select(x => new SelectListItem { 
                            Value = x.Id.ToString(), 
-                           Text = x.Course ,
-                           Selected = x.Course == model.Course
+                           Text = x.Course 
                        })
                        .ToList();
             model.Course = model.Course;
+
+
+            if (id.HasValue)
+            {
+                var varStudentDetail = _repoStudentRegi.GetById(id.Value);
+
+                if (varStudentDetail != null)
+                {
+                    model.StudentName = varStudentDetail.Name;
+                    model.FatherName = varStudentDetail.FatherName;
+                    model.MotherName = varStudentDetail.MotherName;
+                    model.DOB = varStudentDetail.DOB;
+                    model.AdmissionFormNo = varStudentDetail.FormNo;
+                    model.SchoolarNo = varStudentDetail.SchoNo.ToString();
+                    //model.EnRollNo = varStudentDetail.Session;
+                    model.Year = varStudentDetail.Year;
+                    model.Subject = varStudentDetail.Subject;
+                    model.Course = varStudentDetail.Course;
+                    model.Caste = varStudentDetail.Caste;
+                    model.Gender = varStudentDetail.Gender;
+                    model.MobileNoOne = varStudentDetail.MobileNo;
+                    model.SelectedClass = model.Course;
+                    model.SelectedSubject = model.Subject;
+                    model.SelectedCourse = model.Course;
+                }
+            }
 
 
 

@@ -1,9 +1,10 @@
-﻿@model IEnumerable<CRM.Models.MstYear>
+﻿@model IEnumerable<CRM.Models.MstSession>
 
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
     var baseUrl = ViewBag.BaseUrl;
 }
+
 
 
 <div class="content-wrapper">
@@ -13,13 +14,12 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item active"><a href="#">Year</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Session</a></li>
                     </ol>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -28,7 +28,7 @@
                 <div class="col-md-12">
 
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                        Add new Year
+                        Add new Session
                     </button>
 
 
@@ -43,7 +43,7 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10px">#</th>
-                                    <th>Class Name</th>
+                                    <th>Session Name</th>
                                     <th>Create By</th>
                                     <th>Create Date</th>
                                     <th>Edit</th>
@@ -61,7 +61,7 @@
                                         <td>@i</td>
                                         <td>@item.Name</td>
                                         <td>@item.CreatedBy</td>
-                                        <td>@item.CreatedDateTime</td>
+                                        <td>@item.CreateDateTime</td>
                                         <td>
 
                                             <a class="btn btn-info btn-sm" data-toggle="modal" data-target="#editModal" onclick="editClass(@item.Id)">
@@ -102,7 +102,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Edit Year</h4>
+                <h4 class="modal-title">Edit Session</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -110,7 +110,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <input type="hidden" id="editId" />
-                    <label>Year</label>
+                    <label>Session</label>
                     <input type="text" class="form-control" id="editName" />
                 </div>
             </div>
@@ -129,14 +129,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add New Year</h4>
+                <h4 class="modal-title">Add New Session</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Year Name</label>
+                    <label>Session</label>
                     <input type="text" id="className" class="form-control" />
                 </div>
             </div>
@@ -153,8 +153,6 @@
 
 
 
-
-
 @section Scripts {
     <script type="text/javascript">
         // INSERT
@@ -167,7 +165,7 @@
                 return;
             }
 
-            $.post(BASE_URL+"/Year/Create", { className: name }, function (res) {
+            $.post(BASE_URL +"/Session/Create", { className: name }, function (res) {
                 if (res.success) location.reload();
                 else alert(res.message);
             });
@@ -175,7 +173,7 @@
 
         // OPEN EDIT POPUP
         function editClass(id) {
-            $.get(BASE_URL +"/Year/Get?id=" + id, function (data) {
+            $.get(BASE_URL +"/Session/Get?id=" + id, function (data) {
                 $("#editId").val(data.id);
                 $("#editName").val(data.name);
                 $("#editModal").show();
@@ -184,7 +182,7 @@
 
         // UPDATE
         function updateClass() {
-            $.post(BASE_URL +"/Year/Update",
+            $.post(BASE_URL +"/Session/Update",
                 {
                     id: $("#editId").val(),
                     className: $("#editName").val()
@@ -202,10 +200,12 @@
         // DELETE
         function deleteClass(id) {
             if (confirm("Are you sure?")) {
-                $.post(BASE_URL +"/Year/Delete", { id: id }, function () {
+                $.post(BASE_URL +"/Session/Delete", { id: id }, function () {
                     location.reload();
                 });
             }
         }
     </script>
 }
+
+

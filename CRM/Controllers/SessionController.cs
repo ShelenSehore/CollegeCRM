@@ -11,31 +11,28 @@ using System.Threading.Tasks;
 
 namespace CRM.Controllers
 {
-    public class YearController : Controller
+    public class SessionController : Controller
     {
-        private readonly ILogger<YearController> _logger;
-        private readonly MstYearRepository _yearRepo;
+        private readonly ILogger<SessionController> _logger;
+        private readonly MstSessionRepository _sessionRepo;
         private readonly string _baseUrl;
-
-        public YearController(ILogger<YearController> logger,
-            IOptions<AppSettings> config,
-            MstYearRepository yearRepo)
+        public SessionController(ILogger<SessionController> logger,
+           IOptions<AppSettings> config,
+           MstSessionRepository sessionRepo)
         {
-            _yearRepo = yearRepo;
+            _sessionRepo = sessionRepo;
             _logger = logger;
             _baseUrl = config.Value.BaseUrl;
         }
 
 
-        #region Year Master 
-        public IActionResult Index()   //----------Year
+        public IActionResult Index()
         {
             ViewBag.BaseUrl = _baseUrl;
-            var data = _yearRepo.GetAll();
+            var data = _sessionRepo.GetAll();
 
             return View(data);
         }
-
 
         [HttpPost]
         public IActionResult Create(string className)
@@ -43,37 +40,37 @@ namespace CRM.Controllers
             if (string.IsNullOrWhiteSpace(className))
                 return Json(new { success = false, message = "Class name is required" });
 
-            var model = new MstYear
+            var model = new MstSession
             {
                 Name = className,
                 CreatedBy = "Admin",
-                CreatedDateTime = DateTime.Now
+                CreateDateTime = DateTime.Now
             };
 
-            _yearRepo.Add(model);
+            _sessionRepo.Add(model);
 
             return Json(new { success = true });
         }
 
         public IActionResult Get(int id)
         {
-            var data = _yearRepo.GetById(id);
+            var data = _sessionRepo.GetById(id);
             return Json(data);
         }
 
         [HttpPost]
         public IActionResult Update(int id, string className)
         {
-            var data = _yearRepo.GetById(id);
+            var data = _sessionRepo.GetById(id);
 
             if (data == null)
                 return Json(new { success = false, message = "Year not found" });
 
             data.Name = className;
             data.CreatedBy = "Admin";
-            data.CreatedDateTime = DateTime.Now;
+            data.CreateDateTime = DateTime.Now;
 
-            _yearRepo.Update(data);
+            _sessionRepo.Update(data);
 
             return Json(new { success = true });
         }
@@ -81,10 +78,9 @@ namespace CRM.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            _yearRepo.Delete(id);
+            _sessionRepo.Delete(id);
             return Json(new { success = true });
         }
 
-        #endregion
     }
 }

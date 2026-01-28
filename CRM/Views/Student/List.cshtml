@@ -71,7 +71,7 @@
                             <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
                             <button type="reset" class="btn btn-flat" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
                             <form id="frmDownloadExcel"></form>
-                           <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i> Download Excel</button>
+                            <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i> Download Excel</button>
                             
                         </div>
                     </div>
@@ -89,6 +89,7 @@
                                         <th class="sorting">Course</th>
                                         <th class="sorting">MobileNo</th>
                                         <th class="sorting">View</th>
+                                        <th class="sorting">Select</th>
                                     </tr>
                                 </thead>
 
@@ -184,7 +185,7 @@
                 $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.id + "</td><td>" + element.formNo +
                     "</td><td>" + element.name + "</td><td>" + element.session + "</td><td>" + element.subject +
                     "</td><td>" + element.course + "</td><td>" + element.mobileNo +
-                    "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i></a></td></tr>");
+                    "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i></a></td><td><input id='' type='checkbox'></td></tr>");
                 
             });
 

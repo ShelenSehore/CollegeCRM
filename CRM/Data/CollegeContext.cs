@@ -20,6 +20,10 @@ namespace CRM.Data
         public DbSet<StudentRegistration> StudentRegistration { get; set; }
         public DbSet<MstSubject> MstSubject { get; set; }
         public DbSet<MstFee> MstFee { get; set; }
-        
+        public DbSet<MstYear> MstYear { get; set; }
+        public DbSet<MstSession> MstSession { get; set; }
+      
+
+
     }
 }

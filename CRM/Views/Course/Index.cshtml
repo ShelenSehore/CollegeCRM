@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CRM.Models.MstCourse>
+﻿@model CRM.ModelsForView.SubjectViewModel
 
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
@@ -13,7 +13,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item active"><a href="#">Subject</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Course</a></li>
                     </ol>
                 </div>
             </div>
@@ -28,10 +28,10 @@
                 <div class="col-md-12">
 
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                        Add new Subject
+                        Add new Course
                     </button>
 
-                   
+
 
 
 
@@ -44,9 +44,9 @@
                                 <tr>
                                     <th style="width: 10px">#</th>
                                     <th>Course Name</th>
-                                    <th>Create By</th>
-                                    <th>Create Date</th>
-                                    <th>Edit</th>
+                                    <th>Year</th>
+                                    <th>Class</th>
+                                   
                                     <th>Delete</th>
 
                                 </tr>
@@ -55,24 +55,23 @@
                                 @{
                                     int i = 1;
                                 }
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.SubjectList)
                                 {
                                     <tr>
                                         <td>@i</td>
-                                        <td>@item.CourseName</td>
-                                        <td>@item.CreatedBy</td>
-                                        <td>@item.CreatedDatetime</td>
-                                        <td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Course</td>
+                                        <td>@item.Class</td>
+                                        @*<td>
 
                                             <a class="btn btn-info btn-sm" data-toggle="modal" data-target="#editModal" onclick="editClass(@item.Id)">
                                                 <i class="fas fa-pencil-alt">
                                                 </i>
                                                 Edit
                                             </a>
-                                        </td>
+                                        </td>*@
                                         <td>
-                                            
-                                            <a class="btn btn-danger btn-sm"  onclick="deleteClass(@item.Id)">
+                                            <a class="btn btn-danger btn-sm" onclick="deleteClass(@item.Id)">
                                                 <i class="fas fa-trash">
                                                 </i>
                                                 Delete
@@ -129,7 +128,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add New Class</h4>
+                <h4 class="modal-title">Add New Course</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -137,7 +136,17 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Course Name</label>
-                    <input type="text" id="className" class="form-control" />
+                    <input id="txtName" type="text" asp-for="Name" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label> Class</label>
+                    <select id="ddlClass" asp-for="SelectedClass" asp-items="Model.ClassList" class="form-control"></select>
+                </div>
+
+                <div class="form-group">
+                    <label>Year</label>
+                    <select id="ddlSubject" asp-for="SelectedCourse" asp-items="Model.CourseList" class="form-control"></select>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -157,24 +166,35 @@
 @section Scripts {
     <script type="text/javascript">
         // INSERT
+
         var BASE_URL = "@baseUrl";
+
         function saveClass() {
-            var name = $("#className").val();
 
-            if (name.trim() === "") {
-                alert("Course name required");
-                return;
-            }
 
-            $.post("https://localhost:44382/Course/CoursePost", { className: name }, function (res) {
-                if (res.success) location.reload();
-                else alert(res.message);
+
+            var name = $("#txtName").val();
+            var className = $('#ddlClass option:selected').text();
+            var courseName = $('#ddlSubject option:selected').text();
+
+            $.post(BASE_URL + "/Suject/CreateSubject", {
+                Name: name,
+                SelectedClass: className,
+                SelectedCourse: courseName
+            }, function (res) {
+                $('#modal-default').modal('hide');
+                location.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Subject saved successfully!'
+                });
             });
         }
 
         // OPEN EDIT POPUP
         function editClass(id) {
-            $.get("https://localhost:44382/Course/GetCourse?id=" + id, function (data) {
+            $.get(BASE_URL + "/Suject/GetCourse?id=" + id, function (data) {
                 $("#editId").val(data.id);
                 $("#editName").val(data.courseName);
                 $("#editModal").show();
@@ -183,7 +203,7 @@
 
         // UPDATE
         function updateClass() {
-            $.post("https://localhost:44382/Course/UpdateCourse",
+            $.post(BASE_URL + "/Suject/UpdateCourse",
                 {
                     id: $("#editId").val(),
                     className: $("#editName").val()
@@ -201,11 +221,19 @@
         // DELETE
         function deleteClass(id) {
             if (confirm("Are you sure?")) {
-                $.post("https://localhost:44382/Course/DeleteCourse", { id: id }, function (res) {
+                $.post(BASE_URL + "/Suject/DeleteSubject", { id: id }, function (res) {
                     location.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Subject delete successfully!'
+                    });
                 });
             }
         }
 
     </script>
 }
+
+
+

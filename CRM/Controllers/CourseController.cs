@@ -1,7 +1,9 @@
 ﻿using CRM.Data;
 using CRM.Models;
+using CRM.ModelsForView;
 using CRM.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -13,52 +15,74 @@ namespace CRM.Controllers
 {
     public class CourseController : Controller
     {
+        private readonly MstSubjectRepository _subjecctRepo;
         private readonly MstCourseRepository _courseRepo;
-        private readonly ILogger<CourseController> _logger;
+        private readonly MstClassRepository _classRepo;
+        private readonly MstYearRepository _yearRepo;
+        private readonly ILogger<SujectController> _logger;
         private readonly string _baseUrl;
-        public CourseController(ILogger<CourseController> logger,
-             IOptions<AppSettings> config,
-           MstCourseRepository courseRepo)
+        public CourseController(ILogger<SujectController> logger,
+           IOptions<AppSettings> config,
+           MstSubjectRepository subjecctRepo,
+           MstClassRepository classRepo,
+           MstCourseRepository courseRepo,
+           MstYearRepository yearRepo)
         {
+            _subjecctRepo = subjecctRepo;
             _courseRepo = courseRepo;
+            _classRepo = classRepo;
             _logger = logger;
+            _yearRepo = yearRepo;
             _baseUrl = config.Value.BaseUrl;
         }
         public IActionResult Index()
         {
             ViewBag.BaseUrl = _baseUrl;
-            var data = _courseRepo.GetAll();
+            var model = new SubjectViewModel();
 
 
-            return View(data);
+           
+
+            model.ClassList = _classRepo.GetAll()
+                        .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
+                        .ToList();
+
+            model.CourseList = _yearRepo.GetAll()
+                        .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name })
+                        .ToList();
+
+            model.SubjectList = _subjecctRepo.GetAll();
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult CoursePost(string className)
+        public IActionResult CreateSubject(SubjectViewModel model)
         {
-            if (string.IsNullOrWhiteSpace(className))
-                return Json(new { success = false, message = "Course name is required" });
-
-            var model = new MstCourse
+            if (!ModelState.IsValid)
             {
-                CourseName = className,
-                CreatedBy = "Admin",
-                CreatedDatetime = DateTime.Now
+                return View(model);
+            }
+
+            MstSubject subject = new MstSubject
+            {
+                Name = model.Name,               // Subject Name
+                Class = model.SelectedClass,      // Selected Class
+                Course = model.SelectedCourse
             };
 
-            _courseRepo.Add(model);
+            _subjecctRepo.Add(subject);
 
-            return Json(new { success = true });
+            return RedirectToAction("index");
         }
 
         public IActionResult GetCourse(int id)
         {
-            var data = _courseRepo.GetById(id);
+            var data = _subjecctRepo.GetById(id);
             return Json(data);
         }
 
         [HttpPost]
-        public IActionResult UpdateCourse(int id, string className)
+        public IActionResult UpdateSubject(int id, string className)
         {
             var data = _courseRepo.GetById(id);
 
@@ -75,9 +99,9 @@ namespace CRM.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteCourse(int id)
+        public IActionResult DeleteSubject(int id)
         {
-            _courseRepo.Delete(id);
+            _subjecctRepo.Delete(id);
             return Json(new { success = true });
         }
 

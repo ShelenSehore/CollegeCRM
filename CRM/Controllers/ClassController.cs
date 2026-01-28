@@ -11,30 +11,31 @@ using System.Threading.Tasks;
 
 namespace CRM.Controllers
 {
-    public class YearController : Controller
+    public class ClassController : Controller
     {
-        private readonly ILogger<YearController> _logger;
-        private readonly MstYearRepository _yearRepo;
+        private readonly ILogger<ClassController> _logger;
+        private readonly MstClassRepository _classRepo;
         private readonly string _baseUrl;
 
-        public YearController(ILogger<YearController> logger,
+
+        public ClassController(ILogger<ClassController> logger,
             IOptions<AppSettings> config,
-            MstYearRepository yearRepo)
+            MstClassRepository classRepo)
         {
-            _yearRepo = yearRepo;
+            _classRepo = classRepo;
             _logger = logger;
             _baseUrl = config.Value.BaseUrl;
         }
 
 
-        #region Year Master 
-        public IActionResult Index()   //----------Year
+        public IActionResult Index()
         {
             ViewBag.BaseUrl = _baseUrl;
-            var data = _yearRepo.GetAll();
+            var data = _classRepo.GetAll();
 
             return View(data);
         }
+
 
 
         [HttpPost]
@@ -43,37 +44,37 @@ namespace CRM.Controllers
             if (string.IsNullOrWhiteSpace(className))
                 return Json(new { success = false, message = "Class name is required" });
 
-            var model = new MstYear
+            var model = new MstClass
             {
                 Name = className,
-                CreatedBy = "Admin",
-                CreatedDateTime = DateTime.Now
+                CreateBy = "Admin",
+                CreateDatetime = DateTime.Now
             };
 
-            _yearRepo.Add(model);
+            _classRepo.Add(model);
 
             return Json(new { success = true });
         }
 
         public IActionResult Get(int id)
         {
-            var data = _yearRepo.GetById(id);
+            var data = _classRepo.GetById(id);
             return Json(data);
         }
 
         [HttpPost]
         public IActionResult Update(int id, string className)
         {
-            var data = _yearRepo.GetById(id);
+            var data = _classRepo.GetById(id);
 
             if (data == null)
-                return Json(new { success = false, message = "Year not found" });
+                return Json(new { success = false, message = "Class not found" });
 
             data.Name = className;
-            data.CreatedBy = "Admin";
-            data.CreatedDateTime = DateTime.Now;
+            data.UpdatedBy = "Admin";
+            data.UpdateDatetime = DateTime.Now;
 
-            _yearRepo.Update(data);
+            _classRepo.Update(data);
 
             return Json(new { success = true });
         }
@@ -81,10 +82,13 @@ namespace CRM.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            _yearRepo.Delete(id);
+            _classRepo.Delete(id);
             return Json(new { success = true });
         }
 
-        #endregion
+
+
+
+
     }
 }

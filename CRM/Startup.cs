@@ -1,4 +1,5 @@
 using CRM.Data;
+using CRM.Models;
 using CRM.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,7 +38,10 @@ namespace CRM
             services.AddScoped<MstSubjectRepository>();
             services.AddScoped<StudentRegistrationRepository>();
             services.AddScoped<MstFeeRepository>();
+            services.AddScoped<MstYearRepository>();
+            services.AddScoped<MstSessionRepository>();
             
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

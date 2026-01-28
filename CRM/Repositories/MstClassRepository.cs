@@ -10,10 +10,10 @@ namespace CRM.Repositories
     public class MstClassRepository
     {
         private readonly CollegeContext _context;
-        public MstClassRepository(CollegeContext context)
-        {
-            _context = context;
-        }
+            public MstClassRepository(CollegeContext context)
+            {
+                _context = context;
+            }
 
         public List<MstClass> GetAll()
         {
