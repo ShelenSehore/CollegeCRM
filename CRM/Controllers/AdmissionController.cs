@@ -99,7 +99,7 @@ namespace CRM.Controllers
             //--------Get List
             var data = _repoStudentRegi.GetAll();
 
-            model.StudentList = data;
+            model.StudentRegistrationssList = data;
 
             return View(model);
         }

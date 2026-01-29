@@ -9,8 +9,8 @@ namespace CRM.ModelsForView
 {
     public class StudentListView
     {
-        public List<StudentRegistration> StudentList { get; set; }
-
+        public List<StudentRegistration> StudentRegistrationssList { get; set; }
+        public List<Student> StudentList { get; set; }
         public List<SelectListItem> ClassList { get; set; }
         public List<SelectListItem> CourseList { get; set; }
 

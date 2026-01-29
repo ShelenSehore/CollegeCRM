@@ -61,6 +61,8 @@ namespace CRM.Repositories
 
         public List<Student> FilterList(string name, string classes, string subject, string course, string regPvt)
         {
+            try { 
+            
             IQueryable<Student> query = _context.Student;
 
             if (!string.IsNullOrWhiteSpace(name))
@@ -84,7 +86,13 @@ namespace CRM.Repositories
                 query = query.Where(x => x.RegEx.ToLower().Contains(regPvt.ToLower()));
             }
             return query.ToList();
-            //return _context.StudentRegistration.ToList(); 
+                //return _context.StudentRegistration.ToList(); 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return null;
         }
 
     }

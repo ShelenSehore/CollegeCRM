@@ -143,7 +143,7 @@ namespace CRM.Controllers
             stuObj.Session = student.Session;
             stuObj.Year = student.Year;
             stuObj.EnRollNo = student.EnRollNo;
-            stuObj.AdmissionDate = DateTime.Now;
+            stuObj.AdmissionDate = student.AdmissionDate;
             stuObj.Course = student.Course;
             stuObj.Class = student.Class;
             stuObj.RollNo = student.RollNo;
@@ -204,37 +204,58 @@ namespace CRM.Controllers
             ViewBag.BaseUrl = _baseUrl;
             var model = new StudentListView();
 
-            //----  MstClass = Year
             model.ClassList = _classRepo.GetAll()
-                       .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
+                      .Select(x => new SelectListItem
+                      {
+                          Value = x.Name.ToString(),
+                          Text = x.Name
+                      })
+                      .ToList();
+
+
+
+
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
                        .ToList();
 
-            // --- MstSubject  = Subject
-            model.CourseList = _courseRepo.GetAll()
-                        .Select(x => new SelectListItem { Value = x.CourseName.ToString(), Text = x.CourseName })
-                        .ToList();
-
-            //---MstCourse = Class
-            model.SubjectList = _subjecctRepo.GetAll()
-                     .Select(x => new SelectListItem { Value = x.Course.ToString(), Text = x.Course })
-                     .ToList();
+           
 
 
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
 
-            //--------Get List
-            var data = _repoStudentRegi.GetAll();
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
 
-            model.StudentList = data;
+
+            ////--------Get List
+            //var data = _repoStudent.GetAll();
+
+            //model.StudentList = data;
 
             return View(model);
         }
 
-        public IActionResult SearchList(string name, string classes, string subject, string course, string regPvt)
+        public IActionResult SearchList(string name, string classes, string year, string course, string regPvt)
         {
            
 
             //--------Get List
-            var data = _repoStudentRegi.FilterList(name, classes, subject, course, regPvt);
+            var data = _repoStudent.FilterList(name, classes, year, course, regPvt);
 
 
 
