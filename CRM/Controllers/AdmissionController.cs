@@ -53,10 +53,28 @@ namespace CRM.Controllers
             ViewBag.BaseUrl = _baseUrl;
             var model = new StudentListView();
 
-            //----  MstClass = Year
             model.ClassList = _classRepo.GetAll()
-                       .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
+                      .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
+                      .ToList();
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
                        .ToList();
+
+            ////----Session----
+            //model.SessionList = _sessionRepo.GetAll()
+            //           .Select(x => new SelectListItem
+            //           {
+            //               Value = x.Name.ToString(),
+            //               Text = x.Name
+            //           })
+            //           .ToList();
+
 
             // --- MstSubject  = Subject
             model.CourseList = _courseRepo.GetAll()
@@ -64,9 +82,17 @@ namespace CRM.Controllers
                         .ToList();
 
             //---MstCourse = Class
-            model.SubjectList = _subjecctRepo.GetAll()
-                     .Select(x => new SelectListItem { Value = x.Course.ToString(), Text = x.Course })
-                     .ToList();
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
 
 
 
@@ -81,12 +107,12 @@ namespace CRM.Controllers
 
 
 
-        public IActionResult SearchList(string name, string classes, string subject, string course, string regPvt)
+        public IActionResult SearchList(string name, string classes, string year, string course, string regPvt)
         {
 
 
             //--------Get List
-            var data = _repoStudentRegi.FilterList(name, classes, subject, course, regPvt);
+            var data = _repoStudentRegi.FilterList(name, classes, year, course, regPvt);
 
 
 
@@ -100,7 +126,6 @@ namespace CRM.Controllers
             ViewBag.BaseUrl = _baseUrl;
             var model = new StudentRegistrationForView();
 
-            //----  MstClass = Year
             model.ClassList = _classRepo.GetAll()
                        .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
                        .ToList();
@@ -203,6 +228,24 @@ namespace CRM.Controllers
                 var StudentID =   _repoStudent.SaveAndGetId(stuObj);
 
                 //-------------Acedemic Detail save-----------
+
+                Academy objAcademy = new Academy();
+                objAcademy.RegStudentId = RegiSaveId;
+                objAcademy.StudentId = StudentID;
+                objAcademy.SchoolName = student.SchoolName;
+                objAcademy.PassingYear = student.PassingYear;
+                objAcademy.Board = student.Board;
+                objAcademy.MaxMark = student.MaxMark;
+                objAcademy.ObtMark = student.ObtMark;
+                objAcademy.Result = student.Result;
+                objAcademy.Parcent = student.Parcent;
+                objAcademy.CreatedBy = "Admin";
+                objAcademy.CreatedDate = DateTime.Now;
+                objAcademy.UpdatedDate = DateTime.Now;
+                objAcademy.UpdatedBy = "Admin";
+
+                var AcedemicId = _repoAcademic.SaveAndGetId(objAcademy);
+
 
 
 

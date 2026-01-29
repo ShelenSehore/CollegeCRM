@@ -25,6 +25,19 @@ namespace CRM.Repositories
             _context.SaveChanges();
         }
 
+        public int SaveAndGetId(Academy model)
+        {
+            try 
+            {
+                _context.Academy.Add(model);
+                _context.SaveChanges();
+                return model.Id;
+            }
+            catch (Exception ex)
+            { }
+            return 0;
+        }
+
         public void Update(Academy model)
         {
             _context.Academy.Update(model);

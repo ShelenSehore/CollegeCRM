@@ -35,8 +35,8 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Subject</label>
-                                <select id="ddlSubject" asp-items="Model.CourseList" class="form-control"> <option>Select</option></select>
+                                <label>Year</label>
+                                <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -82,12 +82,11 @@
                                     <tr role="row">
                                         <th class="sorting sorting_asc" style="width: 10px">#</th>
                                         <th class="sorting">RegNo</th>
-                                        <th class="sorting">FormNo</th>
                                         <th class="sorting">Student</th>
+                                        <th class="sorting">MobileNo</th>
                                         <th class="sorting">Year</th>
                                         <th class="sorting">Subject</th>
                                         <th class="sorting">Course</th>
-                                        <th class="sorting">MobileNo</th>
                                         <th class="sorting">View</th>
                                     </tr>
                                 </thead>
@@ -123,7 +122,7 @@
         window.onload = function () {
 
             // Example 3: Change events (optional)
-            $("#ddlClass, #ddlSubject, #ddlCourse, #ddlRegPvt").change(function () {
+            $("#ddlClass, #ddlYear, #ddlCourse, #ddlRegPvt").change(function () {
                 $("#tblStudentList tbody").empty();
                 SearchStudent();
             });
@@ -140,14 +139,14 @@
 
             var name = $("#txtSearch").val();
             var varClass = $('#ddlClass option:selected').text();
-            var varSubject = $('#ddlSubject option:selected').text();
+            var varYear = $('#ddlYear option:selected').text();
             var varCourse = $('#ddlCourse option:selected').text();
             var varRegPvt = $('#ddlRegPvt option:selected').text();
 
             $.post(BASE_URL + "/Admission/SearchList", {
                 name: name,
                 classes: varClass,
-                subject: varSubject,
+                year: varYear,
                 course: varCourse,
                 regPvt: varRegPvt
             },
@@ -161,9 +160,9 @@
         {
             $("#tblStudentList tbody").empty();
             $.each(tableData.data, function (index, element) {
-                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.id + "</td><td>" + element.formNo +
-                    "</td><td>" + element.name + "</td><td>" + element.session + "</td><td>" + element.subject +
-                    "</td><td>" + element.course + "</td><td>" + element.mobileNo +
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.id + "</td><td>" + element.name +
+                    "</td><td>" + element.mobileNo + "</td><td>" + element.year + "</td><td>" + element.subject +
+                    "</td><td>" + element.course + "</td><td>" + element.status +
                     "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i></a></td></tr>");
 
             });
