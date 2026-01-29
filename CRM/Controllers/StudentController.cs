@@ -26,6 +26,7 @@ namespace CRM.Controllers
         private readonly string _baseUrl;
         private readonly MstSessionRepository _sessionRepo;
         private readonly MstSubjectRepository _subjecctRepo;
+        private readonly AcademicRepository _repoAcademic;
         public StudentController(ILogger<StudentController> logger,
             IOptions<AppSettings> config,
             MstClassRepository classRepo,
@@ -34,6 +35,7 @@ namespace CRM.Controllers
             StudentRepository repoStudent,
             MstYearRepository yearRepo,
             MstSessionRepository sessionRepo,
+            AcademicRepository repoAcademic,
              StudentRegistrationRepository repoStudentRegi)
         {
             _repoStudent = repoStudent;
@@ -45,6 +47,7 @@ namespace CRM.Controllers
             _subjecctRepo = subjecctRepo;
             _yearRepo = yearRepo;
             _sessionRepo = sessionRepo;
+            _repoAcademic = repoAcademic;
         }
         public IActionResult Index(int? id)
         {
@@ -127,7 +130,7 @@ namespace CRM.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Student student)
+        public IActionResult Create(StudentViewModel student)
         {
             if (!ModelState.IsValid)
             {
@@ -135,10 +138,58 @@ namespace CRM.Controllers
                 return View(student);
             }
 
-            student.CreateBy = "Admin";
-            student.CreateDatetime = DateTime.Now;
+            Student stuObj = new Student();
+            stuObj.AdmissionFormNo = student.AdmissionFormNo;
+            stuObj.Session = student.Session;
+            stuObj.Year = student.Year;
+            stuObj.EnRollNo = student.EnRollNo;
+            stuObj.AdmissionDate = DateTime.Now;
+            stuObj.Course = student.Course;
+            stuObj.Class = student.Class;
+            stuObj.RollNo = student.RollNo;
+            stuObj.RegEx = student.RegEx;
+            stuObj.SchoolarNo = student.SchoolarNo;
+            stuObj.NewOld = student.NewOld;
+            stuObj.SubCode = student.SubCode;
+            stuObj.Medium = student.Medium;
+            stuObj.AadhaarNo = student.AadhaarNo;
+            stuObj.SamagraID = student.SamagraID;
+            
+            stuObj.StudentName = student.StudentName;
+            stuObj.FatherName = student.FatherName;
+            stuObj.MotherName = student.MotherName;
+            stuObj.DOB = student.DOB;
+            stuObj.Caste = student.Caste;
+            stuObj.Gender = student.Gender;
+            stuObj.MobileNoOne = student.MobileNoOne;
+            stuObj.CreateBy = "Admin";
+            stuObj.CreateDatetime = DateTime.Now;
 
-            _repoStudent.Add(student);
+
+
+            var StudentID = _repoStudent.SaveAndGetId(stuObj);
+
+            //-------------Acedemic Detail save-----------
+
+            Academy objAcademy = new Academy();
+            objAcademy.RegStudentId = 0;
+            objAcademy.StudentId = StudentID;
+            objAcademy.SchoolName = student.SchoolName;
+            objAcademy.PassingYear = student.PassingYear;
+            objAcademy.Board = student.Board;
+            objAcademy.MaxMark = student.MaxMark;
+            objAcademy.ObtMark = student.ObtMark;
+            objAcademy.Result = student.Result;
+            objAcademy.Parcent = student.Parcent;
+            objAcademy.CreatedBy = "Admin";
+            objAcademy.CreatedDate = DateTime.Now;
+            objAcademy.UpdatedDate = DateTime.Now;
+            objAcademy.UpdatedBy = "Admin";
+
+            var AcedemicId = _repoAcademic.SaveAndGetId(objAcademy);
+
+
+
 
             TempData["msg"] = "Student Added Successfully!";
             return RedirectToAction("List");
