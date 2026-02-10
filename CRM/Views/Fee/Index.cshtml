@@ -1,9 +1,7 @@
 ﻿@model CRM.ModelsForView.FeeViewModel
 
-@{
-    Layout = "~/Views/Shared/_MasterLayout.cshtml";
-    var baseUrl = ViewBag.BaseUrl;
-}
+@{ Layout = "~/Views/Shared/_MasterLayout.cshtml";
+                var baseUrl = ViewBag.BaseUrl; }
 
 
 <div class="content-wrapper">
@@ -28,7 +26,7 @@
                 <div class="col-md-12">
 
                     <a class="btn btn-default" href="@Url.Action("AddFee", "Fee")">Add new Fee</a>
-                   
+
 
 
 
@@ -41,7 +39,6 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10px">#</th>
-                                    <th>SubjectCourse</th>
                                     <th>NewOld</th>
                                     <th>Session</th>
                                     <th>Year</th>
@@ -56,37 +53,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @{
-                                    int i = 1;
-
-                                }
+                                @{ int i = 1; }
                                 @if (Model.FeeClassList != null)
                                 {
-                                    @foreach (var item in Model.FeeClassList)
-                                    {
-                                        <tr>
-                                            <td>@i</td>
-                                            <td>@item.SubjectName</td>
-                                            <td>@item.NewOld</td>
-                                            <td>@item.Session</td>
-                                            <td>@item.Year</td>
-                                            <td>@item.NewStudentFee</td>
-                                            <td>@item.CMoney</td>
-                                            <td>@item.TutionFee</td>
-                                            <td>@item.OtherFee</td>
-                                            <td>@item.TotalFee</td>
-                                            <td>@item.TotalFeeCM</td>
-                                            <td>
-                                                <a class="btn btn-danger btn-sm" onclick="DeleteFee(@item.Id)">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                    Delete
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        i++;
-                                    }
-                                }
+                    @foreach (var item in Model.FeeClassList)
+                    {
+    <tr>
+        <td>@i</td>
+        <td>@item.NewOld</td>
+        <td>@item.Session</td>
+        <td>@item.Year</td>
+        <td>@item.NewStudentFee</td>
+        <td>@item.CMoney</td>
+        <td>@item.TutionFee</td>
+        <td>@item.OtherFee</td>
+        <td>@item.TotalFee</td>
+        <td>@item.TotalFeeCM</td>
+        <td>
+            <a class="btn btn-danger btn-sm" onclick="DeleteFee(@item.Id)">
+                <i class="fas fa-trash">
+                </i>
+                Delete
+            </a>
+        </td>
+    </tr>i++;
+                    }}
 
                             </tbody>
                         </table>
@@ -101,11 +92,11 @@
 </div>
 
 
-@*Modal Popup Start*@
+@Modal Popup Start@
 
 
 
-@*Model popup End*@
+@Model popup End@
 
 
 @section Scripts {
@@ -113,7 +104,7 @@
         // INSERT
         var BASE_URL = "@baseUrl";
         function saveFee() {
-            
+
             var className = $('#ddlClass option:selected').text();
             var couseName = $('#ddlCourse option:selected').text();
             var feeId = $('#ddlFee option:selected').val();

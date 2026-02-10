@@ -16,28 +16,34 @@ namespace CRM.Controllers
     public class FeeController : Controller
     {
         private readonly ILogger<FeeController> _logger;
-        
+
         private readonly MstClassRepository _classRepo;
         private readonly MstCourseRepository _courseRepo;
         private readonly MstFeeRepository _feeRepo;
         private readonly MstSubjectRepository _subjecctRepo;
         private readonly string _baseUrl;
+        private readonly MstSessionRepository _sessionRepo;
+        private readonly MstYearRepository _yearRepo;
 
         public FeeController(ILogger<FeeController> logger,
            IOptions<AppSettings> config,
-           
+
            MstSubjectRepository subjecctRepo,
            MstFeeRepository fee,
            MstCourseRepository courseRepo,
+           MstYearRepository yearRepo,
+            MstSessionRepository sessionRepo,
            MstClassRepository classRepo)
         {
             _subjecctRepo = subjecctRepo;
             _courseRepo = courseRepo;
-            
+
             _classRepo = classRepo;
             _feeRepo = fee;
             _logger = logger;
             _baseUrl = config.Value.BaseUrl;
+            _yearRepo = yearRepo;
+            _sessionRepo = sessionRepo;
         }
 
         public IActionResult Index()
@@ -47,7 +53,7 @@ namespace CRM.Controllers
 
 
 
-           var varSubject = _subjecctRepo.GetAll();
+            var varSubject = _subjecctRepo.GetAll();
             var varFee = _feeRepo.GetAll();
 
             if (varFee != null)
@@ -57,21 +63,21 @@ namespace CRM.Controllers
                 {
                     FeeListModel obj = new FeeListModel();
 
-                    var temName = varSubject
-                                    .Where(x => x.Id == Convert.ToInt32(row.Course))
-                                    .Select(x => x.Name)
-                                    .FirstOrDefault();
-                    var temCourse = varSubject
-                                    .Where(x => x.Id == Convert.ToInt32(row.Course))
-                                    .Select(x => x.Course)
-                                    .FirstOrDefault();
-                    var temClass = varSubject
-                                    .Where(x => x.Id == Convert.ToInt32(row.Course))
-                                    .Select(x => x.Class)
-                                    .FirstOrDefault();
+                    //var temName = varSubject
+                    //                .Where(x => x.Id == Convert.ToInt32(row.Course))
+                    //                .Select(x => x.Name)
+                    //                .FirstOrDefault();
+                    //var temCourse = varSubject
+                    //                .Where(x => x.Id == Convert.ToInt32(row.Course))
+                    //                .Select(x => x.Course)
+                    //                .FirstOrDefault();
+                    //var temClass = varSubject
+                    //                .Where(x => x.Id == Convert.ToInt32(row.Course))
+                    //                .Select(x => x.Class)
+                    //                .FirstOrDefault();
 
-                    obj.SubjectName = temName+" / "+ temCourse + " / " + temClass + " / " ;
-                   
+                    //obj.SubjectName = temName+" / "+ temCourse + " / " + temClass + " / " ;
+
                     obj.Id = row.Id;
                     obj.NewOld = row.NewOld;
                     obj.Session = row.Session;
@@ -95,20 +101,55 @@ namespace CRM.Controllers
         }
 
 
-        public IActionResult AddFee() 
+        public IActionResult AddFee()
         {
             ViewBag.BaseUrl = _baseUrl;
             var model = new FeeViewModel();
 
-            //MstCourse
-            model.ClassList = _courseRepo.GetAll()
-                       .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.CourseName })
+            model.ClassList = _classRepo.GetAll()
+                         .Select(x => new SelectListItem
+                         {
+                             Value = x.Name.ToString(),
+                             Text = x.Name
+                         })
+                         .ToList();
+
+
+
+
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
                        .ToList();
 
-            //MstSubject
-            model.SubjectList = _subjecctRepo.GetAll()
-                     .Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name +" / " + x.Course + " / " + x.Class })
-                     .ToList();
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
 
             return View(model);
         }
@@ -161,7 +202,7 @@ namespace CRM.Controllers
 
         //---------------------Submit Fee---------------
 
-        public IActionResult SearchForFee() 
+        public IActionResult SearchForFee()
         {
             return View();
         }
