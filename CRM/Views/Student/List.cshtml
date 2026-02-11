@@ -39,7 +39,8 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group">s
+                            <div class="form-group">
+                                s
                                 <label>Course</label>
                                 <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
                             </div>
@@ -59,11 +60,11 @@
 
                     <div class="row" style="margin-bottom:5px !important">
                         <div class="col-sm-12">
-                            
-                                <div class="input-group input-group-sm">
-                                    <input id="txtSearch" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                                </div>
-                           
+
+                            <div class="input-group input-group-sm">
+                                <input id="txtSearch" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                            </div>
+
                         </div>
                     </div>
                     <div class="row">
@@ -72,7 +73,7 @@
                             <button type="reset" class="btn btn-flat" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
                             <form id="frmDownloadExcel"></form>
                             <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i> Download Excel</button>
-                            
+
                         </div>
                     </div>
                     <div class="row">
@@ -88,31 +89,53 @@
                                         <th class="sorting">Subject</th>
                                         <th class="sorting">Course</th>
                                         <th class="sorting">MobileNo</th>
-                                        <th class="sorting">View</th>
+                                        <th class="sorting">Action</th>
                                         <th class="sorting">Select</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                   
                                 </tbody>
 
 
                             </table>
-                          
+
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
             <!-- /.card-body -->
         </div>
 
-
-
     </section>
     <!-- /.content -->
 </div>
+
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Promod Student</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Class Name</label>
+                    <input type="text" id="className" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 @section Scripts {
@@ -141,10 +164,10 @@
         {
 
             $('form#frmDownloadExcel').submit();
-            
+
         }
 
-        
+
         function Reset() {
 
            $("#txtSearch").val('');
@@ -173,7 +196,7 @@
                 regPvt: varRegPvt
             },
                 function (res) {
-                   
+
                     TableData(res)  //--------pass records for generate tabble
                 }
             );
@@ -183,16 +206,23 @@
         {
             $("#tblStudentList tbody").empty();
             $.each(tableData.data, function (index, element) {
-                
+
                 $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.id + "</td><td>" + element.admissionFormNo +
-                    "</td><td>" + element.studentName + "</td><td>" + element.year + "</td><td>" + element.class + 
+                    "</td><td>" + element.studentName + "</td><td>" + element.year + "</td><td>" + element.class +
                     "</td><td>" + element.course + "</td><td>" + element.mobileNoOne +
-                    "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i></a></td><td><input id='' type='checkbox'></td></tr>");
-                
+                    "</td><td><button type='button' class='btn btn-info btn-flat'>Action</button>" +
+                    "<button type='button' class='btn btn-info btn-flat dropdown-toggle dropdown-icon' data-toggle='dropdown'>" +
+                    "<span class='sr-only'>Toggle Dropdown</span></button>" +
+                    "<div class='dropdown-menu' role='menu'>" +
+                    "<a class='dropdown-item' data-toggle='modal' data-target='#modal-default'>Promod</a>" +
+                    "<a class='dropdown-item' href='#'>View</a>" +
+                    "</div></div></td>" +
+                    "<td><input id='' type='checkbox'></td></tr>");
+
             });
 
-          
-           
+
+
         }
 
 
