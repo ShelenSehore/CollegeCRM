@@ -97,6 +97,139 @@
                         <!-- /.card-header -->
                         <!-- form start -->
                         <form asp-action="Create" method="post">
+                            <!-- PERSONAL DETAILS -->
+                            <div class="card card-info mt-3">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fas fa-user"></i> Student Personal Detail</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="row mt-4">
+
+                                            <div class="col-md-8">
+                                                <label>First Name</label>
+                                                <input asp-for="StudentName" class="form-control">
+                                                <input type="hidden" asp-for="Id" />
+                                            </div>
+
+                                            <div class="col-md-8">
+                                                <label>Father Name</label>
+                                                <input asp-for="FatherName" class="form-control">
+                                            </div>
+
+                                        </div>
+                                     
+                                        <div class="row mt-2 float-right">
+                                            <div class="col-md-8">
+                                                <img src="~/dist/img/user1-128x128.jpg" alt="User Image" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Mother Name</label>
+                                                <input asp-for="MotherName" class="form-control">
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Mobile No</label>
+                                                <input asp-for="MobileNoOne" class="form-control">
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-md-3">
+                                            <label>DOB</label>
+                                            <input asp-for="DOB" type="date" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>FatherMobileNo</label>
+                                                <input asp-for="FatherMobileNo" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label>Gender</label>
+                                            <select asp-for="Gender" class="form-control">
+                                                <option>Select</option>
+                                                <option>Male</option>
+                                                <option>Femle</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label>Minority</label>
+                                            <select asp-for="Minority" class="form-control">
+                                                <option>Select</option>
+                                                <option>Yes</option>
+                                                <option>No</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label>Caste</label>
+                                            <select asp-for="Caste" class="form-control">
+                                                <option>Select</option>
+                                                <option>Gen</option>
+                                                <option>OBC</option>
+                                                <option>SC</option>
+                                                <option>ST</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 custom-checkbox">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" name="TC" id="TC">
+                                                <label for="TC" class="custom-control-label">TC</label>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-2 custom-checkbox">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" name="PH" id="PH">
+                                                <label for="PH" class="custom-control-label">PH</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Aadhaar No</label>
+                                            <input asp-for="AadhaarNo" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>ABC No</label>
+                                            <input asp-for="AbcNo" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label>SamagraID</label>
+                                            <input asp-for="SamagraID" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-8">
+                                            <label>Address</label>
+                                            <textarea asp-for="Address" class="form-control"></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <!-- COLLEGE DETAILS -->
                             <div class="card card-primary">
@@ -232,6 +365,15 @@
                                 </div>
 
                                 <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" name="IsSaveAcedmicDetail" id="chkIsSaveAcademicDetail" checked="">
+                                            <label for="chkIsSaveAcademicDetail" class="custom-control-label">Save Academi Detail</label>
+                                        </div>
+                                        <br />
+                                    </div>
+
                                     <div class="row">
 
                                         <div class="col-md-2">
@@ -290,137 +432,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- PERSONAL DETAILS -->
-                            <div class="card card-info mt-3">
-                                <div class="card-header">
-                                    <h3 class="card-title"><i class="fas fa-user"></i> Student Personal Detail</h3>
-                                </div>
 
-                                <div class="card-body">
-                                    <div class="row">
 
-                                        <div class="col-md-6">
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>First Name</label>
-                                                        <input asp-for="StudentName" class="form-control">
-                                                        <input type="hidden"  asp-for="Id" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Last Name</label>
-                                                        <input class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row mt-2">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Father Name</label>
-                                                        <input asp-for="FatherName" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>FatherMobileNo</label>
-                                                        <input asp-for="FatherMobileNo" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Mother Name</label>
-                                                        <input asp-for="MotherName" class="form-control">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Mobile No</label>
-                                                        <input asp-for="MobileNoOne" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Alter Mobile No</label>
-                                                        <input asp-for="MobileNoTwo" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row mt-2">
-                                                <div class="col-md-4">
-                                                    <label>DOB</label>
-                                                    <input asp-for="DOB" type="date" class="form-control">
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label>Gender</label>
-                                                    <select asp-for="Gender" class="form-control">
-                                                        <option>Select</option>
-                                                        <option>Male</option>
-                                                        <option>Femle</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label>Minority</label>
-                                                    <select asp-for="Minority" class="form-control">
-                                                        <option>Select</option>
-                                                        <option>Yes</option>
-                                                        <option>No</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label>Caste</label>
-                                                    <select asp-for="Caste" class="form-control">
-                                                        <option>Select</option>
-                                                        <option>Gen</option>
-                                                        <option>OBC</option>
-                                                        <option>SC</option>
-                                                        <option>ST</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="row mt-2">
-                                                <div class="col-md-4">
-                                                    <label>Aadhaar No</label>
-                                                    <input asp-for="AadhaarNo" class="form-control">
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label>SamagraID</label>
-                                                    <input asp-for="SamagraID" class="form-control">
-                                                </div>
-
-                                                <div class="col-md-8">
-                                                    <label>Address</label>
-                                                    <textarea asp-for="Address" class="form-control"></textarea>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <!-- Photo -->
-                                        <div class="col-md-3 offset-md-1">
-                                            <label>Student Photo</label>
-                                            <div class="border p-2 text-center" style="height: 200px;">
-                                                <i class="fas fa-camera fa-3x text-muted"></i>
-                                                <p class="text-muted">Upload Photo</p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="text-center mt-4 mb-5">
 

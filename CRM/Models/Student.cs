@@ -44,5 +44,7 @@ namespace CRM.Models
 
         public string UpdatedBy { get; set; }
         public DateTime? UpdateDatetime { get; set; }
+        public string AbcNo { get; set; }
+        
     }
 }

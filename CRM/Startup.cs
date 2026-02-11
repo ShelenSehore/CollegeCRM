@@ -31,7 +31,7 @@ namespace CRM
             services.AddDbContext<CollegeContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation(); 
             services.AddScoped<MstClassRepository>();
             services.AddScoped<MstCourseRepository>();
             services.AddScoped<StudentRepository>();

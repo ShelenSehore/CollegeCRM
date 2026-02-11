@@ -195,6 +195,8 @@ namespace CRM.Controllers
             stuObj.Id = student.Id;
             stuObj.Minority = student.Minority;
             stuObj.PH = student.PH;
+            stuObj.TC = student.TC;
+            stuObj.AbcNo = student.AbcNo;
             stuObj.CreateBy = "Admin";
             stuObj.CreateDatetime = DateTime.Now;
 
@@ -229,6 +231,27 @@ namespace CRM.Controllers
                 stuObj.UpdatedBy = "Admin";
                 stuObj.UpdateDatetime = DateTime.Now;
                 _repoStudent.Update(stuObj);
+                
+                //-------------Acedemic Detail save-----------
+                if (student.IsSaveAcedmicDetail != null)
+                {
+                    Academy objAcademy = new Academy();
+                    objAcademy.RegStudentId = 0;
+                    objAcademy.StudentId = stuObj.Id;
+                    objAcademy.SchoolName = student.SchoolName;
+                    objAcademy.PassingYear = student.PassingYear;
+                    objAcademy.Board = student.Board;
+                    objAcademy.MaxMark = student.MaxMark;
+                    objAcademy.ObtMark = student.ObtMark;
+                    objAcademy.Result = student.Result;
+                    objAcademy.Parcent = student.Parcent;
+                    objAcademy.CreatedBy = "Admin";
+                    objAcademy.CreatedDate = DateTime.Now;
+                    objAcademy.UpdatedDate = DateTime.Now;
+                    objAcademy.UpdatedBy = "Admin";
+                    var AcedemicId = _repoAcademic.SaveAndGetId(objAcademy);
+                }
+
             }
            
 

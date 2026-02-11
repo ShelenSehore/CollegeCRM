@@ -61,8 +61,10 @@ namespace CRM.ModelsForView
         public string Parcent { get; set; }
 
         //----------------Search---------------
-
-
+        
+            public string AbcNo { get; set; }
+        public string IsSaveAcedmicDetail { get; set; }
+        
 
     }
 }
