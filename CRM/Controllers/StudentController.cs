@@ -101,25 +101,53 @@ namespace CRM.Controllers
 
                 if (varStudentDetail != null)
                 {
+                    model.Id = model.Id;
+                    model.AdmissionFormNo = varStudentDetail.AdmissionFormNo;
+                    model.Year = varStudentDetail.Year;
+                    model.EnRollNo = varStudentDetail.EnRollNo;
+                    model.AdmissionDate = varStudentDetail.AdmissionDate;
+                    model.Class = varStudentDetail.Class;
+                    model.RollNo = varStudentDetail.RollNo;
+                    model.RegEx = varStudentDetail.RegEx;
+                    model.Course = varStudentDetail.Course;
+
+                    if (varStudentDetail.SchoolarNo != null)
+                        model.SchoolarNo = varStudentDetail.SchoolarNo.ToString();
+
+                    model.NewOld = varStudentDetail.NewOld;
+                    model.SubCode = varStudentDetail.SubCode;
+                    model.Medium = varStudentDetail.Medium;
+                    model.Gender = varStudentDetail.Gender;
+                    model.Caste = varStudentDetail.Caste;
+                    model.AadhaarNo = varStudentDetail.AadhaarNo;
                     model.StudentName = varStudentDetail.StudentName;
+                    model.DOB = varStudentDetail.DOB;
+                    model.SamagraID = varStudentDetail.SamagraID;
                     model.FatherName = varStudentDetail.FatherName;
                     model.MotherName = varStudentDetail.MotherName;
-                    model.DOB = varStudentDetail.DOB;
-                    model.AdmissionFormNo = varStudentDetail.AdmissionFormNo;
-
-                    if(varStudentDetail.SchoolarNo !=null)
-                    model.SchoolarNo = varStudentDetail.SchoolarNo.ToString();
-
-                    //model.EnRollNo = varStudentDetail.Session;
-                    model.Year = varStudentDetail.Year;
-                    //model.Subject = varStudentDetail.;
-                    model.Course = varStudentDetail.Course;
-                    model.Caste = varStudentDetail.Caste;
-                    model.Gender = varStudentDetail.Gender;
                     model.MobileNoOne = varStudentDetail.MobileNoOne;
-                    model.SelectedClass = model.Course;
+                    model.FatherMobileNo = varStudentDetail.FatherMobileNo;
+                    model.TC = varStudentDetail.TC;
+                    model.PH = varStudentDetail.PH;
+                    model.Address = varStudentDetail.Address;
+                    model.Minority = varStudentDetail.Minority;
+
+                    //---Dropdown--
+                    model.SelectedClass = varStudentDetail.Class; ;
                     model.SelectedSubject = model.Subject;
-                    model.SelectedCourse = model.Course;
+                    model.SelectedCourse = varStudentDetail.Course;
+                    model.SelectedYear = varStudentDetail.Year;
+                    model.Session = varStudentDetail.Session;
+                    
+
+
+
+
+
+
+
+
+
                 }
             }
 
@@ -163,31 +191,50 @@ namespace CRM.Controllers
             stuObj.Caste = student.Caste;
             stuObj.Gender = student.Gender;
             stuObj.MobileNoOne = student.MobileNoOne;
+            stuObj.Address = student.Address;
+            stuObj.Id = student.Id;
+            stuObj.Minority = student.Minority;
+            stuObj.PH = student.PH;
             stuObj.CreateBy = "Admin";
             stuObj.CreateDatetime = DateTime.Now;
 
+            if (student.Id == 0)
+            {
+                stuObj.CreateBy = "Admin";
+              //  stuObj.CreateDatetime = DateTime.Now;
+                var StudentID = _repoStudent.SaveAndGetId(stuObj);
+
+                //-------------Acedemic Detail save-----------
+
+                Academy objAcademy = new Academy();
+                objAcademy.RegStudentId = 0;
+                objAcademy.StudentId = StudentID;
+                objAcademy.SchoolName = student.SchoolName;
+                objAcademy.PassingYear = student.PassingYear;
+                objAcademy.Board = student.Board;
+                objAcademy.MaxMark = student.MaxMark;
+                objAcademy.ObtMark = student.ObtMark;
+                objAcademy.Result = student.Result;
+                objAcademy.Parcent = student.Parcent;
+                objAcademy.CreatedBy = "Admin";
+                objAcademy.CreatedDate = DateTime.Now;
+                objAcademy.UpdatedDate = DateTime.Now;
+                objAcademy.UpdatedBy = "Admin";
+                var AcedemicId = _repoAcademic.SaveAndGetId(objAcademy);
+            }
+            else
+            {
+                //stuObj.DOB = null;
+                //stuObj.AdmissionDate = null;
+                stuObj.UpdatedBy = "Admin";
+                stuObj.UpdateDatetime = DateTime.Now;
+                _repoStudent.Update(stuObj);
+            }
+           
 
 
-            var StudentID = _repoStudent.SaveAndGetId(stuObj);
 
-            //-------------Acedemic Detail save-----------
-
-            Academy objAcademy = new Academy();
-            objAcademy.RegStudentId = 0;
-            objAcademy.StudentId = StudentID;
-            objAcademy.SchoolName = student.SchoolName;
-            objAcademy.PassingYear = student.PassingYear;
-            objAcademy.Board = student.Board;
-            objAcademy.MaxMark = student.MaxMark;
-            objAcademy.ObtMark = student.ObtMark;
-            objAcademy.Result = student.Result;
-            objAcademy.Parcent = student.Parcent;
-            objAcademy.CreatedBy = "Admin";
-            objAcademy.CreatedDate = DateTime.Now;
-            objAcademy.UpdatedDate = DateTime.Now;
-            objAcademy.UpdatedBy = "Admin";
-
-            var AcedemicId = _repoAcademic.SaveAndGetId(objAcademy);
+           
 
 
 

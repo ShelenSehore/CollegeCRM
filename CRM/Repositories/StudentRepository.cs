@@ -76,20 +76,26 @@ namespace CRM.Repositories
                                 {
                                     IQueryable<Student> query = _context.Student;
 
-                                    if (!string.IsNullOrWhiteSpace(session))
-                                        query = query.Where(x => x.Session.Contains(session));
-
-                                    if (!string.IsNullOrWhiteSpace(@class))
-                                        query = query.Where(x => x.Class.Contains(@class));
-
-                                    if (!string.IsNullOrWhiteSpace(course))
-                                        query = query.Where(x => x.Course.Contains(course));
-
-                                    if (!string.IsNullOrWhiteSpace(year))
-                                        query = query.Where(x => x.Year.Contains(year));
-
                                     if (!string.IsNullOrWhiteSpace(studentName))
-                                        query = query.Where(x => x.StudentName.Contains(studentName));
+                                    {
+                                        query = query.Where(x => x.StudentName.ToLower().Contains(studentName.ToLower()));
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(session) && (session != "Select"))
+                                    {
+                                        query = query.Where(x => x.Session.ToLower().Contains(session.ToLower()));
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(@class) && (@class != "Select"))
+                                    {
+                                        query = query.Where(x => x.Class.ToLower().Contains(@class.ToLower()));
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(course) && (course != "Select"))
+                                    {
+                                        query = query.Where(x => x.Course.ToLower().Contains(course.ToLower()));
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(year) && (year != "Select"))
+                                    {
+                                        query = query.Where(x => x.Year.ToLower().Contains(year.ToLower()));
+                                    }
 
                                     return query.ToList();
                                 }
