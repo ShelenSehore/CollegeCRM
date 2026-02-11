@@ -58,5 +58,9 @@ namespace CRM.ModelsForView
         public string Result { get; set; }
         public string Parcent { get; set; }
 
+        //----------------Search---------------
+
+
+
     }
 }

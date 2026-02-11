@@ -58,6 +58,46 @@ namespace CRM.Repositories
             return _context.Student.Find(id);
         }
 
+        public Student GetByAdmissionNumbr(int id)
+        {
+            //var teee = _context.Student.FirstOrDefault(x=>x.Id == id);
+            var teee = _context.Student.Where(x => x.AdmissionFormNo == id)
+                      .FirstOrDefault();
+
+            return teee;
+        }
+
+        public List<Student> GetByStudentRegistrationPage(
+                            string session,
+                            string @class,
+                            string course,
+                            string year,
+                            string studentName)
+                                {
+                                    IQueryable<Student> query = _context.Student;
+
+                                    if (!string.IsNullOrWhiteSpace(session))
+                                        query = query.Where(x => x.Session.Contains(session));
+
+                                    if (!string.IsNullOrWhiteSpace(@class))
+                                        query = query.Where(x => x.Class.Contains(@class));
+
+                                    if (!string.IsNullOrWhiteSpace(course))
+                                        query = query.Where(x => x.Course.Contains(course));
+
+                                    if (!string.IsNullOrWhiteSpace(year))
+                                        query = query.Where(x => x.Year.Contains(year));
+
+                                    if (!string.IsNullOrWhiteSpace(studentName))
+                                        query = query.Where(x => x.StudentName.Contains(studentName));
+
+                                    return query.ToList();
+                                }
+
+
+
+
+
 
         public List<Student> FilterList(string name, string classes, string subject, string course, string regPvt)
         {

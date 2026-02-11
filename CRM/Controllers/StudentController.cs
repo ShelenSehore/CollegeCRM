@@ -60,9 +60,6 @@ namespace CRM.Controllers
                         })
                         .ToList();
 
-          
-           
-
            
             //----Year----
             model.YearList = _yearRepo.GetAll()
@@ -97,29 +94,57 @@ namespace CRM.Controllers
                 .ToList();
 
 
-            if (id.HasValue)
-            {
-                var varStudentDetail = _repoStudentRegi.GetById(id.Value);
 
-                if (varStudentDetail != null)
-                {
-                    model.StudentName = varStudentDetail.Name;
-                    model.FatherName = varStudentDetail.FatherName;
-                    model.MotherName = varStudentDetail.MotherName;
-                    model.DOB = varStudentDetail.DOB;
-                    model.AdmissionFormNo = varStudentDetail.FormNo;
-                    model.SchoolarNo = varStudentDetail.SchoNo.ToString();
-                    //model.EnRollNo = varStudentDetail.Session;
-                    model.Year = varStudentDetail.Year;
-                    model.Subject = varStudentDetail.Subject;
-                    model.Course = varStudentDetail.Course;
-                    model.Caste = varStudentDetail.Caste;
-                    model.Gender = varStudentDetail.Gender;
-                    model.MobileNoOne = varStudentDetail.MobileNo;
-                    model.SelectedClass = model.Course;
-                    model.SelectedSubject = model.Subject;
-                    model.SelectedCourse = model.Course;
-                }
+            if (id == 0)
+            {
+                //var varStudentDetail = _repoStudent.GetByStudentRegistrationPage(ddlSearchSession, ddlSearchClass,
+                //    ddlSearchCourse, ddlSearchYear, txtSearchStudent);
+
+                //if (varStudentDetail != null)
+                //{
+                //    model.StudentName = varStudentDetail.StudentName;
+                //    model.FatherName = varStudentDetail.FatherName;
+                //    model.MotherName = varStudentDetail.MotherName;
+                //    model.DOB = varStudentDetail.DOB;
+                //    model.AdmissionFormNo = varStudentDetail.AdmissionFormNo;
+
+                //    if (varStudentDetail.SchoolarNo != null)
+                //        model.SchoolarNo = varStudentDetail.SchoolarNo.ToString();
+
+                //    //model.EnRollNo = varStudentDetail.Session;
+                //    model.Year = varStudentDetail.Year;
+                //    // model.Subject = varStudentDetail.Subject;
+                //    model.Course = varStudentDetail.Course;
+                //    model.Caste = varStudentDetail.Caste;
+                //    model.Gender = varStudentDetail.Gender;
+                //    model.MobileNoOne = varStudentDetail.MobileNoOne;
+                //    model.SelectedClass = model.Course;
+                //    model.SelectedSubject = model.Subject;
+                //    model.SelectedCourse = model.Course;
+                //}
+
+
+                //var varStudentDetail = _repoStudentRegi.GetById(id.Value);
+
+                //if (varStudentDetail != null)
+                //{
+                //    model.StudentName = varStudentDetail.Name;
+                //    model.FatherName = varStudentDetail.FatherName;
+                //    model.MotherName = varStudentDetail.MotherName;
+                //    model.DOB = varStudentDetail.DOB;
+                //    model.AdmissionFormNo = varStudentDetail.FormNo;
+                //    model.SchoolarNo = varStudentDetail.SchoNo.ToString();
+                //    //model.EnRollNo = varStudentDetail.Session;
+                //    model.Year = varStudentDetail.Year;
+                //    model.Subject = varStudentDetail.Subject;
+                //    model.Course = varStudentDetail.Course;
+                //    model.Caste = varStudentDetail.Caste;
+                //    model.Gender = varStudentDetail.Gender;
+                //    model.MobileNoOne = varStudentDetail.MobileNo;
+                //    model.SelectedClass = model.Course;
+                //    model.SelectedSubject = model.Subject;
+                //    model.SelectedCourse = model.Course;
+                //}
             }
 
 
@@ -257,6 +282,18 @@ namespace CRM.Controllers
             //--------Get List
             var data = _repoStudent.FilterList(name, classes, year, course, regPvt);
 
+
+
+            return Json(new { success = true, data = data });
+        }
+
+        public IActionResult SearchListForRegistration(string session, string classes, string course, string year, string name)
+        {
+
+
+            //--------Get List
+            var data = _repoStudent.GetByStudentRegistrationPage(session, classes,
+                   course, year, name);
 
 
             return Json(new { success = true, data = data });

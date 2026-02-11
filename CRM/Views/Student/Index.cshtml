@@ -30,8 +30,68 @@
                 <div class="col-md-12">
                     <!-- general form elements -->
 
-                  
+
                     <div class="card card-primary">
+
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fas fa-search"></i> Search Student</h3>
+                            </div>
+                            <div class="card-body">
+
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Session</label>
+                                            <select id="ddlSearchSession" name="ddlSearchSession" asp-items="Model.SessionList" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Class</label>
+                                            <select id="ddlSearchClass" name="ddlSearchClass" asp-items="Model.ClassList" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Course</label>
+                                            <select id="ddlSearchCourse" name="ddlSearchCourse" asp-items="Model.SubjectList" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Year</label>
+                                            <select id="ddlSearchYear" name="ddlSearchYear" asp-items="Model.YearList" class="form-control">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input id="txtSearchStudent" name="txtSearchStudent" class="form-control" placeholder="Student Name">
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class=" float-lg-right">
+                                        <button id="btnSearch" onclick="SearchStudent()" class="btn btn-primary" data-toggle="modal" data-target="#modal-default"><i class="fas fa-search"></i> Search</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
 
                         <!-- /.card-header -->
                         <!-- form start -->
@@ -385,3 +445,106 @@
     </section>
     <!-- /.content -->
 </div>
+
+
+
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Student List</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting sorting_asc" style="width: 10px">#</th>
+                                <th class="sorting">Student</th>
+                                <th class="sorting">Father</th>
+                                <th class="sorting">Mobile</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+        // INSERT
+
+        var BASE_URL = "@baseUrl";
+
+
+        window.onload = function () {
+
+        };
+
+
+
+       
+
+
+        function SearchStudent() {
+
+            $("#tblStudentList tbody").empty();
+
+            var name = $("#txtSearch").val();
+            var varSession = $('#ddlSearchSession option:selected').text();
+            var varClass = $('#ddlSearchClass option:selected').text();
+            var varCourse = $('#ddlSearchCourse option:selected').text();
+            var varYear = $('#ddlSearchYear option:selected').text();
+            var varStudent = $('#txtSearchStudent option:selected').text();
+
+            $.post(BASE_URL + "/Student/SearchListForRegistration", {
+                session: varSession,
+                classes: varClass,
+                course: varCourse,
+                year: varYear,
+                name: varStudent
+            },
+                function (res) {
+
+                    TableData(res)  //--------pass records for generate tabble
+                }
+            );
+        }
+
+        function TableData(tableData)
+        {
+            $("#tblStudentList tbody").empty();
+
+            $.each(tableData.data, function (index, element) {
+                index = index + 1;
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td><a href='/Student/index?id=" + element.id + "'> " + element.studentName + "</a></td><td><a href='/Student/index?id=" + element.id + "'>" + element.fatherName + "</a></td><td><a href='/Student/index?id=" + element.id +"'>" + element.mobileNoOne +
+                    "</a></td></tr>");
+
+            });
+
+
+
+        }
+
+
+      
+
+
+    </script>
+}
