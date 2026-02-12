@@ -1,3 +1,41 @@
+USE [CollegeCRM]
+GO
+/****** Object:  Table [dbo].[Academy]    Script Date: 2/12/2026 1:46:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Academy](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[StudentId] [int] NULL,
+	[RegStudentId] [int] NULL,
+	[SchoolName] [varchar](100) NULL,
+	[Class] [varchar](100) NULL,
+	[Course] [varchar](100) NULL,
+	[Session] [varchar](100) NULL,
+	[AdmissionForm] [varchar](50) NULL,
+	[AdmissionDate] [datetime] NULL,
+	[PassingYear] [varchar](100) NULL,
+	[Board] [varchar](100) NULL,
+	[MaxMark] [varchar](100) NULL,
+	[ObtMark] [varchar](100) NULL,
+	[Result] [varchar](100) NULL,
+	[Parcent] [varchar](100) NULL,
+	[CreatedBy] [varchar](50) NULL,
+	[CreatedDate] [datetime] NULL,
+	[UpdatedBy] [varchar](50) NULL,
+	[UpdatedDate] [datetime] NULL,
+ CONSTRAINT [PK_Academy_1] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstClass]    Script Date: 2/12/2026 1:46:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE TABLE [dbo].[MstClass](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](100) NULL,
@@ -11,10 +49,11 @@ CREATE TABLE [dbo].[MstClass](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
---------------------
-
-
+/****** Object:  Table [dbo].[MstCourse]    Script Date: 2/12/2026 1:46:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE TABLE [dbo].[MstCourse](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CourseName] [varchar](200) NULL,
@@ -28,10 +67,11 @@ CREATE TABLE [dbo].[MstCourse](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
---------------------------------
-
-
+/****** Object:  Table [dbo].[MstFee]    Script Date: 2/12/2026 1:46:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE TABLE [dbo].[MstFee](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[NewOld] [varchar](50) NULL,
@@ -51,10 +91,11 @@ CREATE TABLE [dbo].[MstFee](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
-
--------------------------
-
+/****** Object:  Table [dbo].[MstFeeClass]    Script Date: 2/12/2026 1:46:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE TABLE [dbo].[MstFeeClass](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[FeeId] [int] NULL,
@@ -66,10 +107,27 @@ CREATE TABLE [dbo].[MstFeeClass](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-------------------------------------------------------------
-
-
-
+/****** Object:  Table [dbo].[MstSession]    Script Date: 2/12/2026 1:46:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstSession](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NULL,
+	[CreatedBy] [varchar](100) NULL,
+	[CreateDateTime] [datetime] NULL,
+ CONSTRAINT [PK_MstSession] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MstSubject]    Script Date: 2/12/2026 1:46:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE TABLE [dbo].[MstSubject](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](100) NULL,
@@ -81,11 +139,27 @@ CREATE TABLE [dbo].[MstSubject](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
-
----------------------------------------
-
-
+/****** Object:  Table [dbo].[MstYear]    Script Date: 2/12/2026 1:46:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MstYear](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NULL,
+	[CreatedBy] [varchar](50) NULL,
+	[CreatedDateTime] [datetime] NULL,
+ CONSTRAINT [PK_MstYear] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Student]    Script Date: 2/12/2026 1:46:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE TABLE [dbo].[Student](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[AdmissionFormNo] [int] NULL,
@@ -116,17 +190,23 @@ CREATE TABLE [dbo].[Student](
 	[Address] [varchar](500) NULL,
 	[Minority] [varchar](10) NULL,
 	[Photo] [varchar](50) NULL,
+	[Session] [varchar](100) NULL,
+	[CreateBy] [varchar](100) NULL,
+	[CreateDatetime] [datetime] NULL,
+	[UpdatedBy] [varchar](100) NULL,
+	[UpdateDatetime] [datetime] NULL,
+	[AbcNo] [varchar](50) NULL,
  CONSTRAINT [PK_Student] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
-
-----------------------------------
-
-
+/****** Object:  Table [dbo].[StudentRegistration]    Script Date: 2/12/2026 1:46:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE TABLE [dbo].[StudentRegistration](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[RegNo] [int] NULL,
@@ -160,4 +240,3 @@ CREATE TABLE [dbo].[StudentRegistration](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
