@@ -161,7 +161,15 @@
                 $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.schoolarNo + "</td><td>" + element.rollNo +
                     "</td><td>" + element.studentName + "</td><td>" + element.class + "</td><td>" + element.course +
                     "</td><td>" + element.course + "</td><td>" + element.mobileNoOne +
-                    "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' >Payment</a></td></tr>");
+                   // "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' >Payment</a></td></tr>");
+                    "</td><td><button type='button' class='btn btn-info btn-flat'>Action</button>" +
+                    "<button type='button' class='btn btn-info btn-flat dropdown-toggle dropdown-icon' data-toggle='dropdown'>" +
+                    "<span class='sr-only'>Toggle Dropdown</span></button>" +
+                    "<div class='dropdown-menu' role='menu'>" +
+                    "<a class='dropdown-item' data-toggle='modal' data-target='#modal-Promod'><i class='fas fa-university'></i> Promod</a>" +
+                    "<a class='dropdown-item' data-toggle='modal' data-target='#modal-View'><i class='fas fa-eye'></i>> View</a>" +
+                    "<a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i>> Update Detail</a>" +
+                    "</div></div></td></tr>");
 
             });
 

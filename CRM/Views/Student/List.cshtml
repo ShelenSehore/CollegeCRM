@@ -40,7 +40,6 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                s
                                 <label>Course</label>
                                 <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
                             </div>
@@ -77,6 +76,11 @@
                         </div>
                     </div>
                     <div class="row">
+
+                        <button type="button" class="btn btn-success swalDefaultSuccess">
+                            Launch Success Toast
+                        </button>
+
                         <div class="col-sm-12">
                             <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
                                 <thead>
@@ -114,7 +118,7 @@
 
 
 <div class="modal fade" id="modal-Promod">
-    <div class="modal-dialog" style="width:550px">
+    <div class="modal-dialog" style="max-width:650px !important">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"><i class='fas fa-university'></i> Promod Student</h4>
@@ -123,14 +127,51 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Class Name</label>
-                    <input type="text" id="className" class="form-control" />
+                <div class="row">
+                    <div class="user-block">
+                        <img id="imgStudentPhoto" class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
+                        <span class="username">
+                            <a href="#" id="achStudentName"></a>
+                            <a href="#" class="float-right btn-tool"></a>
+                        </span>
+                        <span class="description" id="spnDetail">Bsc / 1 Year / Plain</span>
+                        <input type="hidden" id="hdnID" />
+                        <input type="hidden" id="hdnClass" />
+                        <input type="hidden" id="hdnYear" />
+                        <input type="hidden" id="hdnSession" />
+                        <input type="hidden" id="hdnCourse" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Class</label>
+                            <select id="ddlProdClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Year</label>
+                            <select id="ddlProdYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Course</label>
+                            <select id="ddlProdCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Session</label>
+                            <select id="ddlProdSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                <button type="button" onclick="SavePromosionDetail();" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
             </div>
         </div>
     </div>
@@ -169,6 +210,7 @@
         var BASE_URL = "@baseUrl";
 
 
+        
         window.onload = function () {
 
             // Example 3: Change events (optional)
@@ -178,6 +220,14 @@
             });
 
             SearchStudent();
+
+            $('.swalDefaultSuccess').click(function () {
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+                })
+            });
+
 
             //$("#ddlClass ddlSubject ddlCourse ddlRegPvt").change(function () {
             //    SearchStudent();
@@ -238,7 +288,7 @@
                     "<button type='button' class='btn btn-info btn-flat dropdown-toggle dropdown-icon' data-toggle='dropdown'>" +
                     "<span class='sr-only'>Toggle Dropdown</span></button>" +
                     "<div class='dropdown-menu' role='menu'>" +
-                    "<a class='dropdown-item' data-toggle='modal' data-target='#modal-Promod'><i class='fas fa-university'></i> Promod</a>" +
+                    "<a class='dropdown-item'  onclick='PromosionDetail(" + element.id + ")'  ><i class='fas fa-university'></i> Promod</a>" +
                     "<a class='dropdown-item' data-toggle='modal' data-target='#modal-View'><i class='fas fa-eye'></i>> View</a>" +
                     "<a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i>> Update Detail</a>" +
                     "</div></div></td>" +
@@ -273,7 +323,64 @@
             );
         }
 
+        //------------------Promossion PopUp----------------------
 
+        function PromosionDetail(id)
+        {
+            var id = id;
+            $.post(BASE_URL + "/Student/StudentDetail", {
+                id: id
+            },
+            function (res) {
+                var detail = res.data;
+                $('#imgStudentPhoto').attr('src', detail.photo);
+                $('#achStudentName').text(detail.studentName)
+                var varAcademyDetail = detail.year + " / " + detail.course + " / " + detail.class + " / " + detail.session;
+                $('#spnDetail').text(varAcademyDetail)
+
+                $('#hdnID').val(id);
+                $('#hdnClass').val(detail.class);
+                $('#hdnYear').val(detail.year);
+                $('#hdnSession').val(detail.session);
+                $('#hdnCourse').val(detail.course);
+
+                $("#modal-Promod").modal("show");
+                   
+            }
+            );
+        }
+           
+
+
+        function SavePromosionDetail() {
+            var id = $("#hdnID").val();
+            var passedClass = $("#hdnClass").val();
+            var passedYear = $("#hdnYear").val();
+            var passedSession = $("#hdnSession").val();
+            var passedCourse = $("#hdnCourse").val();
+            var newClass = $('#ddlProdClass option:selected').text();
+            var newYear = $('#ddlProdYear option:selected').text();
+            var newCourse = $('#ddlProdCourse option:selected').text();
+            var newSession = $('#ddlProdSession option:selected').text();
+
+            $.post(BASE_URL + "/Student/SavePromossionDetail", {
+                id: id,
+                passedClass: passedClass,
+                passedYear: passedYear,
+                passedSession: passedSession,
+                passedCourse: passedCourse,
+                newClass: newClass,
+                newYear: newYear,
+                newCourse: newCourse,
+                newSession: newSession,
+            },
+                function (res) {
+                   
+                    $("#modal-Promod").modal("hide");
+
+                }
+            );
+        }
 
     </script>
 }

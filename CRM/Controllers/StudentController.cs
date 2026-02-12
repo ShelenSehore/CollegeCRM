@@ -266,10 +266,6 @@ namespace CRM.Controllers
             return RedirectToAction("List");
         }
 
-
-
-
-
         public IActionResult List()
         {
             ViewBag.BaseUrl = _baseUrl;
@@ -284,7 +280,14 @@ namespace CRM.Controllers
                       .ToList();
 
 
-
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
 
 
             //----Year----
@@ -481,6 +484,18 @@ namespace CRM.Controllers
             
         }
 
+        //-------------------Promossions------
+        public IActionResult StudentDetail(int id)
+        {
+            var data = _repoStudent.GetById(id);
+            return Json(new { success = true, data = data });
+        }
+        //----------------Save---Promossions------
+        public IActionResult SavePromossionDetail(int id, string passedClass, string passedYear, string passedSession, string passedCourse, string newClass, string newYear, string newCourse, string newSession)
+        {
+            var data = _repoStudent.GetById(id);
+            return Json(new { success = true, data = data });
+        }
 
 
     }
