@@ -39,6 +39,25 @@ namespace CRM.Repositories
             _context.SaveChanges();
         }
 
+        public bool PromotStudent(Student model)
+        {
+            var student = _context.Student.FirstOrDefault(x => x.Id == model.Id);
+
+            if (student != null)
+            {
+                student.Class = model.Class;
+                student.Course = model.Course;
+                student.Year = model.Year;
+                student.Session = model.Session;
+                student.AdmissionDate = model.AdmissionDate;
+                student.AdmissionFormNo = model.AdmissionFormNo;
+                student.MobileNoOne = model.MobileNoOne;
+               var status  =  _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public void Delete(int id)
         {
             var item = _context.Student.Find(id);
@@ -60,7 +79,6 @@ namespace CRM.Repositories
 
         public Student GetByAdmissionNumbr(int id)
         {
-            //var teee = _context.Student.FirstOrDefault(x=>x.Id == id);
             var teee = _context.Student.Where(x => x.AdmissionFormNo == id)
                       .FirstOrDefault();
 
@@ -99,11 +117,6 @@ namespace CRM.Repositories
 
                                     return query.ToList();
                                 }
-
-
-
-
-
 
         public List<Student> FilterList(string name, string classes, string subject, string course, string regPvt)
         {

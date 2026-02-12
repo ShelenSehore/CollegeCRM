@@ -118,7 +118,7 @@
 
 
 <div class="modal fade" id="modal-Promod">
-    <div class="modal-dialog" style="max-width:650px !important">
+    <div class="modal-dialog" style="max-width:650px !important;">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"><i class='fas fa-university'></i> Promod Student</h4>
@@ -134,14 +134,96 @@
                             <a href="#" id="achStudentName"></a>
                             <a href="#" class="float-right btn-tool"></a>
                         </span>
-                        <span class="description" id="spnDetail">Bsc / 1 Year / Plain</span>
+                        <span class="description" id="spnAcademicDetail"></span>
+                        <span class="description" id="spnDetail"></span>
                         <input type="hidden" id="hdnID" />
                         <input type="hidden" id="hdnClass" />
                         <input type="hidden" id="hdnYear" />
                         <input type="hidden" id="hdnSession" />
                         <input type="hidden" id="hdnCourse" />
+                        <input type="hidden" id="hdnAdmissionDate" />
+                        <input type="hidden" id="hdnAdmisionFormNo" />
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>College</label>
+                            <input type="text" id="txtPassedCollege" class="form-control" placeholder="12th school Name">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Passsing Year</label>
+                            <select id="ddlPassedYear" class="form-control">
+                                <option>Select</option>
+                                <option>2023</option>
+                                <option>2024</option>
+                                <option>2025</option>
+                                <option>2026</option>
+                                <option>2027</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Board</label>
+                            <input type="text" id="txtPassedBoard" class="form-control" placeholder="Board">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Max. Marks</label>
+                            <input type="number" id="txtMaxMark" class="form-control" placeholder="Max. Marks">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Obtain Marks</label>
+                            <input type="number" id="txtObtainMark"  class="form-control" placeholder="Obtain Marks">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Result</label>
+                            <input type="text"  id="txtResult" class="form-control" placeholder="Result">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Parcentage</label>
+                            <input type="number" id="txtParcentage" class="form-control" placeholder="Parcentage">
+                        </div>
+                    </div>
+                </div>
+                <div class="row border-bottom">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Mobile No</label>
+                            <input id="txtMbileNo" name="txtMbileNo" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Admission Date</label>
+                            <input id="txtAdmissionDate" name="txtAdmissionDate" type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Admision Form No</label>
+                            <input id="txtAdmissionForm" name="txtAdmissionForm" type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+              
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -149,6 +231,7 @@
                             <select id="ddlProdClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
                         </div>
                     </div>
+                 
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Year</label>
@@ -221,13 +304,7 @@
 
             SearchStudent();
 
-            $('.swalDefaultSuccess').click(function () {
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
-                })
-            });
-
+           
 
             //$("#ddlClass ddlSubject ddlCourse ddlRegPvt").change(function () {
             //    SearchStudent();
@@ -335,14 +412,19 @@
                 var detail = res.data;
                 $('#imgStudentPhoto').attr('src', detail.photo);
                 $('#achStudentName').text(detail.studentName)
-                var varAcademyDetail = detail.year + " / " + detail.course + " / " + detail.class + " / " + detail.session;
-                $('#spnDetail').text(varAcademyDetail)
+                var varStudyDetail = detail.year + " / " + detail.course + " / " + detail.class + " / " + detail.session;
+                var varAcademyDetail = detail.admissionFormNo + " / " + detail.fatherName;
+                $('#spnDetail').text(varStudyDetail)
+                $('#spnAcademicDetail').text(varAcademyDetail)
 
+                $('#txtMbileNo').val(detail.mobileNoOne);
                 $('#hdnID').val(id);
                 $('#hdnClass').val(detail.class);
                 $('#hdnYear').val(detail.year);
                 $('#hdnSession').val(detail.session);
                 $('#hdnCourse').val(detail.course);
+                $('#hdnAdmissionDate').val(detail.admissionDate);
+                $('#hdnAdmisionFormNo').val(detail.admissionFormNo);
 
                 $("#modal-Promod").modal("show");
                    
@@ -354,30 +436,53 @@
 
         function SavePromosionDetail() {
             var id = $("#hdnID").val();
-            var passedClass = $("#hdnClass").val();
-            var passedYear = $("#hdnYear").val();
-            var passedSession = $("#hdnSession").val();
-            var passedCourse = $("#hdnCourse").val();
+           
+            var newAdmissionDate = $("#txtAdmissionDate").val();
+            var newAdmisionFormNo = $("#txtAdmissionForm").val();
             var newClass = $('#ddlProdClass option:selected').text();
             var newYear = $('#ddlProdYear option:selected').text();
             var newCourse = $('#ddlProdCourse option:selected').text();
             var newSession = $('#ddlProdSession option:selected').text();
+            var newMbileNo = $("#txtMbileNo").val();
+
+            var passedAdmissionDate = $("#hdnAdmissionDate").val();
+            var passedAdmisionFormNo = $("#hdnAdmisionFormNo").val();
+            var passedClass = $("#hdnClass").val();
+            var passedYear = $("#hdnYear").val();
+            var passedCourse = $("#hdnCourse").val();
+            var passedSession = $("#hdnSession").val();
+            var passedCollege = $("#txtPassedCollege").val();
+            var passedBoard = $("#txtPassedBoard").val();
+            var passedMaxMark = $("#txtMaxMark").val();
+            var passedObtainMark = $("#txtObtainMark").val();
+            var passedResult = $("#txtResult").val();
+            var passedParcentage = $("#txtParcentage").val();
 
             $.post(BASE_URL + "/Student/SavePromossionDetail", {
                 id: id,
-                passedClass: passedClass,
-                passedYear: passedYear,
-                passedSession: passedSession,
-                passedCourse: passedCourse,
+                newAdmissionDate: newAdmissionDate,
+                newAdmisionFormNo: newAdmisionFormNo,
                 newClass: newClass,
                 newYear: newYear,
                 newCourse: newCourse,
                 newSession: newSession,
+                newMbileNo: newMbileNo,
+                passedAdmissionDate: passedAdmissionDate,
+                passedAdmisionFormNo: passedAdmisionFormNo,
+                passedClass: passedClass,
+                passedYear: passedYear,
+                passedCourse: passedCourse,
+                passedSession: passedSession,
+                passedCollege: passedCollege,
+                passedBoard: passedBoard,
+                passedMaxMark: passedMaxMark,
+                passedObtainMark: passedObtainMark,
+                passedResult: passedResult,
+                passedParcentage: passedParcentage,
             },
                 function (res) {
-                   
                     $("#modal-Promod").modal("hide");
-
+                    SearchStudent();
                 }
             );
         }

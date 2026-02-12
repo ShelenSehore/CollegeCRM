@@ -34,7 +34,8 @@ namespace CRM.Repositories
                 return model.Id;
             }
             catch (Exception ex)
-            { }
+            { 
+            }
             return 0;
         }
 

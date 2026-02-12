@@ -11,6 +11,12 @@ namespace CRM.Models
         public int StudentId { get; set; }
         public int RegStudentId { get; set; }
         public string SchoolName { get; set; }
+       
+        public string Class { get; set; }   //---
+        public string Course { get; set; }
+        public string Session { get; set; }
+        public string AdmissionForm { get; set; }
+        public string AdmissionDate { get; set; }  //----
         public string PassingYear { get; set; }
         public string Board { get; set; }
         public string MaxMark { get; set; }

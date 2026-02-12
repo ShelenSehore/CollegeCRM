@@ -488,13 +488,54 @@ namespace CRM.Controllers
         public IActionResult StudentDetail(int id)
         {
             var data = _repoStudent.GetById(id);
+            if(data.AdmissionDate != null)
+            data.FatherName = data.AdmissionDate.Value.ToString("dd/MM/yyyy");
+
             return Json(new { success = true, data = data });
         }
         //----------------Save---Promossions------
-        public IActionResult SavePromossionDetail(int id, string passedClass, string passedYear, string passedSession, string passedCourse, string newClass, string newYear, string newCourse, string newSession)
+        public IActionResult SavePromossionDetail(int id, string newAdmissionDate, int newAdmisionFormNo, string newClass, string newYear, string newCourse, string newSession, string newMbileNo,
+           string passedAdmissionDate, string passedAdmisionFormNo, string passedClass, string passedYear, string passedCourse, string passedSession,
+           string passedCollege, string passedBoard, string passedMaxMark, string passedObtainMark, string passedResult, string passedParcentage )
         {
-            var data = _repoStudent.GetById(id);
-            return Json(new { success = true, data = data });
+            Student stuObj = new Student();
+            stuObj.Id = id;
+            if(!string.IsNullOrEmpty(newAdmissionDate))
+            stuObj.AdmissionDate = Convert.ToDateTime(DateTime.Now);
+
+            stuObj.AdmissionFormNo = newAdmisionFormNo;
+            stuObj.Session = newSession;
+            stuObj.Year = newYear;
+            stuObj.Course = newCourse;
+            stuObj.Class = newClass;
+            stuObj.MobileNoOne = newMbileNo;
+
+           var teee =  _repoStudent.PromotStudent(stuObj);
+
+            //-------------Acedemic Detail save-----------
+            Academy objAcademy = new Academy();
+            objAcademy.RegStudentId = 0;
+            objAcademy.StudentId = id;
+            objAcademy.SchoolName = passedCollege;
+            objAcademy.PassingYear = passedYear;
+            objAcademy.Board = passedBoard;
+            objAcademy.MaxMark = passedMaxMark;
+            objAcademy.ObtMark = passedObtainMark;
+            objAcademy.Result = passedResult;
+            objAcademy.Parcent = passedParcentage;
+            objAcademy.Class = passedClass;
+            objAcademy.Course = passedCourse;
+            objAcademy.Session = passedSession;
+            objAcademy.AdmissionForm = passedAdmisionFormNo;
+            objAcademy.AdmissionDate = passedAdmissionDate;
+            objAcademy.CreatedBy = "Admin";
+            objAcademy.CreatedDate = DateTime.Now;
+            objAcademy.UpdatedDate = DateTime.Now;
+            objAcademy.UpdatedBy = "Admin";
+            var AcedemicId = _repoAcademic.SaveAndGetId(objAcademy);
+
+            
+            return Json(new { success = true, data = true });
         }
 
 
