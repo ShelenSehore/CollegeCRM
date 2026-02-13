@@ -114,7 +114,7 @@
     <div class="modal-dialog" style="max-width:650px !important;">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><i class='fas fa-university'></i> Promod Student</h4>
+                <h4 class="modal-title"><i class='fas fa-university'></i> Payment Detail</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -136,15 +136,15 @@
                     <div class="col-12 col-sm-4">
                         <div class="info-box bg-light">
                             <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Estimated budget</span>
-                                <span class="info-box-number text-center text-muted mb-0">2300</span>
+                                <span class="info-box-text text-center text-muted">Tuition Fees</span>
+                                <span id="spnTotalFee" class="info-box-number text-center text-muted mb-0"></span>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-4">
                         <div class="info-box bg-light">
                             <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Total amount spent</span>
+                                <span class="info-box-text text-center text-muted">Disco. Amount</span>
                                 <span class="info-box-number text-center text-muted mb-0">2000</span>
                             </div>
                         </div>
@@ -152,13 +152,38 @@
                     <div class="col-12 col-sm-4">
                         <div class="info-box bg-light">
                             <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Estimated project duration</span>
-                                <span class="info-box-number text-center text-muted mb-0">20</span>
+                                <span class="info-box-text text-center text-muted">Submit Fee</span>
+                                <span class="info-box-number text-center text-muted mb-0">00</span>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-12 col-sm-4">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">C Money</span>
+                                <span id="spnTotalFee" class="info-box-number text-center text-muted mb-0"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">C M Submit</span>
+                                <span class="info-box-number text-center text-muted mb-0">2000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">Due Balance</span>
+                                <span class="info-box-number text-center text-muted mb-0">00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <div class="modal-footer justify-content-between">
@@ -243,14 +268,18 @@
                 id: id
             },
                 function (res) {
-                    var detail = res.data;
+
+                    var detail = res.data.studentDetail;
                     $('#imgStudentPhoto').attr('src', detail.photo);
                     $('#achStudentName').text(detail.studentName)
                     var varStudyDetail = detail.year + " / " + detail.course + " / " + detail.class + " / " + detail.session;
                     var varAcademyDetail = detail.admissionFormNo + " / " + detail.fatherName;
                     $('#spnDetail').text(varStudyDetail)
                     $('#spnAcademicDetail').text(varAcademyDetail)
-
+                    debugger;
+                    //------------------Fee Detail-------
+                    var Feedetail = res.data.feeDetail;
+                    $('#spnTotalFee').text(Feedetail.totalFee);
                     $("#modal-Promod").modal("show");
 
                 }

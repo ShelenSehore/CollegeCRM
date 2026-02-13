@@ -51,7 +51,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Session</label>
-                                                <select asp-for="Session" asp-items="Model.SessionList" class="form-control">
+                                                <select id="ddlSession" asp-for="Session" asp-items="Model.SessionList" class="form-control">
                                                     <option>Select</option>
                                                 </select>
                                             </div>
@@ -150,6 +150,46 @@
                                     <h3 class="card-title"><i class="fas fa-university"></i> Fee Detail</h3>
                                 </div>
                                 <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>New Student Fee</label>
+                                                <input id="txtNewStudentFee" asp-for="Scholership" type="number" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>CMondy</label>
+                                                <input id="txtCMondy" asp-for="DisBy" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Tution Fee</label>
+                                                <input id="txtTutionFee" asp-for="DisResion" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Other Fee</label>
+                                                <input id="txtOtherFee" asp-for="DisResion" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Total Fee</label>
+                                                <input id="txtTotalFee" asp-for="DisResion" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Total Fee MC</label>
+                                                <input id="txtTotalFeeMC" asp-for="DisResion" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
                                     <div class="row">
 
                                         <div class="col-md-3">
@@ -259,7 +299,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>12th school Name</label>
-                                                <input type="text" asp-for="SchoolName"  class="form-control" placeholder="12th school Name">
+                                                <input type="text" asp-for="SchoolName" class="form-control" placeholder="12th school Name">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -279,33 +319,33 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Board</label>
-                                                <input type="text" asp-for="Board"  class="form-control" placeholder="Board">
+                                                <input type="text" asp-for="Board" class="form-control" placeholder="Board">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Max. Marks</label>
-                                                <input type="text" asp-for="MaxMark"  class="form-control" placeholder="Max. Marks">
+                                                <input type="text" asp-for="MaxMark" class="form-control" placeholder="Max. Marks">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Obtain Marks</label>
-                                                <input type="text" asp-for="ObtMark"  class="form-control" placeholder="Obtain Marks">
+                                                <input type="text" asp-for="ObtMark" class="form-control" placeholder="Obtain Marks">
                                             </div>
                                         </div>
 
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Result</label>
-                                                <input type="text" asp-for="Result"  class="form-control" placeholder="Result">
+                                                <input type="text" asp-for="Result" class="form-control" placeholder="Result">
                                             </div>
                                         </div>
 
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Parcentage</label>
-                                                <input type="text" asp-for="Parcent"  class="form-control" placeholder="Parcentage">
+                                                <input type="text" asp-for="Parcent" class="form-control" placeholder="Parcentage">
                                             </div>
                                         </div>
 
@@ -340,4 +380,74 @@
     </section>
     <!-- /.content -->
 </div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+      var BASE_URL = "@baseUrl";
+
+        var varSession = "";
+        var varYear = "";
+        var varSubject = "";
+        var varClass = "";
+        var varSession = "";
+
+        window.onload = function () {
+
+            $("#ddlSession").change(function () {
+                varSession = this.value;
+                if (varSession != "" && varYear != "" && varSubject != "" && varClass != "") { FillFeeeDetail(); }
+            });
+            $("#ddlYear").change(function () {
+                varYear = this.value;
+                FillFeeeDetail();
+            });
+            $("#ddlSubject").change(function () {
+                varSubject = this.value;
+                if (varSession != "" && varYear != "" && varSubject != "" && varClass != "") { FillFeeeDetail(); }
+            });
+            $("#ddlClass").change(function () {
+                varClass = this.value;
+                if (varSession != "" && varYear != "" && varSubject != "" && varClass != "") { FillFeeeDetail(); }
+            });
+            $("#ddlClass").change(function () {
+                varClass = this.value;
+                if (varSession != "" && varYear != "" && varSubject != "" && varClass != "") { FillFeeeDetail(); }
+               
+            });
+
+        };
+
+        function FillFeeeDetail()
+        {
+            if (varSession != "" && varYear != "" && varSubject != "" && varClass != "")
+            {
+
+                $.post(BASE_URL + "/Admission/StudentPaymentDetail",
+                    {
+                    classname: varClass,
+                    course: varSubject,
+                    session: varSession,
+                    year: varYear
+                },
+                    function (res) {
+                        var Feedetail = res.data.feeDetail;
+                        $('#txtNewStudentFee').val(Feedetail.newStudentFee);
+                        $('#txtCMondy').val(Feedetail.cMoney);
+                        $('#txtTutionFee').val(Feedetail.tutionFee);
+                        $('#txtOtherFee').val(Feedetail.otherFee);
+                        $('#txtTotalFee').val(Feedetail.totalFee);
+                        $('#txtTotalFeeMC').val(Feedetail.totalFeeCM);
+                    }
+              );
+            }
+            else
+            {
+
+            }
+        }
+
+
+    </script>
+}
 

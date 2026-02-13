@@ -48,14 +48,9 @@ namespace CRM.Repositories
 
         public MstFee GetFeeByClasssCouseSessionYearNewOld(string Classs, string Course, string Session, string Year, string NewOld)
         {
-            // return _context.MstFee.Where(x => x.Course == Course && x.Year == Year && x.Session == Session && x.Subject == Classs).FirstOrDefault();
-            return _context.MstFee.FirstOrDefault(x =>
-                     x.Course == Course &&
-                     x.Year == Year &&
-                     x.Session == Session &&
-                     x.Subject == Classs &&
-                     x.NewOld == NewOld
- );
+            return _context.MstFee.FirstOrDefault(x => x.Year == Year  && x.NewOld == NewOld && x.Course == Course && x.Subject == Classs);
+
+
         }
 
     }

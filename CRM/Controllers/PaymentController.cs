@@ -113,14 +113,17 @@ namespace CRM.Controllers
         //-------------Get Payment Detail-----------
         public IActionResult StudentPaymentDetail(int id)
         {
+            StudentPaymentDetailView returnObj = new StudentPaymentDetailView();
+
             var data = _repoStudent.GetById(id);
             if (data.AdmissionDate != null)
                 data.FatherName = data.AdmissionDate.Value.ToString("dd/MM/yyyy");
-
+            returnObj.studentDetail = data;
             //-----------Fee Detail--------
             var FeeDetail = _feeRepo.GetFeeByClasssCouseSessionYearNewOld(data.Class, data.Course, data.Session, data.Year, data.NewOld);
+            returnObj.feeDetail = FeeDetail;
 
-            return Json(new { success = true, data = data });
+            return Json(new { success = true, data = returnObj });
         }
 
 
