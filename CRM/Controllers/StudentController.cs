@@ -324,12 +324,12 @@ namespace CRM.Controllers
             return View(model);
         }
 
-        public IActionResult SearchList(string name, string classes, string year, string course, string regPvt)
+        public IActionResult SearchList(string name, string classes, string year, string course, string session)
         {
            
 
             //--------Get List
-            var data = _repoStudent.FilterList(name, classes, year, course, regPvt);
+            var data = _repoStudent.FilterList(name, classes, year, course, session);
 
 
 

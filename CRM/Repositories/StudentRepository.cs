@@ -118,7 +118,7 @@ namespace CRM.Repositories
                                     return query.ToList();
                                 }
 
-        public List<Student> FilterList(string name, string classes, string subject, string course, string regPvt)
+        public List<Student> FilterList(string name, string classes, string course, string year, string session)
         {
             try { 
             
@@ -132,17 +132,17 @@ namespace CRM.Repositories
             {
                 query = query.Where(x => x.Class.ToLower().Contains(classes.ToLower()));
             }
-            if (!string.IsNullOrWhiteSpace(subject) && (subject != "Select"))
+            if (!string.IsNullOrWhiteSpace(course) && (course != "Select"))
             {
-                query = query.Where(x => x.Course.ToLower().Contains(subject.ToLower()));
+                query = query.Where(x => x.Course.ToLower().Contains(course.ToLower()));
             }
-            //if (!string.IsNullOrWhiteSpace(course) && (course != "Select"))
-            //{
-            //    query = query.Where(x => x.Course.ToLower().Contains(course.ToLower()));
-            //}
-            if (!string.IsNullOrWhiteSpace(regPvt) && (regPvt != "Select"))
+            if (!string.IsNullOrWhiteSpace(year) && (year != "Select"))
             {
-                query = query.Where(x => x.RegEx.ToLower().Contains(regPvt.ToLower()));
+                query = query.Where(x => x.Year.ToLower().Contains(year.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(session) && (session != "Select"))
+            {
+                query = query.Where(x => x.Session.ToLower().Contains(session.ToLower()));
             }
             return query.ToList();
                 //return _context.StudentRegistration.ToList(); 

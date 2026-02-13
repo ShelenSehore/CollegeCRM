@@ -34,54 +34,48 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Year</label>
-                                <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
                                 <label>Course</label>
                                 <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Reg/Pvt.</label>
-                                <select id="ddlRegPvt" class="form-control">
-                                    <option>Select</option>
-                                    <option>Reguler</option>
-                                    <option>Private</option>
-                                </select>
+                                <label>Year</label>
+                                <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Session</label>
+                                    <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
+                                </div>
                             </div>
                         </div>
 
                     </div>
 
                     <div class="row" style="margin-bottom:5px !important">
-                        <div class="col-sm-12">
-
+                        <div class="col-md-8">
                             <div class="input-group input-group-sm">
                                 <input id="txtSearch" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                             </div>
-
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class=" float-lg-right">
-                            <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
-                            <button type="reset" class="btn btn-flat" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
-                            <form id="frmDownloadExcel"></form>
-                            <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i> Download Excel</button>
 
+                        <div class="col-md-4">
+                            <div class=" float-lg-right">
+                                <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+                                <button type="reset" class="btn btn-flat" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
+                                <form id="frmDownloadExcel"></form>
+                                <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i> Download Excel</button>
+                            </div>
                         </div>
+
                     </div>
+                    
                     <div class="row">
-
-                        <button type="button" class="btn btn-success swalDefaultSuccess">
-                            Launch Success Toast
-                        </button>
-
-                        <div class="col-sm-12">
+                           <div class="col-sm-12">
                             <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
                                 <thead>
                                     <tr role="row">
@@ -297,7 +291,7 @@
         window.onload = function () {
 
             // Example 3: Change events (optional)
-            $("#ddlClass, #ddlYear, #ddlCourse, #ddlRegPvt").change(function () {
+            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
                 $("#tblStudentList tbody").empty();
                 SearchStudent();
             });
@@ -337,14 +331,14 @@
             var varClass = $('#ddlClass option:selected').text();
             var varYear = $('#ddlYear option:selected').text();
             var varCourse = $('#ddlCourse option:selected').text();
-            var varRegPvt = $('#ddlRegPvt option:selected').text();
+            var varSession = $('#ddlSession option:selected').text();
 
             $.post(BASE_URL + "/Student/SearchList", {
                 name: name,
                 classes: varClass,
-                year: varYear,
                 course: varCourse,
-                regPvt: varRegPvt
+                year: varYear,
+                session: varSession
             },
                 function (res) {
 

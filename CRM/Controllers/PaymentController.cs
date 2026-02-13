@@ -22,6 +22,8 @@ namespace CRM.Controllers
         private readonly MstClassRepository _classRepo;
         private readonly string _baseUrl;
         private readonly MstSubjectRepository _subjecctRepo;
+        private readonly MstSessionRepository _sessionRepo;
+        private readonly MstYearRepository _yearRepo;
 
         public PaymentController(ILogger<PaymentController> logger,
            IOptions<AppSettings> config,
@@ -29,6 +31,8 @@ namespace CRM.Controllers
           MstCourseRepository courseRepo,
            MstSubjectRepository subjecctRepo,
            StudentRepository repoStudent,
+           MstSessionRepository sessionRepo,
+           MstYearRepository yearRepo,
             StudentRegistrationRepository repoStudentRegi)
         {
             _repoStudent = repoStudent;
@@ -38,35 +42,68 @@ namespace CRM.Controllers
             _logger = logger;
             _baseUrl = config.Value.BaseUrl;
             _subjecctRepo = subjecctRepo;
+            _sessionRepo = sessionRepo;
+            _yearRepo = yearRepo;
         }
         public IActionResult Index()
         {
             ViewBag.BaseUrl = _baseUrl;
             var model = new StudentListView();
 
-            //----  MstClass = Year
             model.ClassList = _classRepo.GetAll()
-                       .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
+                      .Select(x => new SelectListItem
+                      {
+                          Value = x.Name.ToString(),
+                          Text = x.Name
+                      })
+                      .ToList();
+
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
                        .ToList();
 
-            // --- MstSubject  = Subject
-            model.CourseList = _courseRepo.GetAll()
-                        .Select(x => new SelectListItem { Value = x.CourseName.ToString(), Text = x.CourseName })
-                        .ToList();
 
-            //---MstCourse = Class
-            model.SubjectList = _subjecctRepo.GetAll()
-                     .Select(x => new SelectListItem { Value = x.Course.ToString(), Text = x.Course })
-                     .ToList();
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+
+
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
+
 
 
             return View(model);
         }
 
 
-        public IActionResult SearchList(string name, string classes, string subject, string course, string regPvt)
+        public IActionResult SearchList(string name, string classes, string course, string year, string session)
         {
-            var data = _repoStudent.FilterList(name, classes, subject, course, regPvt);
+            var data = _repoStudent.FilterList(name, classes, course, year, session);
             return Json(new { success = true, data = data });
         }
 

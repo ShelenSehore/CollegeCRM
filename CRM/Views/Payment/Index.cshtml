@@ -34,24 +34,23 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Subject</label>
-                                <select id="ddlSubject" asp-items="Model.CourseList" class="form-control"> <option>Select</option></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
                                 <label>Course</label>
                                 <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Is Regular</label>
-                                <select id="ddlRegPvt" class="form-control">
-                                    <option>Select</option>
-                                    <option>Yes</option>
-                                    <option>No</option>
-                                </select>
+                                <label>Year</label>
+                                <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Session</label>
+                                    <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
+                                </div>
                             </div>
                         </div>
 
@@ -111,6 +110,37 @@
     <!-- /.content -->
 </div>
 
+<div class="modal fade" id="modal-Promod">
+    <div class="modal-dialog" style="max-width:650px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class='fas fa-university'></i> Promod Student</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="user-block">
+                        <img id="imgStudentPhoto" class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
+                        <span class="username">
+                            <a href="#" id="achStudentName"></a>
+                            <a href="#" class="float-right btn-tool"></a>
+                        </span>
+                        <span class="description" id="spnAcademicDetail"></span>
+                        <span class="description" id="spnDetail"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" onclick="SavePromosionDetail();" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     <script type="text/javascript">
@@ -122,7 +152,7 @@
         window.onload = function () {
 
             // Example 3: Change events (optional)
-            $("#ddlClass, #ddlSubject, #ddlCourse, #ddlRegPvt").change(function () {
+            $("#ddlClass, #ddlCourse, #ddlYear, #ddlSession").change(function () {
                 $("#tblStudentList tbody").empty();
                 SearchStudent();
             });
@@ -136,16 +166,16 @@
 
             var name = $("#txtSearch").val();
             var varClass = $('#ddlClass option:selected').text();
-            var varSubject = $('#ddlSubject option:selected').text();
             var varCourse = $('#ddlCourse option:selected').text();
-            var varRegPvt = $('#ddlRegPvt option:selected').text();
+            var varYear = $('#ddlYear option:selected').text();
+            var varSession = $('#ddlSession option:selected').text();
 
             $.post(BASE_URL + "/Payment/SearchList", {
                 name: name,
                 classes: varClass,
-                subject: varSubject,
                 course: varCourse,
-                regPvt: varRegPvt
+                year: varYear,
+                session: varSession
             },
                 function (res) {
                     TableData(res)  //--------pass records for generate tabble
@@ -166,8 +196,8 @@
                     "<button type='button' class='btn btn-info btn-flat dropdown-toggle dropdown-icon' data-toggle='dropdown'>" +
                     "<span class='sr-only'>Toggle Dropdown</span></button>" +
                     "<div class='dropdown-menu' role='menu'>" +
-                    "<a class='dropdown-item' data-toggle='modal' data-target='#modal-Promod'><i class='fas fa-university'></i> Promod</a>" +
-                    "<a class='dropdown-item' data-toggle='modal' data-target='#modal-View'><i class='fas fa-eye'></i>> View</a>" +
+                    "<a class='dropdown-item' onclick='PaymentDetail(" + element.id + ")' ><i class='fas fa-university'></i> Payment</a>" +
+                    "<a class='dropdown-item' data-toggle='modal' data-target='#modal-View'><i class='fas fa-eye'></i>> View Detail</a>" +
                     "<a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i>> Update Detail</a>" +
                     "</div></div></td></tr>");
 
@@ -177,6 +207,29 @@
 
         }
 
+        //------------------Promossion PopUp----------------------
+
+        function PaymentDetail(id) {
+            var id = id;
+            $.post(BASE_URL + "/Student/StudentDetail", {
+                id: id
+            },
+                function (res) {
+                    var detail = res.data;
+                    $('#imgStudentPhoto').attr('src', detail.photo);
+                    $('#achStudentName').text(detail.studentName)
+                    var varStudyDetail = detail.year + " / " + detail.course + " / " + detail.class + " / " + detail.session;
+                    var varAcademyDetail = detail.admissionFormNo + " / " + detail.fatherName;
+                    $('#spnDetail').text(varStudyDetail)
+                    $('#spnAcademicDetail').text(varAcademyDetail)
+
+                    
+
+                    $("#modal-Promod").modal("show");
+
+                }
+            );
+        }
 
 
     </script>
