@@ -24,7 +24,7 @@ namespace CRM.Data
         public DbSet<MstSession> MstSession { get; set; }
 
         public DbSet<Academy> Academy { get; set; }
-        
+        public DbSet<StudentFee> StudentFee { get; set; }
 
     }
 }

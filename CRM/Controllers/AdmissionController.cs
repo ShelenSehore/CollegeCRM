@@ -26,6 +26,7 @@ namespace CRM.Controllers
         private readonly MstSessionRepository _sessionRepo;
         private readonly MstYearRepository _yearRepo;
         private readonly MstFeeRepository _feeRepo;
+        private readonly StudentFeeRepository _studentFeeRepo;
 
         public AdmissionController(ILogger<AdmissionController> logger,
             IOptions<AppSettings> config,
@@ -37,6 +38,7 @@ namespace CRM.Controllers
               MstSessionRepository sessionRepo,
                MstYearRepository yearRepo,
                 MstFeeRepository feeRepo,
+                StudentFeeRepository studentFeeRepo,
              StudentRegistrationRepository repoStudentRegi)
         {
             _repoStudent = repoStudent;
@@ -50,6 +52,7 @@ namespace CRM.Controllers
             _yearRepo = yearRepo;
             _sessionRepo = sessionRepo;
             _feeRepo = feeRepo;
+            _studentFeeRepo = studentFeeRepo;
         }
         public IActionResult Index()
         {
@@ -249,7 +252,30 @@ namespace CRM.Controllers
 
                 var AcedemicId = _repoAcademic.SaveAndGetId(objAcademy);
 
+                //-------------Student Fee---------------
+                StudentFee studentFee = new StudentFee();
+                studentFee.StudentId = StudentID;
+                studentFee.Year = student.Year;
+                studentFee.Course = student.Course;
+                studentFee.Class = student.Class;
+                studentFee.Session = student.Session;
+                studentFee.NewOld = "New";
+                studentFee.NewStudentFee = student.NewStudentFee;
+                studentFee.CMoney = student.CMoney;
+                studentFee.TutionFee = student.TutionFee;
+                studentFee.OtherFee = student.OtherFee;
+                studentFee.TotalFee = student.TotalFee;
+                studentFee.TotalFeeCM = student.TotalFeeCM;
+               // studentFee.PaidAmount = student.PaidAmount;
+                studentFee.Scholership = Convert.ToInt32( student.Scholership);
+                studentFee.DisBy = student.DisBy;
+                studentFee.DisResion = student.DisResion;
+                studentFee.CreatedBy = "Admin";
+                studentFee.CreatedDateTime = DateTime.Now;
 
+                 studentFee.UpdateDateTime = DateTime.Now;
+                 studentFee.UpdateBy = "";
+                 _studentFeeRepo.Add(studentFee);
 
 
             }
