@@ -132,6 +132,34 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-12 col-sm-4">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">Estimated budget</span>
+                                <span class="info-box-number text-center text-muted mb-0">2300</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">Total amount spent</span>
+                                <span class="info-box-number text-center text-muted mb-0">2000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">Estimated project duration</span>
+                                <span class="info-box-number text-center text-muted mb-0">20</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -211,7 +239,7 @@
 
         function PaymentDetail(id) {
             var id = id;
-            $.post(BASE_URL + "/Student/StudentDetail", {
+            $.post(BASE_URL + "/Payment/StudentPaymentDetail", {
                 id: id
             },
                 function (res) {
@@ -222,8 +250,6 @@
                     var varAcademyDetail = detail.admissionFormNo + " / " + detail.fatherName;
                     $('#spnDetail').text(varStudyDetail)
                     $('#spnAcademicDetail').text(varAcademyDetail)
-
-                    
 
                     $("#modal-Promod").modal("show");
 

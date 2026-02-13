@@ -46,5 +46,17 @@ namespace CRM.Repositories
             return _context.MstFee.Find(id);
         }
 
+        public MstFee GetFeeByClasssCouseSessionYearNewOld(string Classs, string Course, string Session, string Year, string NewOld)
+        {
+            // return _context.MstFee.Where(x => x.Course == Course && x.Year == Year && x.Session == Session && x.Subject == Classs).FirstOrDefault();
+            return _context.MstFee.FirstOrDefault(x =>
+                     x.Course == Course &&
+                     x.Year == Year &&
+                     x.Session == Session &&
+                     x.Subject == Classs &&
+                     x.NewOld == NewOld
+ );
+        }
+
     }
 }

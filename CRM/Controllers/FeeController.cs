@@ -107,15 +107,22 @@ namespace CRM.Controllers
             var model = new FeeViewModel();
 
             model.ClassList = _classRepo.GetAll()
-                         .Select(x => new SelectListItem
-                         {
-                             Value = x.Name.ToString(),
-                             Text = x.Name
-                         })
-                         .ToList();
+                   .Select(x => new SelectListItem
+                   {
+                       Value = x.Name.ToString(),
+                       Text = x.Name
+                   })
+                   .ToList();
 
 
-
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
 
 
             //----Year----
@@ -127,14 +134,7 @@ namespace CRM.Controllers
                        })
                        .ToList();
 
-            //----Session----
-            model.SessionList = _sessionRepo.GetAll()
-                       .Select(x => new SelectListItem
-                       {
-                           Value = x.Name.ToString(),
-                           Text = x.Name
-                       })
-                       .ToList();
+
 
 
             //------Course  -- Subject---
@@ -149,6 +149,7 @@ namespace CRM.Controllers
                     Text = x.Name
                 })
                 .ToList();
+
 
 
             return View(model);

@@ -48,7 +48,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Class</label>
-                                                <select id="ddlSubject" asp-for="Subject" asp-items="Model.ClassList" class="form-control"></select>
+                                                <select id="ddlClass" asp-for="Subject" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -57,7 +57,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Course</label>
-                                                <select id="ddlCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control"></select>
+                                                <select id="ddlCourse" asp-for="Course"  asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
                                             </div>
                                         </div>
                                     </div>
@@ -86,11 +86,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Year</label>
-                                                <select id="ddlYear" class="form-control" asp-for="Year">
-                                                    <option>Select</option>
-                                                    <option>2026</option>
-                                                    <option>2027</option>
-                                                </select>
+                                                <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
                                             </div>
                                         </div>
                                     </div>
