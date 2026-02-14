@@ -325,7 +325,7 @@ namespace CRM.Controllers
         {
             StudentPaymentDetailView returnObj = new StudentPaymentDetailView();
             var FeeDetail = _feeRepo.GetFeeByClasssCouseSessionYearNewOld(classname, course, session, year, "New");
-            returnObj.feeDetail = FeeDetail;
+            returnObj.feeMasterDetail = FeeDetail;
 
             return Json(new { success = true, data = returnObj
     });

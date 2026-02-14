@@ -67,5 +67,15 @@ namespace CRM.Repositories
             return _context.StudentFee.Find(id);
         }
 
+        //public StudentFee GetStudentFeeDetailB(int studentId, string classes, string course, string year, string session, string newOld )
+        //{
+
+        //    return _context.StudentFee.Where(x => x.StudentId == studentId && x.Class == classes).FirstOrDefault();
+        //}
+        public StudentFee GetFeeByClasssCouseSessionYearNewOld(int studentId, string classes, string course,  string session, string year, string newOld)
+        {
+            return _context.StudentFee.FirstOrDefault(x => x.StudentId == studentId && x.Class == classes && x.Course == course && x.Year == year && x.Session == session);
+        }
+
     }
 }

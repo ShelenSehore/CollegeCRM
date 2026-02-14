@@ -64,7 +64,18 @@ namespace CRM.ModelsForView
         
             public string AbcNo { get; set; }
         public string IsSaveAcedmicDetail { get; set; }
-        
 
+        //-----------------Fee Detail-----
+        public int NewStudentFee { get; set; } = 00;
+        public int CMoney { get; set; } = 00;
+        public int TutionFee { get; set; } = 00;
+        public int OtherFee { get; set; } = 00;
+        public int TotalFee { get; set; } = 00;
+        public int TotalFeeCM { get; set; } = 00;
+
+        public int Scholership { get; set; } = 00;
+
+        public string DisBy { get; set; }
+        public string DisResion { get; set; }
     }
 }

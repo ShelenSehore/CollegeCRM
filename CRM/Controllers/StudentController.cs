@@ -27,6 +27,7 @@ namespace CRM.Controllers
         private readonly MstSessionRepository _sessionRepo;
         private readonly MstSubjectRepository _subjecctRepo;
         private readonly AcademicRepository _repoAcademic;
+        private readonly StudentFeeRepository _studentFeeRepo;
         public StudentController(ILogger<StudentController> logger,
             IOptions<AppSettings> config,
             MstClassRepository classRepo,
@@ -36,6 +37,7 @@ namespace CRM.Controllers
             MstYearRepository yearRepo,
             MstSessionRepository sessionRepo,
             AcademicRepository repoAcademic,
+             StudentFeeRepository studentFeeRepo,
              StudentRegistrationRepository repoStudentRegi)
         {
             _repoStudent = repoStudent;
@@ -48,6 +50,7 @@ namespace CRM.Controllers
             _yearRepo = yearRepo;
             _sessionRepo = sessionRepo;
             _repoAcademic = repoAcademic;
+            _studentFeeRepo = studentFeeRepo;
         }
         public IActionResult Index(int? id)
         {
@@ -133,18 +136,27 @@ namespace CRM.Controllers
                     model.Minority = varStudentDetail.Minority;
 
                     //---Dropdown--
-                    model.SelectedClass = varStudentDetail.Class; ;
+                    model.SelectedClass = varStudentDetail.Class; 
                     model.SelectedSubject = model.Subject;
                     model.SelectedCourse = varStudentDetail.Course;
                     model.SelectedYear = varStudentDetail.Year;
                     model.Session = varStudentDetail.Session;
-                    
 
 
 
-
-
-
+                    ////-------------Fee Detail-------------
+                    //var varFeeDetail = _studentFeeRepo.GetStudentFeeDetailB(id.Value, model.Class, model.Course, model.Year, model.Session, model.NewOld);
+                    //if (varFeeDetail != null) { 
+                    //    model.NewStudentFee = varFeeDetail.NewStudentFee;
+                    //    model.CMoney = varFeeDetail.CMoney;
+                    //    model.TutionFee = varFeeDetail.TutionFee;
+                    //    model.OtherFee = varFeeDetail.OtherFee;
+                    //    model.TotalFee = varFeeDetail.TotalFee;
+                    //    model.TotalFeeCM = varFeeDetail.TotalFeeCM;
+                    //    model.Scholership = varFeeDetail.Scholership;
+                    //    model.DisBy = varFeeDetail.DisBy;
+                    //    model.DisResion = varFeeDetail.DisResion;
+                    //    }
 
 
 

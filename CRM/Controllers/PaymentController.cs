@@ -25,6 +25,7 @@ namespace CRM.Controllers
         private readonly MstSessionRepository _sessionRepo;
         private readonly MstYearRepository _yearRepo;
         private readonly MstFeeRepository _feeRepo;
+        private readonly StudentFeeRepository _studentFeeRepo;
 
         public PaymentController(ILogger<PaymentController> logger,
            IOptions<AppSettings> config,
@@ -35,6 +36,7 @@ namespace CRM.Controllers
            MstSessionRepository sessionRepo,
            MstYearRepository yearRepo,
            MstFeeRepository feeRepo,
+            StudentFeeRepository studentFeeRepo,
             StudentRegistrationRepository repoStudentRegi)
         {
             _repoStudent = repoStudent;
@@ -47,6 +49,7 @@ namespace CRM.Controllers
             _sessionRepo = sessionRepo;
             _yearRepo = yearRepo;
             _feeRepo = feeRepo;
+            _studentFeeRepo = studentFeeRepo;
         }
         public IActionResult Index()
         {
@@ -120,8 +123,8 @@ namespace CRM.Controllers
                 data.FatherName = data.AdmissionDate.Value.ToString("dd/MM/yyyy");
             returnObj.studentDetail = data;
             //-----------Fee Detail--------
-            var FeeDetail = _feeRepo.GetFeeByClasssCouseSessionYearNewOld(data.Class, data.Course, data.Session, data.Year, data.NewOld);
-            returnObj.feeDetail = FeeDetail;
+            var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
+            returnObj.studentFeeDetail = FeeDetail;
 
             return Json(new { success = true, data = returnObj });
         }
