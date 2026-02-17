@@ -120,70 +120,78 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="user-block">
-                        <img id="imgStudentPhoto" class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
-                        <span class="username">
-                            <a href="#" id="achStudentName"></a>
-                            <a href="#" class="float-right btn-tool"></a>
-                        </span>
-                        <span class="description" id="spnAcademicDetail"></span>
-                        <span class="description" id="spnDetail"></span>
-                    </div>
-                </div>
 
                 <div class="row">
-                    <div class="col-12 col-sm-4">
-                        <div class="info-box bg-light">
-                            <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Tuition Fees</span>
-                                <span id="spnTotalFee" class="info-box-number text-center text-muted mb-0"></span>
+                    <div class="col-md-12">
+                        <!-- Widget: user widget style 1 -->
+                        <div class="card card-widget widget-user">
+                            <!-- Add the bg color to the header using any of the bg-* classes -->
+                            <div class="widget-user-header bg-info">
+                                <h3 class="widget-user-username" id="achStudentName"></h3>
+                                <h5 class="widget-user-desc" id="achSession"></h5>
+                            </div>
+                            <div class="widget-user-image">
+                                <img id="imgStudentPhoto" class="img-circle elevation-2" src="~/dist/img/user7-128x128.jpg" alt="User Avatar">
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-sm-4 border-right">
+                                        <div class="description-block">
+                                            <span class="description-text">Year</span>
+                                            <h5 class="description-header" id="achYear"></h5>
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-4 border-right">
+                                        <div class="description-block">
+                                            <span class="description-text">Class</span>
+                                            <h5 class="description-header" id="achClass"></h5>
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-4">
+                                        <div class="description-block">
+                                            <span class="description-text">Course</span>
+                                            <h5 class="description-header" id="achCourse"></h5>
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="description-block">
+                                            <span class="description-text">Total Fee</span>
+                                            <h5 class="description-header" id="achTotalFee"></h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="description-block">
+                                            <span class="description-text">Paid Fee</span>
+                                            <h5 class="description-header" id="achPaid"></h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="description-block">
+                                            <span class="description-text">Scholership</span>
+                                            <h5 class="description-header" id="achScholer"></h5>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
                             </div>
                         </div>
+                   
                     </div>
-                    <div class="col-12 col-sm-4">
-                        <div class="info-box bg-light">
-                            <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Disco. Amount</span>
-                                <span class="info-box-number text-center text-muted mb-0">2000</span>
-                            </div>
-                        </div>
+                    <div class="col-md-12">
+                        teste
                     </div>
-                    <div class="col-12 col-sm-4">
-                        <div class="info-box bg-light">
-                            <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Submit Fee</span>
-                                <span class="info-box-number text-center text-muted mb-0">00</span>
-                            </div>
-                        </div>
-                    </div>
+                   
                 </div>
-                <div class="row">
-                    <div class="col-12 col-sm-4">
-                        <div class="info-box bg-light">
-                            <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">C Money</span>
-                                <span id="spnTotalFee" class="info-box-number text-center text-muted mb-0"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-4">
-                        <div class="info-box bg-light">
-                            <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">C M Submit</span>
-                                <span class="info-box-number text-center text-muted mb-0">2000</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-4">
-                        <div class="info-box bg-light">
-                            <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Due Balance</span>
-                                <span class="info-box-number text-center text-muted mb-0">00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                
 
             </div>
             <div class="modal-footer justify-content-between">
@@ -249,9 +257,10 @@
                     "<button type='button' class='btn btn-info btn-flat dropdown-toggle dropdown-icon' data-toggle='dropdown'>" +
                     "<span class='sr-only'>Toggle Dropdown</span></button>" +
                     "<div class='dropdown-menu' role='menu'>" +
-                    "<a class='dropdown-item' onclick='PaymentDetail(" + element.id + ")' ><i class='fas fa-university'></i> Payment</a>" +
+                   // "<a class='dropdown-item' onclick='PaymentDetail(" + element.id + ")' ><i class='fas fa-university'></i> Payment</a>" +
+                    "<a class='btn btn-default' href='../Payment/PaymentDetail?id=" + element.id + "' ><i class='fas fa-eye'></i> Update Detail</a>" +
                     "<a class='dropdown-item' data-toggle='modal' data-target='#modal-View'><i class='fas fa-eye'></i>> View Detail</a>" +
-                    "<a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i>> Update Detail</a>" +
+                    "<a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i> Update Detail</a>" +
                     "</div></div></td></tr>");
 
             });
@@ -268,19 +277,20 @@
                 id: id
             },
                 function (res) {
-
+                   
                     var detail = res.data.studentDetail;
                     $('#imgStudentPhoto').attr('src', detail.photo);
-                    $('#achStudentName').text(detail.studentName)
-                    var varStudyDetail = detail.year + " / " + detail.course + " / " + detail.class + " / " + detail.session;
-                    var varAcademyDetail = detail.admissionFormNo + " / " + detail.fatherName;
-                    $('#spnDetail').text(varStudyDetail)
-                    $('#spnAcademicDetail').text(varAcademyDetail)
-                    debugger;
-                    //------------------Fee Detail-------
-                    //var Feedetail = res.data.studentFeeDetail;
-                    //$('#spnTotalFee').text(Feedetail.totalFee);
+                    $('#achStudentName').text(detail.studentName + " / " + detail.fatherName)
+                    $('#achYear').text(detail.year)
+                    $('#achClass').text(detail.class)
+                    $('#achCourse').text(detail.course)
+                    $('#achSession').text( detail.session + " / FormNo. " + detail.admissionFormNo)
 
+                    //------------------Fee Detail-------
+                    var feedetail = res.data.studentFeeDetail;
+                    $('#achTotalFee').text(feedetail.totalFeeAfterDiscount);
+                    $('#achPaid').text(feedetail.paidAmount);
+                    $('#achScholer').text(feedetail.scholership);
                     $("#modal-Promod").modal("show");
 
                 }

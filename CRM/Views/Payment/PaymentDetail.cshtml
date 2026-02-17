@@ -1,0 +1,237 @@
+﻿
+@model CRM.ModelsForView.StudentPaymentDetailView
+
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    ViewData["Title"] = "Registration";
+    var baseUrl = ViewBag.BaseUrl;
+}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="#">Payment</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Payment Detail</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+
+                    <!-- Profile Image -->
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid img-circle"
+                                     src="../../dist/img/user4-128x128.jpg"
+                                     alt="User profile picture">
+                            </div>
+
+                            <h3 class="profile-username text-center">@Model.studentDetail.StudentName</h3>
+
+                            <p class="text-muted text-center">@Model.studentDetail.FatherName</p>
+                            <p class="text-muted text-center">@Model.studentDetail.MobileNoOne</p>
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                    <!-- About Me Box -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-book mr-1"></i> Education</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                           
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>Class</b> <a class="float-right">@Model.studentDetail.Class</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Course</b> <a class="float-right">@Model.studentDetail.Course</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Year</b> <a class="float-right">@Model.studentDetail.Year</a>
+                                </li>
+                            </ul>
+
+                            
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#Detail" data-toggle="tab">Payment Detail</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#PayNow" data-toggle="tab">Pay Now </a></li>
+                                <li class="nav-item"><a class="nav-link" href="#History" data-toggle="tab">Payment History</a></li>
+                            </ul>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="Detail">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Fee Name</th>
+                                                <th>Progress</th>
+                                                <th style="width: 40px">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+
+                                                <td>New Student Fee</td>
+                                                <td></td>
+                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.NewStudentFee</span></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>Fee</td>
+                                                <td></td>
+                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.TotalFee</span></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>Scholership</td>
+                                                <td></td>
+                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.OtherFee</span></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td><strong>Total Fee</strong></td>
+                                                <td></td>
+                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.TotalFeeAfterDiscount</span></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td><strong>Paid Fee Amount</strong></td>
+                                                <td>
+                                                    <div class="progress progress-xs progress-striped active">
+                                                        <div class="progress-bar bg-success" style="width: 90%"></div>
+                                                    </div>
+                                                </td>
+                                                <td><span class="badge bg-success">@Model.studentFeeDetail.PaidAmount</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="PayNow">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Head Name</th>
+                                                <th style="width: 40px">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+
+                                                <td>
+                                                    <select id="ddlSession" class="form-control">
+                                                        <option>Select</option>
+                                                        <option>Head 1</option>
+                                                        <option>Head 2</option>
+                                                        <option>Head 3</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input class="text-black" type="number" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>
+                                                    <select id="ddlSession" class="form-control">
+                                                        <option>Select</option>
+                                                        <option>Head 1</option>
+                                                        <option>Head 2</option>
+                                                        <option>Head 3</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input class="text-black" type="number" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>
+                                                    <select id="ddlSession" class="form-control">
+                                                        <option>Select</option>
+                                                        <option>Head 1</option>
+                                                        <option>Head 2</option>
+                                                        <option>Head 3</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input class="text-black" type="number" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>
+                                                    <select id="ddlSession" class="form-control">
+                                                        <option>Select</option>
+                                                        <option>Head 1</option>
+                                                        <option>Head 2</option>
+                                                        <option>Head 3</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input class="text-black" type="number" />
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+
+                                                <td>
+                                                   <strong>Total Pay</strong>
+                                                </td>
+                                                <td>
+                                                    1233434
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <button type="button" class="btn btn-success btn-block"><i class="fa fa-bell"></i> Pay </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane" id="History">
+                                    pay now333
+                                </div>
+                                <!-- /.tab-pane -->
+                            </div>
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+
+
+</div>

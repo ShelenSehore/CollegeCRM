@@ -19,6 +19,8 @@ namespace CRM.Models
         public int OtherFee { get; set; }
         public int TotalFee { get; set; }
         public int TotalFeeCM { get; set; }
+      
+        
 
     }
 }
