@@ -25,7 +25,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-
+                    <input type="hidden" id="hdnStudentId" value="@Model.studentFeeDetail.StudentId" />
+                    <input type="hidden" id="hdnName" value="@Model.studentDetail.StudentName" />
+                    <input type="hidden" id="hdnFatherName" value="@Model.studentDetail.FatherName" />
+                    <input type="hidden" id="hdnClass" value="@Model.studentDetail.Class" />
+                    <input type="hidden" id="hdnCourse" value="@Model.studentDetail.Course" />
+                    <input type="hidden" id="hdnYear" value="@Model.studentDetail.Year" />
+                    <input type="hidden" id="hdnstudentFeeId" value="@Model.studentFeeDetail.Id" />
                     <!-- Profile Image -->
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
@@ -36,6 +42,7 @@
                             </div>
 
                             <h3 class="profile-username text-center">@Model.studentDetail.StudentName</h3>
+
 
                             <p class="text-muted text-center">@Model.studentDetail.FatherName</p>
                             <p class="text-muted text-center">@Model.studentDetail.MobileNoOne</p>
@@ -51,7 +58,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                           
+
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
                                     <b>Class</b> <a class="float-right">@Model.studentDetail.Class</a>
@@ -64,7 +71,7 @@
                                 </li>
                             </ul>
 
-                            
+
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -136,15 +143,57 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Head Name</th>
-                                                <th style="width: 40px">Amount</th>
+                                                <th>Recipt</th>
+                                                <th style="width: 60%">Detail</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
 
                                                 <td>
-                                                    <select id="ddlSession" class="form-control">
+                                                    Pay Mode
+                                                </td>
+                                                <td>
+                                                    <select id="ddlPayMode" class="form-control">
+                                                        <option>Select</option>ss
+                                                        <option>Cashe</option>
+                                                        <option>Online</option>
+                                                        <option>Check</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>
+                                                    Transace ID
+                                                </td>
+                                                <td>
+                                                    <input id="txtTransactionID" class="text-black" type="number" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>
+                                                    Rec Book No.
+                                                </td>
+                                                <td>
+                                                    <input id="txtRecBookNo" class="text-black" type="number" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>
+                                                    Recept No.
+                                                </td>
+                                                <td>
+                                                    <input id="txtReceptNo" class="text-black" type="number" />
+                                                </td>
+                                            </tr>
+                                            <tr><td colspan="2"><strong>Head</strong></td></tr>
+                                            <tr id="row1">
+
+                                                <td>
+                                                    <select id="ddlHead1" class="form-control">
                                                         <option>Select</option>
                                                         <option>Head 1</option>
                                                         <option>Head 2</option>
@@ -152,13 +201,13 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input class="text-black" type="number" />
+                                                    <input id="txtAmount1" class="text-black" type="number" /><i class="fas fa-plus"></i>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr >
 
                                                 <td>
-                                                    <select id="ddlSession" class="form-control">
+                                                    <select id="ddlHead2" class="form-control">
                                                         <option>Select</option>
                                                         <option>Head 1</option>
                                                         <option>Head 2</option>
@@ -166,13 +215,13 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input class="text-black" type="number" />
+                                                    <input id="txtAmount2" class="text-black" type="number" /><i class="fas fa-plus"></i>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr >
 
                                                 <td>
-                                                    <select id="ddlSession" class="form-control">
+                                                    <select id="ddlHead3" class="form-control">
                                                         <option>Select</option>
                                                         <option>Head 1</option>
                                                         <option>Head 2</option>
@@ -180,36 +229,33 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input class="text-black" type="number" />
+                                                    <input id="txtAmount3" class="text-black" type="number" /><i class="fas fa-plus"></i>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr >
 
                                                 <td>
-                                                    <select id="ddlSession" class="form-control">
+                                                    <select id="ddlHead4" class="form-control">
                                                         <option>Select</option>
-                                                        <option>Head 1</option>
-                                                        <option>Head 2</option>
-                                                        <option>Head 3</option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input class="text-black" type="number" />
+                                                    <input id="txtAmount4" class="text-black" type="number" /><i class="fas fa-plus"></i>
                                                 </td>
                                             </tr>
-
                                             <tr>
 
                                                 <td>
-                                                   <strong>Total Pay</strong>
+                                                    <strong> Total Pay</strong>
                                                 </td>
                                                 <td>
-                                                    1233434
+                                                    <strong> <input id="txtTotalPay" readonly="readonly" class="text-black" type="number" /> </strong>
                                                 </td>
                                             </tr>
+
                                             <tr>
                                                 <td colspan="2">
-                                                    <button type="button" class="btn btn-success btn-block"><i class="fa fa-bell"></i> Pay </button>
+                                                    <button type="button" onclick="payNow();" class="btn btn-success btn-block"  /><i class="fa fa-bell"></i> Process for Pay </button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -235,3 +281,183 @@
 
 
 </div>
+
+<div class="modal fade" id="modal-View">
+    <div class="modal-dialog" style="max-width:650px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Payment Recipt</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            Recipt Book No :
+                            <strong><label id="lblReciptBookNo"></label></strong>
+                        </div>
+                    </div>
+                    <div class="col-md-3 float-right"></div>
+                    <div class="col-md-3 float-right"></div>
+
+                    <div class="col-md-3 float-right">
+                        <div class="form-group">
+                            College :
+                            <strong><label>College</label></strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            Name :
+                            <strong><label>College</label></strong>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            Father Name :
+                            <strong><label>College</label></strong>
+                        </div>
+                    </div>
+
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            Class :
+                            <strong><label>College</label></strong>
+                        </div>
+                    </div>
+                    <div class="col-md-3 float-right">
+                        <div class="form-group">
+                            Course :
+                            <strong><label>College</label></strong>
+                        </div>
+                    </div>
+                    <div class="col-md-3 float-right">
+                        <div class="form-group">
+                            Year :
+                            <strong><label>College</label></strong>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 float-right">
+                        <div class="form-group">
+                            Session :
+                            <strong><label>College</label></strong>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            Head :
+                            <strong><label>454</label></strong>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            Total Pay :
+                            <strong><label>1000</label></strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success"><i class="fas fa-save"></i>Pay</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        // INSERT
+
+        var BASE_URL = "@baseUrl";
+
+
+        window.onload = function () {
+           
+        };
+
+        var varStudentId = 0;
+        var varStudentFeeId = 0;
+        var varHead = "";
+        var varRecBookNo = "";
+        var varRecNumber = "";
+        var Amount = 0;
+        var varPaymentMode = "";
+        var varTransactionNo = "";
+
+        var varHead1 = "";
+        var varAmount1 = 0;
+        var varHead2 = "";
+        var varAmount2 = 0;
+        var varHead3 = "";
+        var varAmount3 = 0;
+        var varHead4 = "";
+        var varAmount4 = 0;
+
+        function payNow() {
+            
+            varStudentId = $("#hdnStudentId").val();
+            varStudentFeeId = $("#hdnstudentFeeId").val();
+           
+
+            var varRecBookNo = $("#txtRecBookNo").val();
+            var varReceptNo = $("#txtReceptNo").val();
+            var varTransactionID = $("#txtTransactionID").val();
+            var varPaymentMode = $('#ddlPayMode option:selected').text();
+
+            var varHead1 = $('#ddlHead1 option:selected').text();  //----11
+            var varAmount1 = $("#txtAmount1").val();
+            var varHead2 = $('#ddlHead2 option:selected').text(); //----22
+            var varAmount2 = $("#txtAmount2").val();
+            var varHead3 = $('#ddlHead3 option:selected').text();//----33
+            var varAmount3 = $("#txtAmount3").val();
+            var varHead4 = $('#ddlHead4 option:selected').text();//----44
+            var varAmount4 = $("#txtAmount4").val();
+
+            //------------------
+            $("#lblReciptBookNo").text(varRecBookNo);
+            $("#lblReciptBookNo").text(varRecBookNo);
+            $("#lblReciptBookNo").text(varRecBookNo);
+            $("#lblReciptBookNo").text(varRecBookNo);
+            $("#lblReciptBookNo").text(varRecBookNo);
+            $("#lblReciptBookNo").text(varRecBookNo);
+            $("#lblReciptBookNo").text(varRecBookNo);
+
+
+            $("#modal-View").modal("show");
+
+            $.post(BASE_URL + "/Student/SearchList", {
+                name: name,
+                classes: varClass,
+                course: varCourse,
+                year: varYear,
+                session: varSession
+            },
+                function (res) {
+
+                    TableData(res)  //--------pass records for generate tabble
+                }
+            );
+        }
+
+
+
+    </script>
+}

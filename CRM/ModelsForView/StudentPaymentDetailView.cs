@@ -12,6 +12,10 @@ namespace CRM.ModelsForView
         public StudentFee studentFeeDetail { get; set; }
 
         public MstFee feeMasterDetail { get; set; }
+
+        public StudentTransaction studentTransaction { get; set; }
         
+
+
     }
 }

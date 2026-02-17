@@ -138,7 +138,7 @@ namespace CRM.Controllers
 
             var data = _repoStudent.GetById(id);
             if (data.AdmissionDate != null)
-                data.FatherName = data.AdmissionDate.Value.ToString("dd/MM/yyyy");
+               
             returnObj.studentDetail = data;
             //-----------Fee Detail--------
             var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
@@ -146,6 +146,8 @@ namespace CRM.Controllers
 
             return View(returnObj);
         }
+
+
 
     }
 }
