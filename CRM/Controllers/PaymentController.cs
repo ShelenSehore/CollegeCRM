@@ -137,12 +137,29 @@ namespace CRM.Controllers
             StudentPaymentDetailView returnObj = new StudentPaymentDetailView();
 
             var data = _repoStudent.GetById(id);
-            if (data.AdmissionDate != null)
-               
+            
             returnObj.studentDetail = data;
             //-----------Fee Detail--------
             var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
             returnObj.studentFeeDetail = FeeDetail;
+
+            return View(returnObj);
+        }
+
+        //---------------Save Payment Detail--------------
+        public IActionResult SavePaymentDetail(int studentId, int studentFeeId, string recBookNo, string recNumber,
+            string paymentMode, string transactionNo, string varHead1, string varHead2, string varHead3, string varHead4,
+            int varAmount1, int varAmount2, int varAmount3, int varAmount4, int totalPay)
+        {
+            ViewBag.BaseUrl = _baseUrl;
+            StudentPaymentDetailView returnObj = new StudentPaymentDetailView();
+
+            //var data = _repoStudent.GetById(id);
+
+            //returnObj.studentDetail = data;
+            ////-----------Fee Detail--------
+            //var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
+            //returnObj.studentFeeDetail = FeeDetail;
 
             return View(returnObj);
         }
