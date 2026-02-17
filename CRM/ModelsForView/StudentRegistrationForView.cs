@@ -28,8 +28,10 @@ namespace CRM.ModelsForView
         public string? Caste { get; set; }
         public string? Gender { get; set; }
         public string? MobileNo { get; set; }
-        public string? Scholership { get; set; }
+        public int Scholership { get; set; } = 0;
         public string? DisBy { get; set; }
+        public int TotalFeeAfterDiscount { get; set; } = 0;
+        
         public string? DisResion { get; set; }
         public string? CreateBy { get; set; }
         public string? CreateDate { get; set; }

@@ -155,39 +155,34 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>New Student Fee</label>
-                                                <input id="txtNewStudentFee" asp-for="NewStudentFee" type="number" class="form-control">
+                                                <input id="txtNewStudentFee" asp-for="NewStudentFee" type="number" readonly="readonly" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>CMondy</label>
-                                                <input id="txtCMondy" asp-for="CMoney" type="number" class="form-control">
+                                                <input id="txtCMondy" asp-for="CMoney" type="number"  class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Tution Fee</label>
-                                                <input id="txtTutionFee" asp-for="TutionFee" type="number" class="form-control">
+                                                <input id="txtTutionFee" asp-for="TutionFee" type="number" readonly="readonly" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Other Fee</label>
-                                                <input id="txtOtherFee" asp-for="OtherFee" type="number" class="form-control">
+                                                <input id="txtOtherFee" asp-for="OtherFee" type="number" readonly="readonly" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Total Fee</label>
-                                                <input id="txtTotalFee" asp-for="TotalFee" type="number" class="form-control">
+                                                <input id="txtTotalFee" asp-for="TotalFee" type="number" readonly="readonly" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Total Fee MC</label>
-                                                <input id="txtTotalFeeMC" asp-for="TotalFeeCM" type="number" class="form-control">
-                                            </div>
-                                        </div>
+                                       
 
                                     </div>
                                     <div class="row">
@@ -204,12 +199,21 @@
                                                 <input asp-for="DisBy" class="form-control">
                                             </div>
                                         </div>
+
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>DiscRegisn</label>
                                                 <input asp-for="DisResion" class="form-control">
                                             </div>
                                         </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Total Fee After Dis </label>
+                                                <input id="txtTotalFeeAfterDiscount" asp-for="TotalFeeAfterDiscount" type="number" readonly="readonly" class="form-control">
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -394,13 +398,25 @@
 
         window.onload = function () {
 
+            $("#Scholership").change(function () {
+                debugger;
+                varScholership = this.value;
+               
+                if (varScholership != "" && varScholership != "0")
+                {
+                    var varScholershipAmount = parseFloat(varScholership) || 0;
+                    var varTotalFeeAmount = parseFloat($('#txtTotalFee').val()) || 0
+                    $("#txtTotalFeeAfterDiscount").val(varTotalFeeAmount - varScholershipAmount);
+                }
+            });
+
             $("#ddlSession").change(function () {
                 varSession = this.value;
                 if (varSession != "" && varYear != "" && varSubject != "" && varClass != "") { FillFeeeDetail(); }
             });
             $("#ddlYear").change(function () {
                 varYear = this.value;
-                FillFeeeDetail();
+                if (varSession != "" && varYear != "" && varSubject != "" && varClass != "") { FillFeeeDetail(); }
             });
             $("#ddlSubject").change(function () {
                 varSubject = this.value;
@@ -415,6 +431,8 @@
                 if (varSession != "" && varYear != "" && varSubject != "" && varClass != "") { FillFeeeDetail(); }
                
             });
+
+
 
         };
 
@@ -431,13 +449,14 @@
                     year: varYear
                 },
                     function (res) {
-                        var Feedetail = res.data.feeDetail;
+                        var Feedetail = res.data.feeMasterDetail;
                         $('#txtNewStudentFee').val(Feedetail.newStudentFee);
                         $('#txtCMondy').val(Feedetail.cMoney);
                         $('#txtTutionFee').val(Feedetail.tutionFee);
                         $('#txtOtherFee').val(Feedetail.otherFee);
                         $('#txtTotalFee').val(Feedetail.totalFee);
-                        $('#txtTotalFeeMC').val(Feedetail.totalFeeCM);
+                        $('#txtTotalFeeAfterDiscount').val(Feedetail.totalFee);
+                        
                     }
               );
             }

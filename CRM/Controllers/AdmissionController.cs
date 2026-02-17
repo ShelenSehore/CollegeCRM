@@ -204,7 +204,7 @@ namespace CRM.Controllers
             obj.Caste = student.Caste;
             obj.Gender = student.Gender;
             obj.MobileNo = student.MobileNo;
-            obj.Scholership = student.Scholership;
+            obj.Scholership = student.Scholership.ToString();
             obj.CreateBy = "Admin";
             obj.CreateDate = DateTime.Now;
            
@@ -266,8 +266,8 @@ namespace CRM.Controllers
                 studentFee.OtherFee = student.OtherFee;
                 studentFee.TotalFee = student.TotalFee;
                 studentFee.TotalFeeCM = student.TotalFeeCM;
-               // studentFee.PaidAmount = student.PaidAmount;
-                studentFee.Scholership = Convert.ToInt32( student.Scholership);
+                studentFee.Scholership = student.Scholership;
+                studentFee.TotalFeeAfterDiscount = student.TotalFeeAfterDiscount;
                 studentFee.DisBy = student.DisBy;
                 studentFee.DisResion = student.DisResion;
                 studentFee.CreatedBy = "Admin";

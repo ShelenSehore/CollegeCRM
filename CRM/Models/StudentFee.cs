@@ -20,7 +20,9 @@ namespace CRM.Models
         public int OtherFee { get; set; }
         public int TotalFee { get; set; }
         public int TotalFeeCM { get; set; }
+        public int TotalFeeAfterDiscount { get; set; }
         public int PaidAmount { get; set; }
+        
         public int Scholership { get; set; }
         public string DisBy { get; set; }
         public string DisResion { get; set; }

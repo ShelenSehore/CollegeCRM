@@ -88,6 +88,8 @@ namespace CRM.Controllers
                     obj.OtherFee = row.OtherFee;
                     obj.TotalFee = row.TotalFee;
                     obj.TotalFeeCM = row.TotalFeeCM;
+                    obj.Subject = row.Subject;
+                    obj.Course = row.Course;
 
                     feeClasssList.Add(obj);
                 }

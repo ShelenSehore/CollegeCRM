@@ -57,7 +57,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Course</label>
-                                                <select id="ddlCourse" asp-for="Course"  asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
+                                                <select id="ddlCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
                                             </div>
                                         </div>
                                     </div>
@@ -66,7 +66,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Session</label>
-                                                <select id="ddlSession" class="form-control"  asp-items="Model.SessionList" asp-for="Session">
+                                                <select id="ddlSession" class="form-control" asp-items="Model.SessionList" asp-for="Session">
                                                     <option>Select</option>
                                                 </select>
                                             </div>
@@ -102,21 +102,21 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>C. Money</label>
-                                                <input  id="txtCMoney" asp-for="CMoney"   class="form-control">
+                                                <input id="txtCMoney" asp-for="CMoney" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Tution Fee</label>
-                                                <input id="txtTutionFee" asp-for="TutionFee"  class="form-control">
+                                                <input id="txtTutionFee" asp-for="TutionFee" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Other Fees</label>
-                                                <input   id="txtOtherFee" asp-for="OtherFee" class="form-control">
+                                                <input id="txtOtherFee" asp-for="OtherFee" class="form-control">
                                             </div>
                                         </div>
 
@@ -126,14 +126,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Total Fee</label>
-                                                <input  id="txtTotalFeeCM" asp-for="TotalFee" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Total + C. Money</label>
-                                                <input class="form-control">
+                                                <input id="txtTotalFee" asp-for="TotalFee" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -141,9 +134,9 @@
 
                                 </div>
                             </div>
-                            
 
-                          
+
+
 
                             <div class="text-center mt-4 mb-5">
 
@@ -170,4 +163,53 @@
     </section>
     <!-- /.content -->
 </div>
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+        // INSERT
+        var BASE_URL = "@baseUrl";
+     
+
+        var varNewStudent = "";
+        var varTutionFee = "";
+        var varOtherFee = "";
+        
+
+        window.onload = function () {
+           
+
+            $("#txtNewStudentFee").change(function () {
+                varNewStudent = this.value;
+                if (varNewStudent != "" && varTutionFee != "" && varOtherFee != "" ) { CalculateFee(); }
+            });
+            $("#txtTutionFee").change(function () {
+                varTutionFee = this.value;
+                if (varNewStudent != "" && varTutionFee != "" && varOtherFee != "") { CalculateFee(); }
+            });
+            $("#txtOtherFee").change(function () {
+                varOtherFee = this.value;
+                if (varNewStudent != "" && varTutionFee != "" && varOtherFee != "") { CalculateFee(); }
+            });
+          
+
+        };
+
+
+        function CalculateFee()
+        {
+            if (varNewStudent != "" && varTutionFee != "" && varOtherFee != "")
+            {
+                var NewStudent = parseFloat(varNewStudent) || 0;
+                var TutionFee = parseFloat(varTutionFee) || 0;
+                var OtherFee = parseFloat(varOtherFee) || 0;
+                var TotalTutionFee = NewStudent + TutionFee + OtherFee
+                $("#txtTotalFee").val(TotalTutionFee);
+            }
+        }
+
+
+    </script>
+}
 

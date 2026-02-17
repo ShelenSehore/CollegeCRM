@@ -42,12 +42,10 @@
                                     <th>NewOld</th>
                                     <th>Session</th>
                                     <th>Year</th>
-                                    <th>NewStudentFee</th>
-                                    <th>CMoney</th>
-                                    <th>TutionFee</th>
-                                    <th>OtherFee</th>
-                                    <th>TotalFee</th>
-                                    <th>TotalFeeCM</th>
+                                    <th>Class</th>
+                                    <th>Course</th>
+                                    <th>New Admission</th>
+                                    <th>Total Fee</th>
                                     <th>Delete</th>
 
                                 </tr>
@@ -63,12 +61,10 @@
         <td>@item.NewOld</td>
         <td>@item.Session</td>
         <td>@item.Year</td>
+        <td>@item.Subject</td>
+        <td>@item.Course</td>
         <td>@item.NewStudentFee</td>
-        <td>@item.CMoney</td>
-        <td>@item.TutionFee</td>
-        <td>@item.OtherFee</td>
         <td>@item.TotalFee</td>
-        <td>@item.TotalFeeCM</td>
         <td>
             <a class="btn btn-danger btn-sm" onclick="DeleteFee(@item.Id)">
                 <i class="fas fa-trash">
