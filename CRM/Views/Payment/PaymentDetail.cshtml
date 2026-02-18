@@ -284,10 +284,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
+                <div class="row" style="line-height: 0.1 !important">
                     <div class="col-md-3">
                         <div class="form-group">
-                            Recipt Book No :
+                            BOOK No :
                             <strong><label id="lblReciptBookNo"></label></strong>
                         </div>
                     </div>
@@ -296,29 +296,29 @@
 
                     <div class="col-md-3 float-right">
                         <div class="form-group">
-                            Recipt No :
+                            RECEIPT No :
                             <strong><label id="lblReciptNo"></label></strong>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" style="line-height: 0.1 !important">
                     <div class="col-md-12">
                         <div class="form-group">
-                            Name :
+                            NAME OF STUDENT :
                             <strong><label id="lblName"></label></strong>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            Father Name :
+                            FATHER'S NAME :
                             <strong><label id="lblFatherName"></label></strong>
                         </div>
                     </div>
 
                 </div>
                 <hr />
-                <div class="row">
+                <div class="row" style="line-height: 0.1 !important">
                     <div class="col-md-3">
                         <div class="form-group">
                             Class :
@@ -349,15 +349,15 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            Head :
-                            <strong><label id="lblHead"></label></strong>
+                            <strong>FEE DETAIL</strong><br />
+                            <ul id="lblHead"></ul>
                         </div>
                     </div>
                 </div>
                 <hr />
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="form-group" style="float:right; font-size:20px;">
                             Total Pay :
                             <strong><label id="lblTotalPay"></label></strong>
                         </div>
@@ -440,9 +440,26 @@
             $("#lblCourse").text($("#hdnCourse").val());
             $("#lblYear").text($("#hdnYear").val());
             $("#lblSession").text($("#hdnSession").val());
-            $("#lblHead").text($('#ddlHead1 option:selected').text());
-            $("#lblTotalPay").text(varRecBookNo);
 
+            //------Head detail-----------
+            var varFeeDetail = "";
+            if ($('#ddlHead1 option:selected').text() != "Select")
+            {
+                varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead1 option:selected').text() + ": " + $("#txtAmount1").val()  +"</li>";
+            }
+            if ($('#ddlHead2 option:selected').text() != "Select") {
+                varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead2 option:selected').text() + ": " + $("#txtAmount2").val() + "</li>";
+            }
+            if ($('#ddlHead3 option:selected').text() != "Select") {
+                varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead3 option:selected').text() + ": " + $("#txtAmount3").val() + "</li>";
+            }
+            if ($('#ddlHead4 option:selected').text() != "Select") {
+                varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead4 option:selected').text() + ": " + $("#txtAmount4").val() + "</li>";
+            }
+             
+            $("#lblHead").html(varFeeDetail);
+
+            $("#lblTotalPay").text($("#txtTotalPay").val());
             $("#modal-View").modal("show");
 
            
