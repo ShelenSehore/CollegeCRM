@@ -1,4 +1,5 @@
 ﻿using CRM.Data;
+using CRM.Models;
 using CRM.ModelsForView;
 using CRM.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,7 @@ namespace CRM.Controllers
         private readonly MstYearRepository _yearRepo;
         private readonly MstFeeRepository _feeRepo;
         private readonly StudentFeeRepository _studentFeeRepo;
+        private readonly StudentTransactionRepository _transactionRepo;
 
         public PaymentController(ILogger<PaymentController> logger,
            IOptions<AppSettings> config,
@@ -37,6 +39,7 @@ namespace CRM.Controllers
            MstYearRepository yearRepo,
            MstFeeRepository feeRepo,
             StudentFeeRepository studentFeeRepo,
+            StudentTransactionRepository transactionRepo,
             StudentRegistrationRepository repoStudentRegi)
         {
             _repoStudent = repoStudent;
@@ -50,6 +53,7 @@ namespace CRM.Controllers
             _yearRepo = yearRepo;
             _feeRepo = feeRepo;
             _studentFeeRepo = studentFeeRepo;
+            _transactionRepo = transactionRepo;
         }
         public IActionResult Index()
         {
@@ -152,8 +156,20 @@ namespace CRM.Controllers
             int varAmount1, int varAmount2, int varAmount3, int varAmount4, int totalPay)
         {
             ViewBag.BaseUrl = _baseUrl;
-          
 
+            StudentTransaction saveTransaction = new StudentTransaction();
+            saveTransaction.StudentFeeId = studentFeeId;
+            saveTransaction.StudentId = studentId;
+            saveTransaction.RecBookNo = recBookNo;
+            saveTransaction.RecNumber = recNumber;
+            saveTransaction.PaymentMode = paymentMode;
+            saveTransaction.TransactionNo = transactionNo;
+            saveTransaction.CreateDateTime = DateTime.Now;
+            saveTransaction.CreatedBy = "Admin";
+            saveTransaction.Head = varHead1;
+            saveTransaction.Amount = varAmount1;
+
+            var teee =_transactionRepo.SaveAndGetId(saveTransaction);
 
 
             return View();
