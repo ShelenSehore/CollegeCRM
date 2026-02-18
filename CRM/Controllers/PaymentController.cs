@@ -161,52 +161,97 @@ namespace CRM.Controllers
         {
             ViewBag.BaseUrl = _baseUrl;
 
-            StudentTransaction saveTransaction = new StudentTransaction();
-            saveTransaction.StudentFeeId = studentFeeId;
-            saveTransaction.StudentId = studentId;
-            saveTransaction.RecBookNo = recBookNo;
-            saveTransaction.RecNumber = recNumber;
-            saveTransaction.PaymentMode = paymentMode;
-            saveTransaction.TransactionNo = transactionNo;
-            saveTransaction.CreatedBy = "Admin";
-            if (!string.IsNullOrEmpty(paymentdate)) 
-            {
-                saveTransaction.CreateDateTime = Convert.ToDateTime(paymentdate);
-            }
             //---------Validate Head and total should be same-----
             if (varAmount1 + varAmount2 + varAmount3 + varAmount4 == totalPay)
             {
+                var transactions = new List<StudentTransaction>();
+
                 if ((varAmount1 != 0) && (varHead1 != "Select"))
                 {
-                    saveTransaction.Head = varHead1;
-                    saveTransaction.Amount = varAmount1;
-                    var teee = _transactionRepo.SaveAndGetId(saveTransaction);
+                    transactions.Add(new StudentTransaction
+                    {
+                        StudentFeeId = studentFeeId,
+                        StudentId = studentId,
+                        RecBookNo = recBookNo,
+                        RecNumber = recNumber,
+                        PaymentMode = paymentMode,
+                        TransactionNo = transactionNo,
+                        CreatedBy = "Admin",
+                        Head = varHead1,
+                        Amount = varAmount1,
+                        CreateDateTime = string.IsNullOrEmpty(paymentdate)
+                            ? DateTime.Now
+                            : Convert.ToDateTime(paymentdate)
+                    });
                 }
                 if ((varAmount2 != 0) && (varHead2 != "Select"))
                 {
-                    saveTransaction.Head = varHead2;
-                    saveTransaction.Amount = varAmount2;
-                    var teee = _transactionRepo.SaveAndGetId(saveTransaction);
+                    transactions.Add(new StudentTransaction
+                    {
+                        StudentFeeId = studentFeeId,
+                        StudentId = studentId,
+                        RecBookNo = recBookNo,
+                        RecNumber = recNumber,
+                        PaymentMode = paymentMode,
+                        TransactionNo = transactionNo,
+                        CreatedBy = "Admin",
+                        Head = varHead2,
+                        Amount = varAmount2,
+                        CreateDateTime = string.IsNullOrEmpty(paymentdate)
+                            ? DateTime.Now
+                            : Convert.ToDateTime(paymentdate)
+                    });
                 }
                 if ((varAmount3 != 0) && (varHead3 != "Select"))
                 {
-                    saveTransaction.Head = varHead3;
-                    saveTransaction.Amount = varAmount3;
-                    var teee = _transactionRepo.SaveAndGetId(saveTransaction);
+                    transactions.Add(new StudentTransaction
+                    {
+                        StudentFeeId = studentFeeId,
+                        StudentId = studentId,
+                        RecBookNo = recBookNo,
+                        RecNumber = recNumber,
+                        PaymentMode = paymentMode,
+                        TransactionNo = transactionNo,
+                        CreatedBy = "Admin",
+                        Head = varHead3,
+                        Amount = varAmount3,
+                        CreateDateTime = string.IsNullOrEmpty(paymentdate)
+                            ? DateTime.Now
+                            : Convert.ToDateTime(paymentdate)
+                    });
                 }
                 if ((varAmount4 != 0) && (varHead4 != "Select"))
                 {
-                    saveTransaction.Head = varHead4;
-                    saveTransaction.Amount = varAmount4;
-                    var teee = _transactionRepo.SaveAndGetId(saveTransaction);
+                    transactions.Add(new StudentTransaction
+                    {
+                        StudentFeeId = studentFeeId,
+                        StudentId = studentId,
+                        RecBookNo = recBookNo,
+                        RecNumber = recNumber,
+                        PaymentMode = paymentMode,
+                        TransactionNo = transactionNo,
+                        CreatedBy = "Admin",
+                        Head = varHead4,
+                        Amount = varAmount4,
+                        CreateDateTime = string.IsNullOrEmpty(paymentdate)
+                            ? DateTime.Now
+                            : Convert.ToDateTime(paymentdate)
+                    });
                 }
+                _transactionRepo.BulkSave(transactions);
+
+
+                //-------------Update into Student Fee Table----
+                StudentFee studentFee = new StudentFee();
+                studentFee.Id = studentFeeId;
+                studentFee.PaidAmount = totalPay;
+                _studentFeeRepo.UpdateOnlyFeeAmount(studentFee);
+
+
 
             }
 
-            
            
-
-            
 
 
             return View();

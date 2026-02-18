@@ -52,6 +52,18 @@ namespace CRM.Repositories
             _context.SaveChanges();
         }
 
+        public bool UpdateOnlyFeeAmount(StudentFee model)
+        {
+            var studentFee = _context.StudentFee.FirstOrDefault(x => x.Id == model.Id);
+            if (studentFee != null) 
+            {
+                studentFee.PaidAmount = studentFee.PaidAmount + model.PaidAmount;
+                var status = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public void Delete(int id)
         {
             var item = _context.StudentFee.Find(id);

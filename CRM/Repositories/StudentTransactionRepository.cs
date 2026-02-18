@@ -40,9 +40,17 @@ namespace CRM.Repositories
             return 0;
         }
 
+
+
         public void Update(StudentTransaction model)
         {
             _context.StudentTransaction.Update(model);
+            _context.SaveChanges();
+        }
+
+        public void BulkSave(List<StudentTransaction> model)
+        {
+            _context.StudentTransaction.AddRange(model);
             _context.SaveChanges();
         }
 
