@@ -247,7 +247,7 @@ namespace CRM.Controllers
                 studentFee.PaidAmount = totalPay;
                 _studentFeeRepo.UpdateOnlyFeeAmount(studentFee);
 
-
+                
 
             }
 
