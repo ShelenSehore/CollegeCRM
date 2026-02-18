@@ -394,13 +394,6 @@
 
         var varStudentId = 0;
         var varStudentFeeId = 0;
-        var varHead = "";
-        var varRecBookNo = "";
-        var varRecNumber = "";
-        var Amount = 0;
-        var varPaymentMode = "";
-        var varTransactionNo = "";
-
         var varHead1 = "";
         var varAmount1 = 0;
         var varHead2 = "";
@@ -424,16 +417,9 @@
             varStudentId = $("#hdnStudentId").val();
             varStudentFeeId = $("#hdnstudentFeeId").val();
            
-
-            var varRecBookNo = $("#txtRecBookNo").val();
-            var varReceptNo = $("#txtReceptNo").val();
-            var varTransactionID = $("#txtTransactionID").val();
-            var varPaymentMode = $('#ddlPayMode option:selected').text();
-
-
             //------------------Pop Up---------------
-            $("#lblReciptBookNo").text(varRecBookNo);
-            $("#lblReciptNo").text(varReceptNo);
+            $("#lblReciptBookNo").text($("#txtRecBookNo").val());
+            $("#lblReciptNo").text($("#txtReceptNo").val());
             $("#lblName").text($("#hdnName").val());
             $("#lblFatherName").text($("#hdnFatherName").val());
             $("#lblClass").text($("#hdnClass").val());
@@ -496,6 +482,11 @@
 
         function fillHeadDropdown(dropDownName, optionRemove)
         {
+            debugger;
+            classArray = classArray.filter(function (item) {
+                return item !== optionRemove;
+            });
+
             $.each(classArray, function (index, value) {
                 $("#ddlHead" + dropDownName).append(
                     $("<option></option>").val(value).text(value)
