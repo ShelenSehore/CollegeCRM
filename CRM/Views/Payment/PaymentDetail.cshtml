@@ -385,7 +385,10 @@
         window.onload = function () {
 
             fillHeadDropdown("1", 'na');
-           
+
+            $('#txtAmount1, #txtAmount2,  #txtAmount3,  #txtAmount4').on('change', function () {
+                CalculateTotal();
+            });
            
         };
 
@@ -406,6 +409,15 @@
         var varAmount3 = 0;
         var varHead4 = "";
         var varAmount4 = 0;
+
+        function CalculateTotal() {
+            var temtotalPay1 = parseFloat($("#txtAmount1").val()) || 0;
+            var temtotalPay2 = parseFloat($("#txtAmount2").val()) || 0;
+            var temtotalPay3 = parseFloat($("#txtAmount3").val()) || 0;
+            var temtotalPay4 = parseFloat($("#txtAmount4").val()) || 0;
+            $("#txtTotalPay").val(temtotalPay1 + temtotalPay2 + temtotalPay3 + temtotalPay4);
+        }
+
 
         function payNow() {
             
@@ -438,19 +450,35 @@
 
         function showNextHead(rowNo)
         {
-            $("#row" + rowNo).show();
-            var tee = rowNo - 1;
-            var ddlName = "ddlHead" + tee;
-
-           var testoption =  $("#"+ddlName+" option:selected").text();
-
-            fillHeadDropdown(rowNo, testoption);
+            if (rowNo != "1") {
+                var ddlHeadValidation = parseFloat(rowNo) - 1;
+                var getValue = $("#ddlHead" + ddlHeadValidation + " option:selected").text();
+                if ((getValue == null) || (getValue == "Select"))  //----- Validation for Head dropdown----
+                {
+                    $("#ddlHead" + ddlHeadValidation).addClass("is-invalid");
+                }
+                else {
+                    $("#ddlHead" + ddlHeadValidation).removeClass("is-invalid");
+                    $("#row" + rowNo).show();
+                    var tee = rowNo - 1;
+                    var ddlName = "ddlHead" + tee;
+                    var testoption = $("#" + ddlName + " option:selected").text();
+                    fillHeadDropdown(rowNo, testoption);
+                }
+            }
+            else {
+                $("#ddlHead" + ddlHeadValidation).removeClass("is-invalid");
+                $("#row" + rowNo).show();
+                var tee = rowNo - 1;
+                var ddlName = "ddlHead" + tee;
+                var testoption = $("#" + ddlName + " option:selected").text();
+                fillHeadDropdown(rowNo, testoption);
+            }
 
         }
 
         function fillHeadDropdown(dropDownName, optionRemove)
         {
-
             $.each(classArray, function (index, value) {
                 $("#ddlHead" + dropDownName).append(
                     $("<option></option>").val(value).text(value)

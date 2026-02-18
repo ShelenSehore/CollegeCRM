@@ -152,16 +152,11 @@ namespace CRM.Controllers
             int varAmount1, int varAmount2, int varAmount3, int varAmount4, int totalPay)
         {
             ViewBag.BaseUrl = _baseUrl;
-            StudentPaymentDetailView returnObj = new StudentPaymentDetailView();
+          
 
-            //var data = _repoStudent.GetById(id);
 
-            //returnObj.studentDetail = data;
-            ////-----------Fee Detail--------
-            //var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
-            //returnObj.studentFeeDetail = FeeDetail;
 
-            return View(returnObj);
+            return View();
         }
 
 
