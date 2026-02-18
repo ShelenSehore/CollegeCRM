@@ -247,14 +247,9 @@ namespace CRM.Controllers
                 studentFee.PaidAmount = totalPay;
                 _studentFeeRepo.UpdateOnlyFeeAmount(studentFee);
 
-                
-
             }
 
-           
-
-
-            return View();
+            return Json(new { success = true, data = "" }) ;
         }
 
 

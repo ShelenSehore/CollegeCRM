@@ -582,8 +582,9 @@
                 totalPay: $("#txtTotalPay").val()
             },
                 function (res) {
-
-                    TableData(res)  //--------pass records for generate tabble
+                    location.reload(true);
+                    $("#modal-View").modal("hide");
+                    
                 }
             );
         }
