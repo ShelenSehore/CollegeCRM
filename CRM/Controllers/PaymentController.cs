@@ -140,20 +140,24 @@ namespace CRM.Controllers
             ViewBag.BaseUrl = _baseUrl;
             StudentPaymentDetailView returnObj = new StudentPaymentDetailView();
 
+            //-------Student Detail---------
             var data = _repoStudent.GetById(id);
-            
             returnObj.studentDetail = data;
             //-----------Fee Detail--------
             var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
             returnObj.studentFeeDetail = FeeDetail;
 
+            //-------Transaction Detail---------------
+            returnObj.studentTransaction = _transactionRepo.GetAllByStudentIDandFeeID(id, FeeDetail.Id);
+
+
             return View(returnObj);
         }
 
         //---------------Save Payment Detail--------------
-        public IActionResult SavePaymentDetail(int studentId, int studentFeeId, string recBookNo, string recNumber,
+        public IActionResult SavePaymentDetail(int studentId, int studentFeeId, string recBookNo, string recNumber, string paymentdate,
             string paymentMode, string transactionNo, string varHead1, string varHead2, string varHead3, string varHead4,
-            int varAmount1, int varAmount2, int varAmount3, int varAmount4, int totalPay)
+            int varAmount1=0, int varAmount2 = 0, int varAmount3 = 0, int varAmount4 = 0, int totalPay = 0)
         {
             ViewBag.BaseUrl = _baseUrl;
 
@@ -164,12 +168,45 @@ namespace CRM.Controllers
             saveTransaction.RecNumber = recNumber;
             saveTransaction.PaymentMode = paymentMode;
             saveTransaction.TransactionNo = transactionNo;
-            saveTransaction.CreateDateTime = DateTime.Now;
             saveTransaction.CreatedBy = "Admin";
-            saveTransaction.Head = varHead1;
-            saveTransaction.Amount = varAmount1;
+            if (!string.IsNullOrEmpty(paymentdate)) 
+            {
+                saveTransaction.CreateDateTime = Convert.ToDateTime(paymentdate);
+            }
+            //---------Validate Head and total should be same-----
+            if (varAmount1 + varAmount2 + varAmount3 + varAmount4 == totalPay)
+            {
+                if ((varAmount1 != 0) && (varHead1 != "Select"))
+                {
+                    saveTransaction.Head = varHead1;
+                    saveTransaction.Amount = varAmount1;
+                    var teee = _transactionRepo.SaveAndGetId(saveTransaction);
+                }
+                if ((varAmount2 != 0) && (varHead2 != "Select"))
+                {
+                    saveTransaction.Head = varHead2;
+                    saveTransaction.Amount = varAmount2;
+                    var teee = _transactionRepo.SaveAndGetId(saveTransaction);
+                }
+                if ((varAmount3 != 0) && (varHead3 != "Select"))
+                {
+                    saveTransaction.Head = varHead3;
+                    saveTransaction.Amount = varAmount3;
+                    var teee = _transactionRepo.SaveAndGetId(saveTransaction);
+                }
+                if ((varAmount4 != 0) && (varHead4 != "Select"))
+                {
+                    saveTransaction.Head = varHead4;
+                    saveTransaction.Amount = varAmount4;
+                    var teee = _transactionRepo.SaveAndGetId(saveTransaction);
+                }
 
-            var teee =_transactionRepo.SaveAndGetId(saveTransaction);
+            }
+
+            
+           
+
+            
 
 
             return View();

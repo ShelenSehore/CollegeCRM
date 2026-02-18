@@ -60,5 +60,12 @@ namespace CRM.Repositories
         {
             return _context.StudentTransaction.Find(id);
         }
+
+        public List<StudentTransaction> GetAllByStudentIDandFeeID(int studentID, int FeeId)
+        {
+            return _context.StudentTransaction.Where(x=>x.StudentFeeId == FeeId && x.StudentId == studentID).ToList();
+        }
+
+
     }
 }

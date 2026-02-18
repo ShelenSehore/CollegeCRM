@@ -115,6 +115,12 @@
                                             </tr>
                                             <tr>
 
+                                                <td>Cousion Money</td>
+                                                <td></td>
+                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.CMoney</span></td>
+                                            </tr>
+                                            <tr>
+
                                                 <td>Scholership</td>
                                                 <td></td>
                                                 <td><span class="badge bg-danger">@Model.studentFeeDetail.OtherFee</span></td>
@@ -155,12 +161,14 @@
                                                     Pay Mode
                                                 </td>
                                                 <td>
-                                                    <select id="ddlPayMode" class="form-control">
+                                                    <select id="ddlPayMode" style="width:25%; float:left">
                                                         <option>Select</option>ss
                                                         <option>Cashe</option>
                                                         <option>Online</option>
                                                         <option>Check</option>
                                                     </select>
+                                                    
+                                                    <div style="width:50%; float:right;">Date : <input type="date"   id="txtPaymentdate" /></div>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -254,7 +262,42 @@
                                     </table>
                                 </div>
                                 <div class="tab-pane" id="History">
-                                    pay now333
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th style="30%">Head</th>
+                                                <th>Amount</th>
+                                                <th>Date</th>
+                                                <th>Taken By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.studentTransaction.Count() > 0)
+                                            {
+                                                int rowNo = 1;
+                                                int TotalAmount = 0;
+                                                foreach (var row in Model.studentTransaction)
+                                                {
+                                                    <tr>
+                                                        <td> @rowNo </td>
+                                                        <td> @row.Head </td>
+                                                        <td> @row.Amount </td>
+                                                        <td> @row.CreateDateTime.ToString("dd/MM/yyyy") </td>
+                                                        <td> @row.CreatedBy </td>
+                                                    </tr>
+                                                    rowNo = rowNo + 1;
+                                                    TotalAmount = TotalAmount + row.Amount;
+                                                }
+                                                <tr>
+                                                    <td></td>
+                                                    <td><strong>Total</strong></td>
+                                                    <td colspan="4"><strong> @TotalAmount </strong></td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <!-- /.tab-pane -->
                             </div>
@@ -287,8 +330,8 @@
                 <div class="row" style="line-height: 0.1 !important">
                     <div class="col-md-3">
                         <div class="form-group">
-                            BOOK No :
-                            <strong><label id="lblReciptBookNo"></label></strong>
+                            RECEIPT No / BOOK No:
+                            <strong><label id="lblReciptNo"></label> / <label id="lblReciptBookNo"></label></strong>
                         </div>
                     </div>
                     <div class="col-md-3 float-right"></div>
@@ -296,8 +339,8 @@
 
                     <div class="col-md-3 float-right">
                         <div class="form-group">
-                            RECEIPT No :
-                            <strong><label id="lblReciptNo"></label></strong>
+                            Date:
+                            <strong><label id="lblPayDate"></label></strong>
                         </div>
                     </div>
                 </div>
@@ -420,6 +463,7 @@
             //------------------Pop Up---------------
             $("#lblReciptBookNo").text($("#txtRecBookNo").val());
             $("#lblReciptNo").text($("#txtReceptNo").val());
+            $("#lblPayDate").text($("#txtPaymentdate").val());
             $("#lblName").text($("#hdnName").val());
             $("#lblFatherName").text($("#hdnFatherName").val());
             $("#lblClass").text($("#hdnClass").val());
@@ -501,6 +545,7 @@
                 studentFeeId: varStudentFeeId,
                 recBookNo: $("#txtRecBookNo").val(),
                 recNumber: $("#txtReceptNo").val(),
+                paymentdate: $("#txtPaymentdate").val(),
                 paymentMode: $('#ddlPayMode option:selected').text(),
                 transactionNo: $("#txtTransactionID").val(),
                 varHead1: $('#ddlHead1 option:selected').text(),
