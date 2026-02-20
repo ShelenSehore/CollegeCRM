@@ -1,0 +1,708 @@
+﻿
+@model CRM.ModelsForView.StudentViewModel
+
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    ViewData["Title"] = "Registration";
+    var baseUrl = ViewBag.BaseUrl;
+
+    <style type="text/css">
+        .PersonalDetailLable {
+            font-weight:15;
+            font-size:13px;
+        }
+        .PersonalDetailText {
+            font-weight:450 !important;
+            font-size:15px;
+            color: #096f99 !important
+        }
+    </style>
+}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="~/Student/List">List</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Studdent Detail</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid img-circle"
+                                     src="../../dist/img/user4-128x128.jpg"
+                                     alt="User profile picture">
+                            </div>
+
+                            <h3 class="profile-username text-center">@Model.StudentName</h3>
+
+
+                            <p class="text-muted text-center">@Model.FatherName</p>
+                            <p class="text-muted text-center">@Model.MobileNoOne</p>
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                   
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-book mr-1"></i> Education</h3>
+                        </div>
+                        
+                        <div class="card-body">
+
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>Class</b> <a class="float-right">@Model.Class</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Course</b> <a class="float-right">@Model.Course</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Year</b> <a class="float-right">@Model.Year</a>
+                                </li>
+                            </ul>
+
+
+                        </div>
+                       
+                    </div>
+                   
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#Personal" data-toggle="tab"><i class="fas fa-user"></i> Personal</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#College" data-toggle="tab"><i class="fas fa-university"></i> College</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#Academic" data-toggle="tab">Academic</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#Document" data-toggle="tab">Document</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#Promosion" data-toggle="tab">Promosion  </a></li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <!-- /.Personal Detail -->
+                                <div class="active tab-pane" id="Personal">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Name</label>
+                                            <input asp-for="StudentName" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Father Name</label>
+                                            <input asp-for="FatherName" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="PersonalDetailLable">Mother Name</label>
+                                                <input asp-for="MotherName" readonly="readonly" class="form-control PersonalDetailText" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="PersonalDetailLable">Mobile No</label>
+                                                <input asp-for="MobileNoOne" readonly="readonly" class="form-control PersonalDetailText" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">DOB</label>
+                                            <input asp-for="DOB" type="date" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="PersonalDetailLable">FatherMobileNo</label>
+                                                <input asp-for="FatherMobileNo" readonly="readonly" class="form-control PersonalDetailText" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label class="PersonalDetailLable">Gender</label>
+                                            <input asp-for="Gender" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label class="PersonalDetailLable">Minority</label>
+                                            <input asp-for="Minority" readonly="readonly" class="form-control PersonalDetailText" />
+
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label class="PersonalDetailLable">Caste</label>
+                                            <input asp-for="Caste" readonly="readonly" class="form-control PersonalDetailText" />
+
+                                        </div>
+                                        <div class="col-md-2 custom-checkbox">
+                                            <label class="PersonalDetailLable">TC</label>
+                                            <input asp-for="Caste" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-2 custom-checkbox">
+                                            <label class="PersonalDetailLable">PH</label>
+                                            <input asp-for="Caste" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Aadhaar No</label>
+                                            <input asp-for="AadhaarNo" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">ABC No</label>
+                                            <input asp-for="AbcNo" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label class="PersonalDetailLable">SamagraID</label>
+                                            <input asp-for="SamagraID" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+
+                                        <div class="col-md-8">
+                                            <label class="PersonalDetailLable"> Address</label>
+                                            <textarea asp-for="Address" readonly="readonly" class="form-control PersonalDetailText"></textarea>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a href="#" data-toggle='modal' data-target='#modal-Personal'> Change Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.College Detail -->
+                                <div class="tab-pane" id="College">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Session</label>
+                                            <input asp-for="Session" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">NewOld</label>
+                                            <input asp-for="NewOld" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">RegEx</label>
+                                            <input asp-for="RegEx" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Admission Form No</label>
+                                            <input asp-for="AdmissionFormNo" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Enroll No</label>
+                                            <input asp-for="EnRollNo" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Admission Date</label>
+                                            <input asp-for="AdmissionDate" type="date" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Class</label>
+                                            <input asp-for="Class" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Course</label>
+                                            <input asp-for="Course" type="date" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Year</label>
+                                            <input asp-for="Year" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Roll No</label>
+                                            <input asp-for="RollNo" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Schoolar No</label>
+                                            <input asp-for="SchoolarNo" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Sub Code</label>
+                                            <input asp-for="SubCode" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a href="#" data-toggle='modal' data-target='#modal-College'> Change Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- /.Academic -->
+                                <div class="tab-pane" id="Academic">
+                                    <div class="row">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10px">#</th>
+                                                    <th>School/College</th>
+                                                    <th>Board</th>
+                                                    <th>Year</th>
+                                                    <th>Result</th>
+                                                    <th>Obtain</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1.</td>
+                                                    <td>Update software</td>
+                                                    <td>Update software</td>
+                                                    <td>2015</td>
+                                                    <td>Pass</td>
+                                                    <td>452/500</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1.</td>
+                                                    <td>Update software</td>
+                                                    <td>Update software</td>
+                                                    <td>2015</td>
+                                                    <td>Pass</td>
+                                                    <td>452/500</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                        <div class="col-md-2">
+                                            <a href="#" data-toggle='modal' data-target='#modal-Academic'> Change Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- /.Document -->
+                                <div class="tab-pane" id="Document">
+                                    <div class="row">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10px">#</th>
+                                                    <th>Document Name</th>
+                                                    <th>Download</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1.</td>
+                                                    <td>TC</td>
+                                                    <td>download</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1.</td>
+                                                    <td>TC</td>
+                                                    <td>download</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1.</td>
+                                                    <td>TC</td>
+                                                    <td>download</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                        <div class="col-md-2">
+                                            <a href="#" data-toggle='modal' data-target='#modal-Academic'> Change Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- /.Document -->
+                                <div class="tab-pane" id="Promosion">
+                                    <div class="row">
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Session</label>
+                                                <select asp-for="Session" asp-items="Model.SessionList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Class</label>
+                                                <select id="ddlClass" asp-for="Class" asp-items="Model.ClassList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Course</label>
+                                                <select id="ddlSubject" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Year</label>
+                                                <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-block bg-gradient-success">Success</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+<div class="modal fade" id="modal-Personal">
+    <div class="modal-dialog" style=" min-width:750px !important; width:750px !important">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Student</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>First Name</label>
+                        <input asp-for="StudentName" class="form-control">
+                        <input type="hidden" asp-for="Id" />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Father Name</label>
+                        <input asp-for="FatherName" class="form-control">
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Mother Name</label>
+                            <input asp-for="MotherName" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Mobile No</label>
+                            <input asp-for="MobileNoOne" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>DOB</label>
+                        <input asp-for="DOB" type="date" class="form-control">
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>FatherMobileNo</label>
+                            <input asp-for="FatherMobileNo" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Gender</label>
+                        <select asp-for="Gender" class="form-control">
+                            <option>Select</option>
+                            <option>Male</option>
+                            <option>Femle</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Minority</label>
+                        <select asp-for="Minority" class="form-control">
+                            <option>Select</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Caste</label>
+                        <select asp-for="Caste" class="form-control">
+                            <option>Select</option>
+                            <option>Gen</option>
+                            <option>OBC</option>
+                            <option>SC</option>
+                            <option>ST</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 custom-checkbox">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" name="TC" id="TC">
+                            <label for="TC" class="custom-control-label">TC</label>
+                        </div>
+
+                    </div>
+                    <div class="col-md-2 custom-checkbox">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" name="PH" id="PH">
+                            <label for="PH" class="custom-control-label">PH</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Aadhaar No</label>
+                        <input asp-for="AadhaarNo" class="form-control">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>ABC No</label>
+                        <input asp-for="AbcNo" class="form-control">
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>SamagraID</label>
+                        <input asp-for="SamagraID" class="form-control">
+                    </div>
+
+                    <div class="col-md-8">
+                        <label>Address</label>
+                        <textarea asp-for="Address" class="form-control"></textarea>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-College">
+    <div class="modal-dialog" style=" min-width:750px !important; width:750px !important">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">College</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Session</label>
+                            <select asp-for="Session" asp-items="Model.SessionList" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>NewOld</label>
+                            <select asp-for="NewOld" class="form-control">
+                                <option>Select</option>
+                                <option>New</option>
+                                <option>Old</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>RegEx</label>
+                            <select asp-for="RegEx" class="form-control">
+                                <option>Select</option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Medium</label>
+                            <select asp-for="Medium" class="form-control">
+                                <option>Select</option>
+                                <option>Hindi</option>
+                                <option>English</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Admission Form No</label>
+                            <input asp-for="AdmissionFormNo" class="form-control" placeholder="Form No">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>EnRollNo</label>
+                            <input asp-for="EnRollNo" class="form-control" placeholder="Roll No">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>AdmissionDate</label>
+                            <input asp-for="AdmissionDate" type="date" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Class</label>
+                            <select id="ddlClass" asp-for="Class" asp-items="Model.ClassList" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Course</label>
+                            <select id="ddlSubject" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Year</label>
+                            <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>RollNo</label>
+                            <input asp-for="RollNo" class="form-control" placeholder="Roll No">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>SchoolarNo</label>
+                            <input asp-for="SchoolarNo" class="form-control" placeholder="Roll No">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>SubCode</label>
+                            <input asp-for="SubCode" class="form-control" placeholder="Roll No">
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-Academic">
+    <div class="modal-dialog" style=" min-width:750px !important; width:750px !important">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">College</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>12th school Name</label>
+                            <input type="text" asp-for="SchoolName" class="form-control" placeholder="12th school Name">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Passsing Year</label>
+                            <select id="ddlAcademicYear" class="form-control">
+                                <option>Select</option>
+                                <option>2023</option>
+                                <option>2024</option>
+                                <option>2025</option>
+                                <option>2026</option>
+                                <option>2027</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Board</label>
+                            <input type="text" asp-for="Board" class="form-control" placeholder="Board">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Max. Marks</label>
+                            <input type="text" asp-for="MaxMark" class="form-control" placeholder="Max. Marks">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Obtain Marks</label>
+                            <input type="text" asp-for="ObtMark" class="form-control" placeholder="Obtain Marks">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Result</label>
+                            <input type="text" asp-for="Result" class="form-control" placeholder="Result">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Parcentage</label>
+                            <input type="text" asp-for="Parcent" class="form-control" placeholder="Parcentage">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,7 +13,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item"><a href="#">Payment</a></li>
+                        <li class="breadcrumb-item"><a href="~/Payment/index">Payment</a></li>
                         <li class="breadcrumb-item active"><a href="#">Payment Detail</a></li>
                     </ol>
                 </div>
@@ -121,6 +121,12 @@
                                             </tr>
                                             <tr>
 
+                                                <td>Cousion Money Paid or Not</td>
+                                                <td></td>
+                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.CMoney</span></td>
+                                            </tr>
+                                            <tr>
+
                                                 <td>Scholership</td>
                                                 <td></td>
                                                 <td><span class="badge bg-danger">@Model.studentFeeDetail.OtherFee</span></td>
@@ -135,11 +141,22 @@
 
                                                 <td><strong>Paid Fee Amount</strong></td>
                                                 <td>
+                                                    @{
+                                                        
+                                                        int remainingFee = @Model.studentFeeDetail.TotalFeeAfterDiscount - @Model.studentFeeDetail.PaidAmount;
+
+                                                    }
                                                     <div class="progress progress-xs progress-striped active">
-                                                        <div class="progress-bar bg-success" style="width: 90%"></div>
+                                                        <div class="progress-bar bg-success" style="width:50%"></div>
                                                     </div>
                                                 </td>
                                                 <td><span class="badge bg-success">@Model.studentFeeDetail.PaidAmount</span></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td><strong>Remaining Fee</strong></td>
+                                                <td></td>
+                                                <td><span class="badge bg-danger">@remainingFee</span></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -312,8 +329,6 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-
-
 
 </div>
 

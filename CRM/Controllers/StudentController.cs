@@ -550,6 +550,109 @@ namespace CRM.Controllers
             return Json(new { success = true, data = true });
         }
 
+        //------------------------
+        public IActionResult PromodeStudent(int? id)
+        {
+            var model = new StudentViewModel();
+
+            model.ClassList = _classRepo.GetAll()
+                        .Select(x => new SelectListItem
+                        {
+                            Value = x.Name.ToString(),
+                            Text = x.Name
+                        })
+                        .ToList();
+
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
+
+
+            if ((id != 0) && (id != null))
+            {
+                var varStudentDetail = _repoStudent.GetById(id.Value);
+
+                if (varStudentDetail != null)
+                {
+                    model.Id = model.Id;
+                    model.AdmissionFormNo = varStudentDetail.AdmissionFormNo;
+                    model.Year = varStudentDetail.Year;
+                    model.EnRollNo = varStudentDetail.EnRollNo;
+                    model.AdmissionDate = varStudentDetail.AdmissionDate;
+                    model.Class = varStudentDetail.Class;
+                    model.RollNo = varStudentDetail.RollNo;
+                    model.RegEx = varStudentDetail.RegEx;
+                    model.Course = varStudentDetail.Course;
+
+                    if (varStudentDetail.SchoolarNo != null)
+                        model.SchoolarNo = varStudentDetail.SchoolarNo.ToString();
+
+                    model.NewOld = varStudentDetail.NewOld;
+                    model.SubCode = varStudentDetail.SubCode;
+                    model.Medium = varStudentDetail.Medium;
+                    model.Gender = varStudentDetail.Gender;
+                    model.Caste = varStudentDetail.Caste;
+                    model.AadhaarNo = varStudentDetail.AadhaarNo;
+                    model.StudentName = varStudentDetail.StudentName;
+                    model.DOB = varStudentDetail.DOB;
+                    model.SamagraID = varStudentDetail.SamagraID;
+                    model.FatherName = varStudentDetail.FatherName;
+                    model.MotherName = varStudentDetail.MotherName;
+                    model.MobileNoOne = varStudentDetail.MobileNoOne;
+                    model.FatherMobileNo = varStudentDetail.FatherMobileNo;
+                    model.TC = varStudentDetail.TC;
+                    model.PH = varStudentDetail.PH;
+                    model.Address = varStudentDetail.Address;
+                    model.Minority = varStudentDetail.Minority;
+
+                    //---Dropdown--
+                    model.SelectedClass = varStudentDetail.Class;
+                    model.SelectedSubject = model.Subject;
+                    model.SelectedCourse = varStudentDetail.Course;
+                    model.SelectedYear = varStudentDetail.Year;
+                    model.Session = varStudentDetail.Session;
+
+
+                }
+            }
+
+
+
+            ViewBag.BaseUrl = _baseUrl;
+            //var data = _repoStudent.GetAll();
+            return View(model);
+        }
+
 
     }
 }
