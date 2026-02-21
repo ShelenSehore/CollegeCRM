@@ -74,17 +74,47 @@ namespace CRM.Repositories
                 student.Gender = model.Gender;
                 student.Minority = model.Minority;
                 student.Caste = model.Caste;
+                student.AadhaarNo = model.AadhaarNo;
                 student.AbcNo = model.AbcNo;
                 student.SamagraID = model.SamagraID;
                 student.Address = model.Address;
                 student.TC = model.TC;
                 student.PH = model.PH;
+                student.UpdateDatetime = model.UpdateDatetime;
+                student.UpdatedBy = model.UpdatedBy;
                 var status = _context.SaveChanges();
                 return true;
             }
             return false;
         }
 
+        public bool UpdateCollegeDetail(Student model)
+        {
+            var student = _context.Student.FirstOrDefault(x => x.Id == model.Id);
+
+            if (student != null)
+            {
+                student.AdmissionFormNo = model.AdmissionFormNo;
+                student.AdmissionDate = model.AdmissionDate;
+                student.NewOld = model.NewOld;
+                student.Medium = model.Medium;
+                //student.Session = model.Session;
+                //student.Class = model.Class;
+                //student.Course = model.Course;
+                //student.Year = model.Year;
+                student.EnRollNo = model.EnRollNo;
+                student.RollNo = model.RollNo;
+                student.SchoolarNo = model.SchoolarNo;
+                student.SubCode = model.SubCode;
+                student.RegEx = model.RegEx;
+                student.UpdateDatetime = model.UpdateDatetime;
+                student.UpdatedBy = model.UpdatedBy;
+               
+                var status = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
 
         public void Delete(int id)
         {

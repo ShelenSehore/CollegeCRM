@@ -99,6 +99,7 @@
                                 <!-- /.Personal Detail -->
                                 <div class="active tab-pane" id="Personal">
                                     <div class="row">
+                                      
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Name</label>
                                             <input asp-for="StudentName" readonly="readonly" class="form-control PersonalDetailText" />
@@ -153,11 +154,11 @@
                                         </div>
                                         <div class="col-md-2 custom-checkbox">
                                             <label class="PersonalDetailLable">TC</label>
-                                            <input asp-for="Caste" readonly="readonly" class="form-control PersonalDetailText" />
+                                            <input asp-for="TC" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-2 custom-checkbox">
                                             <label class="PersonalDetailLable">PH</label>
-                                            <input asp-for="Caste" readonly="readonly" class="form-control PersonalDetailText" />
+                                            <input asp-for="PH" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
 
                                         <div class="col-md-3">
@@ -192,6 +193,18 @@
                                             <input asp-for="Session" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Class</label>
+                                            <input asp-for="Class" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Course</label>
+                                            <input asp-for="Course"  readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Year</label>
+                                            <input asp-for="Year" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
                                             <label class="PersonalDetailLable">NewOld</label>
                                             <input asp-for="NewOld" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
@@ -211,18 +224,7 @@
                                             <label class="PersonalDetailLable">Admission Date</label>
                                             <input asp-for="AdmissionDate" type="date" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-3">
-                                            <label class="PersonalDetailLable">Class</label>
-                                            <input asp-for="Class" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="PersonalDetailLable">Course</label>
-                                            <input asp-for="Course" type="date" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="PersonalDetailLable">Year</label>
-                                            <input asp-for="Year" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
+
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Roll No</label>
                                             <input asp-for="RollNo" readonly="readonly" class="form-control PersonalDetailText" />
@@ -448,17 +450,21 @@
                         </select>
                     </div>
                     <div class="col-md-2 custom-checkbox">
-                        <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox" name="TC" id="chkTC">
-                            <label for="TC" class="custom-control-label">TC</label>
-                        </div>
+                        <label>TC Submited</label>
+                        <select id="ddlTC" asp-for="TC" class="form-control">
+                            <option>Select</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
 
                     </div>
                     <div class="col-md-2 custom-checkbox">
-                        <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox" name="PH" id="chkPH">
-                            <label for="PH" class="custom-control-label">PH</label>
-                        </div>
+                        <label>Is Handicapped</label>
+                        <select id="ddlPH" asp-for="PH" class="form-control">
+                            <option>Select</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
                     </div>
 
                     <div class="col-md-3">
@@ -485,8 +491,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
-                <button type="button" class="btn btn-success" onclick="SavePersonalDetail()"><i class="fas fa-save"> </i>Save changes</button>
+                <button type="button" class="btn btn-success" onclick="SavePersonalDetail()"><i class="fas fa-save"> </i> Save changes</button>
                 
             </div>
         </div>
@@ -509,17 +514,8 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Session</label>
-                            <select asp-for="Session" asp-items="Model.SessionList" class="form-control">
-                                <option>Select</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-group">
                             <label>NewOld</label>
-                            <select asp-for="NewOld" class="form-control">
+                            <select  id="ddlNewOld"  asp-for="NewOld" class="form-control">
                                 <option>Select</option>
                                 <option>New</option>
                                 <option>Old</option>
@@ -529,8 +525,8 @@
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>RegEx</label>
-                            <select asp-for="RegEx" class="form-control">
+                            <label>Is Reguler</label>
+                            <select id="ddlRegEx" asp-for="RegEx" class="form-control">
                                 <option>Select</option>
                                 <option>Yes</option>
                                 <option>No</option>
@@ -541,7 +537,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Medium</label>
-                            <select asp-for="Medium" class="form-control">
+                            <select id="ddlMedium" asp-for="Medium" class="form-control">
                                 <option>Select</option>
                                 <option>Hindi</option>
                                 <option>English</option>
@@ -553,68 +549,44 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Admission Form No</label>
-                            <input asp-for="AdmissionFormNo" class="form-control" placeholder="Form No">
+                            <input id="txtAdmissionFormNo" type="number" asp-for="AdmissionFormNo" class="form-control" placeholder="Form No">
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>EnRollNo</label>
-                            <input asp-for="EnRollNo" class="form-control" placeholder="Roll No">
+                            <input  id="txtEnRollNo"  asp-for="EnRollNo" class="form-control" placeholder="Roll No">
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>AdmissionDate</label>
-                            <input asp-for="AdmissionDate" type="date" class="form-control">
+                            <input id="txtAdmissionDate" asp-for="AdmissionDate" type="date" class="form-control">
                         </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Class</label>
-                            <select id="ddlClass" asp-for="Class" asp-items="Model.ClassList" class="form-control">
-                                <option>Select</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Course</label>
-                            <select id="ddlSubject" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
-                                <option>Select</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Year</label>
-                            <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control">
-                                <option>Select</option>
-                            </select>
-                        </div>
-                    </div>
+                  
 
 
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>RollNo</label>
-                            <input asp-for="RollNo" class="form-control" placeholder="Roll No">
+                            <input id="txtRollNo" asp-for="RollNo" class="form-control" placeholder="Roll No">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>SchoolarNo</label>
-                            <input asp-for="SchoolarNo" class="form-control" placeholder="Roll No">
+                            <input id="txtSchoolarNo" asp-for="SchoolarNo" class="form-control" placeholder="Roll No">
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>SubCode</label>
-                            <input asp-for="SubCode" class="form-control" placeholder="Roll No">
+                            <input id="txtSubCode" asp-for="SubCode" class="form-control" placeholder="Roll No">
                         </div>
                     </div>
 
@@ -624,7 +596,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
+                <button type="button" class="btn btn-success" onclick="SaveCollegeDetail()"><i class="fas fa-save"> </i> Save changes</button>
             </div>
         </div>
     </div>
@@ -714,24 +686,29 @@
 
         var BASE_URL = "@baseUrl";
 
-
+        var Toast;
         window.onload = function () {
 
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+          
         };
 
+        function Alert(icon, title)
+        {
+            Toast.fire({
+                icon: icon,
+                title: title
+            })
+        }
 
         function SavePersonalDetail()
         {
-            debugger;
-            var TC = "";
-            var PH = "";
-            if ($("#chkTC").prop('checked') == true) {
-                TC = "Yes"
-            }
-            if ($("#chkPH").prop('checked') == true) {
-                PH = "Yes"
-            }
-
             var varid = $("#hdnStudentID").val();
             var varStudentName = $("#txtStudentName").val();
             var varFatherName = $("#txtFatherName").val();
@@ -742,11 +719,12 @@
             var varGender = $('#ddlGender option:selected').text();
             var varMinority = $('#ddlMinority option:selected').text();
             var varCaset = $('#ddlCaset option:selected').text();
-            var varAbcNo = $('#txtAbcNo option:selected').text();
+            var varAdhaarNo = $('#txtAadhaarNo').val();
+            var varAbcNo = $('#txtAbcNo').val();
             var varSamagraID = $("#txtSamagraID").val();
             var varAddress = $("#txtAddress").val();
-            var varTC = TC;
-            var varPH = PH;
+            var varTC = $('#ddlTC option:selected').text();
+            var varPH = $('#ddlPH option:selected').text();
             $.post(BASE_URL + "/Student/SavePromossionDetail11", {
                 id: varid,
                 varStudentName: varStudentName,
@@ -761,53 +739,61 @@
                 varSamagraID: varSamagraID,
                 varAddress: varAddress,
                 varTC: varTC,
-                varPH: varPH
+                varPH: varPH,
+                varAdhaarNo: varAdhaarNo
             },
                 function (res) {
 
-
-
+                    $("#modal-Personal").modal("hide");
+                    Alert('success', 'Personal Detail Save succeefully.');
+                    location.reload(true);
                 }
             );
 
-            //$.post(BASE_URL + "/Student/SavePromossionDetail", {
-            //    id: id,
-            //    //varStudentName: varStudentName,
-            //    //varFatherName: varFatherName,
-            //    //varMotherName: varMotherName,
-            //    //varMobileNo: varMobileNo,
-            //    //varDOB: varDOB,
-            //    //varFatherMobileNo: varFatherMobileNo,
-            //    //varGender: varGender,
-            //    //varMinority: varMinority,
-            //    //varCaset: varCaset,
-            //    //varAbcNo: varAbcNo,
-            //    //varSamagraID: varSamagraID,
-            //    //varAddress: varAddress,
-            //    //varTC: varTC,
-            //    //varPH: varPH
-            //},
-            //    function (res) {
-            //        $("#modal-Promod").modal("hide");
-                   
-            //    }
-            //);
         }
 
-        function SavePromosionDetail() {
-           
-            var id = 20;
-            $.post(BASE_URL + "/Student/SavePromossionDetail11", {
-                id: id,
-                varStudentName: "test"
+        function SaveCollegeDetail()
+        {
+            var varid = $("#hdnStudentID").val();
+           // var varSession = $('#ddlSession option:selected').text();
+            var varNewOld = $('#ddlNewOld option:selected').text();
+            var varMedium = $('#ddlMedium option:selected').text();
+           // var varClass = $('#ddlClass option:selected').text();
+          //  var varCourse = $('#ddlCourse option:selected').text();
+          //  var varYear = $('#ddlYear option:selected').text();
+            var varAdmissionFormNo = $('#txtAdmissionFormNo').val();
+            var varEnRollNo = $('#txtEnRollNo').val();
+            var varAdmissionDate = $('#txtAdmissionDate').val();
+            var varRollNo = $('#txtRollNo').val();
+            var varSchoolarNo = $('#txtSchoolarNo').val();
+            var varSubCode = $('#txtSubCode').val();
+            var varRegEx = $('#ddlRegEx option:selected').text();
+            
+
+            $.post(BASE_URL + "/Student/SaveAcadmicDetail", {
+                id: varid,
+                varSession: "",
+                varNewOld: varNewOld,
+                varMedium: varMedium,
+                varClass: "",
+                varCourse: "",
+                varYear: "",
+                varAdmissionFormNo: varAdmissionFormNo,
+                varEnRollNo: varEnRollNo,
+                varAdmissionDate: varAdmissionDate,
+                varRollNo: varRollNo,
+                varSchoolarNo: varSchoolarNo,
+                varSubCode: varSubCode,
+                varRegEx: varRegEx
             },
-            function (res) {
-                   
-                   
-                   
-            }
-            );
+                function (res) {
 
+                    $("#modal-Personal").modal("hide");
+                    Alert('success', 'Save succeefully.');
+                    location.reload(true);
+                }
+            );
         }
+       
     </script>
 }

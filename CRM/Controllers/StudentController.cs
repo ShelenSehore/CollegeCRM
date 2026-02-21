@@ -631,9 +631,10 @@ namespace CRM.Controllers
                     model.Medium = varStudentDetail.Medium;
                     model.Gender = varStudentDetail.Gender;
                     model.Caste = varStudentDetail.Caste;
-                    model.AadhaarNo = varStudentDetail.AadhaarNo;
                     model.StudentName = varStudentDetail.StudentName;
                     model.DOB = varStudentDetail.DOB;
+                    model.AadhaarNo = varStudentDetail.AadhaarNo;
+                    model.AbcNo = varStudentDetail.AbcNo;
                     model.SamagraID = varStudentDetail.SamagraID;
                     model.FatherName = varStudentDetail.FatherName;
                     model.MotherName = varStudentDetail.MotherName;
@@ -677,10 +678,10 @@ namespace CRM.Controllers
             return View(model);
         }
 
-        //---------------------Promossion Save Personal Detail--------------
+        //--------------------- Save Personal Detail--------------
         public IActionResult SavePromossionDetail11(int id, string varStudentName, string varFatherName, string varMotherName, string varMobileNo,
             string varDOB,string varFatherMobileNo, string varGender, string varMinority, string varCaset, string varAbcNo,
-            string varSamagraID, string varAddress, string varTC, string varPH)
+            string varSamagraID, string varAddress, string varTC, string varPH, string varAdhaarNo)
         {
             Student stuObj = new Student();
             stuObj.Id = id;
@@ -696,12 +697,51 @@ namespace CRM.Controllers
             stuObj.Minority = varMinority;
             stuObj.Caste = varCaset;
             stuObj.AbcNo = varAbcNo;
+            stuObj.AadhaarNo = varAdhaarNo;
             stuObj.SamagraID = varSamagraID;
             stuObj.Address = varAddress;
             stuObj.TC = varTC;
             stuObj.PH = varPH;
+            stuObj.UpdateDatetime = DateTime.Now;
+            stuObj.UpdatedBy = "UPdate Admin";
 
             var teee = _repoStudent.UpdatePersonalDetail(stuObj);
+
+            return Json(new { success = true, data = true });
+        }
+
+
+        //--------------------- Save Academic Detail--------------
+        public IActionResult SaveAcadmicDetail(int id, string varSession, string varNewOld, string varMedium,
+            string varClass, string varCourse, string varYear, string varAdmissionFormNo, string varEnRollNo,
+             string varAdmissionDate, string varRollNo, string varSchoolarNo, string varSubCode, string varRegEx)
+
+        {
+            Student stuObj = new Student();
+            stuObj.Id = id;
+
+            if (!string.IsNullOrEmpty(varAdmissionFormNo))
+                stuObj.AdmissionFormNo = Convert.ToInt32(varAdmissionFormNo);
+
+            if (!string.IsNullOrEmpty(varAdmissionDate))
+                stuObj.AdmissionDate = Convert.ToDateTime(varAdmissionDate);
+
+            
+            stuObj.NewOld = varNewOld;
+            stuObj.Medium = varMedium;
+            //stuObj.Session = varSession;   //-------------varSession
+            //stuObj.Class = varClass;  //-------------Class
+            //stuObj.Course = varCourse;  //-------Course
+            //stuObj.Year = varYear;  //----------Year
+            stuObj.EnRollNo = varEnRollNo;
+            stuObj.RollNo = varRollNo;
+            stuObj.SchoolarNo = varSchoolarNo;
+            stuObj.SubCode = varSubCode;
+            stuObj.RegEx = varRegEx;
+            stuObj.UpdateDatetime = DateTime.Now;
+            stuObj.UpdatedBy = "UPdate Admin";
+
+            var teee = _repoStudent.UpdateCollegeDetail(stuObj);
 
             return Json(new { success = true, data = true });
         }
