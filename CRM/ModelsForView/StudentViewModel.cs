@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using CRM.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -80,5 +81,7 @@ namespace CRM.ModelsForView
         public string DisResion { get; set; }
 
         public Dictionary<string, string> DocumentList { get; set; }
+
+        public List<Academy> AcadmicList { get; set; }
     }
 }

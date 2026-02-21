@@ -614,56 +614,75 @@
             <div class="modal-body">
                 <div class="row">
 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>12th school Name</label>
-                            <input type="text" asp-for="SchoolName" class="form-control" placeholder="12th school Name">
+                            <input id="txtSchoolName" type="text" asp-for="SchoolName" class="form-control" placeholder="12th school Name">
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>Passsing Year</label>
-                            <select id="ddlAcademicYear" class="form-control">
+                            <select id="ddlAcademicYear" asp-for="Year" asp-items="Model.YearList" class="form-control">
                                 <option>Select</option>
-                                <option>2023</option>
-                                <option>2024</option>
-                                <option>2025</option>
-                                <option>2026</option>
-                                <option>2027</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Session</label>
+                            <select id="ddlAcadmicSession" asp-for="Session" asp-items="Model.SessionList" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Class</label>
+                            <select id="ddlAcadmicClass" asp-for="Class" asp-items="Model.ClassList" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Course</label>
+                            <select id="ddlAcadmicCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
+                                <option>Select</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>Board</label>
-                            <input type="text" asp-for="Board" class="form-control" placeholder="Board">
+                            <input type="text" id="txtBoard" asp-for="Board" class="form-control" placeholder="Board">
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>Max. Marks</label>
-                            <input type="text" asp-for="MaxMark" class="form-control" placeholder="Max. Marks">
+                            <input type="text" id="txtMaxMark" asp-for="MaxMark" class="form-control" placeholder="Max. Marks">
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>Obtain Marks</label>
-                            <input type="text" asp-for="ObtMark" class="form-control" placeholder="Obtain Marks">
+                            <input type="text" id="txtObtMark" asp-for="ObtMark" class="form-control" placeholder="Obtain Marks">
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>Result</label>
-                            <input type="text" asp-for="Result" class="form-control" placeholder="Result">
+                            <input type="text" id="txtResult" asp-for="Result" class="form-control" placeholder="Result">
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>Parcentage</label>
-                            <input type="text" asp-for="Parcent" class="form-control" placeholder="Parcentage">
+                            <input type="text" id="txtParcent" asp-for="Parcent" class="form-control" placeholder="Parcentage">
                         </div>
                     </div>
 
@@ -671,7 +690,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="SaveAcadmicDetail()"><i class="fas fa-save" ></i> Save changes</button>
             </div>
         </div>
     </div>
@@ -693,17 +712,19 @@
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 3000
+                timer: 9000
             });
 
           
         };
 
-        function Alert(icon, title)
+        //-class: 'bg-danger',  class: 'bg-warning',class: 'bg-info',
+        function Alert(icon, title, className)
         {
             Toast.fire({
                 icon: icon,
-                title: title
+                title: title,
+                class: className,
             })
         }
 
@@ -745,7 +766,7 @@
                 function (res) {
 
                     $("#modal-Personal").modal("hide");
-                    Alert('success', 'Personal Detail Save succeefully.');
+                    Alert('success', 'Personal Detail Save succeefully.', 'bg-success');
                     location.reload(true);
                 }
             );
@@ -770,7 +791,7 @@
             var varRegEx = $('#ddlRegEx option:selected').text();
             
 
-            $.post(BASE_URL + "/Student/SaveAcadmicDetail", {
+            $.post(BASE_URL + "/Student/UpdateCollegeDetail", {
                 id: varid,
                 varSession: "",
                 varNewOld: varNewOld,
@@ -789,11 +810,49 @@
                 function (res) {
 
                     $("#modal-Personal").modal("hide");
-                    Alert('success', 'Save succeefully.');
+                    Alert('success', 'Save College succeefully.', 'bg-success');
                     location.reload(true);
                 }
             );
         }
-       
+
+
+        function SaveAcadmicDetail() {
+            var varid = $("#hdnStudentID").val();
+            var varAcademicYear = $('#ddlAcademicYear option:selected').text();
+            var varAcadmicSession = $('#ddlAcadmicSession option:selected').text();
+            var varAcadmicClass = $('#ddlAcadmicClass option:selected').text();
+            var varAcadmicCourse= $('#ddlAcadmicCourse option:selected').text();
+            var varSchoolName = $('#txtSchoolName').val();
+            var varBoard = $('#txtBoard').val();
+            var varMaxMark = $('#txtMaxMark').val();
+            var varObtMark = $('#txtObtMark').val();
+            var varResult = $('#txtResult').val();
+            var varParcent = $('#txtParcent').val();
+
+
+            $.post(BASE_URL + "/Student/UpdateAcadmicDetail", {
+                id: varid,
+                varAcademicYear: varAcademicYear,
+                varAcadmicSession: varAcadmicSession,
+                varAcadmicClass: varAcadmicClass,
+                varAcadmicCourse: varAcadmicCourse,
+                varSchoolName: varSchoolName,
+                varBoard: varBoard,
+                varMaxMark: varMaxMark,
+                varObtMark: varObtMark,
+                varResult: varResult,
+                varParcent: varParcent
+            },
+                function (res) {
+
+                    $("#modal-Personal").modal("hide");
+                    Alert('success', 'Save acadmic succeefully.', 'bg-success');
+                    location.reload(true);
+                }
+            );
+        }
+
+
     </script>
 }

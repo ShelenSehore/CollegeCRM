@@ -655,6 +655,8 @@ namespace CRM.Controllers
 
                 }
             }
+            //-----------Acadmic Detail-----------------
+            var tee = _repoAcademic.GetById(id.Value);
 
 
             //-------------Document List-------------------
@@ -711,8 +713,8 @@ namespace CRM.Controllers
         }
 
 
-        //--------------------- Save Academic Detail--------------
-        public IActionResult SaveAcadmicDetail(int id, string varSession, string varNewOld, string varMedium,
+        //--------------------- Save Update Detail--------------
+        public IActionResult UpdateCollegeDetail(int id, string varSession, string varNewOld, string varMedium,
             string varClass, string varCourse, string varYear, string varAdmissionFormNo, string varEnRollNo,
              string varAdmissionDate, string varRollNo, string varSchoolarNo, string varSubCode, string varRegEx)
 
@@ -745,6 +747,38 @@ namespace CRM.Controllers
 
             return Json(new { success = true, data = true });
         }
+
+
+        //--------------------- Save Acadmic Detail--------------
+        public IActionResult UpdateAcadmicDetail(int id, string varAcademicYear, string varAcadmicSession,
+            string varAcadmicClass, string varAcadmicCourse, string varSchoolName, string varBoard, string varMaxMark,
+            string varObtMark, string varResult, string varParcent)
+
+        {
+         
+
+            Academy objAcademy = new Academy();
+            objAcademy.RegStudentId = 0;
+            objAcademy.StudentId = id;
+            objAcademy.SchoolName = varSchoolName;
+            objAcademy.PassingYear = varAcademicYear;
+            objAcademy.Board = varBoard;
+            objAcademy.MaxMark = varMaxMark;
+            objAcademy.ObtMark = varObtMark;
+            objAcademy.Result = varResult;
+            objAcademy.Parcent = varParcent;
+            objAcademy.CreatedBy = "Admin";
+            objAcademy.CreatedDate = DateTime.Now;
+            objAcademy.UpdatedDate = DateTime.Now;
+            objAcademy.UpdatedBy = "Admin";
+            var AcedemicId = _repoAcademic.SaveAndGetId(objAcademy);
+
+
+
+            return Json(new { success = true, data = true });
+        }
+
+
 
     }
 }
