@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -77,5 +78,7 @@ namespace CRM.ModelsForView
 
         public string DisBy { get; set; }
         public string DisResion { get; set; }
+
+        public Dictionary<string, string> DocumentList { get; set; }
     }
 }

@@ -8,5 +8,6 @@ namespace CRM.Data
     public class AppSettings
     {
         public string BaseUrl { get; set; }
+        public string DocumentUrl { get; set; }
     }
 }

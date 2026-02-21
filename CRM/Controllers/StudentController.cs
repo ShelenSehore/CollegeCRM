@@ -5,6 +5,7 @@ using CRM.ModelsForView;
 using CRM.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -17,6 +18,8 @@ namespace CRM.Controllers
 {
     public class StudentController : Controller
     {
+        private readonly AppSettings _mySettings;
+       
         private readonly StudentRepository _repoStudent;
         private readonly StudentRegistrationRepository _repoStudentRegi;
         private readonly ILogger<StudentController> _logger;
@@ -29,6 +32,8 @@ namespace CRM.Controllers
         private readonly AcademicRepository _repoAcademic;
         private readonly StudentFeeRepository _studentFeeRepo;
         public StudentController(ILogger<StudentController> logger,
+            
+            IOptions<AppSettings> settings,
             IOptions<AppSettings> config,
             MstClassRepository classRepo,
            MstCourseRepository courseRepo,
@@ -40,6 +45,8 @@ namespace CRM.Controllers
              StudentFeeRepository studentFeeRepo,
              StudentRegistrationRepository repoStudentRegi)
         {
+            
+            _mySettings = settings.Value;
             _repoStudent = repoStudent;
             _repoStudentRegi = repoStudentRegi;
             _courseRepo = courseRepo;
@@ -550,6 +557,8 @@ namespace CRM.Controllers
             return Json(new { success = true, data = true });
         }
 
+
+       
         //------------------------
         public IActionResult PromodeStudent(int? id)
         {
@@ -604,7 +613,7 @@ namespace CRM.Controllers
 
                 if (varStudentDetail != null)
                 {
-                    model.Id = model.Id;
+                    model.Id = varStudentDetail.Id;
                     model.AdmissionFormNo = varStudentDetail.AdmissionFormNo;
                     model.Year = varStudentDetail.Year;
                     model.EnRollNo = varStudentDetail.EnRollNo;
@@ -647,12 +656,55 @@ namespace CRM.Controllers
             }
 
 
+            //-------------Document List-------------------
+            var teew = _mySettings.DocumentUrl;
+            string path = teew;
+            string[] files = Directory.GetFiles(path);
+
+            Dictionary<string, string> temList = new Dictionary<string, string>();
+            foreach (string file in files)
+            {
+                var varfilename = Path.GetFileName(file);
+
+                temList.Add(varfilename, file);
+
+            }
+
+            model.DocumentList = temList;
 
             ViewBag.BaseUrl = _baseUrl;
             //var data = _repoStudent.GetAll();
             return View(model);
         }
 
+        //---------------------Promossion Save Personal Detail--------------
+        public IActionResult SavePromossionDetail11(int id, string varStudentName, string varFatherName, string varMotherName, string varMobileNo,
+            string varDOB,string varFatherMobileNo, string varGender, string varMinority, string varCaset, string varAbcNo,
+            string varSamagraID, string varAddress, string varTC, string varPH)
+        {
+            Student stuObj = new Student();
+            stuObj.Id = id;
+            stuObj.StudentName = varStudentName;
+            stuObj.FatherName = varFatherName;
+            stuObj.MotherName = varMotherName;
+            stuObj.MobileNoOne = varMobileNo;
+            if (!string.IsNullOrEmpty(varDOB))
+                stuObj.DOB = Convert.ToDateTime(varDOB);
+
+            stuObj.FatherMobileNo = varFatherMobileNo;
+            stuObj.Gender = varGender;
+            stuObj.Minority = varMinority;
+            stuObj.Caste = varCaset;
+            stuObj.AbcNo = varAbcNo;
+            stuObj.SamagraID = varSamagraID;
+            stuObj.Address = varAddress;
+            stuObj.TC = varTC;
+            stuObj.PH = varPH;
+
+            var teee = _repoStudent.UpdatePersonalDetail(stuObj);
+
+            return Json(new { success = true, data = true });
+        }
 
     }
 }

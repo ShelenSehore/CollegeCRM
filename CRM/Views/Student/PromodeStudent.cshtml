@@ -8,12 +8,13 @@
 
     <style type="text/css">
         .PersonalDetailLable {
-            font-weight:15;
-            font-size:13px;
+            font-weight: 15;
+            font-size: 13px;
         }
+
         .PersonalDetailText {
-            font-weight:450 !important;
-            font-size:15px;
+            font-weight: 450 !important;
+            font-size: 15px;
             color: #096f99 !important
         }
     </style>
@@ -37,7 +38,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                    
+
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
@@ -45,7 +46,7 @@
                                      src="../../dist/img/user4-128x128.jpg"
                                      alt="User profile picture">
                             </div>
-
+                            <input type="hidden" value="@Model.Id" id="hdnStudentID" />
                             <h3 class="profile-username text-center">@Model.StudentName</h3>
 
 
@@ -55,12 +56,12 @@
                         </div>
                         <!-- /.card-body -->
                     </div>
-                   
+
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fas fa-book mr-1"></i> Education</h3>
                         </div>
-                        
+
                         <div class="card-body">
 
                             <ul class="list-group list-group-unbordered mb-3">
@@ -77,9 +78,9 @@
 
 
                         </div>
-                       
+
                     </div>
-                   
+
                 </div>
                 <!-- /.col -->
                 <div class="col-md-9">
@@ -292,22 +293,18 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1.</td>
-                                                    <td>TC</td>
-                                                    <td>download</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1.</td>
-                                                    <td>TC</td>
-                                                    <td>download</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1.</td>
-                                                    <td>TC</td>
-                                                    <td>download</td>
-                                                </tr>
+                                                @if (Model.DocumentList.Count > 0)
+                                                {
+                                                    foreach (var row in Model.DocumentList)
+                                                    {
+                                                        <tr>
+                                                            <th style="width: 10px">#</th>
+                                                            <th>@row.Key</th>
+                                                            <th> View</th>
+                                                        </tr>
+                                                    }
 
+                                                }
                                             </tbody>
                                         </table>
                                         <div class="col-md-2">
@@ -383,49 +380,48 @@
                 </button>
             </div>
             <div class="modal-body">
-                
+
 
                 <div class="row">
                     <div class="col-md-3">
                         <label>First Name</label>
-                        <input asp-for="StudentName" class="form-control">
-                        <input type="hidden" asp-for="Id" />
+                        <input id="txtStudentName" asp-for="StudentName" class="form-control">
                     </div>
 
                     <div class="col-md-3">
                         <label>Father Name</label>
-                        <input asp-for="FatherName" class="form-control">
+                        <input  id="txtFatherName" asp-for="FatherName" class="form-control">
                     </div>
 
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Mother Name</label>
-                            <input asp-for="MotherName" class="form-control">
+                            <input  id="txtMotherName" asp-for="MotherName" class="form-control">
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Mobile No</label>
-                            <input asp-for="MobileNoOne" class="form-control">
+                            <input id="txtMobileNo" asp-for="MobileNoOne" class="form-control">
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <label>DOB</label>
-                        <input asp-for="DOB" type="date" class="form-control">
+                        <input id="txtDOB" asp-for="DOB" type="date" class="form-control">
                     </div>
 
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>FatherMobileNo</label>
-                            <input asp-for="FatherMobileNo" class="form-control">
+                            <input id="txtFatherMobileNo" asp-for="FatherMobileNo" class="form-control">
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <label>Gender</label>
-                        <select asp-for="Gender" class="form-control">
+                        <select id="ddlGender" asp-for="Gender" class="form-control">
                             <option>Select</option>
                             <option>Male</option>
                             <option>Femle</option>
@@ -434,7 +430,7 @@
 
                     <div class="col-md-2">
                         <label>Minority</label>
-                        <select asp-for="Minority" class="form-control">
+                        <select id="ddlMinority" asp-for="Minority" class="form-control">
                             <option>Select</option>
                             <option>Yes</option>
                             <option>No</option>
@@ -443,7 +439,7 @@
 
                     <div class="col-md-2">
                         <label>Caste</label>
-                        <select asp-for="Caste" class="form-control">
+                        <select id="ddlCaset" asp-for="Caste" class="form-control">
                             <option>Select</option>
                             <option>Gen</option>
                             <option>OBC</option>
@@ -453,36 +449,36 @@
                     </div>
                     <div class="col-md-2 custom-checkbox">
                         <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox" name="TC" id="TC">
+                            <input class="custom-control-input" type="checkbox" name="TC" id="chkTC">
                             <label for="TC" class="custom-control-label">TC</label>
                         </div>
 
                     </div>
                     <div class="col-md-2 custom-checkbox">
                         <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox" name="PH" id="PH">
+                            <input class="custom-control-input" type="checkbox" name="PH" id="chkPH">
                             <label for="PH" class="custom-control-label">PH</label>
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <label>Aadhaar No</label>
-                        <input asp-for="AadhaarNo" class="form-control">
+                        <input id="txtAadhaarNo" asp-for="AadhaarNo" class="form-control">
                     </div>
 
                     <div class="col-md-3">
                         <label>ABC No</label>
-                        <input asp-for="AbcNo" class="form-control">
+                        <input id="txtAbcNo" asp-for="AbcNo" class="form-control">
                     </div>
 
                     <div class="col-md-2">
                         <label>SamagraID</label>
-                        <input asp-for="SamagraID" class="form-control">
+                        <input id="txtSamagraID" asp-for="SamagraID" class="form-control">
                     </div>
 
                     <div class="col-md-8">
                         <label>Address</label>
-                        <textarea asp-for="Address" class="form-control"></textarea>
+                        <textarea id="txtAddress" asp-for="Address" class="form-control"></textarea>
                     </div>
 
                 </div>
@@ -490,6 +486,8 @@
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
+                <button type="button" class="btn btn-success" onclick="SavePersonalDetail()"><i class="fas fa-save"> </i>Save changes</button>
+                
             </div>
         </div>
     </div>
@@ -706,3 +704,110 @@
         </div>
     </div>
 </div>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+        // INSERT
+
+        var BASE_URL = "@baseUrl";
+
+
+        window.onload = function () {
+
+        };
+
+
+        function SavePersonalDetail()
+        {
+            debugger;
+            var TC = "";
+            var PH = "";
+            if ($("#chkTC").prop('checked') == true) {
+                TC = "Yes"
+            }
+            if ($("#chkPH").prop('checked') == true) {
+                PH = "Yes"
+            }
+
+            var varid = $("#hdnStudentID").val();
+            var varStudentName = $("#txtStudentName").val();
+            var varFatherName = $("#txtFatherName").val();
+            var varMotherName = $("#txtMotherName").val();
+            var varMobileNo = $("#txtMobileNo").val();
+            var varDOB = $("#txtDOB").val();
+            var varFatherMobileNo = $("#txtFatherMobileNo").val();
+            var varGender = $('#ddlGender option:selected').text();
+            var varMinority = $('#ddlMinority option:selected').text();
+            var varCaset = $('#ddlCaset option:selected').text();
+            var varAbcNo = $('#txtAbcNo option:selected').text();
+            var varSamagraID = $("#txtSamagraID").val();
+            var varAddress = $("#txtAddress").val();
+            var varTC = TC;
+            var varPH = PH;
+            $.post(BASE_URL + "/Student/SavePromossionDetail11", {
+                id: varid,
+                varStudentName: varStudentName,
+                varFatherName: varFatherName,
+                varMotherName: varMotherName,
+                varDOB: varDOB,
+                varFatherMobileNo: varFatherMobileNo,
+                varGender: varGender,
+                varMinority: varMinority,
+                varCaset: varCaset,
+                varAbcNo: varAbcNo,
+                varSamagraID: varSamagraID,
+                varAddress: varAddress,
+                varTC: varTC,
+                varPH: varPH
+            },
+                function (res) {
+
+
+
+                }
+            );
+
+            //$.post(BASE_URL + "/Student/SavePromossionDetail", {
+            //    id: id,
+            //    //varStudentName: varStudentName,
+            //    //varFatherName: varFatherName,
+            //    //varMotherName: varMotherName,
+            //    //varMobileNo: varMobileNo,
+            //    //varDOB: varDOB,
+            //    //varFatherMobileNo: varFatherMobileNo,
+            //    //varGender: varGender,
+            //    //varMinority: varMinority,
+            //    //varCaset: varCaset,
+            //    //varAbcNo: varAbcNo,
+            //    //varSamagraID: varSamagraID,
+            //    //varAddress: varAddress,
+            //    //varTC: varTC,
+            //    //varPH: varPH
+            //},
+            //    function (res) {
+            //        $("#modal-Promod").modal("hide");
+                   
+            //    }
+            //);
+        }
+
+        function SavePromosionDetail() {
+           
+            var id = 20;
+            $.post(BASE_URL + "/Student/SavePromossionDetail11", {
+                id: id,
+                varStudentName: "test"
+            },
+            function (res) {
+                   
+                   
+                   
+            }
+            );
+
+        }
+    </script>
+}

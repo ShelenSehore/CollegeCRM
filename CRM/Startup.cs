@@ -29,7 +29,7 @@ namespace CRM
         {
 
             services.AddDbContext<CollegeContext>(options =>
-                   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddControllersWithViews().AddRazorRuntimeCompilation(); 
             services.AddScoped<MstClassRepository>();

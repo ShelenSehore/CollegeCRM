@@ -58,6 +58,34 @@ namespace CRM.Repositories
             return false;
         }
 
+
+        public bool UpdatePersonalDetail(Student model)
+        {
+            var student = _context.Student.FirstOrDefault(x => x.Id == model.Id);
+
+            if (student != null)
+            {
+                student.StudentName = model.StudentName;
+                student.FatherName = model.FatherName;
+                student.MotherName = model.MotherName;
+                student.MobileNoOne = model.MobileNoOne;
+                student.DOB = model.DOB;
+                student.FatherMobileNo = model.FatherMobileNo;
+                student.Gender = model.Gender;
+                student.Minority = model.Minority;
+                student.Caste = model.Caste;
+                student.AbcNo = model.AbcNo;
+                student.SamagraID = model.SamagraID;
+                student.Address = model.Address;
+                student.TC = model.TC;
+                student.PH = model.PH;
+                var status = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+
         public void Delete(int id)
         {
             var item = _context.Student.Find(id);
