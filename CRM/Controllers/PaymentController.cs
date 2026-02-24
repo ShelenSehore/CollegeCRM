@@ -150,6 +150,7 @@ namespace CRM.Controllers
             if (FeeDetail != null) 
             {
                 returnObj.studentFeeDetail = FeeDetail.OrderByDescending(x => x.Id).FirstOrDefault();
+
                 if (FeeDetail.Count() > 1) 
                 {
                     int skipFirst = 1;
@@ -158,14 +159,16 @@ namespace CRM.Controllers
                         if ((skipFirst != 1) &&(feeRow.PaidAmount < feeRow.TotalFeeAfterDiscount) )
                         {
                             returnObj.OldDuesAmount = returnObj.OldDuesAmount + (feeRow.TotalFeeAfterDiscount - feeRow.PaidAmount);
+
+                            
                         }
                         skipFirst = skipFirst + 1;
-
 
                     }
                     
                 }
-                
+                returnObj.FeeDueList = FeeDetail.OrderByDescending(x => x.Id).ToList();
+
             }
             
 
