@@ -315,45 +315,52 @@
                                     </div>
                                 </div>
 
-                                <!-- /.Document -->
+                                <!-- /.Promosion -->
                                 <div class="tab-pane" id="Promosion">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Session</label>
+                                            <input id="txtCurrentSession" asp-for="Session" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Class</label>
+                                            <input id="txtPromotClass" asp-for="Class" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Course</label>
+                                            <input id="txtPromotCourse" asp-for="Course" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Year</label>
+                                            <input id="txtCurrentYear" asp-for="Year" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                         Promote To
+                                    </div>
                                     <div class="row">
 
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>Session</label>
-                                                <select asp-for="Session" asp-items="Model.SessionList" class="form-control">
+                                                <label>New Session</label>
+                                                <select id="ddlPromotSession" asp-for="Session" asp-items="Model.SessionList" class="form-control">
                                                     <option>Select</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Class</label>
-                                                <select id="ddlClass" asp-for="Class" asp-items="Model.ClassList" class="form-control">
-                                                    <option>Select</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Course</label>
-                                                <select id="ddlSubject" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
-                                                    <option>Select</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                      
 
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>Year</label>
-                                                <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control">
+                                                <label>New Year</label>
+                                                <select id="ddlPromoYear" asp-for="Year" asp-items="Model.YearList" class="form-control">
                                                     <option>Select</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <button type="button" class="btn btn-block bg-gradient-success">Success</button>
+                                            <button onclick="SavePromotion()" class="btn btn-block bg-gradient-success">Success</button>
                                         </div>
 
                                     </div>
@@ -712,7 +719,7 @@
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 9000
+                timer: 50000
             });
 
           
@@ -853,6 +860,33 @@
             );
         }
 
+        function SavePromotion() {
+            var varid = $("#hdnStudentID").val();
+            var varPromotSession = $('#ddlPromotSession option:selected').text();
+            var varPromotClass = $('#txtPromotClass').val();
+            var varPromotCourse = $('#txtPromotCourse').val();
+            var varPromoYear = $('#ddlPromoYear option:selected').text();
+            var varCurrentYear = $('#txtCurrentYear').val();
+            var varCurrentSession = $('#txtCurrentSession').val();
+            
+
+            $.post(BASE_URL + "/Student/PromotStudent", {
+                id: varid,
+                varPromotSession: varPromotSession,
+                varPromotClass: varPromotClass,
+                varPromotCourse: varPromotCourse,
+                varPromoYear: varPromoYear,
+                varCurrentYear: varCurrentYear,
+                varCurrentSession: varCurrentSession
+            },
+                function (res) {
+
+                    
+                    Alert('success', 'Successfully Promoted', 'bg-success');
+                    location.reload(true);
+                }
+            );
+        }
 
     </script>
 }

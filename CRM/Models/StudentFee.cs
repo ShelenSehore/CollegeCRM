@@ -26,6 +26,7 @@ namespace CRM.Models
         public int Scholership { get; set; }
         public string DisBy { get; set; }
         public string DisResion { get; set; }
+        public string CMoneyPaidOrNot { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public string UpdateBy { get; set; }

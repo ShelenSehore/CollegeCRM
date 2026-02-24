@@ -268,6 +268,7 @@ namespace CRM.Controllers
                 studentFee.TotalFeeCM = student.TotalFeeCM;
                 studentFee.Scholership = student.Scholership;
                 studentFee.TotalFeeAfterDiscount = student.TotalFeeAfterDiscount;
+                studentFee.CMoneyPaidOrNot = "No";
                 studentFee.DisBy = student.DisBy;
                 studentFee.DisResion = student.DisResion;
                 studentFee.CreatedBy = "Admin";

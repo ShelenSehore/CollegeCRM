@@ -88,6 +88,26 @@ namespace CRM.Repositories
             return false;
         }
 
+        public bool PromoteStudentDetail(Student model)
+        {
+            var student = _context.Student.FirstOrDefault(x => x.Id == model.Id);
+
+            if (student != null)
+            {
+                
+                student.Year = model.Year;
+                student.Course = model.Course;
+                student.Class = model.Class;
+                student.Session = model.Session;
+                student.UpdateDatetime = model.UpdateDatetime;
+                student.UpdatedBy = model.UpdatedBy;
+                var status = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+
         public bool UpdateCollegeDetail(Student model)
         {
             var student = _context.Student.FirstOrDefault(x => x.Id == model.Id);

@@ -25,14 +25,19 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                    <input type="hidden" id="hdnStudentId" value="@Model.studentFeeDetail.StudentId" />
+                    @if (Model.studentFeeDetail != null)
+                    { 
+                        <input type="hidden" id="hdnStudentId" value="@Model.studentFeeDetail.StudentId" />
+                        <input type="hidden" id="hdnstudentFeeId" value="@Model.studentFeeDetail.Id" />
+                    }
+
                     <input type="hidden" id="hdnName" value="@Model.studentDetail.StudentName" />
                     <input type="hidden" id="hdnFatherName" value="@Model.studentDetail.FatherName" />
                     <input type="hidden" id="hdnClass" value="@Model.studentDetail.Class" />
                     <input type="hidden" id="hdnCourse" value="@Model.studentDetail.Course" />
                     <input type="hidden" id="hdnYear" value="@Model.studentDetail.Year" />
                     <input type="hidden" id="hdnSession" value="@Model.studentDetail.Session" />
-                    <input type="hidden" id="hdnstudentFeeId" value="@Model.studentFeeDetail.Id" />
+
                     <!-- Profile Image -->
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
@@ -123,13 +128,13 @@
 
                                                 <td>Cousion Money Paid or Not</td>
                                                 <td></td>
-                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.CMoney</span></td>
+                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.CMoneyPaidOrNot</span></td>
                                             </tr>
                                             <tr>
 
-                                                <td>Scholership</td>
+                                                <td>Scholership/ By</td>
                                                 <td></td>
-                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.OtherFee</span></td>
+                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.Scholership</span> /@Model.studentFeeDetail.DisBy </td>
                                             </tr>
                                             <tr>
 

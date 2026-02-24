@@ -95,28 +95,28 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>New Admin Fee</label>
-                                                <input id="txtNewStudentFee" asp-for="NewStudentFee" class="form-control">
+                                                <input id="txtNewStudentFee"  type="number"  asp-for="NewStudentFee" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>C. Money</label>
-                                                <input id="txtCMoney" asp-for="CMoney" class="form-control">
+                                                <input id="txtCMoney" type="number"  asp-for="CMoney" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Tution Fee</label>
-                                                <input id="txtTutionFee" asp-for="TutionFee" class="form-control">
+                                                <input id="txtTutionFee" type="number"  asp-for="TutionFee" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Other Fees</label>
-                                                <input id="txtOtherFee" asp-for="OtherFee" class="form-control">
+                                                <input id="txtOtherFee" type="number"  asp-for="OtherFee" class="form-control">
                                             </div>
                                         </div>
 
@@ -126,7 +126,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Total Fee</label>
-                                                <input id="txtTotalFee" asp-for="TotalFee" class="form-control">
+                                                <input id="txtTotalFee" type="number" asp-for="TotalFee" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -178,7 +178,15 @@
         
 
         window.onload = function () {
-           
+
+            $("#txtNewStudentFee, #txtTutionFee,#txtOtherFee").change(function () {
+               
+                var NewStudentFee = parseFloat($('#txtNewStudentFee').val()) || 0;
+                var varTutionFee = parseFloat($('#txtTutionFee').val()) || 0;
+                var varOtherFee = parseFloat($('#txtOtherFee').val()) || 0;
+                $("#txtTotalFee").val(NewStudentFee + varTutionFee + varOtherFee);
+                
+            });
 
             $("#txtNewStudentFee").change(function () {
                 varNewStudent = this.value;

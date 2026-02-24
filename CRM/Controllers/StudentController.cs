@@ -31,6 +31,7 @@ namespace CRM.Controllers
         private readonly MstSubjectRepository _subjecctRepo;
         private readonly AcademicRepository _repoAcademic;
         private readonly StudentFeeRepository _studentFeeRepo;
+        private readonly MstFeeRepository _feeRepo;
         public StudentController(ILogger<StudentController> logger,
             
             IOptions<AppSettings> settings,
@@ -43,6 +44,7 @@ namespace CRM.Controllers
             MstSessionRepository sessionRepo,
             AcademicRepository repoAcademic,
              StudentFeeRepository studentFeeRepo,
+             MstFeeRepository feeRepo,
              StudentRegistrationRepository repoStudentRegi)
         {
             
@@ -58,6 +60,7 @@ namespace CRM.Controllers
             _sessionRepo = sessionRepo;
             _repoAcademic = repoAcademic;
             _studentFeeRepo = studentFeeRepo;
+            _feeRepo = feeRepo;
         }
         public IActionResult Index(int? id)
         {
@@ -778,6 +781,66 @@ namespace CRM.Controllers
             return Json(new { success = true, data = true });
         }
 
+
+        //--------------------- Promoted Detail--------------
+        public IActionResult PromotStudent(int id, string varPromotSession, string varPromotClass,
+            string varPromotCourse, string varPromoYear, string varCurrentYear, string varCurrentSession)
+
+        {
+            //-------Fee Master-------------
+            var FeeMasterDetail = _feeRepo.GetFeeByClasssCouseSessionYearNewOld(varPromotClass, varPromotCourse, varPromotSession, varPromoYear, "New");
+
+            //-------Old Fee Detail--------------
+            var OldFeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, varPromotClass, varPromotCourse, varCurrentSession, varCurrentYear, "New");
+
+
+            //-------------Student Fee---------------
+            StudentFee studentFee = new StudentFee();
+            studentFee.StudentId = id;
+            studentFee.Year = FeeMasterDetail.Year;
+            studentFee.Course = varPromotCourse;
+            studentFee.Class = varPromotClass;
+            studentFee.Session = varPromotSession;
+            studentFee.NewOld = "Promote";
+            studentFee.NewStudentFee = 0;
+            studentFee.CMoney = FeeMasterDetail.CMoney;
+            studentFee.TutionFee = FeeMasterDetail.TutionFee;
+            studentFee.OtherFee = FeeMasterDetail.OtherFee;
+            studentFee.TotalFee =  0+ FeeMasterDetail.TutionFee + FeeMasterDetail.OtherFee;
+            //studentFee.TotalFeeCM = FeeDetail.TotalFeeCM; //---- Not using
+            studentFee.Scholership = OldFeeDetail.Scholership;
+            studentFee.TotalFeeAfterDiscount = studentFee.TotalFee - studentFee.Scholership;
+            studentFee.CMoneyPaidOrNot = "No";
+            studentFee.DisBy = OldFeeDetail.DisBy;
+            studentFee.DisResion = OldFeeDetail.DisResion;
+            studentFee.CreatedBy = "Admin";
+            studentFee.CreatedDateTime = DateTime.Now;
+
+            studentFee.UpdateDateTime = DateTime.Now;
+            studentFee.UpdateBy = "";
+            _studentFeeRepo.Add(studentFee);
+
+
+            //---------Update Student Detail----------------
+            studentFee.Year = FeeMasterDetail.Year;
+            studentFee.Course = varPromotCourse;
+            studentFee.Class = varPromotClass;
+            studentFee.Session = varPromotSession;
+
+            Student stuObj = new Student();
+            stuObj.Id = id;
+            stuObj.Year = FeeMasterDetail.Year;
+            stuObj.Course = varPromotCourse;
+            stuObj.Class = varPromotClass;
+            stuObj.Session = varPromotSession;
+            stuObj.UpdateDatetime = DateTime.Now;
+            stuObj.UpdatedBy = "UPdate Admin";
+
+            var teee = _repoStudent.PromoteStudentDetail(stuObj);
+
+
+            return Json(new { success = true, data = true });
+        }
 
 
     }

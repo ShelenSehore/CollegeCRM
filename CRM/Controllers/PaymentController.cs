@@ -148,6 +148,7 @@ namespace CRM.Controllers
             returnObj.studentFeeDetail = FeeDetail;
 
             //-------Transaction Detail---------------
+            if(FeeDetail != null)
             returnObj.studentTransaction = _transactionRepo.GetAllByStudentIDandFeeID(id, FeeDetail.Id);
 
 
@@ -245,6 +246,10 @@ namespace CRM.Controllers
                 StudentFee studentFee = new StudentFee();
                 studentFee.Id = studentFeeId;
                 studentFee.PaidAmount = totalPay;
+                if(varHead1 == "Caution money" || varHead2 == "Caution money" || varHead3 == "Caution money" || varHead4 == "Caution money")
+                 studentFee.CMoneyPaidOrNot = "Yes";
+
+
                 _studentFeeRepo.UpdateOnlyFeeAmount(studentFee);
 
             }
