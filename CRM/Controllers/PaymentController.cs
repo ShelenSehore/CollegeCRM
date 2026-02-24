@@ -144,12 +144,41 @@ namespace CRM.Controllers
             var data = _repoStudent.GetById(id);
             returnObj.studentDetail = data;
             //-----------Fee Detail--------
-            var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
-            returnObj.studentFeeDetail = FeeDetail;
+            //var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
+            //returnObj.studentFeeDetail = FeeDetail;
+            var FeeDetail = _studentFeeRepo.GetFeeByStudentID(id);
+            if (FeeDetail != null) 
+            {
+                returnObj.studentFeeDetail = FeeDetail.OrderByDescending(x => x.Id).FirstOrDefault();
+                if (FeeDetail.Count() > 1) 
+                {
+                    int skipFirst = 1;
+                    foreach (var feeRow in FeeDetail.OrderByDescending(x => x.Id)) 
+                    {
+                        if ((skipFirst != 1) &&(feeRow.PaidAmount < feeRow.TotalFeeAfterDiscount) )
+                        {
+                            returnObj.OldDuesAmount = returnObj.OldDuesAmount + (feeRow.TotalFeeAfterDiscount - feeRow.PaidAmount);
+                        }
+                        skipFirst = skipFirst + 1;
+
+
+                    }
+                    
+                }
+                
+            }
+            
+
 
             //-------Transaction Detail---------------
-            if(FeeDetail != null)
-            returnObj.studentTransaction = _transactionRepo.GetAllByStudentIDandFeeID(id, FeeDetail.Id);
+            if (FeeDetail != null) 
+            {
+                returnObj.studentTransaction = _transactionRepo.GetAllByStudentIDandFeeID(id, returnObj.studentFeeDetail.Id);
+                
+            }
+            
+
+
 
 
             return View(returnObj);

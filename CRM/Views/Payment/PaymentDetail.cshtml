@@ -75,6 +75,7 @@
                                 <li class="list-group-item">
                                     <b>Year</b> <a class="float-right">@Model.studentDetail.Year</a>
                                 </li>
+                               
                             </ul>
 
 
@@ -91,10 +92,13 @@
                                 <li class="nav-item"><a class="nav-link active" href="#Detail" data-toggle="tab">Payment Detail</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#PayNow" data-toggle="tab">Pay Now </a></li>
                                 <li class="nav-item"><a class="nav-link" href="#History" data-toggle="tab">Payment History</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#OldDues" data-toggle="tab">Old Dues  <span class="badge bg-danger">@Model.OldDuesAmount.ToString()</span> </a></li>
+                               
                             </ul>
-                        </div><!-- /.card-header -->
+                        </div>
                         <div class="card-body">
                             <div class="tab-content">
+                              
                                 <div class="active tab-pane" id="Detail">
                                     <table class="table table-bordered">
                                         <thead>
@@ -166,7 +170,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- /.tab-pane -->
+                              
                                 <div class="tab-pane" id="PayNow">
                                     <table class="table table-bordered">
                                         <thead>
@@ -283,6 +287,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                
                                 <div class="tab-pane" id="History">
                                     <table class="table table-bordered">
                                         <thead>
@@ -321,17 +326,22 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- /.tab-pane -->
+                               
+                                <div class="tab-pane" id="OldDues">
+                                    <div>
+                                        Old Dues
+                                    </div>
+                                </div>
                             </div>
-                            <!-- /.tab-content -->
-                        </div><!-- /.card-body -->
+                           
+                        </div>
                     </div>
-                    <!-- /.card -->
+                    
                 </div>
-                <!-- /.col -->
+               
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+            
+        </div>
     </section>
     <!-- /.content -->
 

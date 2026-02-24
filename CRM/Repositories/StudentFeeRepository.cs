@@ -90,5 +90,11 @@ namespace CRM.Repositories
             return _context.StudentFee.FirstOrDefault(x => x.StudentId == studentId && x.Class == classes && x.Course == course && x.Year == year && x.Session == session);
         }
 
+        public List<StudentFee> GetFeeByStudentID(int studentId)
+        {
+            return _context.StudentFee.Where(x => x.StudentId == studentId).ToList();
+        }
+
+
     }
 }
