@@ -43,7 +43,7 @@
                         <div class="card-body box-profile">
                             <div class="text-center">
                                 <img class="profile-user-img img-fluid img-circle"
-                                     src="../../dist/img/user4-128x128.jpg"
+                                     src="@Model.studentDetail.Photo"
                                      alt="User profile picture">
                             </div>
 
@@ -172,6 +172,37 @@
                                 </div>
                               
                                 <div class="tab-pane" id="PayNow">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Passsing Year</label>
+                                                <select id="ddlPayYear" asp-items="Model.YearList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Session</label>
+                                                <select id="ddlPaySession"  asp-items="Model.SessionList" class="form-control">
+                                                    <option>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Class</label>
+                                                <input readonly="readonly" value="@Model.studentDetail.Class" class="form-control PersonalDetailText" />
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Course</label>
+                                                <input value="@Model.studentDetail.Course" readonly="readonly" class="form-control PersonalDetailText" />
+                                            </div>
+                                        </div>
+                                    </div>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
@@ -539,10 +570,10 @@
             $("#lblPayDate").text($("#txtPaymentdate").val());
             $("#lblName").text($("#hdnName").val());
             $("#lblFatherName").text($("#hdnFatherName").val());
-            $("#lblClass").text($("#hdnClass").val());
-            $("#lblCourse").text($("#hdnCourse").val());
-            $("#lblYear").text($("#hdnYear").val());
-            $("#lblSession").text($("#hdnSession").val());
+            $("#lblClass").text($('#ddlPayClass option:selected').text());
+            $("#lblCourse").text($('#ddlPayCourse option:selected').text());
+            $("#lblYear").text($('#ddlPayYear option:selected').text());
+            $("#lblSession").text($('#ddlPaySession option:selected').text());
 
             //------Head detail-----------
             var varFeeDetail = "";
@@ -629,7 +660,11 @@
                 varAmount2: $("#txtAmount2").val(),
                 varAmount3: $("#txtAmount3").val(),
                 varAmount4: $("#txtAmount4").val(),
-                totalPay: $("#txtTotalPay").val()
+                totalPay: $("#txtTotalPay").val(),
+                payClass: $('#ddlPayClass option:selected').text(),
+                payCourse: $('#ddlPayCourse option:selected').text(),
+                payYear: $('#ddlPayYear option:selected').text(),
+                paySession: $('#ddlPaySession option:selected').text(),
             },
                 function (res) {
                     location.reload(true);

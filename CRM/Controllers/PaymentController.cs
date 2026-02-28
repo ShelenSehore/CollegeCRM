@@ -15,7 +15,7 @@ namespace CRM.Controllers
 {
     public class PaymentController : Controller
     {
-
+        private readonly AppSettings _mySettings;
         private readonly StudentRepository _repoStudent;
         private readonly StudentRegistrationRepository _repoStudentRegi;
         private readonly ILogger<PaymentController> _logger;
@@ -31,6 +31,7 @@ namespace CRM.Controllers
 
         public PaymentController(ILogger<PaymentController> logger,
            IOptions<AppSettings> config,
+           IOptions<AppSettings> settings,
            MstClassRepository classRepo,
           MstCourseRepository courseRepo,
            MstSubjectRepository subjecctRepo,
@@ -42,6 +43,7 @@ namespace CRM.Controllers
             StudentTransactionRepository transactionRepo,
             StudentRegistrationRepository repoStudentRegi)
         {
+            _mySettings = settings.Value;
             _repoStudent = repoStudent;
             _repoStudentRegi = repoStudentRegi;
             _courseRepo = courseRepo;
@@ -139,10 +141,65 @@ namespace CRM.Controllers
         {
             ViewBag.BaseUrl = _baseUrl;
             StudentPaymentDetailView returnObj = new StudentPaymentDetailView();
-
             //-------Student Detail---------
             var data = _repoStudent.GetById(id);
             returnObj.studentDetail = data;
+
+            returnObj.ClassList = _classRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+            returnObj.ClassList.FirstOrDefault(item => item.Value == returnObj.studentDetail.Class).Selected = true;
+            //----Year----
+            returnObj.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+            returnObj.YearList.FirstOrDefault(item => item.Value == returnObj.studentDetail.Year).Selected = true;
+            //----Session----
+            returnObj.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+            returnObj.SessionList.FirstOrDefault(item => item.Value == returnObj.studentDetail.Session).Selected = true;
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            returnObj.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
+            returnObj.SubjectList.FirstOrDefault(item => item.Value == returnObj.studentDetail.Course).Selected = true;
+
+
+
+
+
+            var PhotoBaseUrl = _mySettings.DocumentUrl;
+
+            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + id + ".jpg";
+            if (System.IO.File.Exists(StudentPhoto))
+            {
+                returnObj.studentDetail.Photo = "/StudentData/Photo/" + id + ".jpg";
+            }
+
             //-----------Fee Detail--------
             //var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
             //returnObj.studentFeeDetail = FeeDetail;
@@ -190,9 +247,14 @@ namespace CRM.Controllers
         //---------------Save Payment Detail--------------
         public IActionResult SavePaymentDetail(int studentId, int studentFeeId, string recBookNo, string recNumber, string paymentdate,
             string paymentMode, string transactionNo, string varHead1, string varHead2, string varHead3, string varHead4,
-            int varAmount1=0, int varAmount2 = 0, int varAmount3 = 0, int varAmount4 = 0, int totalPay = 0)
+            int varAmount1=0, int varAmount2 = 0, int varAmount3 = 0, int varAmount4 = 0, int totalPay = 0,
+            string payClass =null, string payCourse = null, string payYear = null, string paySession = null)
         {
             ViewBag.BaseUrl = _baseUrl;
+
+            //--------------Get Student Fee ID-----------
+            var getFeeID = _studentFeeRepo.GetFeeIdByClassSessionYear(studentId, payClass, payCourse, payYear, paySession);
+            studentFeeId = getFeeID.Id;
 
             //---------Validate Head and total should be same-----
             if (varAmount1 + varAmount2 + varAmount3 + varAmount4 == totalPay)
@@ -274,9 +336,11 @@ namespace CRM.Controllers
                 _transactionRepo.BulkSave(transactions);
 
 
+
+             
                 //-------------Update into Student Fee Table----
                 StudentFee studentFee = new StudentFee();
-                studentFee.Id = studentFeeId;
+                studentFee.Id = getFeeID.Id;
                 studentFee.PaidAmount = totalPay;
                 if(varHead1 == "Caution money" || varHead2 == "Caution money" || varHead3 == "Caution money" || varHead4 == "Caution money")
                  studentFee.CMoneyPaidOrNot = "Yes";

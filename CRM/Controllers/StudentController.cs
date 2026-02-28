@@ -807,7 +807,10 @@ namespace CRM.Controllers
         {
             //-------Fee Master-------------
             var FeeMasterDetail = _feeRepo.GetFeeByClasssCouseSessionYearNewOld(varPromotClass, varPromotCourse, varPromotSession, varPromoYear, "New");
-
+            if (FeeMasterDetail == null)
+            {
+                return Json(new { success = true, data = true });
+            }
             //-------Old Fee Detail--------------
             var OldFeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, varPromotClass, varPromotCourse, varCurrentSession, varCurrentYear, "New");
 

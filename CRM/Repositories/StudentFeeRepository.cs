@@ -65,6 +65,13 @@ namespace CRM.Repositories
             return false;
         }
 
+        public StudentFee GetFeeIdByClassSessionYear(int studentId ,string payClass, string payCourse, string payYear, string paySession)
+        {
+            var studentFee = _context.StudentFee.FirstOrDefault(x => x.StudentId == studentId && x.Class== payClass && x.Course== payCourse  && x.Year== payYear && x.Session == paySession);
+            
+            return studentFee;
+        }
+
         public void Delete(int id)
         {
             var item = _context.StudentFee.Find(id);
