@@ -570,8 +570,8 @@
             $("#lblPayDate").text($("#txtPaymentdate").val());
             $("#lblName").text($("#hdnName").val());
             $("#lblFatherName").text($("#hdnFatherName").val());
-            $("#lblClass").text($('#ddlPayClass option:selected').text());
-            $("#lblCourse").text($('#ddlPayCourse option:selected').text());
+            $("#lblClass").text($('#hdnClass').val());
+            $("#lblCourse").text($('#hdnCourse').val());
             $("#lblYear").text($('#ddlPayYear option:selected').text());
             $("#lblSession").text($('#ddlPaySession option:selected').text());
 
@@ -661,8 +661,8 @@
                 varAmount3: $("#txtAmount3").val(),
                 varAmount4: $("#txtAmount4").val(),
                 totalPay: $("#txtTotalPay").val(),
-                payClass: $('#ddlPayClass option:selected').text(),
-                payCourse: $('#ddlPayCourse option:selected').text(),
+                payClass: $('#hdnClass').val(),
+                payCourse: $('#hdnCourse').val(),
                 payYear: $('#ddlPayYear option:selected').text(),
                 paySession: $('#ddlPaySession option:selected').text(),
             },
