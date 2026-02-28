@@ -60,6 +60,11 @@ namespace CRM.Repositories
             return _context.Academy.Find(id);
         }
 
+        public List<Academy>  GetListByStudentId(int id)
+        {
+            return _context.Academy.Where(x=>x.StudentId == id).ToList();
+        }
+
 
     }
 }

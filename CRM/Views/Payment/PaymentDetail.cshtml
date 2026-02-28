@@ -328,9 +328,29 @@
                                 </div>
                                
                                 <div class="tab-pane" id="OldDues">
-                                    <div>
-                                        Old Dues
-                                    </div>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Year</th>
+                                                <th>Class</th>
+                                                <th>Course</th>
+                                                <th>Total Fee Amount</th>
+                                                <th>Paid Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var rowDue in Model.FeeDueList.OrderByDescending(x => x.Id))
+                                            {
+                                            <tr>
+                                                <td>@rowDue.Year</td>
+                                                <td>@rowDue.Class</td>
+                                                <td>@rowDue.Course</td>
+                                                <td>@rowDue.TotalFeeAfterDiscount</td>
+                                                <td>@rowDue.PaidAmount</td>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                            

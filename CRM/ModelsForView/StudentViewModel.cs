@@ -11,6 +11,8 @@ namespace CRM.ModelsForView
     public class StudentViewModel
     {
         public int Id { get; set; }
+
+       
         public int? AdmissionFormNo { get; set; }
         public string? Year { get; set; }
         public string? Session { get; set; }
@@ -53,6 +55,9 @@ namespace CRM.ModelsForView
         public List<SelectListItem> SessionList { get; set; }
         public List<SelectListItem> SubjectList { get; set; }
 
+        public string Photo { get; set; }
+        public string TCPhoto { get; set; }
+
         //--------------Academic Detail---------------
         public string SchoolName { get; set; }
         public string PassingYear { get; set; }
@@ -64,7 +69,7 @@ namespace CRM.ModelsForView
 
         //----------------Search---------------
         
-            public string AbcNo { get; set; }
+        public string AbcNo { get; set; }
         public string IsSaveAcedmicDetail { get; set; }
 
         //-----------------Fee Detail-----

@@ -43,7 +43,7 @@
                         <div class="card-body box-profile">
                             <div class="text-center">
                                 <img class="profile-user-img img-fluid img-circle"
-                                     src="../../dist/img/user4-128x128.jpg"
+                                     src="@Model.Photo"
                                      alt="User profile picture">
                             </div>
                             <input type="hidden" value="@Model.Id" id="hdnStudentID" />
@@ -258,23 +258,23 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1.</td>
-                                                    <td>Update software</td>
-                                                    <td>Update software</td>
-                                                    <td>2015</td>
-                                                    <td>Pass</td>
-                                                    <td>452/500</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1.</td>
-                                                    <td>Update software</td>
-                                                    <td>Update software</td>
-                                                    <td>2015</td>
-                                                    <td>Pass</td>
-                                                    <td>452/500</td>
-                                                </tr>
-
+                                                @if (Model.AcadmicList != null)
+                                                {
+                                                    int SeNo = 1;
+                                                    foreach (var AcadmicRow in Model.AcadmicList)
+                                                    {
+                                                        <tr>
+                                                            <td>@SeNo</td>
+                                                            <td>@AcadmicRow.Board</td>
+                                                            <td>@AcadmicRow.SchoolName</td>
+                                                            <td>@AcadmicRow.PassingYear</td>
+                                                            <td>@AcadmicRow.Result</td>
+                                                            <td>@AcadmicRow.ObtMark /  @AcadmicRow.MaxMark </td>
+                                                        </tr>
+                                                        SeNo = SeNo + 1;
+                                                    }
+                                                }
+                                               
                                             </tbody>
                                         </table>
                                         <div class="col-md-2">
@@ -286,7 +286,7 @@
                                 <!-- /.Document -->
                                 <div class="tab-pane" id="Document">
                                     <div class="row">
-                                        <table class="table table-bordered">
+                                        <table class="table table-striped projects">
                                             <thead>
                                                 <tr>
                                                     <th style="width: 10px">#</th>
@@ -295,7 +295,27 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @if (Model.DocumentList.Count > 0)
+
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>
+                                                        Photo
+                                                    </td>
+                                                    <td>
+                                                        <img alt="Avatar" class="table-avatar" src="@Model.Photo">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>
+                                                        TC
+                                                    </td>
+                                                    <td>
+                                                        <img alt="Avatar" class="table-avatar" src="@Model.TCPhoto">
+                                                    </td>
+                                                </tr>
+
+                                                @if (Model.DocumentList != null)
                                                 {
                                                     foreach (var row in Model.DocumentList)
                                                     {

@@ -659,24 +659,42 @@ namespace CRM.Controllers
                 }
             }
             //-----------Acadmic Detail-----------------
-            var tee = _repoAcademic.GetById(id.Value);
+            var varAcadmicList = _repoAcademic.GetListByStudentId(id.Value);
+            if (varAcadmicList != null) 
+            {
+                model.AcadmicList = varAcadmicList;
+            }
 
 
             //-------------Document List-------------------
-            var teew = _mySettings.DocumentUrl;
-            string path = teew;
-            string[] files = Directory.GetFiles(path);
+            var PhotoBaseUrl = _mySettings.DocumentUrl;
 
-            Dictionary<string, string> temList = new Dictionary<string, string>();
-            foreach (string file in files)
+            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + id + ".jpg"; 
+            if (System.IO.File.Exists(StudentPhoto))
             {
-                var varfilename = Path.GetFileName(file);
-
-                temList.Add(varfilename, file);
-
+                model.Photo = "/StudentData/Photo/" + id + ".jpg"; 
             }
 
-            model.DocumentList = temList;
+            var TCPhoto = PhotoBaseUrl + "\\TC\\" + id + ".jpg";
+            if (System.IO.File.Exists(TCPhoto))
+            {
+                model.TCPhoto = "/StudentData/TC/" + id + ".jpg";
+            }
+
+
+            //string[] files = Directory.GetFiles(StudentPhoto);
+           
+
+            //Dictionary<string, string> temList = new Dictionary<string, string>();
+            //foreach (string file in files)
+            //{
+            //    var varfilename = Path.GetFileName(file);
+
+            //    temList.Add(varfilename, file);
+
+            //}
+
+            //model.DocumentList = temList;
 
             ViewBag.BaseUrl = _baseUrl;
             //var data = _repoStudent.GetAll();
