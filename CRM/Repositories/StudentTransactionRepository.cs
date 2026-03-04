@@ -71,7 +71,7 @@ namespace CRM.Repositories
 
         public List<StudentTransaction> GetAllByStudentIDandFeeID(int studentID, int FeeId)
         {
-            return _context.StudentTransaction.Where(x=>x.StudentFeeId == FeeId && x.StudentId == studentID).ToList();
+            return _context.StudentTransaction.Where(x=>x.StudentId == studentID).OrderByDescending(x => x.Id).ToList();
         }
 
 

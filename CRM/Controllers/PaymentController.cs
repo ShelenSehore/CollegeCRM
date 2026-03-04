@@ -335,16 +335,30 @@ namespace CRM.Controllers
                 }
                 _transactionRepo.BulkSave(transactions);
 
-
-
-             
                 //-------------Update into Student Fee Table----
                 StudentFee studentFee = new StudentFee();
                 studentFee.Id = getFeeID.Id;
-                studentFee.PaidAmount = totalPay;
-                if(varHead1 == "Caution money" || varHead2 == "Caution money" || varHead3 == "Caution money" || varHead4 == "Caution money")
-                 studentFee.CMoneyPaidOrNot = "Yes";
+              
 
+                if (varHead1 == "Caution money" || varHead2 == "Caution money" || varHead3 == "Caution money" || varHead4 == "Caution money")
+                    studentFee.CMoneyPaidOrNot = "Yes";
+                else
+                    studentFee.CMoneyPaidOrNot = "No";
+
+
+                studentFee.PaidAmount = 0;
+
+                if (varHead1 == "Admission fees" || varHead1 == "Tuition fees")
+                    studentFee.PaidAmount = studentFee.PaidAmount +varAmount1;
+
+                if (varHead2 == "Admission fees" || varHead2 == "Tuition fees")
+                    studentFee.PaidAmount = studentFee.PaidAmount + varAmount2;
+                if (varHead3 == "Admission fees" || varHead3 == "Tuition fees")
+                    studentFee.PaidAmount = studentFee.PaidAmount + varAmount3;
+                if (varHead4 == "Admission fees" || varHead4 == "Tuition fees")
+                    studentFee.PaidAmount = studentFee.PaidAmount + varAmount4;
+              
+                    
 
                 _studentFeeRepo.UpdateOnlyFeeAmount(studentFee);
 

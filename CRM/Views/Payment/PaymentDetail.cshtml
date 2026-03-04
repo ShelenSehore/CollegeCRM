@@ -115,7 +115,7 @@
                                                     <div class="icon">
                                                         <i class="ion ion-bag"></i>
                                                     </div>
-                                                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                                   
                                                 </div>
                                             </div>
                                             <!-- ./col -->
@@ -123,14 +123,14 @@
                                                 <!-- small box -->
                                                 <div class="small-box bg-success">
                                                     <div class="inner">
-                                                        <h3>@Model.studentFeeDetail.PaidAmount<sup style="font-size: 20px">%</sup></h3>
+                                                        <h3>@Model.studentFeeDetail.PaidAmount<sup style="font-size: 20px"></sup></h3>
 
                                                         <p>Paid Fee</p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="ion ion-stats-bars"></i>
                                                     </div>
-                                                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                                    
                                                 </div>
                                             </div>
                                             <!-- ./col -->
@@ -138,14 +138,19 @@
                                                 <!-- small box -->
                                                 <div class="small-box bg-warning">
                                                     <div class="inner">
-                                                        <h3>@Model.studentFeeDetail.Scholership</h3>
+                                                        @{
 
-                                                        <p>Dis. By <strong> @Model.studentFeeDetail.DisBy </strong></p>
+                                                            int remainingFee = @Model.studentFeeDetail.TotalFeeAfterDiscount - @Model.studentFeeDetail.PaidAmount;
+
+                                                        }
+                                                        <h3>@remainingFee</h3>
+
+                                                        <p>Remaining Fee </p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="ion ion-person-add"></i>
                                                     </div>
-                                                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                                    
                                                 </div>
                                             </div>
                                             <!-- ./col -->
@@ -153,14 +158,14 @@
                                                 <!-- small box -->
                                                 <div class="small-box bg-danger">
                                                     <div class="inner">
-                                                        <h3>65</h3>
+                                                        <h3>@Model.studentFeeDetail.CMoney</h3>
 
-                                                        <p>Private Student</p>
+                                                        <p>Caution Money Paid  @Model.studentFeeDetail.CMoneyPaidOrNot</p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="ion ion-pie-graph"></i>
                                                     </div>
-                                                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                                    
                                                 </div>
                                             </div>
                                             <!-- ./col -->
@@ -181,59 +186,23 @@
 
                                                 <td>New Student Fee</td>
                                                 <td></td>
-                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.NewStudentFee</span></td>
+                                                <td>@Model.studentFeeDetail.NewStudentFee</td>
                                             </tr>
                                             <tr>
 
                                                 <td>Fee</td>
                                                 <td></td>
-                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.TotalFee</span></td>
+                                                <td>@Model.studentFeeDetail.TotalFee</td>
                                             </tr>
-                                            <tr>
-
-                                                <td>Cousion Money</td>
-                                                <td></td>
-                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.CMoney</span></td>
-                                            </tr>
-                                            <tr>
-
-                                                <td>Cousion Money Paid or Not</td>
-                                                <td></td>
-                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.CMoneyPaidOrNot</span></td>
-                                            </tr>
+                                           
                                             <tr>
 
                                                 <td>Scholership/ By</td>
                                                 <td></td>
-                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.Scholership</span> /@Model.studentFeeDetail.DisBy </td>
+                                                <td>@Model.studentFeeDetail.Scholership /@Model.studentFeeDetail.DisBy </td>
                                             </tr>
-                                            <tr>
-
-                                                <td><strong>Total Fee</strong></td>
-                                                <td></td>
-                                                <td><span class="badge bg-danger">@Model.studentFeeDetail.TotalFeeAfterDiscount</span></td>
-                                            </tr>
-                                            <tr>
-
-                                                <td><strong>Paid Fee Amount</strong></td>
-                                                <td>
-                                                    @{
-
-                                                        int remainingFee = @Model.studentFeeDetail.TotalFeeAfterDiscount - @Model.studentFeeDetail.PaidAmount;
-
-                                                    }
-                                                    <div class="progress progress-xs progress-striped active">
-                                                        <div class="progress-bar bg-success" style="width:50%"></div>
-                                                    </div>
-                                                </td>
-                                                <td><span class="badge bg-success">@Model.studentFeeDetail.PaidAmount</span></td>
-                                            </tr>
-                                            <tr>
-
-                                                <td><strong>Remaining Fee</strong></td>
-                                                <td></td>
-                                                <td><span class="badge bg-danger">@remainingFee</span></td>
-                                            </tr>
+                                           
+                                           
                                         </tbody>
                                     </table>
                                 </div>
