@@ -99,7 +99,7 @@
                                 <!-- /.Personal Detail -->
                                 <div class="active tab-pane" id="Personal">
                                     <div class="row">
-                                      
+
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Name</label>
                                             <input asp-for="StudentName" readonly="readonly" class="form-control PersonalDetailText" />
@@ -181,8 +181,18 @@
                                             <textarea asp-for="Address" readonly="readonly" class="form-control PersonalDetailText"></textarea>
                                         </div>
                                         <div class="col-md-2">
-                                            <a href="#" data-toggle='modal' data-target='#modal-Personal'> Change Detail</a>
+                                            
+
+                                            <a data-toggle='modal' data-target='#modal-Personal' class="btn btn-info btn-sm" href="#">
+                                                <i class="fas fa-pencil-alt">
+                                                </i>
+                                                Change Detail
+                                            </a>
+
                                         </div>
+
+                                        
+
                                     </div>
                                 </div>
                                 <!-- /.College Detail -->
@@ -237,8 +247,13 @@
                                             <label class="PersonalDetailLable">Sub Code</label>
                                             <input asp-for="SubCode" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-2">
-                                            <a href="#" data-toggle='modal' data-target='#modal-College'> Change Detail</a>
+                                        <div class="col-md-12" >
+                                           
+                                            <a style="float:right !important; padding-top:10px;" data-toggle='modal' data-target='#modal-College' class="btn btn-info btn-sm" href="#">
+                                                <i class="fas fa-pencil-alt">
+                                                </i>
+                                                Change Detail
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -278,7 +293,11 @@
                                             </tbody>
                                         </table>
                                         <div class="col-md-2">
-                                            <a href="#" data-toggle='modal' data-target='#modal-Academic'> Change Detail</a>
+                                            <a data-toggle='modal' data-target='#modal-Academic' class="btn btn-info btn-sm" href="#">
+                                                <i class="fas fa-pencil-alt">
+                                                </i>
+                                                Change Detail
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -647,6 +666,7 @@
                             <input id="txtSchoolName" type="text" asp-for="SchoolName" class="form-control" placeholder="12th school Name">
                         </div>
                     </div>
+
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Passsing Year</label>
@@ -710,6 +730,13 @@
                         <div class="form-group">
                             <label>Parcentage</label>
                             <input type="text" id="txtParcent" asp-for="Parcent" class="form-control" placeholder="Parcentage">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Admission Form No</label>
+                            <input type="text" asp-for="AdmissionFormNo" id="txtAdmissionFormNo"  class="form-control" placeholder="Parcentage">
                         </div>
                     </div>
 
@@ -856,7 +883,7 @@
             var varObtMark = $('#txtObtMark').val();
             var varResult = $('#txtResult').val();
             var varParcent = $('#txtParcent').val();
-
+            var varAdmissionFormNo = $('#txtAdmissionFormNo').val();
 
             $.post(BASE_URL + "/Student/UpdateAcadmicDetail", {
                 id: varid,

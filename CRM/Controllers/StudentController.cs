@@ -773,7 +773,7 @@ namespace CRM.Controllers
         //--------------------- Save Acadmic Detail--------------
         public IActionResult UpdateAcadmicDetail(int id, string varAcademicYear, string varAcadmicSession,
             string varAcadmicClass, string varAcadmicCourse, string varSchoolName, string varBoard, string varMaxMark,
-            string varObtMark, string varResult, string varParcent)
+            string varObtMark, string varResult, string varParcent, string varAdmissionFormNo)
 
         {
          
@@ -788,6 +788,7 @@ namespace CRM.Controllers
             objAcademy.ObtMark = varObtMark;
             objAcademy.Result = varResult;
             objAcademy.Parcent = varParcent;
+            objAcademy.AdmissionForm = varAdmissionFormNo;
             objAcademy.CreatedBy = "Admin";
             objAcademy.CreatedDate = DateTime.Now;
             objAcademy.UpdatedDate = DateTime.Now;
