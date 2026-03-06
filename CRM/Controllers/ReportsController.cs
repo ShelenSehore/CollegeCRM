@@ -110,17 +110,65 @@ namespace CRM.Controllers
                 })
                 .ToList();
 
+            return View(model);
+        }
 
-            ////--------Get List
-            //var data = _repoStudent.GetAll();
+        public IActionResult Dfc()
+        {
+            ViewBag.BaseUrl = _baseUrl;
+            var model = new StudentListView();
 
-            //model.StudentList = data;
+            model.ClassList = _classRepo.GetAll()
+                      .Select(x => new SelectListItem
+                      {
+                          Value = x.Name.ToString(),
+                          Text = x.Name
+                      })
+                      .ToList();
+
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+
+
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
+
 
             return View(model);
         }
 
 
-       
+        //-------------Payment History-------------------
         public IActionResult GetStudentList(string had, string paymentMode, string reciptNo, string fromDate, string toDate, string name,
             string session, string year, string classes, string course)
         {
@@ -132,10 +180,19 @@ namespace CRM.Controllers
         }
 
 
-
-        public IActionResult Dfc()
+        //-------------DFC History-------------------
+        public IActionResult GetDfcList(string had, string paymentMode, string reciptNo, string fromDate, string toDate, string name,
+            string session, string year, string classes, string course)
         {
-            return View();
+
+            var data = _repoStudTransaction.DFCList(had, paymentMode, reciptNo, fromDate, toDate);
+
+
+            return Json(new { success = true, data = data });
         }
+
+
+
+       
     }
 }

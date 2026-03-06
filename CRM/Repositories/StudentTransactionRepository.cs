@@ -82,9 +82,7 @@ namespace CRM.Repositories
             try
             {
                 List<ReportTransactionViewModel> resultList = new List<ReportTransactionViewModel>();
-                string strWhereCondition = "st.classes" + classes;
-
-
+               
                 var query = from tr in _context.StudentTransaction
                             join st in _context.Student
                             on tr.StudentId equals st.Id
@@ -182,6 +180,70 @@ namespace CRM.Repositories
             return null;
         }
 
+
+        public List<ReportTransactionViewModel> DFCList(string had, string paymentMode, string reciptNo,
+                                                        string fromDate, string toDate)
+        {
+            try
+            {
+                List<ReportTransactionViewModel> resultList = new List<ReportTransactionViewModel>();
+
+
+
+                // 1. Start with the base query
+                var query = _context.StudentTransaction.AsQueryable();
+
+                // 2. Add dynamic "Where" conditions based on parameters
+                if (!string.IsNullOrEmpty(had) && (had != "Select"))
+                    query = query.Where(x => x.Head == had);
+
+                if (!string.IsNullOrEmpty(paymentMode) && (paymentMode != "Select"))
+                    query = query.Where(x => x.PaymentMode == paymentMode);
+
+              
+                if (DateTime.TryParse(fromDate, out DateTime start))
+                    query = query.Where(x => x.CreateDateTime >= start);
+
+                if (DateTime.TryParse(toDate, out DateTime end))
+                    query = query.Where(x => x.CreateDateTime <= end);
+
+                // 3. Final GroupBy and Projection
+                var result = query
+                    .GroupBy(x => x.Head)
+                    .Select(g => new ReportTransactionViewModel // Projecting to your ViewModel
+                    {
+                        Head = g.Key,
+                        TotalAmount = g.Sum(x => x.Amount)
+                    })
+                    .ToList();
+
+
+
+                //---------------Result build-------------
+                if (result != null)
+                {
+                    foreach (var row in result)
+                    {
+                        ReportTransactionViewModel rowObj = new ReportTransactionViewModel();
+                        rowObj.Id = row.Id;
+                       
+                        rowObj.Head = row.Head;
+                        
+                        rowObj.TotalAmount = row.TotalAmount;
+                       
+
+                        resultList.Add(rowObj);
+                    }
+                    return resultList;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return null;
+        }
 
     }
 }

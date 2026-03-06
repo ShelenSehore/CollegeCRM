@@ -36,5 +36,8 @@ namespace CRM.ModelsForView
         public string? FatherName { get; set; }
         public string? MobileNoOne { get; set; }
 
+
+        //-----------Total Amount for DFC report----------
+        public int? TotalAmount { get; set; }
     }
 }
