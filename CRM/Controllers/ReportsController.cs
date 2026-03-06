@@ -17,7 +17,7 @@ namespace CRM.Controllers
         private readonly AppSettings _mySettings;
 
         private readonly StudentRepository _repoStudent;
-        private readonly StudentRegistrationRepository _repoStudentRegi;
+        private readonly StudentTransactionRepository _repoStudTransaction;
         private readonly ILogger<StudentController> _logger;
         private readonly MstCourseRepository _courseRepo;
         private readonly MstClassRepository _classRepo;
@@ -43,12 +43,12 @@ namespace CRM.Controllers
             AcademicRepository repoAcademic,
              StudentFeeRepository studentFeeRepo,
              MstFeeRepository feeRepo,
-             StudentRegistrationRepository repoStudentRegi)
+             StudentTransactionRepository repoStudTransaction)
         {
 
             _mySettings = settings.Value;
             _repoStudent = repoStudent;
-            _repoStudentRegi = repoStudentRegi;
+            _repoStudTransaction = repoStudTransaction;
             _courseRepo = courseRepo;
             _classRepo = classRepo;
             _logger = logger;
@@ -118,6 +118,20 @@ namespace CRM.Controllers
 
             return View(model);
         }
+
+
+       
+        public IActionResult GetStudentList(string had, string paymentMode, string reciptNo, string fromDate, string toDate, string name,
+            string session, string year, string classes, string course)
+        {
+
+             var data = _repoStudTransaction.FilterList(had, paymentMode, reciptNo, fromDate, toDate, name, session, year, classes, course);
+
+
+            return Json(new { success = true, data = data });
+        }
+
+
 
         public IActionResult Dfc()
         {
