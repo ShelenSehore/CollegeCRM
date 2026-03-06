@@ -245,5 +245,98 @@ namespace CRM.Repositories
             return null;
         }
 
+
+        public List<ReportTransactionViewModel> FilterStudentList(string name, string session,
+                                                        string year, string classes, string course)
+        {
+            try
+            {
+                List<ReportTransactionViewModel> resultList = new List<ReportTransactionViewModel>();
+
+                var query = from fee in _context.StudentFee
+                            join st in _context.Student
+                            on fee.StudentId equals st.Id
+                            select new
+                            {
+                                fee.Id,
+                                fee.StudentId,
+                               
+                                fee.Year,
+                                fee.Course,
+                                fee.Class,
+                                fee.Session,
+                                fee.NewOld,
+                                fee.NewStudentFee,
+                                fee.CMoney,
+                                fee.TutionFee,
+                                fee.OtherFee,
+                                fee.TotalFee,
+                                fee.TotalFeeAfterDiscount,
+                                fee.CMoneyPaidOrNot,
+                                fee.PaidAmount,
+                                fee.Scholership,
+                                fee.DisBy,
+                                fee.DisResion,
+                                st.StudentName,
+                                st.FatherName,
+                                st.MobileNoOne
+                               
+                            };
+
+
+                if (!string.IsNullOrEmpty(name))
+                    query = query.Where(x => x.StudentName.Contains(name));
+
+                if (!string.IsNullOrEmpty(session) && (session != "Select"))
+                    query = query.Where(x => x.Session == session);
+
+                if (!string.IsNullOrEmpty(year) && (year != "Select"))
+                    query = query.Where(x => x.Year == year);
+
+                if (!string.IsNullOrEmpty(classes) && (classes != "Select"))
+                    query = query.Where(x => x.Class == classes);
+
+                if (!string.IsNullOrEmpty(course) && (course != "Select"))
+                    query = query.Where(x => x.Course == course);
+
+                //---------------Result build-------------
+                if (query != null)
+                {
+                    foreach (var row in query)
+                    {
+                        ReportTransactionViewModel rowObj = new ReportTransactionViewModel();
+                        rowObj.Id = row.Id;
+                        rowObj.StudentId = row.StudentId;
+                        rowObj.StudentFeeId = row.StudentFeeId;
+                        rowObj.Head = row.Head;
+                        rowObj.RecBookNo = row.RecBookNo;
+                        rowObj.RecNumber = row.RecNumber;
+                        rowObj.Amount = row.Amount;
+                        rowObj.PaymentMode = row.PaymentMode;
+                        rowObj.TransactionNo = row.TransactionNo;
+                        rowObj.AdmissionFormNo = row.AdmissionFormNo;
+                        rowObj.Year = row.Year;
+                        rowObj.Session = row.Session;
+                        rowObj.Class = row.Class;
+                        rowObj.Course = row.Course;
+                        rowObj.RegEx = row.RegEx;
+                        rowObj.NewOld = row.NewOld;
+                        rowObj.StudentName = row.StudentName;
+                        rowObj.FatherName = row.FatherName;
+                        rowObj.MobileNoOne = row.MobileNoOne;
+
+                        resultList.Add(rowObj);
+                    }
+                    return resultList;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return null;
+        }
+
     }
 }

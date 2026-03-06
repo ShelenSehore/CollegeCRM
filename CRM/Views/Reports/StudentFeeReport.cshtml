@@ -1,0 +1,338 @@
+﻿@model CRM.ModelsForView.StudentListView
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    ViewData["Title"] = "List";
+    var baseUrl = ViewBag.BaseUrl;
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="#">Reports</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Student Fee</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="card">
+            <div class="card-body">
+                <div class="dataTables_wrapper dt-bootstrap4">
+
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Filters</legend>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Name</label>
+                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Session</label>
+                                        <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Year</label>
+                                    <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Class</label>
+                                    <select id="ddlClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Course</label>
+                                    <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+                        <div class="row" style="margin-bottom:5px !important">
+                            <div class="col-md-3">
+
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="reset" class="btn btn-default" style="float:left !important" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
+                            </div>
+                            <div class="col-md-3">
+                                .
+                            </div>
+
+                            <div class="col-md-2">
+                                <form id="frmDownloadExcel"></form>
+                                <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i></button>
+                            </div>
+
+
+
+                        </div>
+                    </fieldset>
+
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Student</span>
+                                    <span id="spnTotalStudent" class="info-box-number">000</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Amount</span>
+                                    <span id="spnAmount" class="info-box-number">00</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Head</span>
+                                    <span id="spnHead" class="info-box-number">No Select</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">From To Date</span>
+                                    <span id="spnFromTo" class="info-box-number">00</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+
+
+
+                            <div id="Loader" class="overlay" style="display:none;"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
+
+                            <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting sorting_asc" style="width: 10px">#</th>
+                                        <th class="sorting">Head</th>
+                                        <th class="sorting">StudentName</th>
+                                        <th class="sorting">FatherName</th>
+                                        <th class="sorting">MobileNoOne</th>
+                                        <th class="sorting">NewOld</th>
+                                        <th class="sorting">RegEx</th>
+                                        <th class="sorting">Session</th>
+                                        <th class="sorting">Year</th>
+                                        <th class="sorting">Class</th>
+                                        <th class="sorting">Course</th>
+                                        <th class="sorting">AdmissionFormNo</th>
+                                        <th class="sorting">CreateDate</th>
+                                        <th class="sorting">CreateBy</th>
+                                        <th class="sorting">TransactionNo</th>
+                                        <th class="sorting">PaymentMode</th>
+                                        <th class="sorting">Amount</th>
+                                        <th class="sorting">RecNumber</th>
+                                        <th class="sorting">RecBookNo</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                </tbody>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+    </section>
+    <!-- /.content -->
+</div>
+
+
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+        // INSERT
+
+        var BASE_URL = "@baseUrl";
+        var studentTable;
+
+        window.onload = function () {
+
+            //Date picker
+            $('#reservationdate, #reservationEnddate').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+
+
+            //// Example 3: Change events (optional)
+            //$("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
+            //    $("#tblStudentList tbody").empty();
+            //    SearchStudent();
+            //});
+
+            SearchStudent();
+
+
+
+        };
+
+
+
+
+        function DownloadExcel()
+        {
+
+            $('form#frmDownloadExcel').submit();
+
+        }
+
+
+        function Reset() {
+
+
+           
+            $("#txtSearch").val('');
+            $('#ddlSession option:selected').prop("selected", false);
+            $('#ddlYear option:selected').prop("selected", false);
+            $('#ddlClass option:selected').prop("selected", false);
+            $('#ddlCourse option:selected').prop("selected", false);
+
+            SearchStudent();
+        }
+
+
+        function SearchStudent() {
+           
+            var name = $("#txtSearch").val();
+            var varSession = $('#ddlSession option:selected').text();
+            var varYear = $('#ddlYear option:selected').text();
+            var varClass = $('#ddlClass option:selected').text();
+            var varCourse = $('#ddlCourse option:selected').text();
+            $("#Loader").show();
+
+            $.post(BASE_URL + "/Reports/StudentFeeReport", {
+               
+                name: name,
+                session: varSession,
+                year: varYear,
+                classes: varClass,
+                course: varCourse
+            },
+                function (res) {
+
+                    TableData(res)  //--------pass records for generate tabble
+                }
+            );
+
+            $("#spnHead").text(varHad);
+            $("#spnFromTo").text(varFromDate);
+        }
+
+
+
+        function TableData(tableData)
+        {
+            $("#tblStudentList tbody").empty();
+
+            var varTotalStudent = 0;
+            var varAmount = 0;
+
+            $.each(tableData.data, function (index, element) {
+
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.studentName + "</td><td>" + element.fatherName +
+                    "</td><td>" + element.mobileNoOne + "</td><td>" + element.newOld + "</td><td>" + element.regEx +
+                    "</td><td>" + element.session + "</td><td>" + element.year +
+                    "</td><td>" + element.class + "</td><td>" + element.course +
+                    "</td><td>" + element.admissionFormNo + "</td><td>" + element.createDateTime +
+                    "</td><td>" + element.CreatedBy + "</td><td>" + element.studentId +
+                   "</tr>");
+                varTotalStudent = varTotalStudent + 1;
+                varAmount = varAmount + element.amount;
+            });
+
+            $("#spnTotalStudent").text(varTotalStudent);
+            $("#spnAmount").text(varAmount);
+
+            $("#Loader").hide()
+
+        }
+
+
+        //----------Download excel file-------------
+        function ExcelDownload() {
+
+            var name = $("#txtSearch").val();
+            var varClass = $('#ddlClass option:selected').text();
+            var varSubject = $('#ddlSubject option:selected').text();
+            var varCourse = $('#ddlCourse option:selected').text();
+            var varRegPvt = $('#ddlRegPvt option:selected').text();
+
+            $.post(BASE_URL + "/Student/DownloadExcel", {
+                name: name,
+                classes: varClass,
+                subject: varSubject,
+                course: varCourse,
+                regPvt: varRegPvt
+            },
+                function (res) {
+                    TableData(res)  //--------pass records for generate tabble
+                }
+            );
+        }
+
+
+
+    </script>
+}
