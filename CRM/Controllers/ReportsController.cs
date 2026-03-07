@@ -222,6 +222,60 @@ namespace CRM.Controllers
             return View(model);
         }
 
+        public IActionResult StudentPaymentHistory()
+        {
+            ViewBag.BaseUrl = _baseUrl;
+            var model = new StudentListView();
+
+            model.ClassList = _classRepo.GetAll()
+                      .Select(x => new SelectListItem
+                      {
+                          Value = x.Name.ToString(),
+                          Text = x.Name
+                      })
+                      .ToList();
+
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+
+
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
+
+
+            return View(model);
+        }
+
 
         //-------------Payment History-------------------
         public IActionResult GetStudentList(string had, string paymentMode, string reciptNo, string fromDate, string toDate, string name,
@@ -247,12 +301,11 @@ namespace CRM.Controllers
         }
 
         //-------------DFC History-------------------
-        public IActionResult StudentFeeReport(string name, string session, string year, string classes, string course)
+        public IActionResult FeeReport(string name, string session, string year, string classes, string course)
 
         {
 
-            var data = _repoStudTransaction.DFCList(had, paymentMode, reciptNo, fromDate, toDate);
-
+            var data = _repoStudTransaction.FilterStudentList(name, session, year, classes, course);
 
             return Json(new { success = true, data = data });
         }

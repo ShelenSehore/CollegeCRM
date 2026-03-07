@@ -246,12 +246,12 @@ namespace CRM.Repositories
         }
 
 
-        public List<ReportTransactionViewModel> FilterStudentList(string name, string session,
+        public List<ReportStudentFeeView> FilterStudentList(string name, string session,
                                                         string year, string classes, string course)
         {
             try
             {
-                List<ReportTransactionViewModel> resultList = new List<ReportTransactionViewModel>();
+                List<ReportStudentFeeView> resultList = new List<ReportStudentFeeView>();
 
                 var query = from fee in _context.StudentFee
                             join st in _context.Student
@@ -304,23 +304,26 @@ namespace CRM.Repositories
                 {
                     foreach (var row in query)
                     {
-                        ReportTransactionViewModel rowObj = new ReportTransactionViewModel();
+                        ReportStudentFeeView rowObj = new ReportStudentFeeView();
                         rowObj.Id = row.Id;
                         rowObj.StudentId = row.StudentId;
-                        rowObj.StudentFeeId = row.StudentFeeId;
-                        rowObj.Head = row.Head;
-                        rowObj.RecBookNo = row.RecBookNo;
-                        rowObj.RecNumber = row.RecNumber;
-                        rowObj.Amount = row.Amount;
-                        rowObj.PaymentMode = row.PaymentMode;
-                        rowObj.TransactionNo = row.TransactionNo;
-                        rowObj.AdmissionFormNo = row.AdmissionFormNo;
                         rowObj.Year = row.Year;
                         rowObj.Session = row.Session;
                         rowObj.Class = row.Class;
                         rowObj.Course = row.Course;
-                        rowObj.RegEx = row.RegEx;
                         rowObj.NewOld = row.NewOld;
+                        rowObj.NewStudentFee = row.NewStudentFee;
+                        rowObj.CMoney = row.CMoney;
+                        rowObj.TutionFee = row.TutionFee;
+                        rowObj.OtherFee = row.OtherFee;
+                        rowObj.TotalFee = row.TotalFee;
+                        rowObj.TotalFeeAfterDiscount = row.TotalFeeAfterDiscount;
+                        rowObj.CMoneyPaidOrNot = row.CMoneyPaidOrNot;
+                        rowObj.PaidAmount = row.PaidAmount;
+                        rowObj.Scholership = row.Scholership;
+                        rowObj.DisBy = row.DisBy;
+                        rowObj.DisResion = row.DisResion;
+
                         rowObj.StudentName = row.StudentName;
                         rowObj.FatherName = row.FatherName;
                         rowObj.MobileNoOne = row.MobileNoOne;

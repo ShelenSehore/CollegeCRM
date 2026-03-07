@@ -237,7 +237,7 @@
         function Reset() {
 
 
-           
+
             $("#txtSearch").val('');
             $('#ddlSession option:selected').prop("selected", false);
             $('#ddlYear option:selected').prop("selected", false);
@@ -249,7 +249,7 @@
 
 
         function SearchStudent() {
-           
+
             var name = $("#txtSearch").val();
             var varSession = $('#ddlSession option:selected').text();
             var varYear = $('#ddlYear option:selected').text();
@@ -258,7 +258,7 @@
             $("#Loader").show();
 
             $.post(BASE_URL + "/Reports/FeeReport", {
-               
+
                 name: name,
                 session: varSession,
                 year: varYear,
