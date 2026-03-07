@@ -99,6 +99,7 @@ namespace CRM.Repositories
                 student.Course = model.Course;
                 student.Class = model.Class;
                 student.Session = model.Session;
+                student.ExamFormSubmited = model.ExamFormSubmited;
                 student.UpdateDatetime = model.UpdateDatetime;
                 student.UpdatedBy = model.UpdatedBy;
                 var status = _context.SaveChanges();

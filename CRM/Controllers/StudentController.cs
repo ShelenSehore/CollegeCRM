@@ -647,6 +647,7 @@ namespace CRM.Controllers
                     model.PH = varStudentDetail.PH;
                     model.Address = varStudentDetail.Address;
                     model.Minority = varStudentDetail.Minority;
+                    model.ExamFormSubmited = varStudentDetail.ExamFormSubmited;
 
                     //---Dropdown--
                     model.SelectedClass = varStudentDetail.Class;
@@ -669,16 +670,16 @@ namespace CRM.Controllers
             //-------------Document List-------------------
             var PhotoBaseUrl = _mySettings.DocumentUrl;
 
-            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + id + ".jpg"; 
+            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + model.AdmissionFormNo + ".jpg"; 
             if (System.IO.File.Exists(StudentPhoto))
             {
-                model.Photo = "/StudentData/Photo/" + id + ".jpg"; 
+                model.Photo = "/StudentData/Photo/" + model.AdmissionFormNo + ".jpg"; 
             }
 
-            var TCPhoto = PhotoBaseUrl + "\\TC\\" + id + ".jpg";
+            var TCPhoto = PhotoBaseUrl + "\\TC\\" + model.AdmissionFormNo + ".jpg";
             if (System.IO.File.Exists(TCPhoto))
             {
-                model.TCPhoto = "/StudentData/TC/" + id + ".jpg";
+                model.TCPhoto = "/StudentData/TC/" + model.AdmissionFormNo + ".jpg";
             }
 
 
@@ -855,6 +856,7 @@ namespace CRM.Controllers
             stuObj.Course = varPromotCourse;
             stuObj.Class = varPromotClass;
             stuObj.Session = varPromotSession;
+            stuObj.ExamFormSubmited = "No";
             stuObj.UpdateDatetime = DateTime.Now;
             stuObj.UpdatedBy = "UPdate Admin";
 

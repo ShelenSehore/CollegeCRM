@@ -48,6 +48,8 @@ namespace CRM.ModelsForView
         public string SelectedSubject { get; set; }
         public string SelectedYear { get; set; }
         public string SelectedSession { get; set; }
+
+        public string ExamFormSubmited { get; set; }
         public List<SelectListItem> ClassList { get; set; }
         public List<SelectListItem> CourseList { get; set; }
 
