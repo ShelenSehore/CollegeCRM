@@ -865,5 +865,18 @@ namespace CRM.Controllers
         }
 
 
+        //----------Fill Exam Form--------------
+
+        public IActionResult SaveExamFormFilled(string ids)
+        {
+           
+
+            var teee = _repoStudent.ExamFormFilled(ids);
+
+            return Json(new { success = true, data = true });
+        }
+
+
+
     }
 }

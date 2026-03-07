@@ -232,5 +232,32 @@ namespace CRM.Repositories
             return null;
         }
 
+
+        public bool ExamFormFilled(string  ids)
+        {
+            if (string.IsNullOrEmpty(ids)) return false;
+
+            var idList = ids.Split(',')
+                   .Select(int.Parse)
+                   .ToList();
+
+            var students = _context.Student.Where(x => idList.Contains(x.Id)).ToList();
+
+            if (students.Any()) 
+            {
+                foreach (var student in students)
+                {
+                    student.ExamFormSubmited = "Yes"; // Replace with your actual column name
+                }
+
+                // 4. Save all changes in one database transaction
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+
     }
 }
