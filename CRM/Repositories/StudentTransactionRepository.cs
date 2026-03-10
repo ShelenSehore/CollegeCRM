@@ -75,6 +75,11 @@ namespace CRM.Repositories
             return _context.StudentTransaction.Where(x=>x.StudentId == studentID).OrderByDescending(x => x.Id).ToList();
         }
 
+        public List<StudentTransaction> GetAllByStudentID(int studentID)
+        {
+            return _context.StudentTransaction.Where(x => x.StudentId == studentID).OrderByDescending(x => x.Id).ToList();
+        }
+
         public List<ReportTransactionViewModel> FilterList(string had, string paymentMode, string reciptNo, 
                                                           string fromDate, string toDate, string name, string session,
                                                           string year, string classes, string course)

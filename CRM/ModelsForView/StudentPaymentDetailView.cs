@@ -18,7 +18,7 @@ namespace CRM.ModelsForView
 
         public int OldDuesAmount { get; set; } = 0;
 
-        public List<StudentTransaction> studentTransaction { get; set; }
+        public List<PaymentHistoryModelForView> studentTransaction { get; set; }
 
 
         public List<SelectListItem> ClassList { get; set; }

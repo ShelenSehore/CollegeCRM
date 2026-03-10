@@ -256,7 +256,7 @@
                                                 <td>
                                                     <select id="ddlPayMode" style="width:25%; float:left">
                                                         <option>Select</option>
-                                                        <option>Cashe</option>
+                                                        <option>Cash</option>
                                                         <option>Online</option>
                                                         <option>Check</option>
                                                     </select>
@@ -360,8 +360,12 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 10px">#</th>
+                                                <th>Session</th>
+                                                <th>Year</th>
                                                 <th style="30%">Head</th>
                                                 <th>Amount</th>
+                                                <th>ReciptNo</th>
+                                                <th>Mode</th>
                                                 <th>Date</th>
                                                 <th>Taken By</th>
                                             </tr>
@@ -370,24 +374,24 @@
                                             @if (Model.studentTransaction.Count() > 0)
                                             {
                                                 int rowNo = 1;
-                                                int TotalAmount = 0;
+                                                
                                                 foreach (var row in Model.studentTransaction)
                                                 {
-                                                    <tr>
-                                                        <td> @rowNo </td>
-                                                        <td> @row.Head </td>
-                                                        <td> @row.Amount </td>
-                                                        <td> @row.CreateDateTime.ToString("dd/MM/yyyy") </td>
-                                                        <td> @row.CreatedBy </td>
-                                                    </tr>
+                                            <tr>
+                                                <td> @rowNo </td>
+                                                <td> @row.Session </td>
+                                                <td> @row.Year </td>
+                                                <td> @row.Head </td>
+                                                <td> @row.Amount </td>
+                                                <td> @row.RecNumber </td>
+                                                <td> @row.PaymentMode </td>
+                                                <td> @row.CreateDateTime.ToString("dd/MM/yyyy") </td>
+                                                <td> @row.CreatedBy </td>
+                                            </tr>
                                                     rowNo = rowNo + 1;
-                                                    TotalAmount = TotalAmount + row.Amount;
+                                                   
                                                 }
-                                                <tr>
-                                                    <td></td>
-                                                    <td><strong>Total</strong></td>
-                                                    <td colspan="4"><strong> @TotalAmount </strong></td>
-                                                </tr>
+                                               
                                             }
 
                                         </tbody>

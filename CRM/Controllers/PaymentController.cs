@@ -194,10 +194,10 @@ namespace CRM.Controllers
 
             var PhotoBaseUrl = _mySettings.DocumentUrl;
 
-            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + id + ".jpg";
+            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + data.AdmissionFormNo + ".jpg";
             if (System.IO.File.Exists(StudentPhoto))
             {
-                returnObj.studentDetail.Photo = "/StudentData/Photo/" + id + ".jpg";
+                returnObj.studentDetail.Photo = "/StudentData/Photo/" + data.AdmissionFormNo + ".jpg";
             }
 
             //-----------Fee Detail--------
@@ -233,8 +233,56 @@ namespace CRM.Controllers
             //-------Transaction Detail---------------
             if (FeeDetail != null) 
             {
-                returnObj.studentTransaction = _transactionRepo.GetAllByStudentIDandFeeID(id, returnObj.studentFeeDetail.Id);
-                
+                var varPaymentTable = _transactionRepo.GetAllByStudentID(id);
+                var varPaymentHistory = from tr in varPaymentTable
+                                        join fee in returnObj.FeeDueList
+                           on tr.StudentFeeId equals fee.Id
+                                        select new
+                                        {
+                                            tr.Id,
+                                            tr.StudentId,
+                                            tr.StudentFeeId,
+                                            tr.Head,
+                                            tr.RecBookNo,
+                                            tr.RecNumber,
+                                            tr.Amount,
+                                            tr.PaymentMode,
+                                            tr.TransactionNo,
+                                            tr.CreatedBy,
+                                            tr.CreateDateTime,
+                                            fee.Class,
+                                            fee.Year,
+                                            fee.Session,
+                                            fee.Course,
+                                            fee.TotalFeeAfterDiscount,
+                                            fee.PaidAmount
+                                        };
+                List<PaymentHistoryModelForView> paymentHisotryList = new List<PaymentHistoryModelForView>();
+
+                if (varPaymentHistory != null)
+                {
+                    foreach (var rowtr in varPaymentHistory)
+                    {
+                        PaymentHistoryModelForView payObj = new PaymentHistoryModelForView();
+                        payObj.Id = rowtr.Id;
+                        payObj.Head = rowtr.Head;
+                        payObj.Amount = rowtr.Amount;
+                        payObj.RecNumber = rowtr.RecNumber;
+                        payObj.PaymentMode = rowtr.PaymentMode;
+                        payObj.CreateDateTime = rowtr.CreateDateTime;
+                        payObj.CreatedBy = rowtr.CreatedBy;
+                        payObj.TransactionNo = rowtr.TransactionNo;
+                        payObj.Class = rowtr.Class;
+                        payObj.Session = rowtr.Session;
+                        payObj.Year = rowtr.Year;
+                        payObj.Course = rowtr.Course;
+
+                        paymentHisotryList.Add(payObj);
+                    }
+                    returnObj.studentTransaction = paymentHisotryList;
+                }
+
+
             }
             
 
