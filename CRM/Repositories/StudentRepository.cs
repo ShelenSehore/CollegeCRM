@@ -1,5 +1,6 @@
 ﻿using CRM.Data;
 using CRM.Models;
+using CRM.ModelsForView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -259,6 +260,24 @@ namespace CRM.Repositories
             return false;
         }
 
+
+        //---------------------For Dashboard---------------
+
+        public DashboardModelView DashboardDetail() 
+        {
+
+            DashboardModelView dashboardModelView = new DashboardModelView();
+
+            var varStudentList = _context.Student.ToList();
+            if (varStudentList != null) 
+            {
+                dashboardModelView.TotalStudent = varStudentList.Count();
+            }
+
+
+            return dashboardModelView;
+
+        }
 
     }
 }
