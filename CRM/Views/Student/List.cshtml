@@ -86,7 +86,13 @@
                             </div>
 
                             <div class="col-md-1">
-                                <form id="frmDownloadExcel"></form>
+                                <form id="frmDownloadExcel" method="post" action="DownloadExcel">
+                                    <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
+                                    <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
+                                    <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
+                                    <input type="hidden" name="hdnExcelYear" id="hdnExcelYear" />
+                                    <input type="hidden" name="hdnExcelName" id="hdnExcelName" />
+                                </form>
                                 <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i></button>
                             </div>
                         </div>
@@ -212,11 +218,11 @@
         
         window.onload = function () {
 
-            // Example 3: Change events (optional)
-            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
-                $("#tblStudentList tbody").empty();
-                SearchStudent();
-            });
+            //// Example 3: Change events (optional)
+            //$("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
+            //    $("#tblStudentList tbody").empty();
+            //    SearchStudent();
+            //});
 
             SearchStudent();
 
@@ -230,7 +236,13 @@
         function DownloadExcel()
         {
 
-            $('form#frmDownloadExcel').submit();
+            $("#hdnExcelName").val($("#txtSearch").val());
+            $("#hdnExcelClass").val($('#ddlClass option:selected').text());
+            $("#hdnExcelYear").val($('#ddlYear option:selected').text());
+            $("#hdnExcelCourse").val($('#ddlCourse option:selected').text());
+            $("#hdnExcelSession").val($('#ddlSession option:selected').text());
+            debugger;
+            $('#frmDownloadExcel').submit();
 
         }
 
