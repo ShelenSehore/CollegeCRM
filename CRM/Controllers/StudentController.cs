@@ -680,29 +680,57 @@ namespace CRM.Controllers
                     model.AdmissionDate = varStudentDetail.AdmissionDate;
                     model.Class = varStudentDetail.Class;
                     model.RollNo = varStudentDetail.RollNo;
+
+                    if(!string.IsNullOrEmpty(varStudentDetail.RegEx))
                     model.RegEx = varStudentDetail.RegEx.ToUpper();
+
                     model.Course = varStudentDetail.Course;
 
                     if (varStudentDetail.SchoolarNo != null)
                         model.SchoolarNo = varStudentDetail.SchoolarNo.ToString();
 
-                    model.NewOld = varStudentDetail.NewOld.ToUpper();
-                    model.SubCode = varStudentDetail.SubCode.ToUpper();
+                    if (!string.IsNullOrEmpty(varStudentDetail.NewOld))
+                        model.NewOld = varStudentDetail.NewOld.ToUpper();
+
+                    if (!string.IsNullOrEmpty(varStudentDetail.SubCode))
+                        model.SubCode = varStudentDetail.SubCode.ToUpper();
+
                     model.Medium = varStudentDetail.Medium;
                     model.Gender = varStudentDetail.Gender;
                     model.Caste = varStudentDetail.Caste;
-                    model.StudentName = varStudentDetail.StudentName.ToUpper();
+
+                    if (!string.IsNullOrEmpty(varStudentDetail.StudentName))
+                        model.StudentName = varStudentDetail.StudentName.ToUpper();
+
                     model.DOB = varStudentDetail.DOB;
-                    model.AadhaarNo = varStudentDetail.AadhaarNo.ToUpper();
-                    model.AbcNo = varStudentDetail.AbcNo.ToUpper();
-                    model.SamagraID = varStudentDetail.SamagraID.ToUpper();
-                    model.FatherName = varStudentDetail.FatherName;
-                    model.MotherName = varStudentDetail.MotherName.ToUpper();
-                    model.MobileNoOne = varStudentDetail.MobileNoOne.ToUpper();
-                    model.FatherMobileNo = varStudentDetail.FatherMobileNo.ToUpper();
+
+                    if (!string.IsNullOrEmpty(varStudentDetail.AadhaarNo))
+                        model.AadhaarNo = varStudentDetail.AadhaarNo.ToUpper();
+
+                    if (!string.IsNullOrEmpty(varStudentDetail.AbcNo))
+                        model.AbcNo = varStudentDetail.AbcNo.ToUpper();
+
+                    if (!string.IsNullOrEmpty(varStudentDetail.SamagraID))
+                        model.SamagraID = varStudentDetail.SamagraID.ToUpper();
+
+                    if (!string.IsNullOrEmpty(varStudentDetail.FatherName))
+                        model.FatherName = varStudentDetail.FatherName;
+
+                    if (!string.IsNullOrEmpty(varStudentDetail.MotherName))
+                        model.MotherName = varStudentDetail.MotherName.ToUpper();
+
+                    if (!string.IsNullOrEmpty(varStudentDetail.MobileNoOne))
+                        model.MobileNoOne = varStudentDetail.MobileNoOne.ToUpper();
+
+                    if (!string.IsNullOrEmpty(varStudentDetail.FatherMobileNo))
+                        model.FatherMobileNo = varStudentDetail.FatherMobileNo.ToUpper();
+
                     model.TC = varStudentDetail.TC;
                     model.PH = varStudentDetail.PH;
-                    model.Address = varStudentDetail.Address.ToUpper();
+
+                    if (!string.IsNullOrEmpty(varStudentDetail.Address))
+                        model.Address = varStudentDetail.Address.ToUpper();
+
                     model.Minority = varStudentDetail.Minority;
                     model.ExamFormSubmited = varStudentDetail.ExamFormSubmited;
 
@@ -766,10 +794,18 @@ namespace CRM.Controllers
         {
             Student stuObj = new Student();
             stuObj.Id = id;
+
+            if(!string.IsNullOrEmpty(varStudentName))
             stuObj.StudentName = varStudentName.ToUpper();
-            stuObj.FatherName = varFatherName.ToUpper();
-            stuObj.MotherName = varMotherName.ToUpper();
-            stuObj.MobileNoOne = varMobileNo.ToUpper();
+
+            if (!string.IsNullOrEmpty(varFatherName))
+                stuObj.FatherName = varFatherName.ToUpper();
+
+            if (!string.IsNullOrEmpty(varMotherName))
+                stuObj.MotherName = varMotherName.ToUpper();
+
+            if (!string.IsNullOrEmpty(varMobileNo))
+                stuObj.MobileNoOne = varMobileNo.ToUpper();
             if (!string.IsNullOrEmpty(varDOB))
                 stuObj.DOB = Convert.ToDateTime(varDOB);
 
@@ -777,10 +813,18 @@ namespace CRM.Controllers
             stuObj.Gender = varGender;
             stuObj.Minority = varMinority;
             stuObj.Caste = varCaset;
-            stuObj.AbcNo = varAbcNo.ToUpper();
-            stuObj.AadhaarNo = varAdhaarNo.ToUpper();
-            stuObj.SamagraID = varSamagraID.ToUpper();
-            stuObj.Address = varAddress.ToUpper();
+
+            if (!string.IsNullOrEmpty(varAbcNo))
+                stuObj.AbcNo = varAbcNo.ToUpper();
+
+            if (!string.IsNullOrEmpty(varAdhaarNo))
+                stuObj.AadhaarNo = varAdhaarNo.ToUpper();
+
+            if (!string.IsNullOrEmpty(varSamagraID))
+                stuObj.SamagraID = varSamagraID.ToUpper();
+
+            if (!string.IsNullOrEmpty(varAddress))
+                stuObj.Address = varAddress.ToUpper();
             stuObj.TC = varTC;
             stuObj.PH = varPH;
             stuObj.UpdateDatetime = DateTime.Now;
@@ -816,8 +860,12 @@ namespace CRM.Controllers
             //stuObj.Year = varYear;  //----------Year
             stuObj.EnRollNo = varEnRollNo.ToUpper();
             stuObj.RollNo = varRollNo.ToUpper();
-            stuObj.SchoolarNo = varSchoolarNo.ToUpper();
-            stuObj.SubCode = varSubCode.ToUpper();
+
+            if (!string.IsNullOrEmpty(varSchoolarNo))
+                stuObj.SchoolarNo = varSchoolarNo.ToUpper();
+
+            if (!string.IsNullOrEmpty(varSubCode))
+                stuObj.SubCode = varSubCode.ToUpper();
             stuObj.RegEx = varRegEx;
             stuObj.UpdateDatetime = DateTime.Now;
             stuObj.UpdatedBy = "UPdate Admin";
@@ -839,13 +887,26 @@ namespace CRM.Controllers
             Academy objAcademy = new Academy();
             objAcademy.RegStudentId = 0;
             objAcademy.StudentId = id;
-            objAcademy.SchoolName = varSchoolName.ToUpper();
-            objAcademy.PassingYear = varAcademicYear.ToUpper();
-            objAcademy.Board = varBoard.ToUpper();
-            objAcademy.MaxMark = varMaxMark;
+
+            if (!string.IsNullOrEmpty(varSchoolName))
+                objAcademy.SchoolName = varSchoolName.ToUpper();
+
+            if (!string.IsNullOrEmpty(varAcademicYear))
+                objAcademy.PassingYear = varAcademicYear.ToUpper();
+
+            if (!string.IsNullOrEmpty(varBoard))
+                objAcademy.Board = varBoard.ToUpper();
+
+           
+                objAcademy.MaxMark = varMaxMark;
             objAcademy.ObtMark = varObtMark;
-            objAcademy.Result = varResult.ToUpper();
-            objAcademy.Parcent = varParcent.ToUpper();
+
+            if (!string.IsNullOrEmpty(varResult))
+                objAcademy.Result = varResult.ToUpper();
+
+            if (!string.IsNullOrEmpty(varParcent))
+                objAcademy.Parcent = varParcent.ToUpper();
+
             objAcademy.AdmissionForm = varAdmissionFormNo;
             objAcademy.CreatedBy = "Admin";
             objAcademy.CreatedDate = DateTime.Now;

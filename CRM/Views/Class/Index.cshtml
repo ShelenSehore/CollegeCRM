@@ -159,16 +159,53 @@
     <script type="text/javascript">
         // INSERT
         var BASE_URL = "@baseUrl";
-        function saveClass() {
-            var name = $("#className").val();
+        var Toast;
 
-            if (name.trim() === "") {
-                alert("Class name required");
+        window.onload = function () {
+
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1000
+            });
+
+
+        };
+
+        function Alert(icon, title, className) {
+            Toast.fire({
+                icon: icon,
+                title: title,
+                class: className,
+            })
+        }
+        function saveClass() {
+            //var name = $("#className").val();
+
+            //if (name.trim() === "") {
+            //    alert("Class name required");
+            //    return;
+            //}
+            var name = $("#className").val().trim();
+
+            if (name === "") {
+                $("#className").addClass("is-invalid");
+                if ($("#classError").length == 0) {
+                    $("#className").after('<span id="classError" class="error invalid-feedback">Please enter class name</span>');
+                }
                 return;
             }
 
+            $("#className").removeClass("is-invalid");
+            $("#classError").remove();
+
+
             $.post(BASE_URL +"/Class/Create", { className: name }, function (res) {
-                if (res.success) location.reload();
+                if (res.success) {
+                    Alert('success', 'Save College succeefully.', 'bg-success');
+                    location.reload();
+                }
                 else alert(res.message);
             });
         }

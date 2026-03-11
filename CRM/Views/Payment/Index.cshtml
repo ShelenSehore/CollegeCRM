@@ -285,7 +285,6 @@
         function TableData(tableData)
         {
             $("#tblStudentList tbody").empty();
-            debugger;
             $.each(tableData.data, function (index, element) {
                 $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.admissionFormNo +
                     "</td><td>" + element.studentName + "</td><td>" + element.class + "</td><td>" + element.course +
