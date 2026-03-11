@@ -115,7 +115,7 @@ namespace CRM.Controllers
 
         public IActionResult SearchList(string name, string classes, string course, string year, string session)
         {
-            var data = _repoStudent.FilterList(name, classes, course, year, session);
+            var data = _repoStudent.GetByStudentRegistrationPage(session, classes, course, year, name);
             return Json(new { success = true, data = data });
         }
 

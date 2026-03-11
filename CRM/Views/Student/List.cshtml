@@ -29,10 +29,6 @@
                     <fieldset class="scheduler-border">
                         <legend class="scheduler-border">Filters</legend>
                         <div class="row">
-                            <div class="col-md-3">
-                                <label>Name</label>
-                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
-                            </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <div class="form-group">
@@ -59,7 +55,10 @@
                                     <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
                                 </div>
                             </div>
-
+                            <div class="col-md-3">
+                                <label>Name</label>
+                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                            </div>
 
 
 
@@ -250,10 +249,10 @@
         function Reset() {
 
            $("#txtSearch").val('');
-           $('#ddlClass option:selected').prop("selected", false);
-            $('#ddlYear option:selected').prop("selected", false);
-           $('#ddlCourse option:selected').prop("selected", false);
-           $('#ddlRegPvt option:selected').prop("selected", false);
+            $('#ddlSession option:selected').prop("selected", false);
+            $('#ddlClass option:selected').prop("selected", false);
+            $('#ddlCourse option:selected').prop("selected", false);
+            $('#ddlYearss option:selected').prop("selected", false);
 
             SearchStudent();
         }

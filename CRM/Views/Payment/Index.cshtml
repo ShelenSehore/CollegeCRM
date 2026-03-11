@@ -25,36 +25,67 @@
         <div class="card">
             <div class="card-body">
                 <div class="dataTables_wrapper dt-bootstrap4">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Class</label>
-                                <select id="ddlClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Course</label>
-                                <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Year</label>
-                                <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Filters</legend>
+                        <div class="row">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Session</label>
-                                    <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
+                                    <div class="form-group">
+                                        <label>Session</label>
+                                        <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Year</label>
+                                    <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Class</label>
+                                    <select id="ddlClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Course</label>
+                                    <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Name</label>
+                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                            </div>
+
+
+
                         </div>
 
-                    </div>
+                        <div class="row" style="margin-bottom:5px !important">
+                            <div class="col-md-8">
+
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="reset" class="btn btn-default" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
+                            </div>
+                           
+                            <div class="col-md-1">
+                                <form id="frmDownloadExcel" method="post" action="DownloadExcel">
+                                    <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
+                                    <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
+                                    <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
+                                    <input type="hidden" name="hdnExcelYear" id="hdnExcelYear" />
+                                    <input type="hidden" name="hdnExcelName" id="hdnExcelName" />
+                                </form>
+                                <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i></button>
+                            </div>
+                        </div>
+                    </fieldset>
 
                     <div class="row" style="margin-bottom:5px !important">
                         <div class="col-sm-12">
@@ -70,16 +101,13 @@
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div id="testDiv"></div>
-                    </div>
+
                     <div class="row">
                         <div class="col-sm-12">
                             <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
                                 <thead>
                                     <tr role="row">
                                         <th class="sorting sorting_asc" style="width: 10px">#</th>
-                                        <th class="sorting">RegNo</th>
                                         <th class="sorting">FormNo</th>
                                         <th class="sorting">Student</th>
                                         <th class="sorting">Year</th>
@@ -222,6 +250,16 @@
 
         };
 
+        function Reset() {
+
+            $("#txtSearch").val('');
+            $('#ddlSession option:selected').prop("selected", false);
+            $('#ddlClass option:selected').prop("selected", false);
+            $('#ddlCourse option:selected').prop("selected", false);
+            $('#ddlYearss option:selected').prop("selected", false);
+
+            SearchStudent();
+        }
 
         function SearchStudent() {
 
@@ -249,7 +287,7 @@
             $("#tblStudentList tbody").empty();
             debugger;
             $.each(tableData.data, function (index, element) {
-                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.schoolarNo + "</td><td>" + element.rollNo +
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.admissionFormNo +
                     "</td><td>" + element.studentName + "</td><td>" + element.class + "</td><td>" + element.course +
                     "</td><td>" + element.course + "</td><td>" + element.mobileNoOne +
                    // "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' >Payment</a></td></tr>");
