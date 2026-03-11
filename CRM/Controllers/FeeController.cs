@@ -168,11 +168,11 @@ namespace CRM.Controllers
             var model = new MstFee
             {
 
-                NewOld = feeViewModel.NewOld,
-                Session = feeViewModel.Session,
-                Year = feeViewModel.Year,
-                Subject = feeViewModel.Subject,
-                Course = feeViewModel.Course,
+                NewOld = feeViewModel.NewOld.ToUpper(),
+                Session = feeViewModel.Session.ToUpper(),
+                Year = feeViewModel.Year.ToUpper(),
+                Subject = feeViewModel.Subject.ToUpper(),
+                Course = feeViewModel.Course.ToUpper(),
                 NewStudentFee = feeViewModel.NewStudentFee,
                 CMoney = feeViewModel.CMoney,
                 TutionFee = feeViewModel.TutionFee,

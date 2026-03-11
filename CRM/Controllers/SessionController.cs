@@ -42,7 +42,7 @@ namespace CRM.Controllers
 
             var model = new MstSession
             {
-                Name = className,
+                Name = className.ToUpper(),
                 CreatedBy = "Admin",
                 CreateDateTime = DateTime.Now
             };
@@ -66,7 +66,7 @@ namespace CRM.Controllers
             if (data == null)
                 return Json(new { success = false, message = "Year not found" });
 
-            data.Name = className;
+            data.Name = className.ToUpper();
             data.CreatedBy = "Admin";
             data.CreateDateTime = DateTime.Now;
 

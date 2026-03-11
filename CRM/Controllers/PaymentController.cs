@@ -315,12 +315,12 @@ namespace CRM.Controllers
                     {
                         StudentFeeId = studentFeeId,
                         StudentId = studentId,
-                        RecBookNo = recBookNo,
-                        RecNumber = recNumber,
-                        PaymentMode = paymentMode,
-                        TransactionNo = transactionNo,
+                        RecBookNo = recBookNo.ToUpper(),
+                        RecNumber = recNumber.ToUpper(),
+                        PaymentMode = paymentMode.ToUpper(),
+                        TransactionNo = transactionNo.ToUpper(),
                         CreatedBy = "Admin",
-                        Head = varHead1,
+                        Head = varHead1.ToUpper(),
                         Amount = varAmount1,
                         CreateDateTime = string.IsNullOrEmpty(paymentdate)
                             ? DateTime.Now
@@ -333,12 +333,12 @@ namespace CRM.Controllers
                     {
                         StudentFeeId = studentFeeId,
                         StudentId = studentId,
-                        RecBookNo = recBookNo,
-                        RecNumber = recNumber,
-                        PaymentMode = paymentMode,
-                        TransactionNo = transactionNo,
+                        RecBookNo = recBookNo.ToUpper(),
+                        RecNumber = recNumber.ToUpper(),
+                        PaymentMode = paymentMode.ToUpper(),
+                        TransactionNo = transactionNo.ToUpper(),
                         CreatedBy = "Admin",
-                        Head = varHead2,
+                        Head = varHead2.ToUpper(),
                         Amount = varAmount2,
                         CreateDateTime = string.IsNullOrEmpty(paymentdate)
                             ? DateTime.Now
@@ -352,11 +352,11 @@ namespace CRM.Controllers
                         StudentFeeId = studentFeeId,
                         StudentId = studentId,
                         RecBookNo = recBookNo,
-                        RecNumber = recNumber,
-                        PaymentMode = paymentMode,
-                        TransactionNo = transactionNo,
+                        RecNumber = recNumber.ToUpper(),
+                        PaymentMode = paymentMode.ToUpper(),
+                        TransactionNo = transactionNo.ToUpper(),
                         CreatedBy = "Admin",
-                        Head = varHead3,
+                        Head = varHead3.ToUpper(),
                         Amount = varAmount3,
                         CreateDateTime = string.IsNullOrEmpty(paymentdate)
                             ? DateTime.Now
@@ -369,12 +369,12 @@ namespace CRM.Controllers
                     {
                         StudentFeeId = studentFeeId,
                         StudentId = studentId,
-                        RecBookNo = recBookNo,
-                        RecNumber = recNumber,
-                        PaymentMode = paymentMode,
+                        RecBookNo = recBookNo.ToUpper(),
+                        RecNumber = recNumber.ToUpper(),
+                        PaymentMode = paymentMode.ToUpper(),
                         TransactionNo = transactionNo,
                         CreatedBy = "Admin",
-                        Head = varHead4,
+                        Head = varHead4.ToUpper(),
                         Amount = varAmount4,
                         CreateDateTime = string.IsNullOrEmpty(paymentdate)
                             ? DateTime.Now

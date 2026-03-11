@@ -62,9 +62,9 @@ namespace CRM.Controllers
 
             MstSubject subject = new MstSubject
             {
-                Name = model.Name,               // Subject Name
-                Class = model.SelectedClass ,      // Selected Class
-                Course = model.SelectedCourse
+                Name = model.Name.ToUpper(),               // Subject Name
+                Class = model.SelectedClass.ToUpper(),      // Selected Class
+                Course = model.SelectedCourse.ToUpper()
             };
 
             _subjecctRepo.Add(subject);
@@ -86,7 +86,7 @@ namespace CRM.Controllers
             if (data == null)
                 return Json(new { success = false, message = "Class not found" });
 
-            data.CourseName = className;
+            data.CourseName = className.ToUpper();
             data.UpdatedBy = "Admin";
             data.UpdatedDatetime = DateTime.Now;
 

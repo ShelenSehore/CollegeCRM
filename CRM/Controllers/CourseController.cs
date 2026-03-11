@@ -65,9 +65,9 @@ namespace CRM.Controllers
 
             MstSubject subject = new MstSubject
             {
-                Name = model.Name,               // Subject Name
-                Class = model.SelectedClass,      // Selected Class
-                Course = model.SelectedCourse
+                Name = model.Name.ToUpper(),               // Subject Name
+                Class = model.SelectedClass.ToUpper(),      // Selected Class
+                Course = model.SelectedCourse.ToUpper()
             };
 
             _subjecctRepo.Add(subject);

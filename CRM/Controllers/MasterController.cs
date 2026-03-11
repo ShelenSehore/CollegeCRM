@@ -44,7 +44,7 @@ namespace CRM.Controllers
 
             var model = new MstClass
             {
-                Name = className,
+                Name = className.ToUpper(),
                 CreateBy = "Admin",
                 CreateDatetime = DateTime.Now
             };

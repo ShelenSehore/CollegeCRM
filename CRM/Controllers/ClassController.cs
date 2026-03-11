@@ -70,7 +70,7 @@ namespace CRM.Controllers
             if (data == null)
                 return Json(new { success = false, message = "Class not found" });
 
-            data.Name = className;
+            data.Name = className.ToUpper();
             data.UpdatedBy = "Admin";
             data.UpdateDatetime = DateTime.Now;
 
