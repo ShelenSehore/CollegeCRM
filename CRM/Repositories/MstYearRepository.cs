@@ -21,6 +21,11 @@ namespace CRM.Repositories
             return _context.MstYear.ToList();
         }
 
+        public MstYear GetYearName(string yearName)
+        {
+            return _context.MstYear.FirstOrDefault(x => x.Name == yearName);
+        }
+
         public void Add(MstYear model)
         {
             _context.MstYear.Add(model);

@@ -43,6 +43,10 @@ namespace CRM.Controllers
             if (string.IsNullOrWhiteSpace(className))
                 return Json(new { success = false, message = "Class name is required" });
 
+            var checkAlreadyExist = _yearRepo.GetYearName(className.ToUpper());
+            if (checkAlreadyExist != null)
+                return Json(new { success = true, data = "Already" });
+
             var model = new MstYear
             {
                 Name = className.ToUpper(),
@@ -52,7 +56,7 @@ namespace CRM.Controllers
 
             _yearRepo.Add(model);
 
-            return Json(new { success = true });
+            return Json(new { success = true, data = "Success" });
         }
 
         public IActionResult Get(int id)

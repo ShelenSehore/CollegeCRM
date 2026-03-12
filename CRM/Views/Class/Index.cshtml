@@ -161,6 +161,7 @@
         var BASE_URL = "@baseUrl";
         var Toast;
 
+        //--info--error-warning-question
         window.onload = function () {
 
             Toast = Swal.mixin({
@@ -181,12 +182,7 @@
             })
         }
         function saveClass() {
-            //var name = $("#className").val();
-
-            //if (name.trim() === "") {
-            //    alert("Class name required");
-            //    return;
-            //}
+            
             var name = $("#className").val().trim();
 
             if (name === "") {
@@ -203,8 +199,17 @@
 
             $.post(BASE_URL +"/Class/Create", { className: name }, function (res) {
                 if (res.success) {
-                    Alert('success', 'Save College succeefully.', 'bg-success');
-                    location.reload();
+                    var saveStatus = res.data;
+                    if (saveStatus == "Success") {
+                        Alert('success', 'Class save succeefully.', 'bg-success');
+                        location.reload();
+                    }
+                    if (saveStatus == "Already")
+                        Alert('warning', 'Already Exist.', 'bg-success');
+                   
+                        
+
+                    
                 }
                 else alert(res.message);
             });

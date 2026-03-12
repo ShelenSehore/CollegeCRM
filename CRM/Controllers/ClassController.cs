@@ -44,16 +44,21 @@ namespace CRM.Controllers
             if (string.IsNullOrWhiteSpace(className))
                 return Json(new { success = false, message = "Class name is required" });
 
+
+            var checkAlreadyExist=  _classRepo.GetClassName(className.ToUpper());
+            if(checkAlreadyExist != null)
+              return Json(new { success = true, data = "Already" });
+
             var model = new MstClass
             {
-                Name = className,
+                Name = className.ToUpper(),
                 CreateBy = "Admin",
                 CreateDatetime = DateTime.Now
             };
 
             _classRepo.Add(model);
 
-            return Json(new { success = true });
+            return Json(new { success = true, data = "Success" });
         }
 
         public IActionResult Get(int id)
@@ -83,7 +88,7 @@ namespace CRM.Controllers
         public IActionResult Delete(int id)
         {
             _classRepo.Delete(id);
-            return Json(new { success = true });
+            return Json(new { success = true, data = "Success" });
         }
 
 

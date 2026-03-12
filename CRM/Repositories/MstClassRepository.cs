@@ -42,6 +42,11 @@ namespace CRM.Repositories
             }
         }
 
+        public MstClass GetClassName(string className)
+        {
+            return _context.MstClass.FirstOrDefault(x => x.Name == className); 
+        }
+
         public MstClass GetById(int id)
         {
             return _context.MstClass.Find(id);
