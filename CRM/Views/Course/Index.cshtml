@@ -136,17 +136,17 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Course Name</label>
-                    <input id="txtName" type="text" asp-for="Name" class="form-control" />
+                    <input id="txtName" name="txtName" type="text" asp-for="Name" class="form-control" />
                 </div>
 
                 <div class="form-group">
                     <label> Class</label>
-                    <select id="ddlClass" asp-for="SelectedClass" asp-items="Model.ClassList" class="form-control"></select>
+                    <select id="ddlClass" name="ddlClass" asp-for="SelectedClass" asp-items="Model.ClassList" class="form-control"><option>Select</option></select>
                 </div>
 
                 <div class="form-group">
                     <label>Year</label>
-                    <select id="ddlSubject" asp-for="SelectedCourse" asp-items="Model.CourseList" class="form-control"></select>
+                    <select id="ddlSubject" name="ddlSubject" asp-for="SelectedCourse" asp-items="Model.CourseList" class="form-control"> <option>Select</option></select>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -169,26 +169,89 @@
 
         var BASE_URL = "@baseUrl";
 
+        var Toast;
+
+        //--info--error-warning-question
+        window.onload = function () {
+
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1000
+            });
+
+
+        };
+
+        function Alert(icon, title, className) {
+            Toast.fire({
+                icon: icon,
+                title: title,
+                class: className,
+            })
+        }
+
         function saveClass() {
 
 
 
             var name = $("#txtName").val();
+            if (name === "") {
+                $("#txtName").addClass("is-invalid");
+                if ($("#classError").length == 0) {
+                    $("#txtName").after('<span id="classError" class="error invalid-feedback">Please select course </span>');
+                }
+                return;
+            } else
+            {
+                $("#txtName").removeClass("is-invalid");
+                $("#classError").remove();
+            }
+
+           
+
             var className = $('#ddlClass option:selected').text();
+            if (className === "Select") {
+                $("#ddlClass").addClass("is-invalid");
+                if ($("#classError").length == 0) {
+                    $("#ddlClass").after('<span id="classError" class="error invalid-feedback">Please select class </span>');
+                }
+                return;
+            } else {
+                $("#ddlClass").removeClass("is-invalid");
+                $("#classError").remove();
+            }
+
+
             var courseName = $('#ddlSubject option:selected').text();
+            if (courseName === "Select") {
+                $("#ddlSubject").addClass("is-invalid");
+                if ($("#classError").length == 0) {
+                    $("#ddlSubject").after('<span id="classError" class="error invalid-feedback">Please select year </span>');
+                }
+                return;
+            } else {
+                $("#ddlSubject").removeClass("is-invalid");
+                $("#classError").remove();
+            }
+
 
             $.post(BASE_URL + "/Suject/CreateSubject", {
                 Name: name,
                 SelectedClass: className,
                 SelectedCourse: courseName
             }, function (res) {
-                $('#modal-default').modal('hide');
-                location.reload();
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: 'Subject saved successfully!'
-                });
+
+                var saveStatus = res.data;
+                if (saveStatus == "Success") {
+                    $("#modal-default").hide();
+                    Alert('success', 'Course save succeefully.', 'bg-success');
+                    location.reload();
+                }
+                if (saveStatus == "Already")
+                    Alert('warning', 'Already Exist.', 'bg-success');
+
             });
         }
 
@@ -223,11 +286,7 @@
             if (confirm("Are you sure?")) {
                 $.post(BASE_URL + "/Suject/DeleteSubject", { id: id }, function (res) {
                     location.reload();
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'Subject delete successfully!'
-                    });
+                    Alert('success', 'delete succeefully.', 'bg-success');
                 });
             }
         }
