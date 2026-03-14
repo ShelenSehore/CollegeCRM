@@ -40,6 +40,10 @@ namespace CRM.Controllers
             if (string.IsNullOrWhiteSpace(className))
                 return Json(new { success = false, message = "Class name is required" });
 
+            var checkAlreadyExist = _sessionRepo.GetSessionName(className.ToUpper());
+            if (checkAlreadyExist != null)
+                return Json(new { success = true, data = "Already" });
+
             var model = new MstSession
             {
                 Name = className.ToUpper(),

@@ -47,7 +47,10 @@ namespace CRM.Repositories
             return _context.MstSession.Find(id);
         }
 
-
+        public MstSession GetSessionName(string className)
+        {
+            return _context.MstSession.FirstOrDefault(x => x.Name == className);
+        }
 
 
     }
