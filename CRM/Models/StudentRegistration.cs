@@ -33,7 +33,7 @@ namespace CRM.Models
         public DateTime? CreateDate { get; set; }
         public string? UpdateBy { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public bool? IsMove { get; set; }
+        public bool? IsMove { get; set; } = false;
 
 
 

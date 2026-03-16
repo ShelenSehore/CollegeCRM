@@ -27,6 +27,7 @@ namespace CRM.Controllers
         private readonly MstYearRepository _yearRepo;
         private readonly MstFeeRepository _feeRepo;
         private readonly StudentFeeRepository _studentFeeRepo;
+        private readonly StudentRegitrationFeeRepository _studentRegiFee;
 
         public AdmissionController(ILogger<AdmissionController> logger,
             IOptions<AppSettings> config,
@@ -39,6 +40,7 @@ namespace CRM.Controllers
                MstYearRepository yearRepo,
                 MstFeeRepository feeRepo,
                 StudentFeeRepository studentFeeRepo,
+                StudentRegitrationFeeRepository studentRegiFee,
              StudentRegistrationRepository repoStudentRegi)
         {
             _repoStudent = repoStudent;
@@ -52,6 +54,7 @@ namespace CRM.Controllers
             _yearRepo = yearRepo;
             _sessionRepo = sessionRepo;
             _feeRepo = feeRepo;
+            _studentRegiFee = studentRegiFee;
             _studentFeeRepo = studentFeeRepo;
         }
         public IActionResult Index()
@@ -194,7 +197,7 @@ namespace CRM.Controllers
             obj.Year = student.Year.ToUpper();    //-----Year
             obj.Subject = student.Class.ToUpper();  //--------Class
             obj.Course = student.Course.ToUpper();  //-----Course
-            obj.Sem = student.Sem.ToUpper();
+            //obj.Sem = student.Sem.ToUpper();
             obj.RegPvt = student.RegPvt.ToUpper();
             obj.Status = student.Status;
             obj.Name = student.Name.ToUpper();
@@ -207,54 +210,14 @@ namespace CRM.Controllers
             obj.Scholership = student.Scholership.ToString();
             obj.CreateBy = "Admin";
             obj.CreateDate = DateTime.Now;
-           
+
             try
             {
               var RegiSaveId =   _repoStudentRegi.SaveAndGetId(obj);
 
-                //-------------Save Into Student-----table--------------
-                Student stuObj = new Student();
-                stuObj.AdmissionFormNo = student.FormNo;
-                stuObj.Session = student.Session;
-                stuObj.Year = student.Year.ToUpper();
-                stuObj.Course = student.Course.ToUpper();
-                stuObj.Class = student.Class.ToUpper();
-                stuObj.StudentName = student.Name.ToUpper();
-                stuObj.FatherName = student.FatherName.ToUpper();
-                stuObj.MotherName = student.MotherName.ToUpper();
-                stuObj.DOB = student.DOB;
-                stuObj.Caste = student.Caste;
-                stuObj.Gender = student.Gender;
-                stuObj.MobileNoOne = student.MobileNo;
-                stuObj.CreateBy = "Admin";
-                stuObj.CreateDatetime = DateTime.Now;
-
-
-
-                var StudentID =   _repoStudent.SaveAndGetId(stuObj);
-
-                //-------------Acedemic Detail save-----------
-
-                Academy objAcademy = new Academy();
-                objAcademy.RegStudentId = RegiSaveId;
-                objAcademy.StudentId = StudentID;
-                objAcademy.SchoolName = student.SchoolName.ToUpper();
-                objAcademy.PassingYear = student.PassingYear.ToUpper();
-                objAcademy.Board = student.Board.ToUpper();
-                objAcademy.MaxMark = student.MaxMark;
-                objAcademy.ObtMark = student.ObtMark;
-                objAcademy.Result = student.Result.ToUpper();
-                objAcademy.Parcent = student.Parcent;
-                objAcademy.CreatedBy = "Admin";
-                objAcademy.CreatedDate = DateTime.Now;
-                objAcademy.UpdatedDate = DateTime.Now;
-                objAcademy.UpdatedBy = "Admin";
-
-                var AcedemicId = _repoAcademic.SaveAndGetId(objAcademy);
-
                 //-------------Student Fee---------------
-                StudentFee studentFee = new StudentFee();
-                studentFee.StudentId = StudentID;
+                StudentRegitrationFee studentFee = new StudentRegitrationFee();
+                studentFee.StudentId = RegiSaveId;
                 studentFee.Year = student.Year.ToUpper();
                 studentFee.Course = student.Course.ToUpper();
                 studentFee.Class = student.Class.ToUpper();
@@ -273,11 +236,9 @@ namespace CRM.Controllers
                 studentFee.DisResion = student.DisResion;
                 studentFee.CreatedBy = "Admin";
                 studentFee.CreatedDateTime = DateTime.Now;
-
-                 studentFee.UpdateDateTime = DateTime.Now;
-                 studentFee.UpdateBy = "";
-                 _studentFeeRepo.Add(studentFee);
-
+                studentFee.UpdateDateTime = DateTime.Now;
+                studentFee.UpdateBy = "";
+                _studentRegiFee.Add(studentFee);
 
             }
             catch (Exception ex)
@@ -331,5 +292,104 @@ namespace CRM.Controllers
             return Json(new { success = true, data = returnObj
     });
         }
+
+
+        //----------------Move Registration to Student Table AdmissionDone-----
+        public IActionResult AdmissionDone(string studentList)
+        {
+            if (!string.IsNullOrEmpty(studentList)) {
+                string[] studentArray = studentList.Split(',');
+                if (studentArray.Count() > 0) 
+                {
+                    foreach (var RegistudentId in studentArray) 
+                    {
+                       var student = _repoStudentRegi.GetById(Convert.ToInt32(RegistudentId));
+                        if (student != null) 
+                        {
+                            //-------------Save Into Student-----table--------------
+                            Student stuObj = new Student();
+                            stuObj.AdmissionFormNo = student.FormNo;
+
+                            if(student.Session !=null)
+                            stuObj.Session = student.Session.ToUpper();
+
+                            if (student.Year != null)
+                                stuObj.Year = student.Year.ToUpper();
+
+                            if (student.Course != null)
+                                stuObj.Course = student.Course.ToUpper();
+
+                            if (student.Subject != null)
+                                stuObj.Class = student.Subject.ToUpper();
+
+                            if (student.Name != null)
+                                stuObj.StudentName = student.Name.ToUpper();
+
+                            if (student.FatherName != null)
+                                stuObj.FatherName = student.FatherName.ToUpper();
+
+                            if (student.MotherName != null)
+                                stuObj.MotherName = student.MotherName.ToUpper();
+
+                            stuObj.DOB = student.DOB;
+                            stuObj.Caste = student.Caste;
+                            stuObj.Gender = student.Gender;
+                            stuObj.MobileNoOne = student.MobileNo;
+                            stuObj.CreateBy = "Admin";
+                            stuObj.CreateDatetime = DateTime.Now;
+
+                            var StudentTableID = _repoStudent.SaveAndGetId(stuObj);
+
+                            //---------Get Fee detail from FeeReigtration table----------
+                            var varFeeDetail = _studentRegiFee.GetById(Convert.ToInt32(RegistudentId));
+                            if (RegistudentId != null) 
+                            {
+                                StudentFee studentFee = new StudentFee();
+                                studentFee.StudentId = StudentTableID;
+                                studentFee.Year = stuObj.Year.ToUpper();
+                                studentFee.Course = stuObj.Course.ToUpper();
+                                studentFee.Class = stuObj.Class.ToUpper();
+                                studentFee.Session = stuObj.Session.ToUpper();
+                                studentFee.NewOld = "NEW";
+                                studentFee.NewStudentFee = varFeeDetail.NewStudentFee;
+                                studentFee.CMoney = varFeeDetail.CMoney;
+                                studentFee.TutionFee = varFeeDetail.TutionFee;
+                                studentFee.OtherFee = varFeeDetail.OtherFee;
+                                studentFee.TotalFee = varFeeDetail.TotalFee;
+                                studentFee.TotalFeeCM = varFeeDetail.TotalFeeCM;
+                                studentFee.Scholership = varFeeDetail.Scholership;
+                                studentFee.TotalFeeAfterDiscount = varFeeDetail.TotalFeeAfterDiscount;
+                                studentFee.CMoneyPaidOrNot = "No";
+                                studentFee.DisBy = varFeeDetail.DisBy;
+                                studentFee.DisResion = varFeeDetail.DisResion;
+                                studentFee.CreatedBy = "Admin";
+                                studentFee.CreatedDateTime = DateTime.Now;
+                                studentFee.UpdateDateTime = DateTime.Now;
+                                studentFee.UpdateBy = "";
+                                _studentFeeRepo.Add(studentFee);
+
+                            }
+
+
+                            //----------Update Registration Table IsMove = true-------
+                            var statusUpdate = _repoStudentRegi.IsMoved(true, Convert.ToInt32(RegistudentId));  
+
+                        }
+                    }
+                }
+            }
+
+
+           
+
+
+            return Json(new
+            {
+                success = true,
+                data = ""
+            });
+        }
+
+
     }
 }

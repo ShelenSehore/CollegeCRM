@@ -26,55 +26,79 @@
         <div class="card">
             <div class="card-body">
                 <div class="dataTables_wrapper dt-bootstrap4">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Class</label>
-                                <select id="ddlClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
+                   
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Filters</legend>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Session</label>
+                                        <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Year</label>
-                                <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Year</label>
+                                    <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Course</label>
-                                <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Class</label>
+                                    <select id="ddlClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Reg/Pvt.</label>
-                                <select id="ddlRegPvt" class="form-control">
-                                    <option>Select</option>
-                                    <option>Reguler</option>
-                                    <option>Private</option>
-                                </select>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Course</label>
+                                    <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
+                                </div>
                             </div>
+                            <div class="col-md-3">
+                                <label>Name</label>
+                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                            </div>
+
+
+                            <input type="hidden" id="hdnSelected" />
                         </div>
 
-                    </div>
+                        <div class="row" style="margin-bottom:5px !important">
+                            <div class="col-md-6">
 
-                    <div class="row" style="margin-bottom:5px !important">
-                        <div class="col-sm-12">
-
-                            <div class="input-group input-group-sm">
-                                <input id="txtSearch" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                                <div class="input-group-append">
-                                    <button id="btnSearch" onclick="SearchStudent()" class="btn btn-navbar" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="reset" class="btn btn-default" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-info btn-flat">Action</button>
+                                <button type="button" class="btn btn-info btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu" role="menu" style="">
+                                    <a class="btn btn-default" onclick="AdmissionCompleted()"><i class="fas fa-eye"></i> Admission Completed</a>
                                 </div>
                             </div>
 
+                            <div class="col-md-1">
+                                <form id="frmDownloadExcel" method="post" action="DownloadExcel">
+                                    <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
+                                    <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
+                                    <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
+                                    <input type="hidden" name="hdnExcelYear" id="hdnExcelYear" />
+                                    <input type="hidden" name="hdnExcelName" id="hdnExcelName" />
+                                </form>
+                                <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i></button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div id="testDiv"></div>
-                    </div>
+                    </fieldset>
+
+
                     <div class="row">
                         <div class="col-sm-12">
                             <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
@@ -88,6 +112,7 @@
                                         <th class="sorting">Subject</th>
                                         <th class="sorting">Course</th>
                                         <th class="sorting">View</th>
+                                        <th class="sorting">Select</th>
                                     </tr>
                                 </thead>
 
@@ -141,7 +166,7 @@
             var varClass = $('#ddlClass option:selected').text();
             var varYear = $('#ddlYear option:selected').text();
             var varCourse = $('#ddlCourse option:selected').text();
-            var varRegPvt = $('#ddlRegPvt option:selected').text();
+            var varRegPvt = $('#ddlSession option:selected').text();
 
             $.post(BASE_URL + "/Admission/SearchList", {
                 name: name,
@@ -163,7 +188,7 @@
                 $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.id + "</td><td>" + element.name +
                     "</td><td>" + element.mobileNo + "</td><td>" + element.year + "</td><td>" + element.subject +
                     "</td><td>" + element.course + "</td><td>" + element.status +
-                    "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i></a></td></tr>");
+                    "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i></a></td><td><input id='" + element.id +"' name='chkStudent' type='checkbox'></td></tr>");
 
             });
 
@@ -171,6 +196,47 @@
 
         }
 
+        function Reset() {
+
+            $("#txtSearch").val('');
+            $('#ddlSession option:selected').prop("selected", false);
+            $('#ddlClass option:selected').prop("selected", false);
+            $('#ddlCourse option:selected').prop("selected", false);
+            $('#ddlYearss option:selected').prop("selected", false);
+
+            SearchStudent();
+        }
+
+
+        function AdmissionCompleted() {
+            var selectedIds = $('input[name="chkStudent"]:checked').map(function () {
+                return this.id;
+            }).get();
+
+            // 2. Alert the result
+            if (selectedIds.length > 0) {
+                $('#hdnSelected').val(selectedIds.join(', '));
+                AdmissionDone();
+            } else {
+                alert("Please select at least one student.");
+            }
+
+        }
+
+
+        function AdmissionDone() {
+
+            $.post(BASE_URL + "/Admission/AdmissionDone", {
+                studentList: $("#hdnSelected").val()
+
+            },
+                function (res) {
+                    alert('test');
+
+                }
+            );
+
+        }
 
 
     </script>

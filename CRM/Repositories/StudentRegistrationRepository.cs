@@ -40,6 +40,18 @@ namespace CRM.Repositories
             _context.SaveChanges();
         }
 
+        public bool IsMoved(bool status, int studentRegId)
+        {
+            var studentRegisStatus = _context.StudentRegistration.FirstOrDefault(x => x.Id == studentRegId);
+            if (studentRegisStatus != null)
+            {
+                studentRegisStatus.IsMove = status;
+                var statuss = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public void Delete(int id)
         {
             var item = _context.StudentRegistration.Find(id);
@@ -79,6 +91,7 @@ namespace CRM.Repositories
             {
                 query = query.Where(x => x.RegPvt.ToLower().Contains(regPvt.ToLower()));
             }
+            query = query.Where(x => x.IsMove == false);
             return query.ToList();
             //return _context.StudentRegistration.ToList(); 
         }

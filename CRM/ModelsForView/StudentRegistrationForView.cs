@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,23 +11,54 @@ namespace CRM.ModelsForView
     {
         public int Id { get; set; }
         public int? RegNo { get; set; }
+
+        [Required(ErrorMessage = "Enter form number")]
         public int? FormNo { get; set; }
         public int? SchoNo { get; set; }
+
+        [Required(ErrorMessage = "Please select session")]
         public string? Session { get; set; }
+
+        [Required(ErrorMessage = "Please select Year")]
         public string? Year { get; set; }
+
+        
         public string? Subject { get; set; }
+
+        [Required(ErrorMessage = "Please select Course")]
         public string? Course { get; set; }
+
+        [Required(ErrorMessage = "Please select Class")]
         public string? Class { get; set; }
         
         public string? Sem { get; set; }
+
+        [Required(ErrorMessage = "Please select RegPvt")]
         public string? RegPvt { get; set; }
+
+        [Required(ErrorMessage = "Please select Status")]
         public string? Status { get; set; }
+
+        [Required(ErrorMessage = "Student Name is required")]
         public string? Name { get; set; }
+
+        [Required(ErrorMessage = "Father Name is required")]
         public string? FatherName { get; set; }
+
+        [Required(ErrorMessage = "Mother Name is required")]
         public string? MotherName { get; set; }
+
+        [Required(ErrorMessage = "DOB Name is required")]
         public DateTime? DOB { get; set; }
+
+        [Required(ErrorMessage = "Select Caste")]
         public string? Caste { get; set; }
+
+        [Required(ErrorMessage = "Select Gender")]
         public string? Gender { get; set; }
+
+        [Required(ErrorMessage = "Mobile number is required")]
+        [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Enter valid 10 digit mobile number")]
         public string? MobileNo { get; set; }
         public int Scholership { get; set; } = 0;
         public string? DisBy { get; set; }

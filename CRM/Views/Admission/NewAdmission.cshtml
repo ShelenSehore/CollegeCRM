@@ -52,8 +52,9 @@
                                             <div class="form-group">
                                                 <label>Session</label>
                                                 <select id="ddlSession" asp-for="Session" asp-items="Model.SessionList" class="form-control">
-                                                    <option>Select</option>
+                                                    <option value="">Select</option>
                                                 </select>
+                                                <span asp-validation-for="Session" class="text-danger"></span>
                                             </div>
                                         </div>
 
@@ -61,17 +62,9 @@
                                             <div class="form-group">
                                                 <label>Year</label>
                                                 <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control">
-                                                    <option>Select</option>
+                                                    <option value="">Select</option>
                                                 </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Course</label>
-                                                <select id="ddlSubject" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
-                                                    <option>Select</option>
-                                                </select>
+                                                <span asp-validation-for="Year" class="text-danger"></span>
                                             </div>
                                         </div>
 
@@ -79,10 +72,23 @@
                                             <div class="form-group">
                                                 <label>Class</label>
                                                 <select id="ddlClass" asp-for="Class" asp-items="Model.ClassList" class="form-control">
-                                                    <option>Select</option>
+                                                    <option value="">Select</option>
                                                 </select>
+                                                <span asp-validation-for="Class" class="text-danger"></span>
                                             </div>
                                         </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Course</label>
+                                                <select id="ddlSubject" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
+                                                    <option value="">Select</option>
+                                                </select>
+                                                <span asp-validation-for="Course" class="text-danger"></span>
+                                            </div>
+                                        </div>
+
+
 
 
                                         <div class="col-md-2">
@@ -96,6 +102,7 @@
                                             <div class="form-group">
                                                 <label>FormNo</label>
                                                 <input asp-for="FormNo" type="number" class="form-control" placeholder="Form No">
+                                                <span asp-validation-for="FormNo" class="text-danger"></span>
                                             </div>
                                         </div>
 
@@ -107,25 +114,17 @@
                                         </div>
 
 
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Sem</label>
-                                                <select id="ddlSem" asp-for="Sem" class="form-control">
-                                                    <option>Select</option>
-                                                    <option>2026</option>
-                                                    <option>2027</option>
-                                                </select>
-                                            </div>
-                                        </div>
+
 
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Reg/Pvt.</label>
                                                 <select id="ddlRegPvt" asp-for="RegPvt" class="form-control">
-                                                    <option>Select</option>
+                                                    <option value="">Select</option>
                                                     <option>Reguler</option>
                                                     <option>Private</option>
                                                 </select>
+                                                <span asp-validation-for="RegPvt" class="text-danger"></span>
                                             </div>
                                         </div>
 
@@ -133,11 +132,12 @@
                                             <div class="form-group">
                                                 <label>Status</label>
                                                 <select id="ddlStatus" asp-for="Status" class="form-control">
-                                                    <option>Select</option>
+                                                    <option value="">Select</option>
                                                     <option>Inquiry</option>
                                                     <option>Done</option>
                                                     <option>Follow</option>
                                                 </select>
+                                                <span asp-validation-for="Status" class="text-danger"></span>
                                             </div>
                                         </div>
 
@@ -161,7 +161,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>CMondy</label>
-                                                <input id="txtCMondy" asp-for="CMoney" type="number"  class="form-control">
+                                                <input id="txtCMondy" asp-for="CMoney" type="number" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -182,7 +182,7 @@
                                                 <input id="txtTotalFee" asp-for="TotalFee" type="number" readonly="readonly" class="form-control">
                                             </div>
                                         </div>
-                                       
+
 
                                     </div>
                                     <div class="row">
@@ -227,131 +227,69 @@
                                 <div class="card-body">
                                     <div class="row">
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>First Name</label>
                                                 <input asp-for="Name" class="form-control">
+                                                <span asp-validation-for="Name" class="text-danger"></span>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>MobileNo</label>
-                                                <input asp-for="MobileNo" class="form-control">
-                                            </div>
-                                        </div>
-
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Father Name</label>
                                                 <input asp-for="FatherName" class="form-control">
+                                                <span asp-validation-for="FatherName" class="text-danger"></span>
                                             </div>
                                         </div>
-
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>MotherName</label>
                                                 <input asp-for="MotherName" class="form-control">
+                                                <span asp-validation-for="MotherName" class="text-danger"></span>
                                             </div>
                                         </div>
 
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>MobileNo</label>
+                                                <input asp-for="MobileNo" class="form-control">
+                                                <span asp-validation-for="MobileNo" class="text-danger"></span>
+                                            </div>
+                                        </div>
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>DOB</label>
                                                 <input asp-for="DOB" type="date" class="form-control">
+                                                <span asp-validation-for="DOB" class="text-danger"></span>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
                                             <label>Gender</label>
                                             <select asp-for="Gender" class="form-control">
-                                                <option>Select</option>
+                                                <option value="">Select</option>
                                                 <option>Male</option>
                                                 <option>Femle</option>
                                             </select>
+                                            <span asp-validation-for="Gender" class="text-danger"></span>
                                         </div>
 
 
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
                                             <label>Caste</label>
                                             <select asp-for="Caste" class="form-control">
-                                                <option>Select</option>
+                                                <option value="">Select</option>
                                                 <option>Gen</option>
                                                 <option>OBC</option>
                                                 <option>SC</option>
                                                 <option>ST</option>
                                             </select>
+                                            <span asp-validation-for="Caste" class="text-danger"></span>
                                         </div>
 
 
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title"><i class="fas fa-university"></i> Academic Detail</h3>
-                                </div>
-
-                                <div class="card-body">
-                                    <div class="row">
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>12th school Name</label>
-                                                <input type="text" asp-for="SchoolName" class="form-control" placeholder="12th school Name">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Passsing Year</label>
-                                                <select id="ddlAcademicYear" class="form-control">
-                                                    <option>Select</option>
-                                                    <option>2023</option>
-                                                    <option>2024</option>
-                                                    <option>2025</option>
-                                                    <option>2026</option>
-                                                    <option>2027</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Board</label>
-                                                <input type="text" asp-for="Board" class="form-control" placeholder="Board">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Max. Marks</label>
-                                                <input type="text" asp-for="MaxMark" class="form-control" placeholder="Max. Marks">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Obtain Marks</label>
-                                                <input type="text" asp-for="ObtMark" class="form-control" placeholder="Obtain Marks">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Result</label>
-                                                <input type="text" asp-for="Result" class="form-control" placeholder="Result">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Parcentage</label>
-                                                <input type="text" asp-for="Parcent" class="form-control" placeholder="Parcentage">
-                                            </div>
-                                        </div>
 
                                     </div>
                                 </div>
@@ -387,6 +325,13 @@
 
 
 @section Scripts {
+    <script src="~/ValidateJS/jquery-3.6.0.min.js"></script>
+
+    <script src="~/ValidateJS/jquery.validate.min.js"></script>
+
+    <script src="~/ValidateJS/jquery.validate.unobtrusive.min.js"></script>
+
+
     <script type="text/javascript">
       var BASE_URL = "@baseUrl";
 
@@ -400,7 +345,7 @@
 
             $("#Scholership").change(function () {
                 varScholership = this.value;
-               
+
                 if (varScholership != "" && varScholership != "0")
                 {
                     var varScholershipAmount = parseFloat(varScholership) || 0;
@@ -428,7 +373,7 @@
             $("#ddlClass").change(function () {
                 varClass = this.value;
                 if (varSession != "" && varYear != "" && varSubject != "" && varClass != "") { FillFeeeDetail(); }
-               
+
             });
 
 
@@ -455,7 +400,7 @@
                         $('#txtOtherFee').val(Feedetail.otherFee);
                         $('#txtTotalFee').val(Feedetail.totalFee);
                         $('#txtTotalFeeAfterDiscount').val(Feedetail.totalFee);
-                        
+
                     }
               );
             }
