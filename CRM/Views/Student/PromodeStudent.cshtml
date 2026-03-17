@@ -562,10 +562,11 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>NewOld</label>
-                            <select  id="ddlNewOld"  asp-for="NewOld" class="form-control">
+                            <select id="ddlNewOld" asp-for="NewOld" class="form-control">
                                 <option>Select</option>
-                                <option>New</option>
-                                <option>Old</option>
+                                <option>NEW</option>
+                                <option>OLD</option>
+                                <option>EX</option>
                             </select>
                         </div>
                     </div>
@@ -575,8 +576,8 @@
                             <label>Is Reguler</label>
                             <select id="ddlRegEx" asp-for="RegEx" class="form-control">
                                 <option>Select</option>
-                                <option>Yes</option>
-                                <option>No</option>
+                                <option>REGULER</option>
+                                <option>PRIVATE</option>
                             </select>
                         </div>
                     </div>
@@ -671,9 +672,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Passsing Year</label>
-                            <select id="ddlAcademicYear" asp-for="Year" asp-items="Model.YearList" class="form-control">
-                                <option>Select</option>
-                            </select>
+                            <input id="txtAcademicYear" type="text" asp-for="PassingYear" class="form-control" placeholder="Passing Year">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -723,7 +722,13 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Result</label>
-                            <input type="text" id="txtResult" asp-for="Result" class="form-control" placeholder="Result">
+                            
+                            <select id="ddlResult" asp-for="Result" class="form-control">
+                                <option>Select</option>
+                                <option>PASS</option>
+                                <option>FAIL</option>
+                                <option>NC</option>
+                            </select>
                         </div>
                     </div>
 
@@ -874,7 +879,7 @@
 
         function SaveAcadmicDetail() {
             var varid = $("#hdnStudentID").val();
-            var varAcademicYear = $('#ddlAcademicYear option:selected').text();
+            var varAcademicYear = $('#txtAcademicYear').val();
             var varAcadmicSession = $('#ddlAcadmicSession option:selected').text();
             var varAcadmicClass = $('#ddlAcadmicClass option:selected').text();
             var varAcadmicCourse= $('#ddlAcadmicCourse option:selected').text();
@@ -882,7 +887,7 @@
             var varBoard = $('#txtBoard').val();
             var varMaxMark = $('#txtMaxMark').val();
             var varObtMark = $('#txtObtMark').val();
-            var varResult = $('#txtResult').val();
+            var varResult = $('#ddlResult option:selected').text(); 
             var varParcent = $('#txtParcent').val();
             var varAdmissionFormNo = $('#txtAdmissionFormNo').val();
 

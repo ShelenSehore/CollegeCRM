@@ -806,10 +806,11 @@ namespace CRM.Controllers
 
             if (!string.IsNullOrEmpty(varMobileNo))
                 stuObj.MobileNoOne = varMobileNo.ToUpper();
+
             if (!string.IsNullOrEmpty(varDOB))
                 stuObj.DOB = Convert.ToDateTime(varDOB);
 
-            stuObj.FatherMobileNo = varFatherMobileNo.ToUpper();
+            stuObj.FatherMobileNo = varFatherMobileNo;
             stuObj.Gender = varGender;
             stuObj.Minority = varMinority;
             stuObj.Caste = varCaset;
@@ -825,10 +826,11 @@ namespace CRM.Controllers
 
             if (!string.IsNullOrEmpty(varAddress))
                 stuObj.Address = varAddress.ToUpper();
+
             stuObj.TC = varTC;
             stuObj.PH = varPH;
             stuObj.UpdateDatetime = DateTime.Now;
-            stuObj.UpdatedBy = "UPdate Admin";
+            stuObj.UpdatedBy = "Update Admin";
 
             var teee = _repoStudent.UpdatePersonalDetail(stuObj);
 
@@ -858,17 +860,22 @@ namespace CRM.Controllers
             //stuObj.Class = varClass;  //-------------Class
             //stuObj.Course = varCourse;  //-------Course
             //stuObj.Year = varYear;  //----------Year
-            stuObj.EnRollNo = varEnRollNo.ToUpper();
-            stuObj.RollNo = varRollNo.ToUpper();
+            if (!string.IsNullOrEmpty(varEnRollNo))
+                stuObj.EnRollNo = varEnRollNo.ToUpper();
+
+            if (!string.IsNullOrEmpty(varRollNo))
+                stuObj.RollNo = varRollNo.ToUpper();
+            
 
             if (!string.IsNullOrEmpty(varSchoolarNo))
                 stuObj.SchoolarNo = varSchoolarNo.ToUpper();
 
             if (!string.IsNullOrEmpty(varSubCode))
                 stuObj.SubCode = varSubCode.ToUpper();
+
             stuObj.RegEx = varRegEx;
             stuObj.UpdateDatetime = DateTime.Now;
-            stuObj.UpdatedBy = "UPdate Admin";
+            stuObj.UpdatedBy = "Update Admin";
 
             var teee = _repoStudent.UpdateCollegeDetail(stuObj);
 
@@ -898,7 +905,7 @@ namespace CRM.Controllers
                 objAcademy.Board = varBoard.ToUpper();
 
            
-                objAcademy.MaxMark = varMaxMark;
+            objAcademy.MaxMark = varMaxMark;
             objAcademy.ObtMark = varObtMark;
 
             if (!string.IsNullOrEmpty(varResult))

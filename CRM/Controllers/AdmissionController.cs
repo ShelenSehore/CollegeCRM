@@ -188,7 +188,8 @@ namespace CRM.Controllers
                 .ToList();
 
             ViewBag.BaseUrl = _baseUrl;
-            //var data = _repoStudent.GetAll();
+            model.DisBy = "NULL";
+            model.DisResion = "NULL";
             return View(model);
         }
 
@@ -264,19 +265,33 @@ namespace CRM.Controllers
         }
 
 
-        public IActionResult RegistrationUpdate(int Id)
+        public IActionResult ViewAdmission(int Id)
         {
-
-            var getValue = _repoStudentRegi.GetById(Id);
-
+            ViewBag.BaseUrl = _baseUrl;
             var model = new StudentRegistrationForView();
 
-
-
-            //----  MstClass = Year
             model.ClassList = _classRepo.GetAll()
                        .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
                        .ToList();
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
 
             // --- MstSubject  = Subject
             model.CourseList = _courseRepo.GetAll()
@@ -284,12 +299,40 @@ namespace CRM.Controllers
                         .ToList();
 
             //---MstCourse = Class
-            model.SubjectList = _subjecctRepo.GetAll()
-                     .Select(x => new SelectListItem { Value = x.Course.ToString(), Text = x.Course })
-                     .ToList();
+            var varAllSubject = _subjecctRepo.GetAll();
 
-            ViewBag.BaseUrl = _baseUrl;
-            //var data = _repoStudent.GetAll();
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
+            //-------------------
+
+           
+
+
+            //--------Get Student detail---------
+            var getValue = _repoStudentRegi.GetById(Id);
+            model.Name = getValue.Name;
+            model.FatherName = getValue.FatherName;
+            model.MotherName = getValue.MotherName;
+            model.MobileNo = getValue.MobileNo;
+            model.DOB = getValue.DOB;
+            model.Session = getValue.Session;
+            model.Year = getValue.Year;
+            model.RegPvt = getValue.RegPvt;
+
+            //var item = model.YearList.FirstOrDefault(x => x.Value == model.Year);
+            //if (item != null)
+            //{
+            //    item.Selected = true;
+            //}
+
             return View(model);
         }
 
@@ -347,6 +390,8 @@ namespace CRM.Controllers
                             stuObj.Caste = student.Caste;
                             stuObj.Gender = student.Gender;
                             stuObj.MobileNoOne = student.MobileNo;
+                            stuObj.RegEx = student.RegPvt;
+                            stuObj.NewOld = "NEW";
                             stuObj.CreateBy = "Admin";
                             stuObj.CreateDatetime = DateTime.Now;
 
