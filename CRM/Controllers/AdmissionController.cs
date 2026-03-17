@@ -297,21 +297,22 @@ namespace CRM.Controllers
         //----------------Move Registration to Student Table AdmissionDone-----
         public IActionResult AdmissionDone(string studentList)
         {
-            if (!string.IsNullOrEmpty(studentList)) {
+            if (!string.IsNullOrEmpty(studentList))
+            {
                 string[] studentArray = studentList.Split(',');
-                if (studentArray.Count() > 0) 
+                if (studentArray.Count() > 0)
                 {
-                    foreach (var RegistudentId in studentArray) 
+                    foreach (var RegistudentId in studentArray)
                     {
-                       var student = _repoStudentRegi.GetById(Convert.ToInt32(RegistudentId));
-                        if (student != null) 
+                        var student = _repoStudentRegi.GetById(Convert.ToInt32(RegistudentId));
+                        if (student != null)
                         {
                             //-------------Save Into Student-----table--------------
                             Student stuObj = new Student();
                             stuObj.AdmissionFormNo = student.FormNo;
 
-                            if(student.Session !=null)
-                            stuObj.Session = student.Session.ToUpper();
+                            if (student.Session != null)
+                                stuObj.Session = student.Session.ToUpper();
 
                             if (student.Year != null)
                                 stuObj.Year = student.Year.ToUpper();
@@ -342,7 +343,7 @@ namespace CRM.Controllers
 
                             //---------Get Fee detail from FeeReigtration table----------
                             var varFeeDetail = _studentRegiFee.GetById(Convert.ToInt32(RegistudentId));
-                            if (RegistudentId != null) 
+                            if (RegistudentId != null)
                             {
                                 StudentFee studentFee = new StudentFee();
                                 studentFee.StudentId = StudentTableID;
@@ -372,16 +373,12 @@ namespace CRM.Controllers
 
 
                             //----------Update Registration Table IsMove = true-------
-                            var statusUpdate = _repoStudentRegi.IsMoved(true, Convert.ToInt32(RegistudentId));  
+                            var statusUpdate = _repoStudentRegi.IsMoved(true, Convert.ToInt32(RegistudentId));
 
                         }
                     }
                 }
             }
-
-
-           
-
 
             return Json(new
             {

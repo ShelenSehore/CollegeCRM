@@ -81,7 +81,7 @@
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu" style="">
-                                    <a class="btn btn-default" onclick="AdmissionCompleted()"><i class="fas fa-eye"></i> Admission Completed</a>
+                                    <a class="btn btn-default" onclick="AdmissionCompleted()"><i class="fas fa-eye"></i> Admission Done</a>
                                 </div>
                             </div>
 
@@ -142,9 +142,17 @@
         // INSERT
 
         var BASE_URL = "@baseUrl";
-
+        var Toast;
 
         window.onload = function () {
+
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1000
+            });
+
 
             // Example 3: Change events (optional)
             $("#ddlClass, #ddlYear, #ddlCourse, #ddlRegPvt").change(function () {
@@ -159,6 +167,13 @@
             //});
         };
 
+        function Alert(icon, title, className) {
+            Toast.fire({
+                icon: icon,
+                title: title,
+                class: className,
+            })
+        }
 
         function SearchStudent() {
 
@@ -202,7 +217,7 @@
             $('#ddlSession option:selected').prop("selected", false);
             $('#ddlClass option:selected').prop("selected", false);
             $('#ddlCourse option:selected').prop("selected", false);
-            $('#ddlYearss option:selected').prop("selected", false);
+            $('#ddlYear option:selected').prop("selected", false);
 
             SearchStudent();
         }
@@ -231,7 +246,14 @@
 
             },
                 function (res) {
-                    alert('test');
+                    var saveStatus = res.success;
+                    if (saveStatus) {
+                        Alert('success', 'Succeefully done', 'bg-success');
+                        SearchStudent();
+                    }
+                    else
+                        Alert('warning', 'Some eror occured Try Again', 'bg-success');
+                    
 
                 }
             );
