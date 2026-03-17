@@ -181,14 +181,14 @@
             var varClass = $('#ddlClass option:selected').text();
             var varYear = $('#ddlYear option:selected').text();
             var varCourse = $('#ddlCourse option:selected').text();
-            var varRegPvt = $('#ddlSession option:selected').text();
+            var varSession = $('#ddlSession option:selected').text();
 
             $.post(BASE_URL + "/Admission/SearchList", {
                 name: name,
                 classes: varClass,
                 year: varYear,
                 course: varCourse,
-                regPvt: varRegPvt
+                session: varSession
             },
                 function (res) {
                     TableData(res)  //--------pass records for generate tabble
@@ -257,6 +257,18 @@
 
                 }
             );
+
+        }
+
+
+        function DownloadExcel() {
+            $("#Loader").show();
+            $("#hdnExcelName").val($("#txtSearch").val());
+            $("#hdnExcelClass").val($('#ddlClass option:selected').text());
+            $("#hdnExcelYear").val($('#ddlYear option:selected').text());
+            $("#hdnExcelCourse").val($('#ddlCourse option:selected').text());
+            $("#hdnExcelSession").val($('#ddlSession option:selected').text());
+            $('#frmDownloadExcel').submit();
 
         }
 

@@ -1,4 +1,5 @@
-﻿using CRM.Data;
+﻿using ClosedXML.Excel;
+using CRM.Data;
 using CRM.Models;
 using CRM.ModelsForView;
 using CRM.Repositories;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -61,6 +63,15 @@ namespace CRM.Controllers
         {
             ViewBag.BaseUrl = _baseUrl;
             var model = new StudentListView();
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
 
             model.ClassList = _classRepo.GetAll()
                       .Select(x => new SelectListItem { Value = x.Name.ToString(), Text = x.Name })
@@ -116,12 +127,12 @@ namespace CRM.Controllers
 
 
 
-        public IActionResult SearchList(string name, string classes, string year, string course, string regPvt)
+        public IActionResult SearchList(string name, string classes, string year, string course, string session)
         {
 
 
             //--------Get List
-            var data = _repoStudentRegi.FilterList(name, classes, year, course, regPvt);
+            var data = _repoStudentRegi.FilterList(name, classes, year, course, session);
 
 
 
@@ -386,6 +397,122 @@ namespace CRM.Controllers
                 data = ""
             });
         }
+
+
+        [HttpPost]
+        public IActionResult DownloadExcel(string hdnExcelSession, string hdnExcelClass, string hdnExcelCourse, string hdnExcelYear, string hdnExcelName)
+        {
+            try
+            {
+
+                var students = _repoStudentRegi.DownLoadExcelFilterList(hdnExcelName, hdnExcelClass, hdnExcelYear, hdnExcelCourse, hdnExcelSession);
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Student List");
+
+                    // Header
+                    worksheet.Cell(1, 1).Value = "Id";
+                    worksheet.Cell(1, 2).Value = "RegNo";
+                    worksheet.Cell(1, 3).Value = "FormNo";
+                    worksheet.Cell(1, 4).Value = "SchoNo";
+                    worksheet.Cell(1, 5).Value = "Session";
+                    worksheet.Cell(1, 6).Value = "Year";
+                    worksheet.Cell(1, 7).Value = "Class";
+                    worksheet.Cell(1, 8).Value = "Course";
+                    worksheet.Cell(1, 9).Value = "Sem";
+                    worksheet.Cell(1, 10).Value = "RegPvt";
+                    worksheet.Cell(1, 11).Value = "Status";
+                    worksheet.Cell(1, 12).Value = "Name";
+                    worksheet.Cell(1, 13).Value = "FatherName";
+                    worksheet.Cell(1, 14).Value = "MotherName";
+                    worksheet.Cell(1, 15).Value = "DOB";
+                    worksheet.Cell(1, 16).Value = "Caste";
+                    worksheet.Cell(1, 17).Value = "Gender";
+                    worksheet.Cell(1, 18).Value = "MobileNo";
+                    worksheet.Cell(1, 19).Value = "CreateBy";
+                    worksheet.Cell(1, 20).Value = "IsMove";
+                    worksheet.Cell(1, 21).Value = "NewOld";
+                    worksheet.Cell(1, 22).Value = "NewStudentFee";
+                    worksheet.Cell(1, 23).Value = "CMoney";
+                    worksheet.Cell(1, 24).Value = "TutionFee";
+                    worksheet.Cell(1, 25).Value = "OtherFee";
+                    worksheet.Cell(1, 26).Value = "TotalFee";
+                    worksheet.Cell(1, 27).Value = "TotalFeeCM";
+                    worksheet.Cell(1, 28).Value = "TotalFeeAfterDiscount";
+                    worksheet.Cell(1, 29).Value = "PaidAmount";
+                    worksheet.Cell(1, 30).Value = "ScholershipExcel";
+                    worksheet.Cell(1, 31).Value = "DisByExcel";
+                    worksheet.Cell(1, 32).Value = "DisResionExcel";
+                    worksheet.Cell(1, 33).Value = "CMoneyPaidOrNot";
+                    worksheet.Row(1).Style.Font.Bold = true;
+
+                    int row = 2;
+                    foreach (var item in students)
+                    {
+                        worksheet.Cell(row, 1).Value = item.Id;
+                        worksheet.Cell(row, 2).Value = item.RegNo;
+                        worksheet.Cell(row, 3).Value = item.FormNo;
+                        worksheet.Cell(row, 4).Value = item.SchoNo;
+                        worksheet.Cell(row, 5).Value = item.Session;
+                        worksheet.Cell(row, 6).Value = item.Year;
+                        worksheet.Cell(row, 7).Value = item.Subject;
+                        worksheet.Cell(row, 8).Value = item.Course;
+                        worksheet.Cell(row, 9).Value = item.Sem;
+                        worksheet.Cell(row, 10).Value = item.RegPvt;
+                        worksheet.Cell(row, 11).Value = item.Status;
+                        worksheet.Cell(row, 12).Value = item.Name;
+                        worksheet.Cell(row, 13).Value = item.FatherName;
+                        worksheet.Cell(row, 14).Value = item.MotherName;
+                        worksheet.Cell(row, 15).Value = item.DOB;
+                        worksheet.Cell(row, 16).Value = item.Caste;
+                        worksheet.Cell(row, 17).Value = item.Gender;
+                        worksheet.Cell(row, 18).Value = item.MobileNo;
+                        worksheet.Cell(row, 19).Value = item.CreateBy;
+                        worksheet.Cell(row, 20).Value = item.CreateDate;
+                        worksheet.Cell(row, 21).Value = item.UpdateBy;
+                        worksheet.Cell(row, 22).Value = item.UpdateDate;
+                        worksheet.Cell(row, 23).Value = item.IsMove.HasValue.ToString();
+                        worksheet.Cell(row, 24).Value = item.NewOld;
+                        worksheet.Cell(row, 25).Value = item.NewStudentFee;
+                        worksheet.Cell(row, 26).Value = item.CMoney;
+                        worksheet.Cell(row, 27).Value = item.TutionFee;
+                        worksheet.Cell(row, 28).Value = item.OtherFee;
+                        worksheet.Cell(row, 29).Value = item.TotalFee;
+                        worksheet.Cell(row, 30).Value = item.TotalFeeCM;
+                        worksheet.Cell(row, 31).Value = item.TotalFeeAfterDiscount;
+                        worksheet.Cell(row, 32).Value = item.PaidAmount;
+                        worksheet.Cell(row, 33).Value = item.ScholershipExcel;
+                        worksheet.Cell(row, 34).Value = item.DisByExcel;
+                        worksheet.Cell(row, 35).Value = item.DisResionExcel;
+                        worksheet.Cell(row, 36).Value = item.CMoneyPaidOrNot;
+                        
+                        row++;
+                    }
+
+                    worksheet.Columns().AdjustToContents();
+
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        return File(
+                            stream.ToArray(),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "StudentList.xlsx"
+                        );
+                    }
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
 
 
     }
