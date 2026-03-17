@@ -79,7 +79,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Class</label>
-                                                <select id="ddlClass" asp-for="Subject" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
+                                                <select id="ddlClass" asp-for="Subject" asp-items="Model.ClassList"  class="form-control"> <option>Select</option></select>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -177,8 +177,9 @@
         var varTutionFee = "";
         var varOtherFee = "";
         var Toast;
-
+        var allOptions;
         window.onload = function () {
+            allOptions = $("#ddlCourse option").clone();
 
             Toast = Swal.mixin({
                 toast: true,
@@ -186,6 +187,21 @@
                 showConfirmButton: false,
                 timer: 1000
             });
+
+            
+            $("#ddlClass").change(function () {
+                var selectedClass = $(this).val();
+                $("#ddlCourse").empty();
+                $("#ddlCourse").append('<option value="">Select</option>');
+                allOptions.each(function () {
+                    if ($(this).val() == selectedClass) {
+                        $("#ddlCourse").append($(this).clone());
+                    }
+
+                });
+            });
+
+
 
             $("#txtNewStudentFee, #txtTutionFee,#txtOtherFee").change(function () {
                
