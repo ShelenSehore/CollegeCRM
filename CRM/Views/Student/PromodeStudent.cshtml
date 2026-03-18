@@ -377,6 +377,7 @@
                                     </div>
 
                                     <div class="row">
+                                        <hr />
                                          Promote To
                                     </div>
                                     <div class="row">
@@ -389,7 +390,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                      
+
 
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -398,6 +399,14 @@
                                                     <option>Select</option>
                                                 </select>
                                             </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Admission Form No</label>
+                                            <input id="txtPromoAdmiFormNo" type="number"  class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Year</label>
+                                            <input id="txtPromoAdmiDate" type="date"  class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
                                             <button onclick="SavePromotion()" class="btn btn-block bg-gradient-success">Success</button>
@@ -923,6 +932,8 @@
             var varPromoYear = $('#ddlPromoYear option:selected').text();
             var varCurrentYear = $('#txtCurrentYear').val();
             var varCurrentSession = $('#txtCurrentSession').val();
+            var varPromotFormNo = $('#txtPromoAdmiFormNo').val();
+            var varPromotDate = $('#txtPromoAdmiDate').val();
             
 
             $.post(BASE_URL + "/Student/PromotStudent", {
@@ -932,7 +943,9 @@
                 varPromotCourse: varPromotCourse,
                 varPromoYear: varPromoYear,
                 varCurrentYear: varCurrentYear,
-                varCurrentSession: varCurrentSession
+                varCurrentSession: varCurrentSession,
+                varPromotFormNo: varPromotFormNo,
+                varPromotDate: varPromotDate
             },
                 function (res) {
 

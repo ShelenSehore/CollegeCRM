@@ -30,6 +30,7 @@ namespace CRM.Controllers
         private readonly MstFeeRepository _feeRepo;
         private readonly StudentFeeRepository _studentFeeRepo;
         private readonly StudentRegitrationFeeRepository _studentRegiFee;
+        private readonly StudentHistoryRepository _historyStudentRepo;
 
         public AdmissionController(ILogger<AdmissionController> logger,
             IOptions<AppSettings> config,
@@ -43,6 +44,7 @@ namespace CRM.Controllers
                 MstFeeRepository feeRepo,
                 StudentFeeRepository studentFeeRepo,
                 StudentRegitrationFeeRepository studentRegiFee,
+                StudentHistoryRepository historyStudentRepo,
              StudentRegistrationRepository repoStudentRegi)
         {
             _repoStudent = repoStudent;
@@ -58,6 +60,7 @@ namespace CRM.Controllers
             _feeRepo = feeRepo;
             _studentRegiFee = studentRegiFee;
             _studentFeeRepo = studentFeeRepo;
+            _historyStudentRepo = historyStudentRepo;
         }
         public IActionResult Index()
         {
@@ -516,6 +519,22 @@ namespace CRM.Controllers
                                 _studentFeeRepo.Add(studentFee);
 
                             }
+
+                            //--------------Student History Table--------------
+                            
+                            StudentHistory historyObj = new StudentHistory();
+                            historyObj.StudentId = student.Id;
+                            historyObj.AdmissionForm = student.FormNo.Value;
+                            historyObj.AdmissionDate = DateTime.Now;
+                            historyObj.Session = student.Session.ToUpper();
+                            historyObj.Classs = student.Subject.ToUpper();
+                            historyObj.Course = student.Course.ToUpper();
+                            historyObj.Year = student.Year.ToUpper();
+                            historyObj.CreateBy = "Admin";
+                            historyObj.CreateDate = DateTime.Now;
+                            historyObj.UpdateBy = "Admin";
+                            historyObj.UpdateDate = DateTime.Now;
+                            _historyStudentRepo.Add(historyObj);
 
 
                             //----------Update Registration Table IsMove = true-------

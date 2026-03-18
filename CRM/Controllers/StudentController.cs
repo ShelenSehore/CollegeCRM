@@ -32,6 +32,7 @@ namespace CRM.Controllers
         private readonly AcademicRepository _repoAcademic;
         private readonly StudentFeeRepository _studentFeeRepo;
         private readonly MstFeeRepository _feeRepo;
+        private readonly StudentHistoryRepository _historyStudentRepo;
         public StudentController(ILogger<StudentController> logger,
             
             IOptions<AppSettings> settings,
@@ -45,7 +46,9 @@ namespace CRM.Controllers
             AcademicRepository repoAcademic,
              StudentFeeRepository studentFeeRepo,
              MstFeeRepository feeRepo,
-             StudentRegistrationRepository repoStudentRegi)
+             StudentRegistrationRepository repoStudentRegi,
+             StudentHistoryRepository historyStudentRepo
+             )
         {
             
             _mySettings = settings.Value;
@@ -61,6 +64,7 @@ namespace CRM.Controllers
             _repoAcademic = repoAcademic;
             _studentFeeRepo = studentFeeRepo;
             _feeRepo = feeRepo;
+            _historyStudentRepo = historyStudentRepo;
         }
         public IActionResult Index(int? id)
         {
@@ -929,7 +933,8 @@ namespace CRM.Controllers
 
         //--------------------- Promoted Detail--------------
         public IActionResult PromotStudent(int id, string varPromotSession, string varPromotClass,
-            string varPromotCourse, string varPromoYear, string varCurrentYear, string varCurrentSession)
+            string varPromotCourse, string varPromoYear, string varCurrentYear, string varCurrentSession,
+            int varPromotFormNo, string varPromotDate)
 
         {
             //-------Fee Master-------------
@@ -940,6 +945,25 @@ namespace CRM.Controllers
             }
             //-------Old Fee Detail--------------
             var OldFeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, varPromotClass, varPromotCourse, varCurrentSession, varCurrentYear, "New");
+
+
+            //------------Student History----
+            StudentHistory historyObj = new StudentHistory();
+            historyObj.StudentId = id;
+            historyObj.AdmissionForm =  varPromotFormNo;
+            if(!string.IsNullOrEmpty(varPromotDate))
+            historyObj.AdmissionDate = Convert.ToDateTime(varPromotDate);
+
+            historyObj.Session = varPromotSession;
+            historyObj.Classs = varPromotClass;
+            historyObj.Course = varPromotCourse;
+            historyObj.Year = varPromoYear;
+            historyObj.CreateBy = "Admin";
+            historyObj.CreateDate = DateTime.Now;
+            historyObj.UpdateBy = "Admin";
+            historyObj.UpdateDate = DateTime.Now;
+            _historyStudentRepo.Add(historyObj);
+
 
 
             //-------------Student Fee---------------
