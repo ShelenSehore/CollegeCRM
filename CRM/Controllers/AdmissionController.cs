@@ -243,7 +243,7 @@ namespace CRM.Controllers
                 studentFee.TotalFeeCM = student.TotalFeeCM;
                 studentFee.Scholership = student.Scholership;
                 studentFee.TotalFeeAfterDiscount = student.TotalFeeAfterDiscount;
-                studentFee.CMoneyPaidOrNot = "No";
+                studentFee.CMoneyPaidOrNot = "NO";
                 studentFee.DisBy = student.DisBy;
                 studentFee.DisResion = student.DisResion;
                 studentFee.CreatedBy = "Admin";
@@ -318,23 +318,112 @@ namespace CRM.Controllers
 
             //--------Get Student detail---------
             var getValue = _repoStudentRegi.GetById(Id);
+            model.Id = getValue.Id;
             model.Name = getValue.Name;
             model.FatherName = getValue.FatherName;
             model.MotherName = getValue.MotherName;
             model.MobileNo = getValue.MobileNo;
             model.DOB = getValue.DOB;
+            model.Gender = getValue.Gender;
+            model.Caste = getValue.Caste;
+
             model.Session = getValue.Session;
             model.Year = getValue.Year;
+            model.Class = getValue.Subject;
+            model.Course = getValue.Course;
+            model.RegNo = getValue.RegNo;
+            model.FormNo = getValue.FormNo;
+            model.SchoNo = getValue.SchoNo;
             model.RegPvt = getValue.RegPvt;
+            model.Status = getValue.Status;
 
-            //var item = model.YearList.FirstOrDefault(x => x.Value == model.Year);
-            //if (item != null)
-            //{
-            //    item.Selected = true;
-            //}
-
+            var getFeeDetail = _studentRegiFee.GetById(Id);
+            model.RegFeeId = getFeeDetail.Id;
+            
+            model.NewStudentFee = getFeeDetail.NewStudentFee;
+            model.CMoney = getFeeDetail.CMoney;
+            model.TutionFee = getFeeDetail.TutionFee;
+            model.OtherFee = getFeeDetail.OtherFee;
+            model.TotalFee = getFeeDetail.TotalFee;
+            model.Scholership = getFeeDetail.Scholership;
+            model.DisBy = getFeeDetail.DisBy;
+            model.DisResion = getFeeDetail.DisResion;
+            model.TotalFeeAfterDiscount = getFeeDetail.TotalFeeAfterDiscount;
+            
             return View(model);
         }
+
+
+        [HttpPost]
+        public IActionResult NewAdmissionUpdatePost(StudentRegistrationForView student)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(student);
+            }
+            StudentRegistration obj = new StudentRegistration();
+
+            obj.RegNo = student.RegNo;
+            obj.FormNo = student.FormNo;
+            obj.SchoNo = student.SchoNo;
+            obj.Session = student.Session;
+            obj.Year = student.Year.ToUpper();    //-----Year
+            obj.Subject = student.Class.ToUpper();  //--------Class
+            obj.Course = student.Course.ToUpper();  //-----Course
+            //obj.Sem = student.Sem.ToUpper();
+            obj.RegPvt = student.RegPvt.ToUpper();
+            obj.Status = student.Status;
+            obj.Name = student.Name.ToUpper();
+            obj.FatherName = student.FatherName.ToUpper();
+            obj.MotherName = student.MotherName.ToUpper();
+            obj.DOB = student.DOB;
+            obj.Caste = student.Caste;
+            obj.Gender = student.Gender;
+            obj.MobileNo = student.MobileNo;
+            obj.Scholership = student.Scholership.ToString();
+            obj.CreateBy = "Admin";
+            obj.CreateDate = DateTime.Now;
+            obj.Id = student.Id;
+            try
+            {
+                 _repoStudentRegi.Update(obj);
+
+                //-------------Student Fee---------------
+                StudentRegitrationFee studentFee = new StudentRegitrationFee();
+                studentFee.Id = student.RegFeeId;
+                studentFee.Year = student.Year.ToUpper();
+                studentFee.Course = student.Course.ToUpper();
+                studentFee.Class = student.Class.ToUpper();
+                studentFee.Session = student.Session.ToUpper();
+                studentFee.NewOld = "NEW";
+                studentFee.NewStudentFee = student.NewStudentFee;
+                studentFee.CMoney = student.CMoney;
+                studentFee.TutionFee = student.TutionFee;
+                studentFee.OtherFee = student.OtherFee;
+                studentFee.TotalFee = student.TotalFee;
+                studentFee.TotalFeeCM = student.TotalFeeCM;
+                studentFee.Scholership = student.Scholership;
+                studentFee.TotalFeeAfterDiscount = student.TotalFeeAfterDiscount;
+                studentFee.DisBy = student.DisBy;
+                studentFee.DisResion = student.DisResion;
+                studentFee.CreatedBy = "Admin";
+                studentFee.CreatedDateTime = DateTime.Now;
+                studentFee.UpdateDateTime = DateTime.Now;
+                studentFee.UpdateBy = "";
+                _studentRegiFee.Update(studentFee);
+
+            }
+            catch (Exception ex)
+            {
+            }
+
+
+
+
+            TempData["msg"] = "Student Added Successfully!";
+            return RedirectToAction("Index");
+        }
+
 
         //------------Get Fee Detail---------
         public IActionResult StudentPaymentDetail(string classname, string course, string session, string year)

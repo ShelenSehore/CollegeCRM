@@ -35,8 +35,10 @@
 
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form asp-action="NewAdmissionPost" method="post">
+                        <form asp-action="NewAdmissionUpdatePost" method="post">
 
+                            <input type="hidden" name="Id" asp-for="Id" />
+                            <input type="hidden" name="RegFeeId" asp-for="RegFeeId" />
                             <!-- COLLEGE DETAILS -->
                             <div class="card card-primary">
                                 <div class="card-header">
@@ -269,8 +271,8 @@
                                             <label>Gender</label>
                                             <select asp-for="Gender" class="form-control">
                                                 <option value="">Select</option>
-                                                <option>Male</option>
-                                                <option>Femle</option>
+                                                <option>MALE</option>
+                                                <option>FEMLE</option>
                                             </select>
                                             <span asp-validation-for="Gender" class="text-danger"></span>
                                         </div>
@@ -299,7 +301,7 @@
                             <div class="text-center mt-4 mb-5">
 
                                 <button class="btn btn-primary px-4" type="submit">
-                                    <i class="fas fa-save"></i> Save
+                                    <i class="fas fa-save"></i> Change Save
                                 </button>
 
                                 <button class="btn btn-danger px-4">

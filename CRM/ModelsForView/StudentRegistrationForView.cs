@@ -10,6 +10,7 @@ namespace CRM.ModelsForView
     public class StudentRegistrationForView
     {
         public int Id { get; set; }
+        public int RegFeeId { get; set; }
         public int? RegNo { get; set; }
 
         [Required(ErrorMessage = "Enter form number")]

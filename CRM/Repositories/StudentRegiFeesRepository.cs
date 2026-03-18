@@ -20,6 +20,13 @@ namespace CRM.Repositories
             return _context.StudentRegitrationFee.ToList();
         }
 
+        public void Update(StudentRegitrationFee model)
+        {
+            _context.StudentRegitrationFee.Update(model);
+            _context.SaveChanges();
+        }
+
+
         public void Add(StudentRegitrationFee model)
         {
             try
