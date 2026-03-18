@@ -195,7 +195,6 @@
         function saveClass() {
 
 
-
             var name = $("#txtName").val();
             if (name === "") {
                 $("#txtName").addClass("is-invalid");
@@ -224,8 +223,8 @@
             }
 
 
-            var courseName = $('#ddlSubject option:selected').text();
-            if (courseName === "Select") {
+            var year = $('#ddlSubject option:selected').text();
+            if (year === "Select") {
                 $("#ddlSubject").addClass("is-invalid");
                 if ($("#classError").length == 0) {
                     $("#ddlSubject").after('<span id="classError" class="error invalid-feedback">Please select year </span>');
@@ -237,10 +236,10 @@
             }
 
 
-            $.post(BASE_URL + "/Suject/CreateSubject", {
+            $.post(BASE_URL + "/Course/CreateSubject", {
                 Name: name,
                 SelectedClass: className,
-                SelectedCourse: courseName
+                SelectedCourse: year
             }, function (res) {
 
                 var saveStatus = res.data;

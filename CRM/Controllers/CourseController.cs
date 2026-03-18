@@ -56,23 +56,23 @@ namespace CRM.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateSubject(SubjectViewModel model)
+        public IActionResult CreateSubject(string Name, string SelectedClass, string SelectedCourse)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(model);
+            //}
 
             MstSubject subject = new MstSubject
             {
-                Name = model.Name.ToUpper(),               // Subject Name
-                Class = model.SelectedClass.ToUpper(),      // Selected Class
-                Course = model.SelectedCourse.ToUpper()
+                Name = Name.ToUpper(),               // Subject Name
+                Class = SelectedClass,      // Selected Class
+                Course = SelectedCourse
             };
 
             _subjecctRepo.Add(subject);
 
-            return RedirectToAction("index");
+            return Json(new { success = true, data = "Success" });
         }
 
         public IActionResult GetCourse(int id)

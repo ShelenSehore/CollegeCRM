@@ -142,7 +142,7 @@ namespace CRM.Controllers
             //------Course  -- Subject---
             var varAllSubject = _subjecctRepo.GetAll().Select(x => new SelectListItem
             {
-                Value = x.Class.ToString(),
+                Value = x.Class.ToString()+"/"+ x.Course.ToString(),
                 Text = x.Name
             })
                        .ToList();
