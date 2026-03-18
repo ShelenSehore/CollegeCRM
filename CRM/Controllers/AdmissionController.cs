@@ -391,6 +391,7 @@ namespace CRM.Controllers
                 //-------------Student Fee---------------
                 StudentRegitrationFee studentFee = new StudentRegitrationFee();
                 studentFee.Id = student.RegFeeId;
+                studentFee.StudentId = student.Id;
                 studentFee.Year = student.Year.ToUpper();
                 studentFee.Course = student.Course.ToUpper();
                 studentFee.Class = student.Class.ToUpper();

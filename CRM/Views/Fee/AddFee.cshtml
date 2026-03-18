@@ -179,7 +179,7 @@
         var Toast;
         var allOptions;
         window.onload = function () {
-            allOptions = $("#ddlCourse option").clone();
+          //  allOptions = $("#ddlCourse option").clone();
 
             Toast = Swal.mixin({
                 toast: true,
@@ -189,18 +189,19 @@
             });
 
             
-            $("#ddlClass").change(function () {
-                var selectedClass = $(this).val();
-                var varYear = $('#ddlYear option:selected').text()
-                $("#ddlCourse").empty();
-                $("#ddlCourse").append('<option value="">Select</option>');
-                allOptions.each(function () {
-                    if ($(this).val() == selectedClass + "/" + varYear) {
-                        $("#ddlCourse").append($(this).clone());
-                    }
+            //$("#ddlClass").change(function () {
+            //    var selectedClass = $(this).val();
+            //    var varYear = $('#ddlYear option:selected').text()
+            //    $("#ddlCourse").empty();
+            //    $("#ddlCourse").append('<option value="">Select</option>');
+            //    allOptions.each(function () {
+            //        if ($(this).val() == selectedClass + "/" + varYear) {
+            //            $("#ddlCourse").append($(this).clone());
+            //        }
 
-                });
-            });
+            //    });
+            //});
+
 
 
 
