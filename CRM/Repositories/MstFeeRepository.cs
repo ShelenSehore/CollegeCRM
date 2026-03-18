@@ -16,7 +16,7 @@ namespace CRM.Repositories
         }
         public List<MstFee> GetAll()
         {
-            return _context.MstFee.ToList();
+            return _context.MstFee.OrderByDescending(x=>x.Id).ToList();
         }
 
         public void Add(MstFee model)
