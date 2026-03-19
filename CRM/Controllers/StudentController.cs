@@ -350,6 +350,10 @@ namespace CRM.Controllers
             return View(model);
         }
 
+
+       
+
+
         public IActionResult SearchList(string name, string classes, string year, string course, string session)
         {
            
@@ -1025,6 +1029,78 @@ namespace CRM.Controllers
             var teee = _repoStudent.ExamFormFilled(ids);
 
             return Json(new { success = true, data = true });
+        }
+
+
+        //--------------Student History-------------
+        public IActionResult OldStudentList()
+        {
+            ViewBag.BaseUrl = _baseUrl;
+            var model = new StudentListView();
+
+            model.ClassList = _classRepo.GetAll()
+                      .Select(x => new SelectListItem
+                      {
+                          Value = x.Name.ToString(),
+                          Text = x.Name
+                      })
+                      .ToList();
+
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+
+
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
+
+            ////--------Get List
+            //var data = _repoStudent.GetAll();
+
+            //model.StudentList = data;
+
+            return View(model);
+        }
+
+        public IActionResult SearchOldStudentList(string name, string classes, string year, string course, string session)
+        {
+
+
+            //--------Get List
+            var data = _repoStudent.StudentHistoryList(name, classes, year, course, session);
+
+
+
+            return Json(new { success = true, data = data });
         }
 
 
