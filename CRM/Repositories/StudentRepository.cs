@@ -34,6 +34,13 @@ namespace CRM.Repositories
             return model.Id;
         }
 
+        public Student SaveAndGetAllDetail(Student model)
+        {
+            _context.Student.Add(model);
+             var isSave = _context.SaveChanges();
+            return model;
+        }
+
         public void Update(Student model)
         {
             _context.Student.Update(model);
@@ -281,75 +288,100 @@ namespace CRM.Repositories
 
 
         //---------------Student History List--------------
-        public List<Student> StudentHistoryList(string name, string classes, string course, string year, string session)
+        public List<StudentHistory> StudentHistoryList(string name, string classes, string course, string year, string session)
         {
-            try
+
+            try { 
+
+
+            var query = from his in _context.StudentHistory
+                        select new
+                        {
+                            his.StudentId,
+                            his.AdmissionForm,
+                            his.AdmissionDate,
+                            his.Session,
+                            his.Year,
+                            his.Classs,
+                            his.Course,
+                            his.ScholerNo,
+                            his.RegPvt,
+                            his.NewOld,
+                            his.Medium,
+                            his.EnrolNo,
+                            his.RollNo,
+                            his.Gender,
+                            his.StudentName,
+                            his.FatherName,
+                            his.MotherName,
+                            his.PH,
+                            his.Cast,
+                            his.DOB,
+                            his.Address,
+                            his.MobileNo,
+                            his.SamagraId,
+                            his.AdharNo,
+                            his.ExamFormSubmited,
+                            his.CreateBy,
+                            his.CreateDate
+                        };
+
+            if (!string.IsNullOrWhiteSpace(name))
             {
-                var query = from his in _context.StudentHistory
-                            join st in _context.Student
-                            on his.StudentId equals st.Id
-                            select new
-                            {
-                                his.StudentId,
-                                his.StudentHistoryId,
-                                his.Session,
-                                his.Year,
-                                his.Classs,
-                                his.Course,
-                                his.AdmissionDate,
-                                his.AdmissionForm,
-                                st.StudentName,
-                                st.FatherName,
-                                st.MobileNoOne,
-                                st.Gender,
-                                st.Caste,
-                                st.NewOld,
-                                st.RegEx
-                            };
-
-                if (!string.IsNullOrWhiteSpace(name))
-                {
-                    query = query.Where(x => x.StudentName.ToLower().Contains(name.ToLower()));
-                }
-                if (!string.IsNullOrWhiteSpace(classes) && (classes != "Select"))
-                {
-                    query = query.Where(x => x.Classs.ToLower().Contains(classes.ToLower()));
-                }
-                if (!string.IsNullOrWhiteSpace(course) && (course != "Select"))
-                {
-                    query = query.Where(x => x.Course.ToLower().Contains(course.ToLower()));
-                }
-                if (!string.IsNullOrWhiteSpace(year) && (year != "Select"))
-                {
-                    query = query.Where(x => x.Year.ToLower().Contains(year.ToLower()));
-                }
-                if (!string.IsNullOrWhiteSpace(session) && (session != "Select"))
-                {
-                    query = query.Where(x => x.Session.ToLower().Contains(session.ToLower()));
-                }
-                List<Student> retunList = new List<Student>();
-                foreach (var row in query) 
-                {
-                    Student stu = new Student();
-                    stu.AdmissionDate = row.AdmissionDate;
-                    stu.AdmissionFormNo = row.AdmissionForm;
-                    stu.StudentName = row.StudentName;
-                    stu.FatherMobileNo = row.FatherName;
-                    stu.MotherName = row.MobileNoOne;
-                    stu.MobileNoOne = row.MobileNoOne;
-                    stu.Year = row.Year;
-                    stu.Session = row.Session;
-                    stu.Class = row.Classs;
-                    stu.Course = row.Course;
-                    stu.Caste = row.Caste;
-                    stu.Gender = row.Gender;
-                    retunList.Add(stu);
-                }
-
-                return retunList.ToList();
-
-
+                query = query.Where(x => x.StudentName.ToLower().Contains(name.ToLower()));
             }
+            if (!string.IsNullOrWhiteSpace(classes) && (classes != "Select"))
+            {
+                query = query.Where(x => x.Classs.ToLower().Contains(classes.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(course) && (course != "Select"))
+            {
+                query = query.Where(x => x.Course.ToLower().Contains(course.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(year) && (year != "Select"))
+            {
+                query = query.Where(x => x.Year.ToLower().Contains(year.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(session) && (session != "Select"))
+            {
+                query = query.Where(x => x.Session.ToLower().Contains(session.ToLower()));
+            }
+            List<StudentHistory> retunList = new List<StudentHistory>();
+            foreach (var row in query)
+            {
+                StudentHistory stu = new StudentHistory();
+                stu.StudentId = row.StudentId;
+                stu.AdmissionForm = row.AdmissionForm;
+                stu.AdmissionDate = row.AdmissionDate;
+                stu.Session = row.Session;
+                stu.Classs = row.Classs;
+                stu.Course = row.Course;
+                stu.Year = row.Year;
+                stu.ScholerNo = row.ScholerNo;
+                stu.RegPvt = row.RegPvt;
+                stu.NewOld = row.NewOld;
+                stu.Medium = row.Medium;
+                stu.EnrolNo = row.EnrolNo;
+                stu.RollNo = row.RollNo;
+                stu.Gender = row.Gender;
+                stu.StudentName = row.StudentName;
+                stu.FatherName = row.FatherName;
+                stu.MotherName = row.MotherName;
+                stu.PH = row.PH;
+                stu.Cast = row.Cast;
+                stu.DOB = row.DOB;
+                stu.Address = row.Address;
+                stu.MobileNo = row.MobileNo;
+                stu.SamagraId = row.SamagraId;
+                stu.AdharNo = row.AdharNo;
+                stu.ExamFormSubmited = row.ExamFormSubmited;
+                retunList.Add(stu);
+            }
+
+            return retunList.ToList();
+
+
+        }
             catch (Exception ex)
             {
                 throw ex;

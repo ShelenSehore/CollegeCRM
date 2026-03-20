@@ -488,14 +488,14 @@ namespace CRM.Controllers
                             stuObj.CreateBy = "Admin";
                             stuObj.CreateDatetime = DateTime.Now;
 
-                            var StudentTableID = _repoStudent.SaveAndGetId(stuObj);
+                            var SavedStudentTable = _repoStudent.SaveAndGetAllDetail(stuObj);
 
                             //---------Get Fee detail from FeeReigtration table----------
                             var varFeeDetail = _studentRegiFee.GetById(Convert.ToInt32(RegistudentId));
                             if (RegistudentId != null)
                             {
                                 StudentFee studentFee = new StudentFee();
-                                studentFee.StudentId = StudentTableID;
+                                studentFee.StudentId = SavedStudentTable.Id;
                                 studentFee.Year = stuObj.Year.ToUpper();
                                 studentFee.Course = stuObj.Course.ToUpper();
                                 studentFee.Class = stuObj.Class.ToUpper();
@@ -523,13 +523,37 @@ namespace CRM.Controllers
                             //--------------Student History Table--------------
                             
                             StudentHistory historyObj = new StudentHistory();
-                            historyObj.StudentId = student.Id;
-                            historyObj.AdmissionForm = student.FormNo.Value;
+                            historyObj.StudentId = SavedStudentTable.Id;
+                            historyObj.AdmissionForm = SavedStudentTable.AdmissionFormNo.Value;
                             historyObj.AdmissionDate = DateTime.Now;
-                            historyObj.Session = student.Session.ToUpper();
-                            historyObj.Classs = student.Subject.ToUpper();
-                            historyObj.Course = student.Course.ToUpper();
-                            historyObj.Year = student.Year.ToUpper();
+                            historyObj.Session = SavedStudentTable.Session.ToUpper();
+                            historyObj.Classs = SavedStudentTable.Class.ToUpper();
+                            historyObj.Course = SavedStudentTable.Course.ToUpper();
+                            historyObj.Year = SavedStudentTable.Year;
+                            historyObj.ScholerNo = SavedStudentTable.SchoolarNo;
+                            historyObj.RegPvt = SavedStudentTable.RegEx;
+                            historyObj.NewOld = SavedStudentTable.NewOld;
+                            historyObj.Medium = SavedStudentTable.Medium;
+                            historyObj.EnrolNo = SavedStudentTable.EnRollNo; //--------
+                            historyObj.RollNo = SavedStudentTable.RollNo; //---
+                            historyObj.Gender = SavedStudentTable.Gender;
+                           // historyObj.Status = SavedStudentTable.Status; //-----
+                            historyObj.StudentName = SavedStudentTable.StudentName;
+                            historyObj.FatherName = SavedStudentTable.FatherName;
+                            historyObj.MotherName = SavedStudentTable.MotherName;
+                            historyObj.PH = SavedStudentTable.PH; //--
+                            historyObj.Cast = SavedStudentTable.Caste;
+
+                            if(SavedStudentTable.DOB.HasValue)
+                            historyObj.DOB = SavedStudentTable.DOB.Value;
+
+                            historyObj.Address = SavedStudentTable.Address; //----
+                            historyObj.MobileNo = SavedStudentTable.MobileNoOne;
+                           // historyObj.TCIssue = SavedStudentTable.TCissue;//---
+                            historyObj.SamagraId = SavedStudentTable.SamagraID; //---
+                            historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
+                            historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited;
+                           
                             historyObj.CreateBy = "Admin";
                             historyObj.CreateDate = DateTime.Now;
                             historyObj.UpdateBy = "Admin";

@@ -110,7 +110,7 @@
                                         <th class="sorting">Course</th>
                                         <th class="sorting">MobileNo</th>
                                         <th class="sorting">View</th>
-                                        <th class="sorting">Select</th>
+                                        
                                     </tr>
                                 </thead>
 
@@ -282,14 +282,15 @@
 
         function TableData(tableData)
         {
+            
             $("#tblStudentList tbody").empty();
             $.each(tableData.data, function (index, element) {
 
-                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.admissionFormNo +
-                    "</td><td>" + element.studentName + "</td><td>" + element.year + "</td><td>" + element.class +
-                    "</td><td>" + element.course + "</td><td>" + element.mobileNoOne +
-                    "</td><td><a class='btn btn-default' href='../Student/PromodeStudent?id=" + element.id + "' ><i class='fas fa-eye'></i> View</a></td>" +
-                    "<td><input id='" + element.id+"' name='chkStudent' type='checkbox'></td></tr>");
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.admissionForm +
+                    "</td><td>" + element.studentName + "</td><td>" + element.year + "</td><td>" + element.classs +
+                    "</td><td>" + element.course + "</td><td>" + element.mobileNo +
+                    "</td><td><a class='btn btn-default' href='../Student/PromodeStudent?id=" + element.studentId + "' ><i class='fas fa-eye'></i> View</a></td>" +
+                    "</tr>");
 
             });
 

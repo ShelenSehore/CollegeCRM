@@ -950,18 +950,44 @@ namespace CRM.Controllers
             //-------Old Fee Detail--------------
             var OldFeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, varPromotClass, varPromotCourse, varCurrentSession, varCurrentYear, "New");
 
-
+            var SavedStudentTable = _repoStudent.GetById(id);
             //------------Student History----
             StudentHistory historyObj = new StudentHistory();
-            historyObj.StudentId = id;
-            historyObj.AdmissionForm =  varPromotFormNo;
-            if(!string.IsNullOrEmpty(varPromotDate))
-            historyObj.AdmissionDate = Convert.ToDateTime(varPromotDate);
+
+            historyObj.StudentId = SavedStudentTable.Id;
+            historyObj.AdmissionForm = varPromotFormNo;
+            if (!string.IsNullOrEmpty(varPromotDate))
+                historyObj.AdmissionDate = Convert.ToDateTime(varPromotDate);
 
             historyObj.Session = varPromotSession;
             historyObj.Classs = varPromotClass;
             historyObj.Course = varPromotCourse;
             historyObj.Year = varPromoYear;
+
+            historyObj.ScholerNo = SavedStudentTable.SchoolarNo;
+            historyObj.RegPvt = SavedStudentTable.RegEx;
+            historyObj.NewOld = SavedStudentTable.NewOld;
+            historyObj.Medium = SavedStudentTable.Medium;
+            historyObj.EnrolNo = SavedStudentTable.EnRollNo; //--------
+            historyObj.RollNo = SavedStudentTable.RollNo; //---
+            historyObj.Gender = SavedStudentTable.Gender;
+            // historyObj.Status = SavedStudentTable.Status; //-----
+            historyObj.StudentName = SavedStudentTable.StudentName;
+            historyObj.FatherName = SavedStudentTable.FatherName;
+            historyObj.MotherName = SavedStudentTable.MotherName;
+            historyObj.PH = SavedStudentTable.PH; //--
+            historyObj.Cast = SavedStudentTable.Caste;
+
+            if (SavedStudentTable.DOB.HasValue)
+                historyObj.DOB = SavedStudentTable.DOB.Value;
+
+            historyObj.Address = SavedStudentTable.Address; //----
+            historyObj.MobileNo = SavedStudentTable.MobileNoOne;
+            // historyObj.TCIssue = SavedStudentTable.TCissue;//---
+            historyObj.SamagraId = SavedStudentTable.SamagraID; //---
+            historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
+            historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited;
+
             historyObj.CreateBy = "Admin";
             historyObj.CreateDate = DateTime.Now;
             historyObj.UpdateBy = "Admin";
