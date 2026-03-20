@@ -85,7 +85,7 @@
                             </div>*@
 
                             <div class="col-md-1">
-                                <form id="frmDownloadExcel" method="post" action="DownloadExcel">
+                                <form id="frmDownloadExcel" method="post" action="DownloadOldStudentExcel">
                                     <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
                                     <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
                                     <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
@@ -240,7 +240,6 @@
             $("#hdnExcelYear").val($('#ddlYear option:selected').text());
             $("#hdnExcelCourse").val($('#ddlCourse option:selected').text());
             $("#hdnExcelSession").val($('#ddlSession option:selected').text());
-            debugger;
             $('#frmDownloadExcel').submit();
 
         }

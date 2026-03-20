@@ -571,6 +571,119 @@ namespace CRM.Controllers
             
         }
 
+        [HttpPost]
+        public IActionResult DownloadOldStudentExcel(string hdnExcelSession, string hdnExcelClass, string hdnExcelCourse, string hdnExcelYear, string hdnExcelName)
+        {
+            try
+            {
+
+                var students = _repoStudent.GetByStudentHistoryPage(hdnExcelSession, hdnExcelClass, hdnExcelCourse, hdnExcelYear, hdnExcelName);
+                // var students = _repoStudentRegi.FilterList(name, classes, subject, course, regPvt);
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Student List");
+
+                    // Header
+                    worksheet.Cell(1, 1).Value = "Id";
+                    worksheet.Cell(1, 2).Value = "AdmissionFormNo";
+                    worksheet.Cell(1, 3).Value = "Year";
+                    worksheet.Cell(1, 4).Value = "EnRollNo";
+                    worksheet.Cell(1, 5).Value = "AdmissionDate";
+                    worksheet.Cell(1, 6).Value = "Class";
+                    worksheet.Cell(1, 7).Value = "RollNo";
+                    worksheet.Cell(1, 8).Value = "RegEx";
+                    worksheet.Cell(1, 9).Value = "Course";
+                    worksheet.Cell(1, 10).Value = "SchoolarNo";
+                    worksheet.Cell(1, 11).Value = "NewOld";
+                    worksheet.Cell(1, 12).Value = "SubCode";
+                    worksheet.Cell(1, 13).Value = "Medium";
+                    worksheet.Cell(1, 14).Value = "Gender";
+                    worksheet.Cell(1, 15).Value = "Caste";
+                    worksheet.Cell(1, 16).Value = "AadhaarNo";
+                    worksheet.Cell(1, 17).Value = "StudentName";
+                    worksheet.Cell(1, 18).Value = "DOB";
+                    worksheet.Cell(1, 19).Value = "SamagraID";
+                    worksheet.Cell(1, 20).Value = "FatherName";
+                    worksheet.Cell(1, 21).Value = "MobileNoOne";
+                    worksheet.Cell(1, 22).Value = "MobileNoTwo";
+                    worksheet.Cell(1, 23).Value = "MotherName";
+                    worksheet.Cell(1, 24).Value = "TC";
+                    worksheet.Cell(1, 25).Value = "PH";
+                    worksheet.Cell(1, 26).Value = "FatherMobileNo";
+                    worksheet.Cell(1, 27).Value = "Address";
+                    worksheet.Cell(1, 28).Value = "Minority";
+                    worksheet.Cell(1, 29).Value = "Session";
+                    worksheet.Cell(1, 30).Value = "CreateBy";
+                    worksheet.Cell(1, 31).Value = "CreateDatetime";
+                    worksheet.Cell(1, 32).Value = "AbcNo";
+                    worksheet.Cell(1, 33).Value = "ExamFormSubmited";
+                    worksheet.Row(1).Style.Font.Bold = true;
+
+                    int row = 2;
+                    foreach (var item in students)
+                    {
+                        worksheet.Cell(row, 1).Value = item.StudentId;
+                        worksheet.Cell(row, 2).Value = item.AdmissionForm;
+                        worksheet.Cell(row, 3).Value = item.Year;
+                        worksheet.Cell(row, 4).Value = item.EnrolNo;
+                        worksheet.Cell(row, 5).Value = item.AdmissionDate;
+                        worksheet.Cell(row, 6).Value = item.Classs;
+                        worksheet.Cell(row, 7).Value = item.RollNo;
+                        worksheet.Cell(row, 8).Value = item.RegPvt;
+                        worksheet.Cell(row, 9).Value = item.Course;
+                        worksheet.Cell(row, 10).Value = item.ScholerNo;
+                        worksheet.Cell(row, 11).Value = item.NewOld;
+                        worksheet.Cell(row, 12).Value = "SubCode"; //-------
+                        worksheet.Cell(row, 13).Value = item.Medium;
+                        worksheet.Cell(row, 14).Value = item.Gender;
+                        worksheet.Cell(row, 15).Value = item.Cast;
+                        worksheet.Cell(row, 16).Value = item.AdharNo;
+                        worksheet.Cell(row, 17).Value = item.StudentName;
+                        worksheet.Cell(row, 18).Value = item.DOB;
+                        worksheet.Cell(row, 19).Value = item.SamagraId;
+                        worksheet.Cell(row, 20).Value = item.FatherName;
+                        worksheet.Cell(row, 21).Value = item.MobileNo;
+                        worksheet.Cell(row, 22).Value = item.MobileNo;
+                        worksheet.Cell(row, 23).Value = item.MotherName;
+                        worksheet.Cell(row, 24).Value =  "TC"; //---
+                        worksheet.Cell(row, 25).Value = item.PH;
+                        worksheet.Cell(row, 26).Value = "FatherMobile";
+                        worksheet.Cell(row, 27).Value = item.Address;
+                        worksheet.Cell(row, 28).Value = "Minority"; //------
+                        worksheet.Cell(row, 29).Value = item.Session;
+                        worksheet.Cell(row, 30).Value = item.CreateBy;
+                        worksheet.Cell(row, 31).Value = item.CreateDate.ToString("dd/MM/yyyy");
+                        worksheet.Cell(row, 32).Value = item.AbcId;
+                        worksheet.Cell(row, 33).Value = item.ExamFormSubmited;
+
+                        row++;
+                    }
+
+                    worksheet.Columns().AdjustToContents();
+
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        return File(
+                            stream.ToArray(),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "StudentList.xlsx"
+                        );
+                    }
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
+
         //-------------------Promossions------
         public IActionResult StudentDetail(int id)
         {
