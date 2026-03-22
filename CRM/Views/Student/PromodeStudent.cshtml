@@ -670,7 +670,12 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Admission Form No</label>
+                            <input type="text" asp-for="AdmissionFormNo" id="txtAdmissionFormNo" class="form-control" placeholder="Parcentage">
+                        </div>
+                    </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>12th school Name</label>
@@ -731,7 +736,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Result</label>
-                            
+
                             <select id="ddlResult" asp-for="Result" class="form-control">
                                 <option>Select</option>
                                 <option>PASS</option>
@@ -748,12 +753,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Admission Form No</label>
-                            <input type="text" asp-for="AdmissionFormNo" id="txtAdmissionFormNo"  class="form-control" placeholder="Parcentage">
-                        </div>
-                    </div>
+
 
                 </div>
             </div>
@@ -923,13 +923,25 @@
 
         function SaveCollegeDetail()
         {
+            var IsValidate = true;
+            if (!validateField("#txtAdmissionFormNo", "AdmissionFormNo required")) IsValidate = false;
+            if (!validateField("#txtEnRollNo", "EnRollNo required")) IsValidate = false;
+            if (!validateField("#txtAdmissionDate", "AdmissionDate required")) IsValidate = false;
+            if (!validateField("#txtRollNo", "RollNo required")) IsValidate = false;
+            if (!validateField("#txtSchoolarNo", "SchoolarNo required")) IsValidate = false;
+            if (!validateField("#txtSubCode", "SubCode required")) IsValidate = false;
+
+            if (!validateField("#ddlNewOld", "Select NewOld", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlMedium", "Select Medium", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlRegEx", "Select RegEx", "dropdown")) IsValidate = false;
+
+            if (!IsValidate) return;
+
+
             var varid = $("#hdnStudentID").val();
-           // var varSession = $('#ddlSession option:selected').text();
+           
             var varNewOld = $('#ddlNewOld option:selected').text();
             var varMedium = $('#ddlMedium option:selected').text();
-           // var varClass = $('#ddlClass option:selected').text();
-          //  var varCourse = $('#ddlCourse option:selected').text();
-          //  var varYear = $('#ddlYear option:selected').text();
             var varAdmissionFormNo = $('#txtAdmissionFormNo').val();
             var varEnRollNo = $('#txtEnRollNo').val();
             var varAdmissionDate = $('#txtAdmissionDate').val();
@@ -937,7 +949,9 @@
             var varSchoolarNo = $('#txtSchoolarNo').val();
             var varSubCode = $('#txtSubCode').val();
             var varRegEx = $('#ddlRegEx option:selected').text();
-            
+
+
+            if (IsValidate) { 
 
             $.post(BASE_URL + "/Student/UpdateCollegeDetail", {
                 id: varid,
@@ -962,23 +976,44 @@
                     location.reload(true);
                 }
             );
+            }
         }
 
 
         function SaveAcadmicDetail() {
+
+            var IsValidate = true;
+            if (!validateField("#txtAcademicYear", "Academic Year required")) IsValidate = false;
+            if (!validateField("#txtSchoolName", "School Name required")) IsValidate = false;
+            if (!validateField("#txtBoard", "Board required")) IsValidate = false;
+            if (!validateField("#txtMaxMark", "Max Mark required")) IsValidate = false;
+            if (!validateField("#txtObtMark", "ObtMark required")) IsValidate = false;
+            if (!validateField("#txtParcent", "Parcent required")) IsValidate = false;
+            if (!validateField("#txtAdmissionFormNo", "Admission FormNo required")) IsValidate = false;
+
+
+            if (!validateField("#ddlAcadmicSession", "Select Acadmic Session", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlAcadmicClass", "Select Acadmic Class", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlAcadmicCourse", "Select Acadmic Course", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlAcadmicCourse", "Select Acadmic Course", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlResult", "Select Result", "dropdown")) IsValidate = false;
+
+            if (!IsValidate) return;
+
             var varid = $("#hdnStudentID").val();
             var varAcademicYear = $('#txtAcademicYear').val();
             var varAcadmicSession = $('#ddlAcadmicSession option:selected').text();
             var varAcadmicClass = $('#ddlAcadmicClass option:selected').text();
-            var varAcadmicCourse= $('#ddlAcadmicCourse option:selected').text();
+            var varAcadmicCourse = $('#ddlAcadmicCourse option:selected').text();
             var varSchoolName = $('#txtSchoolName').val();
             var varBoard = $('#txtBoard').val();
             var varMaxMark = $('#txtMaxMark').val();
             var varObtMark = $('#txtObtMark').val();
-            var varResult = $('#ddlResult option:selected').text(); 
+            var varResult = $('#ddlResult option:selected').text();
             var varParcent = $('#txtParcent').val();
             var varAdmissionFormNo = $('#txtAdmissionFormNo').val();
 
+            if (IsValidate) {
             $.post(BASE_URL + "/Student/UpdateAcadmicDetail", {
                 id: varid,
                 varAcademicYear: varAcademicYear,
@@ -999,9 +1034,18 @@
                     location.reload(true);
                 }
             );
+            }
         }
 
         function SavePromotion() {
+
+            var IsValidate = true;
+            if (!validateField("#txtPromoAdmiFormNo", "AdmiFormNo required")) IsValidate = false;
+            if (!validateField("#txtPromoAdmiDate", "AdmiDate required")) IsValidate = false;
+            if (!validateField("#ddlPromoYear", "Select PromoYear", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlPromotSession", "Select PromotSession", "dropdown")) IsValidate = false;
+            if (!IsValidate) return;
+
             var varid = $("#hdnStudentID").val();
             var varPromotSession = $('#ddlPromotSession option:selected').text();
             var varPromotClass = $('#txtPromotClass').val();
@@ -1011,8 +1055,8 @@
             var varCurrentSession = $('#txtCurrentSession').val();
             var varPromotFormNo = $('#txtPromoAdmiFormNo').val();
             var varPromotDate = $('#txtPromoAdmiDate').val();
-            
 
+            if (IsValidate) {
             $.post(BASE_URL + "/Student/PromotStudent", {
                 id: varid,
                 varPromotSession: varPromotSession,
@@ -1026,11 +1070,12 @@
             },
                 function (res) {
 
-                    
+
                     Alert('success', 'Successfully Promoted', 'bg-success');
                     location.reload(true);
                 }
             );
+          }
         }
 
     </script>

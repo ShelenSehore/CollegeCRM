@@ -1075,7 +1075,7 @@ namespace CRM.Controllers
             historyObj.Session = varPromotSession;
             historyObj.Classs = varPromotClass;
             historyObj.Course = varPromotCourse;
-            historyObj.Year = varPromoYear;
+            historyObj.Year = varPromoYear.ToUpper();
 
             historyObj.ScholerNo = SavedStudentTable.SchoolarNo;
             historyObj.RegPvt = SavedStudentTable.RegEx;
