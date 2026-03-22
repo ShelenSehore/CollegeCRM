@@ -799,6 +799,30 @@
 
         function SavePersonalDetail()
         {
+            var IsValidate = true;
+
+            if (!validateField("#txtStudentName", "Student name required")) IsValidate = false;
+            if (!validateField("#txtFatherName", "Father name required")) IsValidate = false;
+            if (!validateField("#txtMotherName", "Mother name required")) IsValidate = false;
+
+            // 👇 Mobile validation added here
+            if (!validateField("#txtMobileNo", "Mobile number required", "mobile")) IsValidate = false;
+            if (!validateField("#txtFatherMobileNo", "Father mobile required", "mobile")) IsValidate = false;
+
+            if (!validateField("#txtDOB", "Date of birth required")) IsValidate = false;
+            if (!validateField("#txtAadhaarNo", "Aadhaar number required")) IsValidate = false;
+            if (!validateField("#txtAddress", "Address required")) IsValidate = false;
+
+            if (!validateField("#ddlGender", "Select gender", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlMinority", "Select minority", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlCaset", "Select caste", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlTC", "Select TC", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlPH", "Select PH", "dropdown")) IsValidate = false;
+
+            if (!IsValidate) return;
+            
+
+
 
             var varid = $("#hdnStudentID").val();
             var varStudentName = $("#txtStudentName").val();
@@ -816,6 +840,8 @@
             var varAddress = $("#txtAddress").val();
             var varTC = $('#ddlTC option:selected').text();
             var varPH = $('#ddlPH option:selected').text();
+
+            if (IsValidate) { 
             $.post(BASE_URL + "/Student/SavePromossionDetail11", {
                 id: varid,
                 varStudentName: varStudentName,
@@ -841,8 +867,59 @@
                     location.reload(true);
                 }
             );
-
+            }
         }
+
+        function validateField(selector, message, type = "") {
+            var value = $(selector).val();
+            var errorId = selector.replace('#', '') + "Error";
+
+            // Dropdown validation
+            if (type === "dropdown") {
+                debugger;
+                if (value === "" || value === "0" || value === null || value === "Select") {
+                    $(selector).addClass("is-invalid");
+
+                    if ($("#" + errorId).length == 0) {
+                        $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">' + message + '</span>');
+                    }
+                    return false;
+                } else {
+                    $(selector).removeClass("is-invalid");
+                    $("#" + errorId).remove();
+                    return true;
+                }
+            }
+
+            // Required validation
+            if (value === "") {
+                $(selector).addClass("is-invalid");
+
+                if ($("#" + errorId).length == 0) {
+                    $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">' + message + '</span>');
+                }
+                return false;
+            }
+
+            // Mobile validation
+            if (type === "mobile") {
+                var mobilePattern = /^[0-9]{10}$/;
+                if (!mobilePattern.test(value)) {
+                    $(selector).addClass("is-invalid");
+
+                    if ($("#" + errorId).length == 0) {
+                        $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">Enter valid 10 digit mobile number</span>');
+                    }
+                    return false;
+                }
+            }
+
+            // Valid case
+            $(selector).removeClass("is-invalid");
+            $("#" + errorId).remove();
+            return true;
+        }
+
 
         function SaveCollegeDetail()
         {
