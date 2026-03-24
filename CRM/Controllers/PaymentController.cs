@@ -153,7 +153,7 @@ namespace CRM.Controllers
                        })
                        .ToList();
 
-            returnObj.ClassList.FirstOrDefault(item => item.Value == returnObj.studentDetail.Class).Selected = true;
+            returnObj.ClassList.FirstOrDefault(item => item.Value.ToUpper() == returnObj.studentDetail.Class.ToUpper()).Selected = true;
             //----Year----
             returnObj.YearList = _yearRepo.GetAll()
                        .Select(x => new SelectListItem
@@ -162,7 +162,7 @@ namespace CRM.Controllers
                            Text = x.Name
                        })
                        .ToList();
-            returnObj.YearList.FirstOrDefault(item => item.Value == returnObj.studentDetail.Year).Selected = true;
+            returnObj.YearList.FirstOrDefault(item => item.Value.ToUpper() == returnObj.studentDetail.Year.ToUpper()).Selected = true;
             //----Session----
             returnObj.SessionList = _sessionRepo.GetAll()
                        .Select(x => new SelectListItem
@@ -172,7 +172,7 @@ namespace CRM.Controllers
                        })
                        .ToList();
 
-            returnObj.SessionList.FirstOrDefault(item => item.Value == returnObj.studentDetail.Session).Selected = true;
+            returnObj.SessionList.FirstOrDefault(item => item.Value.ToUpper() == returnObj.studentDetail.Session.ToUpper()).Selected = true;
             //------Course  -- Subject---
             var varAllSubject = _subjecctRepo.GetAll();
 
@@ -186,7 +186,7 @@ namespace CRM.Controllers
                 })
                 .ToList();
 
-            returnObj.SubjectList.FirstOrDefault(item => item.Value == returnObj.studentDetail.Course).Selected = true;
+            returnObj.SubjectList.FirstOrDefault(item => item.Value.ToUpper() == returnObj.studentDetail.Course.ToUpper()).Selected = true;
 
 
 
