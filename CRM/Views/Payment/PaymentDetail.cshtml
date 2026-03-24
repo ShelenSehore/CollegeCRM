@@ -543,7 +543,7 @@
         // INSERT
 
         var BASE_URL = "@baseUrl";
-
+        var Toast;
         var classArray = ["Admission fees",
             "Identity card fees",
             "Tuition fees",
@@ -571,6 +571,13 @@
 
         window.onload = function () {
 
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 50000
+            });
+
             fillHeadDropdown("1", 'na');
 
             $('#txtAmount1, #txtAmount2,  #txtAmount3,  #txtAmount4').on('change', function () {
@@ -578,6 +585,52 @@
             });
            
         };
+
+        //-class: 'bg-danger',  class: 'bg-warning',class: 'bg-info',
+        function Alert(icon, title, className) {
+            Toast.fire({
+                icon: icon,
+                title: title,
+                class: className,
+            })
+        }
+
+        function validateField(selector, message, type = "") {
+            var value = $(selector).val();
+            var errorId = selector.replace('#', '') + "Error";
+
+            // Dropdown validation
+            if (type === "dropdown") {
+                debugger;
+                if (value === "" || value === "0" || value === null || value === "Select") {
+                    $(selector).addClass("is-invalid");
+
+                    if ($("#" + errorId).length == 0) {
+                        $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">' + message + '</span>');
+                    }
+                    return false;
+                } else {
+                    $(selector).removeClass("is-invalid");
+                    $("#" + errorId).remove();
+                    return true;
+                }
+            }
+
+            // Required validation
+            if (value === "") {
+                $(selector).addClass("is-invalid");
+
+                if ($("#" + errorId).length == 0) {
+                    $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">' + message + '</span>');
+                }
+                return false;
+            }
+
+            // Valid case
+            $(selector).removeClass("is-invalid");
+            $("#" + errorId).remove();
+            return true;
+        }
 
         var varStudentId = 0;
         var varStudentFeeId = 0;
@@ -600,9 +653,20 @@
 
 
         function payNow() {
-            
+
+            var IsValidate = true;
             varStudentId = $("#hdnStudentId").val();
             varStudentFeeId = $("#hdnstudentFeeId").val();
+
+            //----------Validate-------------------
+            if (!validateField("#txtRecBookNo", "RecBookNo required")) IsValidate = false;
+            if (!validateField("#txtReceptNo", "ReceptNo required")) IsValidate = false;
+            if (!validateField("#txtPaymentdate", "Payment date required")) IsValidate = false;
+            if (!validateField("#ddlPayYear", "Select Year", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlPaySession", "Select Session", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlPayMode", "Select Pay Mode", "dropdown")) IsValidate = false;
+
+            if (!IsValidate) return;
            
             //------------------Pop Up---------------
             $("#lblReciptBookNo").text($("#txtRecBookNo").val());
@@ -634,6 +698,7 @@
             $("#lblHead").html(varFeeDetail);
 
             $("#lblTotalPay").text($("#txtTotalPay").val());
+
             $("#modal-View").modal("show");
 
            
@@ -670,7 +735,7 @@
 
         function fillHeadDropdown(dropDownName, optionRemove)
         {
-            debugger;
+            
             classArray = classArray.filter(function (item) {
                 return item !== optionRemove;
             });
