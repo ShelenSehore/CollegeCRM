@@ -386,12 +386,22 @@ namespace CRM.Controllers
                 //-------------Update into Student Fee Table----
                 StudentFee studentFee = new StudentFee();
                 studentFee.Id = getFeeID.Id;
-              
 
-                if (varHead1 == "Caution money" || varHead2 == "Caution money" || varHead3 == "Caution money" || varHead4 == "Caution money")
-                    studentFee.CMoneyPaidOrNot = "Yes";
+
+                //-------------If Coussion alreaddy apaid we skip--------
+                if (getFeeID.CMoneyPaidOrNot.ToUpper() != "YES")
+                {
+                    if (varHead1 == "Caution money" || varHead2 == "Caution money" || varHead3 == "Caution money" || varHead4 == "Caution money")
+                        studentFee.CMoneyPaidOrNot = "YES";
+                    else
+                        studentFee.CMoneyPaidOrNot = "NO";
+                }
                 else
-                    studentFee.CMoneyPaidOrNot = "No";
+                {
+                    studentFee.CMoneyPaidOrNot = getFeeID.CMoneyPaidOrNot;
+                }
+
+                
 
 
                 studentFee.PaidAmount = 0;

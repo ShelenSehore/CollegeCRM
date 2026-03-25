@@ -17,6 +17,11 @@
             font-size: 15px;
             color: #096f99 !important
         }
+        .img-circle {
+            border-radius:10% !important;
+            height-min: 100px !important; 
+        }
+
     </style>
 }
 <div class="content-wrapper">
@@ -66,6 +71,9 @@
                         <div class="card-body">
 
                             <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>Session</b> <a class="float-right">@Model.Session</a>
+                                </li>
                                 <li class="list-group-item">
                                     <b>Class</b> <a class="float-right">@Model.Class</a>
                                 </li>
@@ -673,7 +681,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Admission Form No</label>
-                            <input type="text" asp-for="AdmissionFormNo" id="txtAdmissionFormNo" class="form-control" placeholder="Parcentage">
+                            <input type="text" asp-for="AdmissionFormNo" id="txtAcademicAdmissionFormNo" class="form-control" placeholder="Parcentage">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -686,7 +694,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Passsing Year</label>
-                            <input id="txtAcademicYear" type="text" asp-for="PassingYear" class="form-control" placeholder="Passing Year">
+                            <input id="txtAcademicYear" type="number" asp-for="PassingYear" class="form-control" placeholder="Passing Year">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -876,7 +884,7 @@
 
             // Dropdown validation
             if (type === "dropdown") {
-                debugger;
+                
                 if (value === "" || value === "0" || value === null || value === "Select") {
                     $(selector).addClass("is-invalid");
 
@@ -989,7 +997,7 @@
             if (!validateField("#txtMaxMark", "Max Mark required")) IsValidate = false;
             if (!validateField("#txtObtMark", "ObtMark required")) IsValidate = false;
             if (!validateField("#txtParcent", "Parcent required")) IsValidate = false;
-            if (!validateField("#txtAdmissionFormNo", "Admission FormNo required")) IsValidate = false;
+            if (!validateField("#txtAcademicAdmissionFormNo", "Admission FormNo required")) IsValidate = false;
 
 
             if (!validateField("#ddlAcadmicSession", "Select Acadmic Session", "dropdown")) IsValidate = false;
@@ -1011,7 +1019,7 @@
             var varObtMark = $('#txtObtMark').val();
             var varResult = $('#ddlResult option:selected').text();
             var varParcent = $('#txtParcent').val();
-            var varAdmissionFormNo = $('#txtAdmissionFormNo').val();
+            var varAdmissionFormNo = $('#txtAcademicAdmissionFormNo').val();
 
             if (IsValidate) {
             $.post(BASE_URL + "/Student/UpdateAcadmicDetail", {
@@ -1025,7 +1033,8 @@
                 varMaxMark: varMaxMark,
                 varObtMark: varObtMark,
                 varResult: varResult,
-                varParcent: varParcent
+                varParcent: varParcent,
+                varAdmissionFormNo: varAdmissionFormNo
             },
                 function (res) {
 

@@ -41,6 +41,39 @@ namespace CRM.Repositories
 
         }
 
+        public bool UpdateHistoryDetail(StudentHistory model)
+        {
+            var student = _context.StudentHistory.FirstOrDefault(x => x.StudentId == model.StudentId && x.Session == model.Session && x.Classs== model.Classs && x.Course== model.Course && x.Year==model.Year);
+
+            if (student != null)
+            {
+                student.StudentName = model.StudentName;
+                student.FatherName = model.FatherName;
+                student.MotherName = model.MotherName;
+                student.MobileNo = model.MobileNo;
+                student.DOB = model.DOB;
+                student.Gender = model.Gender;
+                student.Minority = model.Minority;
+                student.Cast = model.Cast;
+                student.AdharNo = model.AdharNo;
+                student.Medium = model.Medium;
+                student.EnrolNo = model.EnrolNo;
+                student.RollNo = model.RollNo;
+                student.Minority = model.Minority;
+                student.AbcId = model.AbcId;
+                student.SamagraId = model.SamagraId;
+                student.Address = model.Address;
+                student.TCIssue = model.TCIssue;
+                student.PH = model.PH;
+                student.UpdateDate = DateTime.Now;
+                student.UpdateBy = "Admin";
+                var status = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+
         public int SaveAndGetId(StudentHistory model)
         {
             try

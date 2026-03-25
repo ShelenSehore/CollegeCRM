@@ -908,6 +908,68 @@ namespace CRM.Controllers
             return View(model);
         }
 
+
+        public bool UpdateStudentHistory(int StudentId)
+        {
+            try 
+            {
+
+                var SavedStudentTable = _repoStudent.GetById(StudentId);
+                //------------Student History----
+                StudentHistory historyObj = new StudentHistory();
+
+                historyObj.StudentId = StudentId;
+                historyObj.AdmissionForm = SavedStudentTable.AdmissionFormNo.Value;
+                if (SavedStudentTable.AdmissionDate != null)
+                    historyObj.AdmissionDate = Convert.ToDateTime(SavedStudentTable.AdmissionDate);
+
+                historyObj.Session = SavedStudentTable.Session;
+                historyObj.Classs = SavedStudentTable.Class;
+                historyObj.Course = SavedStudentTable.Course;
+                historyObj.Year = SavedStudentTable.Year;
+
+                historyObj.ScholerNo = SavedStudentTable.SchoolarNo;
+                historyObj.RegPvt = SavedStudentTable.RegEx;
+                historyObj.NewOld = SavedStudentTable.NewOld;
+                historyObj.Medium = SavedStudentTable.Medium;
+                historyObj.EnrolNo = SavedStudentTable.EnRollNo; //--------
+                historyObj.RollNo = SavedStudentTable.RollNo; //---
+                historyObj.Gender = SavedStudentTable.Gender;
+                // historyObj.Status = SavedStudentTable.Status; //-----
+                historyObj.StudentName = SavedStudentTable.StudentName;
+                historyObj.FatherName = SavedStudentTable.FatherName;
+                historyObj.MotherName = SavedStudentTable.MotherName;
+                historyObj.PH = SavedStudentTable.PH; //--
+                historyObj.Cast = SavedStudentTable.Caste;
+
+                if (SavedStudentTable.DOB.HasValue)
+                    historyObj.DOB = SavedStudentTable.DOB.Value;
+
+                historyObj.Medium = SavedStudentTable.Medium;
+                historyObj.EnrolNo = SavedStudentTable.EnRollNo;
+                historyObj.RollNo = SavedStudentTable.RollNo;
+                historyObj.Minority = SavedStudentTable.Minority;
+                historyObj.Address = SavedStudentTable.Address; //----
+                historyObj.MobileNo = SavedStudentTable.MobileNoOne;
+                historyObj.TCIssue = "No";//---
+                historyObj.SamagraId = SavedStudentTable.SamagraID; //---
+                historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
+                historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited;
+
+                historyObj.CreateBy = "Admin";
+                historyObj.CreateDate = DateTime.Now;
+                historyObj.UpdateBy = "Admin";
+                historyObj.UpdateDate = DateTime.Now;
+                _historyStudentRepo.UpdateHistoryDetail(historyObj);
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                return false;
+            }
+        }
+
+
         //--------------------- Save Personal Detail--------------
         public IActionResult SavePromossionDetail11(int id, string varStudentName, string varFatherName, string varMotherName, string varMobileNo,
             string varDOB,string varFatherMobileNo, string varGender, string varMinority, string varCaset, string varAbcNo,
@@ -955,6 +1017,11 @@ namespace CRM.Controllers
 
             var teee = _repoStudent.UpdatePersonalDetail(stuObj);
 
+            //-------------Update student History-----
+            
+            var check = UpdateStudentHistory(stuObj.Id);
+
+
             return Json(new { success = true, data = true });
         }
 
@@ -1000,6 +1067,10 @@ namespace CRM.Controllers
 
             var teee = _repoStudent.UpdateCollegeDetail(stuObj);
 
+            //-------------Update student History-----
+            var check = UpdateStudentHistory(stuObj.Id);
+
+
             return Json(new { success = true, data = true });
         }
 
@@ -1020,7 +1091,11 @@ namespace CRM.Controllers
                 objAcademy.SchoolName = varSchoolName.ToUpper();
 
             if (!string.IsNullOrEmpty(varAcademicYear))
-                objAcademy.PassingYear = varAcademicYear.ToUpper();
+                objAcademy.PassingYear = varAcademicYear;
+
+            objAcademy.Session = varAcadmicSession;
+            objAcademy.Class = varAcadmicClass;
+            objAcademy.Course = varAcadmicCourse;
 
             if (!string.IsNullOrEmpty(varBoard))
                 objAcademy.Board = varBoard.ToUpper();
@@ -1090,6 +1165,7 @@ namespace CRM.Controllers
             historyObj.MotherName = SavedStudentTable.MotherName;
             historyObj.PH = SavedStudentTable.PH; //--
             historyObj.Cast = SavedStudentTable.Caste;
+            historyObj.Minority = SavedStudentTable.Minority;
 
             if (SavedStudentTable.DOB.HasValue)
                 historyObj.DOB = SavedStudentTable.DOB.Value;

@@ -223,6 +223,13 @@ namespace CRM.Controllers
             obj.Gender = student.Gender;
             obj.MobileNo = student.MobileNo;
             obj.Scholership = student.Scholership.ToString();
+
+            if(!string.IsNullOrEmpty(student.DisBy))
+            obj.DisBy = student.DisBy.ToUpper();
+
+            if (!string.IsNullOrEmpty(student.DisResion))
+                obj.DisResion = student.DisResion;
+
             obj.CreateBy = "Admin";
             obj.CreateDate = DateTime.Now;
 
@@ -484,6 +491,10 @@ namespace CRM.Controllers
                             stuObj.Gender = student.Gender;
                             stuObj.MobileNoOne = student.MobileNo;
                             stuObj.RegEx = student.RegPvt;
+
+                            if(student.SchoNo.HasValue)
+                            stuObj.SchoolarNo = student.SchoNo.Value.ToString();
+
                             stuObj.NewOld = "NEW";
                             stuObj.CreateBy = "Admin";
                             stuObj.CreateDatetime = DateTime.Now;

@@ -29,6 +29,8 @@ namespace CRM.Models
         public string MotherName { get; set; }
         public string PH { get; set; }
         public string Cast { get; set; }
+        public string Minority { get; set; }
+        
         public DateTime? DOB { get; set; }
         public string Address { get; set; }
         public string MobileNo { get; set; }
