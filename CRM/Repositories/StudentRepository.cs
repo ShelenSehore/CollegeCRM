@@ -424,6 +424,23 @@ namespace CRM.Repositories
         }
 
 
+        //------------TC issue update---------
+
+        public bool TCIssue(int studentId)
+        {
+            var student = _context.Student.FirstOrDefault(x => x.Id == studentId);
+
+            if (student != null)
+            {
+                student.TC = "Issue";
+                student.UpdateDatetime = DateTime.Now;
+                student.UpdatedBy = "Admin";
+                var status = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
 
     }
 }

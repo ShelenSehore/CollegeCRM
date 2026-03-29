@@ -28,7 +28,7 @@ namespace CRM.Controllers
         private readonly MstFeeRepository _feeRepo;
         private readonly StudentFeeRepository _studentFeeRepo;
         private readonly StudentTransactionRepository _transactionRepo;
-
+        private readonly StudentHistoryRepository _historyStudentRepo;
         public PaymentController(ILogger<PaymentController> logger,
            IOptions<AppSettings> config,
            IOptions<AppSettings> settings,
@@ -41,7 +41,8 @@ namespace CRM.Controllers
            MstFeeRepository feeRepo,
             StudentFeeRepository studentFeeRepo,
             StudentTransactionRepository transactionRepo,
-            StudentRegistrationRepository repoStudentRegi)
+            StudentRegistrationRepository repoStudentRegi, StudentHistoryRepository historyStudentRepo
+            )
         {
             _mySettings = settings.Value;
             _repoStudent = repoStudent;
@@ -56,6 +57,7 @@ namespace CRM.Controllers
             _feeRepo = feeRepo;
             _studentFeeRepo = studentFeeRepo;
             _transactionRepo = transactionRepo;
+            _historyStudentRepo = historyStudentRepo;
         }
         public IActionResult Index()
         {
@@ -401,9 +403,6 @@ namespace CRM.Controllers
                     studentFee.CMoneyPaidOrNot = getFeeID.CMoneyPaidOrNot;
                 }
 
-                
-
-
                 studentFee.PaidAmount = 0;
 
                 if (varHead1 == "Admission fees" || varHead1 == "Tuition fees")
@@ -416,13 +415,81 @@ namespace CRM.Controllers
                 if (varHead4 == "Admission fees" || varHead4 == "Tuition fees")
                     studentFee.PaidAmount = studentFee.PaidAmount + varAmount4;
               
-                    
-
                 _studentFeeRepo.UpdateOnlyFeeAmount(studentFee);
+
+                //-------TC Issue Update into Student and History Table
+                if (varHead2 == "Transfer certificate fees" || varHead2 == "Transfer certificate fees" || varHead3 == "Transfer certificate fees" || varHead4 == "Transfer certificate fees") 
+                {
+                    _repoStudent.TCIssue(studentId);
+                    UpdateStudentHistory(studentId);
+                }
 
             }
 
             return Json(new { success = true, data = "" }) ;
+        }
+
+
+        //------------Update Student History table-----------
+        public bool UpdateStudentHistory(int StudentId)
+        {
+            try
+            {
+
+                var SavedStudentTable = _repoStudent.GetById(StudentId);
+                //------------Student History----
+                StudentHistory historyObj = new StudentHistory();
+
+                historyObj.StudentId = StudentId;
+                historyObj.AdmissionForm = SavedStudentTable.AdmissionFormNo.Value;
+                if (SavedStudentTable.AdmissionDate != null)
+                    historyObj.AdmissionDate = Convert.ToDateTime(SavedStudentTable.AdmissionDate);
+
+                historyObj.Session = SavedStudentTable.Session;
+                historyObj.Classs = SavedStudentTable.Class;
+                historyObj.Course = SavedStudentTable.Course;
+                historyObj.Year = SavedStudentTable.Year;
+
+                historyObj.ScholerNo = SavedStudentTable.SchoolarNo;
+                historyObj.RegPvt = SavedStudentTable.RegEx;
+                historyObj.NewOld = SavedStudentTable.NewOld;
+                historyObj.Medium = SavedStudentTable.Medium;
+                historyObj.EnrolNo = SavedStudentTable.EnRollNo; //--------
+                historyObj.RollNo = SavedStudentTable.RollNo; //---
+                historyObj.Gender = SavedStudentTable.Gender;
+                // historyObj.Status = SavedStudentTable.Status; //-----
+                historyObj.StudentName = SavedStudentTable.StudentName;
+                historyObj.FatherName = SavedStudentTable.FatherName;
+                historyObj.MotherName = SavedStudentTable.MotherName;
+                historyObj.PH = SavedStudentTable.PH; //--
+                historyObj.Cast = SavedStudentTable.Caste;
+
+                if (SavedStudentTable.DOB.HasValue)
+                    historyObj.DOB = SavedStudentTable.DOB.Value;
+
+                historyObj.Medium = SavedStudentTable.Medium;
+                historyObj.EnrolNo = SavedStudentTable.EnRollNo;
+                historyObj.RollNo = SavedStudentTable.RollNo;
+                historyObj.Minority = SavedStudentTable.Minority;
+                historyObj.Address = SavedStudentTable.Address; //----
+                historyObj.MobileNo = SavedStudentTable.MobileNoOne;
+                historyObj.TCIssue = SavedStudentTable.TC;//---
+                historyObj.SamagraId = SavedStudentTable.SamagraID; //---
+                historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
+                historyObj.AbcId = SavedStudentTable.AbcNo; //----
+                historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited;
+
+                historyObj.CreateBy = "Admin";
+                historyObj.CreateDate = DateTime.Now;
+                historyObj.UpdateBy = "Admin";
+                historyObj.UpdateDate = DateTime.Now;
+                _historyStudentRepo.UpdateHistoryDetail(historyObj);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
 

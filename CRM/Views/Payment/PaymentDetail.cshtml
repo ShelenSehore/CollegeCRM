@@ -407,6 +407,7 @@
                                                 <th>Course</th>
                                                 <th>Total Fee Amount</th>
                                                 <th>Paid Amount</th>
+                                                <th>Dues</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -418,6 +419,10 @@
                                                 <td>@rowDue.Course</td>
                                                 <td>@rowDue.TotalFeeAfterDiscount</td>
                                                 <td>@rowDue.PaidAmount</td>
+                                                @{
+                                                    int varDues = @rowDue.TotalFeeAfterDiscount - @rowDue.PaidAmount;
+                                                }
+                                                <td>@varDues</td>
                                             </tr>
                                             }
                                         </tbody>

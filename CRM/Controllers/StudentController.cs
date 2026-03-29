@@ -954,6 +954,7 @@ namespace CRM.Controllers
                 historyObj.TCIssue = "No";//---
                 historyObj.SamagraId = SavedStudentTable.SamagraID; //---
                 historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
+                historyObj.AbcId = SavedStudentTable.AbcNo; //----
                 historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited;
 
                 historyObj.CreateBy = "Admin";
@@ -1139,7 +1140,7 @@ namespace CRM.Controllers
             var OldFeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, varPromotClass, varPromotCourse, varCurrentSession, varCurrentYear, "New");
 
             var SavedStudentTable = _repoStudent.GetById(id);
-            //------------Student History----
+            //------------ Add Student History----
             StudentHistory historyObj = new StudentHistory();
 
             historyObj.StudentId = SavedStudentTable.Id;
@@ -1175,6 +1176,7 @@ namespace CRM.Controllers
             // historyObj.TCIssue = SavedStudentTable.TCissue;//---
             historyObj.SamagraId = SavedStudentTable.SamagraID; //---
             historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
+            historyObj.AbcId = SavedStudentTable.AbcNo; //----
             historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited;
 
             historyObj.CreateBy = "Admin";
@@ -1242,6 +1244,18 @@ namespace CRM.Controllers
            
 
             var teee = _repoStudent.ExamFormFilled(ids);
+            //----------Update into History table--------
+            var idList = ids.Split(',')
+                  .Select(int.Parse)
+                  .ToList();
+            if (idList.Count() > 0) 
+            {
+                foreach (int studentId in idList) 
+                {
+                    UpdateStudentHistory(studentId);
+                }
+                
+            }
 
             return Json(new { success = true, data = true });
         }
@@ -1314,7 +1328,13 @@ namespace CRM.Controllers
             return Json(new { success = true, data = data });
         }
 
-
+        //--------------Delete Acadmic Detail-------------------
+        
+        public IActionResult Delete(int id)
+        {
+            _repoAcademic.Delete(id);
+            return Json(new { success = true, data = "Success" });
+        }
 
     }
 }

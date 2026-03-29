@@ -274,11 +274,13 @@
                                             <thead>
                                                 <tr>
                                                     <th style="width: 10px">#</th>
+                                                    <th>Session</th>
                                                     <th>School/College</th>
                                                     <th>Board</th>
                                                     <th>Year</th>
                                                     <th>Result</th>
                                                     <th>Obtain</th>
+                                                    <th>Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -287,14 +289,21 @@
                                                     int SeNo = 1;
                                                     foreach (var AcadmicRow in Model.AcadmicList)
                                                     {
-                                                        <tr>
-                                                            <td>@SeNo</td>
-                                                            <td>@AcadmicRow.Board</td>
-                                                            <td>@AcadmicRow.SchoolName</td>
-                                                            <td>@AcadmicRow.PassingYear</td>
-                                                            <td>@AcadmicRow.Result</td>
-                                                            <td>@AcadmicRow.ObtMark /  @AcadmicRow.MaxMark </td>
-                                                        </tr>
+                                                <tr>
+                                                    <td>@SeNo</td>
+                                                    <td>@AcadmicRow.Session</td>
+                                                    <td>@AcadmicRow.Board</td>
+                                                    <td>@AcadmicRow.SchoolName</td>
+                                                    <td>@AcadmicRow.PassingYear</td>
+                                                    <td>@AcadmicRow.Result</td>
+                                                    <td>@AcadmicRow.ObtMark /  @AcadmicRow.MaxMark </td>
+                                                    <td>
+                                                        <a class="btn btn-danger btn-sm" onclick="deleteAcadmicDetail(@AcadmicRow.Id)">
+                                                            <i class="fas fa-trash">
+                                                            </i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
                                                         SeNo = SeNo + 1;
                                                     }
                                                 }
@@ -1086,6 +1095,22 @@
             );
           }
         }
+
+        // DELETE
+        function deleteAcadmicDetail(id) {
+            if (confirm("Are you sure?")) {
+                $.post(BASE_URL + "/Student/Delete", {
+                    id: id,
+                },
+                    function (res) {
+
+                        Alert('success', 'Successfully Promoted', 'bg-success');
+                        location.reload(true);
+                    }
+                );
+            }
+        }
+
 
     </script>
 }

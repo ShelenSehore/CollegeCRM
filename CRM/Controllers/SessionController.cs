@@ -53,7 +53,7 @@ namespace CRM.Controllers
 
             _sessionRepo.Add(model);
 
-            return Json(new { success = true });
+            return Json(new { success = true, data = "Success" });
         }
 
         public IActionResult Get(int id)
