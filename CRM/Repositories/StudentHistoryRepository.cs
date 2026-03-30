@@ -88,6 +88,10 @@ namespace CRM.Repositories
             return 0;
         }
 
+        public List<StudentHistory> GetListByStuId(int id)
+        {
+            return _context.StudentHistory.Where(x => x.StudentId == id).ToList();
+        }
 
         public StudentHistory GetById(int id)
         {

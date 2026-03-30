@@ -105,6 +105,7 @@
                                         <th class="sorting sorting_asc" style="width: 10px">#</th>
                                         <th class="sorting">FormNo</th>
                                         <th class="sorting">Student</th>
+                                        <th class="sorting">Father Name</th>
                                         <th class="sorting">Year</th>
                                         <th class="sorting">Subject</th>
                                         <th class="sorting">Course</th>
@@ -283,13 +284,19 @@
         function TableData(tableData)
         {
             $("#tblStudentList tbody").empty();
+            var IsTCissue = "";
             $.each(tableData.data, function (index, element) {
+                debugger;
+                IsTCissue = "";
+                if (element.tc === "ISSUE" ) {
+                    IsTCissue = "<i class='fas fa-star text-danger'></i>";
+                }
 
-                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.admissionFormNo +
-                    "</td><td>" + element.studentName + "</td><td>" + element.year + "</td><td>" + element.class +
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>  " + IsTCissue+" " + element.admissionFormNo +
+                    "</td><td>" + element.studentName + "</td><td>" + element.fatherName + "</td><td>" + element.year + "</td><td>" + element.class +
                     "</td><td>" + element.course + "</td><td>" + element.mobileNoOne +
                     "</td><td><a class='btn btn-default' href='../Student/PromodeStudent?id=" + element.id + "' ><i class='fas fa-eye'></i> View</a></td>" +
-                    "<td><input id='" + element.id+"' name='chkStudent' type='checkbox'></td></tr>");
+                    "<td> <input id='" + element.id+"' name='chkStudent' type='checkbox'></td></tr>");
 
             });
 
@@ -360,90 +367,7 @@
 
         }
 
-        //function PromosionDetail(id)
-        //{
-        //    var id = id;
-        //    $.post(BASE_URL + "/Student/StudentDetail", {
-        //        id: id
-        //    },
-        //    function (res) {
-        //        var detail = res.data;
-        //        $('#imgStudentPhoto').attr('src', detail.photo);
-        //        $('#achStudentName').text(detail.studentName)
-        //        var varStudyDetail = detail.year + " / " + detail.course + " / " + detail.class + " / " + detail.session;
-        //        var varAcademyDetail = detail.admissionFormNo + " / " + detail.fatherName;
-        //        $('#spnDetail').text(varStudyDetail)
-        //        $('#spnAcademicDetail').text(varAcademyDetail)
-
-        //        $('#txtMbileNo').val(detail.mobileNoOne);
-        //        $('#hdnID').val(id);
-        //        $('#hdnClass').val(detail.class);
-        //        $('#hdnYear').val(detail.year);
-        //        $('#hdnSession').val(detail.session);
-        //        $('#hdnCourse').val(detail.course);
-        //        $('#hdnAdmissionDate').val(detail.admissionDate);
-        //        $('#hdnAdmisionFormNo').val(detail.admissionFormNo);
-
-        //        $("#modal-Promod").modal("show");
-                   
-        //    }
-        //    );
-        //}
-           
-
-
-        //function SavePromosionDetail() {
-        //    var id = $("#hdnID").val();
-           
-        //    var newAdmissionDate = $("#txtAdmissionDate").val();
-        //    var newAdmisionFormNo = $("#txtAdmissionForm").val();
-        //    var newClass = $('#ddlProdClass option:selected').text();
-        //    var newYear = $('#ddlProdYear option:selected').text();
-        //    var newCourse = $('#ddlProdCourse option:selected').text();
-        //    var newSession = $('#ddlProdSession option:selected').text();
-        //    var newMbileNo = $("#txtMbileNo").val();
-
-        //    var passedAdmissionDate = $("#hdnAdmissionDate").val();
-        //    var passedAdmisionFormNo = $("#hdnAdmisionFormNo").val();
-        //    var passedClass = $("#hdnClass").val();
-        //    var passedYear = $("#hdnYear").val();
-        //    var passedCourse = $("#hdnCourse").val();
-        //    var passedSession = $("#hdnSession").val();
-        //    var passedCollege = $("#txtPassedCollege").val();
-        //    var passedBoard = $("#txtPassedBoard").val();
-        //    var passedMaxMark = $("#txtMaxMark").val();
-        //    var passedObtainMark = $("#txtObtainMark").val();
-        //    var passedResult = $("#txtResult").val();
-        //    var passedParcentage = $("#txtParcentage").val();
-
-        //    $.post(BASE_URL + "/Student/SavePromossionDetail", {
-        //        id: id,
-        //        newAdmissionDate: newAdmissionDate,
-        //        newAdmisionFormNo: newAdmisionFormNo,
-        //        newClass: newClass,
-        //        newYear: newYear,
-        //        newCourse: newCourse,
-        //        newSession: newSession,
-        //        newMbileNo: newMbileNo,
-        //        passedAdmissionDate: passedAdmissionDate,
-        //        passedAdmisionFormNo: passedAdmisionFormNo,
-        //        passedClass: passedClass,
-        //        passedYear: passedYear,
-        //        passedCourse: passedCourse,
-        //        passedSession: passedSession,
-        //        passedCollege: passedCollege,
-        //        passedBoard: passedBoard,
-        //        passedMaxMark: passedMaxMark,
-        //        passedObtainMark: passedObtainMark,
-        //        passedResult: passedResult,
-        //        passedParcentage: passedParcentage,
-        //    },
-        //        function (res) {
-        //            $("#modal-Promod").modal("hide");
-        //            SearchStudent();
-        //        }
-        //    );
-        //}
+       
 
     </script>
 }

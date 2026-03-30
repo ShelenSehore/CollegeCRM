@@ -889,8 +889,13 @@ namespace CRM.Controllers
             }
 
 
+            //-----------------Student History-----------------
+
+            model.StudentHistoryList = _historyStudentRepo.GetListByStuId(model.Id);
+
+
             //string[] files = Directory.GetFiles(StudentPhoto);
-           
+
 
             //Dictionary<string, string> temList = new Dictionary<string, string>();
             //foreach (string file in files)

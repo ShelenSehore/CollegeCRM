@@ -418,7 +418,7 @@ namespace CRM.Controllers
                 _studentFeeRepo.UpdateOnlyFeeAmount(studentFee);
 
                 //-------TC Issue Update into Student and History Table
-                if (varHead2 == "Transfer certificate fees" || varHead2 == "Transfer certificate fees" || varHead3 == "Transfer certificate fees" || varHead4 == "Transfer certificate fees") 
+                if (varHead1 == "Transfer certificate fees" || varHead2 == "Transfer certificate fees" || varHead3 == "Transfer certificate fees" || varHead4 == "Transfer certificate fees") 
                 {
                     _repoStudent.TCIssue(studentId);
                     UpdateStudentHistory(studentId);

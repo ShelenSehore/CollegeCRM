@@ -90,5 +90,7 @@ namespace CRM.ModelsForView
         public Dictionary<string, string> DocumentList { get; set; }
 
         public List<Academy> AcadmicList { get; set; }
+
+        public List<StudentHistory> StudentHistoryList { get; set; }
     }
 }

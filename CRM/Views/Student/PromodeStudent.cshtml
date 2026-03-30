@@ -32,7 +32,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><a href="~/Student/List">List</a></li>
-                        <li class="breadcrumb-item active"><a href="#">Studdent Detail</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Studdent Detail </a></li>
                     </ol>
                 </div>
             </div>
@@ -46,6 +46,10 @@
 
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
+                            @if (Model.TC == "ISSUE")
+                            {
+                            <i class='fas fa-star text-danger'></i>  <p class="text-muted text-center">TC Isseued</p>
+                            }
                             <div class="text-center">
                                 <img class="profile-user-img img-fluid img-circle"
                                      src="@Model.Photo"
@@ -58,7 +62,7 @@
                             <p class="text-muted text-center">@Model.FatherName</p>
                             <p class="text-muted text-center">@Model.MobileNoOne</p>
                             <p class="text-muted text-center">Exam Form Filled  @Model.ExamFormSubmited</p>
-                            
+
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -100,7 +104,8 @@
                                 <li class="nav-item"><a class="nav-link" href="#College" data-toggle="tab"><i class="fas fa-university"></i> College</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#Academic" data-toggle="tab">Academic</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#Document" data-toggle="tab">Document</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#Promosion" data-toggle="tab">Promosion  </a></li>
+                                <li class="nav-item"><a class="nav-link" href="#Promosion" data-toggle="tab">Promosion</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#History" data-toggle="tab">History</a></li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -190,7 +195,7 @@
                                             <textarea asp-for="Address" readonly="readonly" class="form-control PersonalDetailText"></textarea>
                                         </div>
                                         <div class="col-md-2">
-                                            
+
 
                                             <a data-toggle='modal' data-target='#modal-Personal' class="btn btn-info btn-sm" href="#">
                                                 <i class="fas fa-pencil-alt">
@@ -200,7 +205,7 @@
 
                                         </div>
 
-                                        
+
 
                                     </div>
                                 </div>
@@ -217,7 +222,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Course</label>
-                                            <input asp-for="Course"  readonly="readonly" class="form-control PersonalDetailText" />
+                                            <input asp-for="Course" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Year</label>
@@ -256,8 +261,8 @@
                                             <label class="PersonalDetailLable">Sub Code</label>
                                             <input asp-for="SubCode" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-12" >
-                                           
+                                        <div class="col-md-12">
+
                                             <a style="float:right !important; padding-top:10px;" data-toggle='modal' data-target='#modal-College' class="btn btn-info btn-sm" href="#">
                                                 <i class="fas fa-pencil-alt">
                                                 </i>
@@ -289,25 +294,25 @@
                                                     int SeNo = 1;
                                                     foreach (var AcadmicRow in Model.AcadmicList)
                                                     {
-                                                <tr>
-                                                    <td>@SeNo</td>
-                                                    <td>@AcadmicRow.Session</td>
-                                                    <td>@AcadmicRow.Board</td>
-                                                    <td>@AcadmicRow.SchoolName</td>
-                                                    <td>@AcadmicRow.PassingYear</td>
-                                                    <td>@AcadmicRow.Result</td>
-                                                    <td>@AcadmicRow.ObtMark /  @AcadmicRow.MaxMark </td>
-                                                    <td>
-                                                        <a class="btn btn-danger btn-sm" onclick="deleteAcadmicDetail(@AcadmicRow.Id)">
-                                                            <i class="fas fa-trash">
-                                                            </i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                        <tr>
+                                                            <td>@SeNo</td>
+                                                            <td>@AcadmicRow.Session</td>
+                                                            <td>@AcadmicRow.Board</td>
+                                                            <td>@AcadmicRow.SchoolName</td>
+                                                            <td>@AcadmicRow.PassingYear</td>
+                                                            <td>@AcadmicRow.Result</td>
+                                                            <td>@AcadmicRow.ObtMark /  @AcadmicRow.MaxMark </td>
+                                                            <td>
+                                                                <a class="btn btn-danger btn-sm" onclick="deleteAcadmicDetail(@AcadmicRow.Id)">
+                                                                    <i class="fas fa-trash">
+                                                                    </i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
                                                         SeNo = SeNo + 1;
                                                     }
                                                 }
-                                               
+
                                             </tbody>
                                         </table>
                                         <div class="col-md-2">
@@ -395,7 +400,7 @@
 
                                     <div class="row">
                                         <hr />
-                                         Promote To
+                                        Promote To
                                     </div>
                                     <div class="row">
 
@@ -419,11 +424,11 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Admission Form No</label>
-                                            <input id="txtPromoAdmiFormNo" type="number"  class="form-control PersonalDetailText" />
+                                            <input id="txtPromoAdmiFormNo" type="number" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Year</label>
-                                            <input id="txtPromoAdmiDate" type="date"  class="form-control PersonalDetailText" />
+                                            <input id="txtPromoAdmiDate" type="date" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
                                             <button onclick="SavePromotion()" class="btn btn-block bg-gradient-success">Success</button>
@@ -431,6 +436,48 @@
 
                                     </div>
                                 </div>
+
+                                <!-- /.Promosion -->
+                                <div class="tab-pane" id="History">
+                                    <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting sorting_asc" style="width: 10px">#</th>
+                                                <th class="sorting">FormNo</th>
+                                                <th class="sorting">Student</th>
+                                                <th class="sorting">Session</th>
+                                                <th class="sorting">Year</th>
+                                                <th class="sorting">Subject</th>
+                                                <th class="sorting">MobileNo</th>
+                                                <th class="sorting">View</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                @if (Model.StudentHistoryList != null)
+                                                {
+                                                    foreach (var hisRow in Model.StudentHistoryList) 
+                                                    { 
+                                            <tr>
+                                                <td>@hisRow.AdmissionForm </td>
+                                                <td>@hisRow.StudentName </td>
+                                                <td>@hisRow.Session </td>
+                                                <td>@hisRow.Year </td>
+                                                <td>@hisRow.Classs </td>
+                                                <td>@hisRow.MobileNo </td>
+                                                <td><i class="fas fa-eye"></i> </td>
+                                            </tr>
+                                                    }
+                                                }
+                                            </tr>
+                                        </tbody>
+
+
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                 </div>
+
                             </div>
                             <!-- /.tab-content -->
                         </div><!-- /.card-body -->
