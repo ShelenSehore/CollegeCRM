@@ -456,9 +456,12 @@
                                             <tr>
                                                 @if (Model.StudentHistoryList != null)
                                                 {
+                                                    int i = 1;
+
                                                     foreach (var hisRow in Model.StudentHistoryList) 
                                                     { 
                                             <tr>
+                                                <td>@i</td>
                                                 <td>@hisRow.AdmissionForm </td>
                                                 <td>@hisRow.StudentName </td>
                                                 <td>@hisRow.Session </td>
@@ -467,6 +470,7 @@
                                                 <td>@hisRow.MobileNo </td>
                                                 <td><i class="fas fa-eye"></i> </td>
                                             </tr>
+                                                        i = i + 1;
                                                     }
                                                 }
                                             </tr>
