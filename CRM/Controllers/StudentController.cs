@@ -463,90 +463,109 @@ namespace CRM.Controllers
         [HttpPost]
         public IActionResult DownloadExcel(string hdnExcelSession, string hdnExcelClass, string hdnExcelCourse, string hdnExcelYear, string hdnExcelName)
         {
-            try {
+            try
+            {
 
-                var students = _repoStudent.GetByStudentRegistrationPage(hdnExcelSession, hdnExcelClass, hdnExcelCourse, hdnExcelYear, hdnExcelName);
-                // var students = _repoStudentRegi.FilterList(name, classes, subject, course, regPvt);
+               // var students = _repoStudent.GetByStudentRegistrationPage(hdnExcelSession, hdnExcelClass, hdnExcelCourse, hdnExcelYear, hdnExcelName);
+                 var students = _repoStudent.GetStudentAllDetailById(hdnExcelSession, hdnExcelClass, hdnExcelCourse, hdnExcelYear, hdnExcelName);
 
-                using (var workbook = new XLWorkbook())
+            using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Student List");
 
-                // Header
-                worksheet.Cell(1, 1).Value = "Id";
-                worksheet.Cell(1, 2).Value = "AdmissionFormNo";
-                worksheet.Cell(1, 3).Value = "Year";
-                worksheet.Cell(1, 4).Value = "EnRollNo";
-                worksheet.Cell(1, 5).Value = "AdmissionDate";
-                worksheet.Cell(1, 6).Value = "Class";
-                worksheet.Cell(1, 7).Value = "RollNo";
-                worksheet.Cell(1, 8).Value = "RegEx";
-                worksheet.Cell(1, 9).Value = "Course";
-                worksheet.Cell(1, 10).Value = "SchoolarNo";
-                worksheet.Cell(1, 11).Value = "NewOld";
-                worksheet.Cell(1, 12).Value = "SubCode";
-                worksheet.Cell(1, 13).Value = "Medium";
-                worksheet.Cell(1, 14).Value = "Gender";
-                worksheet.Cell(1, 15).Value = "Caste";
-                worksheet.Cell(1, 16).Value = "AadhaarNo";
-                worksheet.Cell(1, 17).Value = "StudentName";
-                worksheet.Cell(1, 18).Value = "DOB";
-                worksheet.Cell(1, 19).Value = "SamagraID";
-                worksheet.Cell(1, 20).Value = "FatherName";
-                worksheet.Cell(1, 21).Value = "MobileNoOne";
-                worksheet.Cell(1, 22).Value = "MobileNoTwo";
-                worksheet.Cell(1, 23).Value = "MotherName";
-                worksheet.Cell(1, 24).Value = "TC";
-                worksheet.Cell(1, 25).Value = "PH";
-                worksheet.Cell(1, 26).Value = "FatherMobileNo";
-                worksheet.Cell(1, 27).Value = "Address";
-                worksheet.Cell(1, 28).Value = "Minority";
-                worksheet.Cell(1, 29).Value = "Session";
-                worksheet.Cell(1, 30).Value = "CreateBy";
-                worksheet.Cell(1, 31).Value = "CreateDatetime";
-                worksheet.Cell(1, 32).Value = "AbcNo";
-                worksheet.Cell(1, 33).Value = "ExamFormSubmited";
-                worksheet.Row(1).Style.Font.Bold = true;
+                    int row = 1;
 
-                int row = 2;
+                    // ================= HEADER =================
+                    worksheet.Cell(row, 1).Value = "Id";
+                    worksheet.Cell(row, 2).Value = "AdmissionFormNo";
+                    worksheet.Cell(row, 3).Value = "Year";
+                    worksheet.Cell(row, 4).Value = "Session";
+                    worksheet.Cell(row, 5).Value = "EnRollNo";
+                    worksheet.Cell(row, 6).Value = "AdmissionDate";
+                    worksheet.Cell(row, 7).Value = "Class";
+                    worksheet.Cell(row, 8).Value = "RollNo";
+                    worksheet.Cell(row, 9).Value = "RegEx";
+                    worksheet.Cell(row, 10).Value = "Course";
+                    worksheet.Cell(row, 11).Value = "SchoolarNo";
+                    worksheet.Cell(row, 12).Value = "NewOld";
+                    worksheet.Cell(row, 13).Value = "SubCode";
+                    worksheet.Cell(row, 14).Value = "Medium";
+                    worksheet.Cell(row, 15).Value = "Gender";
+                    worksheet.Cell(row, 16).Value = "Caste";
+                    worksheet.Cell(row, 17).Value = "AadhaarNo";
+                    worksheet.Cell(row, 18).Value = "StudentName";
+                    worksheet.Cell(row, 19).Value = "DOB";
+                    worksheet.Cell(row, 20).Value = "SamagraID";
+                    worksheet.Cell(row, 21).Value = "FatherName";
+                    worksheet.Cell(row, 22).Value = "MobileNoOne";
+                    worksheet.Cell(row, 23).Value = "MobileNoTwo";
+                    worksheet.Cell(row, 24).Value = "MotherName";
+                    worksheet.Cell(row, 25).Value = "TC";
+                    worksheet.Cell(row, 26).Value = "PH";
+                    worksheet.Cell(row, 27).Value = "FatherMobileNo";
+                    worksheet.Cell(row, 28).Value = "Address";
+                    worksheet.Cell(row, 29).Value = "Minority";
+                    worksheet.Cell(row, 30).Value = "CreateBy";
+                    worksheet.Cell(row, 31).Value = "CreateDatetime";
+                    worksheet.Cell(row, 32).Value = "ExamFormSubmited";
+                    worksheet.Cell(row, 33).Value = "AbcNo";
+
+                    worksheet.Cell(row, 34).Value = "CMoney";
+                    worksheet.Cell(row, 35).Value = "TutionFee";
+                    worksheet.Cell(row, 36).Value = "OtherFee";
+                    worksheet.Cell(row, 37).Value = "TotalFee";
+                    worksheet.Cell(row, 38).Value = "TotalFeeCM";
+
+                    // ================= DATA =================
+                    worksheet.Row(1).Style.Font.Bold = true;
+                    row++;
+                   
+
+               
                 foreach (var item in students)
                 {
-                    worksheet.Cell(row, 1).Value = item.Id;
-                    worksheet.Cell(row, 2).Value = item.AdmissionFormNo;
-                    worksheet.Cell(row, 3).Value = item.Year;
-                    worksheet.Cell(row, 4).Value = item.EnRollNo;
-                    worksheet.Cell(row, 5).Value = item.AdmissionDate;
-                    worksheet.Cell(row, 6).Value = item.Class;
-                    worksheet.Cell(row, 7).Value = item.RollNo;
-                    worksheet.Cell(row, 8).Value = item.RegEx;
-                    worksheet.Cell(row, 9).Value = item.Course;
-                    worksheet.Cell(row, 10).Value = item.SchoolarNo;
-                    worksheet.Cell(row, 11).Value = item.NewOld;
-                    worksheet.Cell(row, 12).Value = item.SubCode;
-                    worksheet.Cell(row, 13).Value = item.Medium;
-                    worksheet.Cell(row, 14).Value = item.Gender;
-                    worksheet.Cell(row, 15).Value = item.Caste;
-                    worksheet.Cell(row, 16).Value = item.AadhaarNo;
-                    worksheet.Cell(row, 17).Value = item.StudentName;
-                    worksheet.Cell(row, 18).Value = item.DOB;
-                    worksheet.Cell(row, 19).Value = item.SamagraID;
-                    worksheet.Cell(row, 20).Value = item.FatherName;
-                    worksheet.Cell(row, 21).Value = item.MobileNoOne;
-                    worksheet.Cell(row, 22).Value = item.MobileNoTwo;
-                    worksheet.Cell(row, 23).Value = item.MotherName;
-                    worksheet.Cell(row, 24).Value = item.TC;
-                    worksheet.Cell(row, 25).Value = item.PH;
-                    worksheet.Cell(row, 26).Value = item.FatherMobileNo;
-                    worksheet.Cell(row, 27).Value = item.Address;
-                    worksheet.Cell(row, 28).Value = item.Minority;
-                    worksheet.Cell(row, 29).Value = item.Session;
-                    worksheet.Cell(row, 30).Value = item.CreateBy;
-                    worksheet.Cell(row, 31).Value = item.CreateDatetime;
-                    worksheet.Cell(row, 32).Value = item.AbcNo;
-                    worksheet.Cell(row, 33).Value = item.ExamFormSubmited;
-                       
+                        worksheet.Cell(row, 1).Value = item.Id;
+                        worksheet.Cell(row, 2).Value = item.AdmissionFormNo;
+                        worksheet.Cell(row, 3).Value = item.Year;
+                        worksheet.Cell(row, 4).Value = item.Session;
+                        worksheet.Cell(row, 5).Value = item.EnRollNo;
+                        worksheet.Cell(row, 6).Value = item.AdmissionDate;
+                        worksheet.Cell(row, 7).Value = item.Class;
+                        worksheet.Cell(row, 8).Value = item.RollNo;
+                        worksheet.Cell(row, 9).Value = item.RegEx;
+                        worksheet.Cell(row, 10).Value = item.Course;
+                        worksheet.Cell(row, 11).Value = item.SchoolarNo;
+                        worksheet.Cell(row, 12).Value = item.NewOld;
+                        worksheet.Cell(row, 13).Value = item.SubCode;
+                        worksheet.Cell(row, 14).Value = item.Medium;
+                        worksheet.Cell(row, 15).Value = item.Gender;
+                        worksheet.Cell(row, 16).Value = item.Caste;
+                        worksheet.Cell(row, 17).Value = item.AadhaarNo;
+                        worksheet.Cell(row, 18).Value = item.StudentName;
+                        worksheet.Cell(row, 19).Value = item.DOB;
+                        worksheet.Cell(row, 20).Value = item.SamagraID;
+                        worksheet.Cell(row, 21).Value = item.FatherName;
+                        worksheet.Cell(row, 22).Value = item.MobileNoOne;
+                        worksheet.Cell(row, 23).Value = item.MobileNoTwo;
+                        worksheet.Cell(row, 24).Value = item.MotherName;
+                        worksheet.Cell(row, 25).Value = item.TC;
+                        worksheet.Cell(row, 26).Value = item.PH;
+                        worksheet.Cell(row, 27).Value = item.FatherMobileNo;
+                        worksheet.Cell(row, 28).Value = item.Address;
+                        worksheet.Cell(row, 29).Value = item.Minority;
+                        worksheet.Cell(row, 30).Value = item.CreateBy;
+                        worksheet.Cell(row, 31).Value = item.CreateDatetime;
+                        worksheet.Cell(row, 32).Value = item.ExamFormSubmited;
+                        worksheet.Cell(row, 33).Value = item.AbcNo;
+
+                        worksheet.Cell(row, 34).Value = item.CMoney;
+                        worksheet.Cell(row, 35).Value = item.TutionFee;
+                        worksheet.Cell(row, 36).Value = item.OtherFee;
+                        worksheet.Cell(row, 37).Value = item.TotalFee;
+                        worksheet.Cell(row, 38).Value = item.TotalFeeCM;
+
                         row++;
-                }
+                    }
 
                 worksheet.Columns().AdjustToContents();
 
@@ -1097,11 +1116,16 @@ namespace CRM.Controllers
                 objAcademy.SchoolName = varSchoolName.ToUpper();
 
             if (!string.IsNullOrEmpty(varAcademicYear))
-                objAcademy.PassingYear = varAcademicYear;
+                objAcademy.PassingYear = varAcademicYear.ToUpper();
+
 
             objAcademy.Session = varAcadmicSession;
-            objAcademy.Class = varAcadmicClass;
-            objAcademy.Course = varAcadmicCourse;
+
+            if (!string.IsNullOrEmpty(varAcadmicClass))
+                objAcademy.Class = varAcadmicClass.ToUpper();
+
+            if (!string.IsNullOrEmpty(varAcadmicClass))
+                objAcademy.Course = varAcadmicCourse.ToUpper();
 
             if (!string.IsNullOrEmpty(varBoard))
                 objAcademy.Board = varBoard.ToUpper();

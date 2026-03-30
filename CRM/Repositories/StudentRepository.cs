@@ -205,6 +205,137 @@ namespace CRM.Repositories
                                     return query.ToList();
                                 }
 
+
+
+        public List<StudentFeeAcademiExcelDownload> GetStudentAllDetailById(
+                            string session,
+                            string @class,
+                            string course,
+                            string year,
+                            string studentName)
+        {
+
+            List<StudentFeeAcademiExcelDownload> resultList = new List<StudentFeeAcademiExcelDownload>();
+
+            var query = from stu in _context.Student
+                        join fee in _context.StudentFee on stu.Id equals fee.StudentId
+                        select new {
+                            stu.Id,
+                            stu.AdmissionFormNo,
+                            stu.Year,
+                            stu.Session,
+                            stu.EnRollNo,
+                            stu.AdmissionDate,
+                            stu.Class,
+                            stu.RollNo,
+                            stu.RegEx,
+                            stu.Course,
+                            stu.SchoolarNo,
+                            stu.NewOld,
+                            stu.SubCode,
+                            stu.Medium,
+                            stu.Gender,
+                            stu.Caste,
+                            stu.AadhaarNo,
+                            stu.StudentName,
+                            stu.DOB,
+                            stu.SamagraID,
+                            stu.FatherName,
+                            stu.MobileNoOne,
+                            stu.MobileNoTwo,
+                            stu.MotherName,
+                            stu.TC,
+                            stu.PH,
+                            stu.FatherMobileNo,
+                            stu.Address,
+                            stu.Minority,
+                            stu.CreateBy,
+                            stu.CreateDatetime,
+                            stu.ExamFormSubmited,
+                            stu.AbcNo,
+                            fee.CMoney,
+                            fee.TutionFee,
+                            fee.OtherFee,
+                            fee.TotalFee,
+                            fee.TotalFeeCM,
+
+                        };
+
+            if (!string.IsNullOrWhiteSpace(studentName))
+            {
+                query = query.Where(x => x.StudentName.ToLower().Contains(studentName.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(session) && (session != "Select"))
+            {
+                query = query.Where(x => x.Session.ToLower().Contains(session.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(@class) && (@class != "Select"))
+            {
+                query = query.Where(x => x.Class.ToLower().Contains(@class.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(course) && (course != "Select"))
+            {
+                query = query.Where(x => x.Course.ToLower().Contains(course.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(year) && (year != "Select"))
+            {
+                query = query.Where(x => x.Year.ToLower().Contains(year.ToLower()));
+            }
+            //---------------Result build-------------
+            if (query != null)
+            {
+                foreach (var row in query) 
+                {
+                    resultList.Add(new StudentFeeAcademiExcelDownload
+                    {
+                        Id = row.Id,
+                        AdmissionFormNo = row.AdmissionFormNo,
+                        Year = row.Year,
+                        Session = row.Session,
+                        EnRollNo = row.EnRollNo,
+                        AdmissionDate = row.AdmissionDate,
+                        Class = row.Class,
+                        RollNo = row.RollNo,
+                        RegEx = row.RegEx,
+                        Course = row.Course,
+                        SchoolarNo = row.SchoolarNo,
+                        NewOld = row.NewOld,
+                        SubCode = row.SubCode,
+                        Medium = row.Medium,
+                        Gender = row.Gender,
+                        Caste = row.Caste,
+                        AadhaarNo = row.AadhaarNo,
+                        StudentName = row.StudentName,
+                        DOB = row.DOB,
+                        SamagraID = row.SamagraID,
+                        FatherName = row.FatherName,
+                        MobileNoOne = row.MobileNoOne,
+                        MobileNoTwo = row.MobileNoTwo,
+                        MotherName = row.MotherName,
+                        TC = row.TC,
+                        PH = row.PH,
+                        FatherMobileNo = row.FatherMobileNo,
+                        Address = row.Address,
+                        Minority = row.Minority,
+                        CreateBy = row.CreateBy,
+                        CreateDatetime = row.CreateDatetime,
+                        ExamFormSubmited = row.ExamFormSubmited,
+                        AbcNo = row.AbcNo,
+
+                        // Fee fields
+                        CMoney = row.CMoney,
+                        TutionFee = row.TutionFee,
+                        OtherFee = row.OtherFee,
+                        TotalFee = row.TotalFee,
+                        TotalFeeCM = row.TotalFeeCM
+                    });
+                }
+            }
+
+
+            return resultList;
+        }
+
         public List<Student> FilterList(string name, string classes, string course, string year, string session)
         {
             try { 
