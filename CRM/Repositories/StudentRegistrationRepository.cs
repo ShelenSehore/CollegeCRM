@@ -21,6 +21,14 @@ namespace CRM.Repositories
         {
             return _context.StudentRegistration.ToList();
         }
+
+        public int GetLatestId()
+        {
+            var getRecord = _context.StudentRegistration.OrderByDescending(x => x.Id).FirstOrDefault();
+            return getRecord.Id;
+        }
+
+
         public void Add(StudentRegistration model)
         {
             _context.StudentRegistration.Add(model);

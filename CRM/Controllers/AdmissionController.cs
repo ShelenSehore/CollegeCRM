@@ -189,6 +189,10 @@ namespace CRM.Controllers
                     Text = x.Name
                 })
                 .ToList();
+            //----------StudentRegistration No-------
+           var newRegistrationNo =  _repoStudentRegi.GetLatestId();
+            newRegistrationNo = newRegistrationNo + 1;
+            model.RegNo = newRegistrationNo;
 
             ViewBag.BaseUrl = _baseUrl;
             model.DisBy = "NULL";
