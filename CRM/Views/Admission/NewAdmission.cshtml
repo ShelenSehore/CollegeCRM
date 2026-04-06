@@ -328,6 +328,7 @@
 
     <script type="text/javascript">
       var BASE_URL = "@baseUrl";
+        var Toast;
 
         var varSession = "";
         var varYear = "";
@@ -370,12 +371,36 @@
 
             });
 
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1000
+            });
 
 
         };
 
+        function Alert(icon, title, className) {
+            Toast.fire({
+                icon: icon,
+                title: title,
+                class: className,
+            })
+        }
+
+
+
         function FillFeeeDetail()
         {
+            $('#txtNewStudentFee').val("00");
+            $('#txtCMondy').val("00");
+            $('#txtTutionFee').val("00");
+            $('#txtOtherFee').val("00");
+            $('#txtTotalFee').val("00");
+            $('#txtTotalFeeAfterDiscount').val("00");
+
+
             if (varSession != "" && varYear != "" && varSubject != "" && varClass != "")
             {
 
@@ -387,13 +412,22 @@
                     year: varYear
                 },
                     function (res) {
+                        debugger;
                         var Feedetail = res.data.feeMasterDetail;
-                        $('#txtNewStudentFee').val(Feedetail.newStudentFee);
-                        $('#txtCMondy').val(Feedetail.cMoney);
-                        $('#txtTutionFee').val(Feedetail.tutionFee);
-                        $('#txtOtherFee').val(Feedetail.otherFee);
-                        $('#txtTotalFee').val(Feedetail.totalFee);
-                        $('#txtTotalFeeAfterDiscount').val(Feedetail.totalFee);
+                        if (Feedetail != null || Feedetail != '')
+                        {
+                            $('#txtNewStudentFee').val(Feedetail.newStudentFee);
+                            $('#txtCMondy').val(Feedetail.cMoney);
+                            $('#txtTutionFee').val(Feedetail.tutionFee);
+                            $('#txtOtherFee').val(Feedetail.otherFee);
+                            $('#txtTotalFee').val(Feedetail.totalFee);
+                            $('#txtTotalFeeAfterDiscount').val(Feedetail.totalFee);
+                        }
+                        else
+                        {
+                            Alert('warning', 'Fee not exist into Fee Master.', 'bg-success');
+                        }
+                        
 
                     }
               );

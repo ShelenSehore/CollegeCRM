@@ -191,20 +191,19 @@ namespace CRM.Controllers
             returnObj.SubjectList.FirstOrDefault(item => item.Value.ToUpper() == returnObj.studentDetail.Course.ToUpper()).Selected = true;
 
 
+            //----TC  Detail ------------
+            returnObj.studentDetail.TC = data.TC.ToUpper();
 
+           var PhotoBaseUrl = _mySettings.DocumentUrl;
 
-
-            var PhotoBaseUrl = _mySettings.DocumentUrl;
-
-            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + data.AdmissionFormNo + ".jpg";
+            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + data.Photo + ".jpg";
             if (System.IO.File.Exists(StudentPhoto))
             {
-                returnObj.studentDetail.Photo = "/StudentData/Photo/" + data.AdmissionFormNo + ".jpg";
+                returnObj.studentDetail.Photo = "/StudentData/Photo/" + data.Photo + ".jpg";
             }
 
             //-----------Fee Detail--------
-            //var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
-            //returnObj.studentFeeDetail = FeeDetail;
+            
             var FeeDetail = _studentFeeRepo.GetFeeByStudentID(id);
             if (FeeDetail != null) 
             {
@@ -287,9 +286,6 @@ namespace CRM.Controllers
 
             }
             
-
-
-
 
             return View(returnObj);
         }

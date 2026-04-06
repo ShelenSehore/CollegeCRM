@@ -350,10 +350,6 @@ namespace CRM.Controllers
             return View(model);
         }
 
-
-       
-
-
         public IActionResult SearchList(string name, string classes, string year, string course, string session)
         {
            
@@ -895,13 +891,13 @@ namespace CRM.Controllers
             //-------------Document List-------------------
             var PhotoBaseUrl = _mySettings.DocumentUrl;
 
-            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + model.AdmissionFormNo + ".jpg"; 
+            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + model.Photo + ".jpg"; 
             if (System.IO.File.Exists(StudentPhoto))
             {
                 model.Photo = "/StudentData/Photo/" + model.AdmissionFormNo + ".jpg"; 
             }
 
-            var TCPhoto = PhotoBaseUrl + "\\TC\\" + model.AdmissionFormNo + ".jpg";
+            var TCPhoto = PhotoBaseUrl + "\\TC\\" + model.Photo + ".jpg";
             if (System.IO.File.Exists(TCPhoto))
             {
                 model.TCPhoto = "/StudentData/TC/" + model.AdmissionFormNo + ".jpg";
@@ -1062,6 +1058,7 @@ namespace CRM.Controllers
 
             if (!string.IsNullOrEmpty(varAdmissionFormNo))
                 stuObj.AdmissionFormNo = Convert.ToInt32(varAdmissionFormNo);
+
 
             if (!string.IsNullOrEmpty(varAdmissionDate))
                 stuObj.AdmissionDate = Convert.ToDateTime(varAdmissionDate);

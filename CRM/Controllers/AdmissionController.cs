@@ -445,10 +445,12 @@ namespace CRM.Controllers
         {
             StudentPaymentDetailView returnObj = new StudentPaymentDetailView();
             var FeeDetail = _feeRepo.GetFeeByClasssCouseSessionYearNewOld(classname, course, session, year, "New");
-            returnObj.feeMasterDetail = FeeDetail;
+           
+                returnObj.feeMasterDetail = FeeDetail;
+           
 
             return Json(new { success = true, data = returnObj
-    });
+          });
         }
 
 
@@ -468,6 +470,8 @@ namespace CRM.Controllers
                             //-------------Save Into Student-----table--------------
                             Student stuObj = new Student();
                             stuObj.AdmissionFormNo = student.FormNo;
+
+                            stuObj.Photo = student.FormNo.ToString();
 
                             if (student.Session != null)
                                 stuObj.Session = student.Session.ToUpper();

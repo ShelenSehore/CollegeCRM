@@ -67,6 +67,9 @@
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
+                                    <b>Class</b> <a class="float-right">@Model.studentDetail.Session</a>
+                                </li>
+                                <li class="list-group-item">
                                     <b>Class</b> <a class="float-right">@Model.studentDetail.Class</a>
                                 </li>
                                 <li class="list-group-item">
@@ -75,7 +78,7 @@
                                 <li class="list-group-item">
                                     <b>Year</b> <a class="float-right">@Model.studentDetail.Year</a>
                                 </li>
-                               
+
                             </ul>
 
 
@@ -93,12 +96,12 @@
                                 <li class="nav-item"><a class="nav-link" href="#PayNow" data-toggle="tab">Pay Now </a></li>
                                 <li class="nav-item"><a class="nav-link" href="#History" data-toggle="tab">Payment History</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#OldDues" data-toggle="tab">Old Dues  <span class="badge bg-danger">@Model.OldDuesAmount.ToString()</span> </a></li>
-                               
+                                <li class="nav-item"><a class="nav-link" href="#TC" data-toggle="tab">TC Detail</a></li>
                             </ul>
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
-                              
+
                                 <div class="active tab-pane" id="Detail">
 
                                     <div class="container-fluid">
@@ -115,7 +118,7 @@
                                                     <div class="icon">
                                                         <i class="ion ion-bag"></i>
                                                     </div>
-                                                   
+
                                                 </div>
                                             </div>
                                             <!-- ./col -->
@@ -130,7 +133,7 @@
                                                     <div class="icon">
                                                         <i class="ion ion-stats-bars"></i>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                             <!-- ./col -->
@@ -150,7 +153,7 @@
                                                     <div class="icon">
                                                         <i class="ion ion-person-add"></i>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                             <!-- ./col -->
@@ -165,7 +168,7 @@
                                                     <div class="icon">
                                                         <i class="ion ion-pie-graph"></i>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                             <!-- ./col -->
@@ -194,19 +197,19 @@
                                                 <td></td>
                                                 <td>@Model.studentFeeDetail.TotalFee</td>
                                             </tr>
-                                           
+
                                             <tr>
 
                                                 <td>Scholership/ By</td>
                                                 <td></td>
                                                 <td>@Model.studentFeeDetail.Scholership /@Model.studentFeeDetail.DisBy </td>
                                             </tr>
-                                           
-                                           
+
+
                                         </tbody>
                                     </table>
                                 </div>
-                              
+
                                 <div class="tab-pane" id="PayNow">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -220,7 +223,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Session</label>
-                                                <select id="ddlPaySession"  asp-items="Model.SessionList" class="form-control">
+                                                <select id="ddlPaySession" asp-items="Model.SessionList" class="form-control">
                                                     <option>Select</option>
                                                 </select>
                                             </div>
@@ -229,7 +232,7 @@
                                             <div class="form-group">
                                                 <label>Class</label>
                                                 <input readonly="readonly" value="@Model.studentDetail.Class" class="form-control PersonalDetailText" />
-                                                
+
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -260,8 +263,8 @@
                                                         <option>Online</option>
                                                         <option>Check</option>
                                                     </select>
-                                                    
-                                                    <div style="width:50%; float:right;">Date : <input type="date"   id="txtPaymentdate" /></div>
+
+                                                    <div style="width:50%; float:right;">Date : <input type="date" id="txtPaymentdate" /></div>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -348,13 +351,13 @@
 
                                             <tr>
                                                 <td colspan="2">
-                                                    <button type="button" onclick="payNow();" class="btn btn-success btn-block"  /><i class="fa fa-bell"></i> Process for Pay </button>
+                                                    <button type="button" onclick="payNow();" class="btn btn-success btn-block" /><i class="fa fa-bell"></i> Process for Pay </button>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                
+
                                 <div class="tab-pane" id="History">
                                     <table class="table table-bordered">
                                         <thead>
@@ -374,30 +377,30 @@
                                             @if (Model.studentTransaction.Count() > 0)
                                             {
                                                 int rowNo = 1;
-                                                
+
                                                 foreach (var row in Model.studentTransaction)
                                                 {
-                                            <tr>
-                                                <td> @rowNo </td>
-                                                <td> @row.Session </td>
-                                                <td> @row.Year </td>
-                                                <td> @row.Head </td>
-                                                <td> @row.Amount </td>
-                                                <td> @row.RecNumber </td>
-                                                <td> @row.PaymentMode </td>
-                                                <td> @row.CreateDateTime.ToString("dd/MM/yyyy") </td>
-                                                <td> @row.CreatedBy </td>
-                                            </tr>
+                                                    <tr>
+                                                        <td> @rowNo </td>
+                                                        <td> @row.Session </td>
+                                                        <td> @row.Year </td>
+                                                        <td> @row.Head </td>
+                                                        <td> @row.Amount </td>
+                                                        <td> @row.RecNumber </td>
+                                                        <td> @row.PaymentMode </td>
+                                                        <td> @row.CreateDateTime.ToString("dd/MM/yyyy") </td>
+                                                        <td> @row.CreatedBy </td>
+                                                    </tr>
                                                     rowNo = rowNo + 1;
-                                                   
+
                                                 }
-                                               
+
                                             }
 
                                         </tbody>
                                     </table>
                                 </div>
-                               
+
                                 <div class="tab-pane" id="OldDues">
                                     <table class="table table-bordered">
                                         <thead>
@@ -413,21 +416,48 @@
                                         <tbody>
                                             @foreach (var rowDue in Model.FeeDueList.OrderByDescending(x => x.Id))
                                             {
-                                            <tr>
-                                                <td>@rowDue.Year</td>
-                                                <td>@rowDue.Class</td>
-                                                <td>@rowDue.Course</td>
-                                                <td>@rowDue.TotalFeeAfterDiscount</td>
-                                                <td>@rowDue.PaidAmount</td>
-                                                @{
-                                                    int varDues = @rowDue.TotalFeeAfterDiscount - @rowDue.PaidAmount;
-                                                }
-                                                <td>@varDues</td>
-                                            </tr>
+                                                <tr>
+                                                    <td>@rowDue.Year</td>
+                                                    <td>@rowDue.Class</td>
+                                                    <td>@rowDue.Course</td>
+                                                    <td>@rowDue.TotalFeeAfterDiscount</td>
+                                                    <td>@rowDue.PaidAmount</td>
+                                                    @{
+                                                        int varDues = @rowDue.TotalFeeAfterDiscount - @rowDue.PaidAmount;
+                                                    }
+                                                    <td>@varDues</td>
+                                                </tr>
                                             }
                                         </tbody>
                                     </table>
                                 </div>
+
+
+                                <div class="tab-pane" id="TC">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>TC</th>
+                                                <th>
+                                                    @if (Model.studentDetail.TC.ToUpper() == "YES")
+                                                    {
+                                                    <span class="badge badge-success">Submitted</span>
+                                                    }
+                                                    else if (Model.studentDetail.TC.ToUpper() == "ISSUE")
+                                                    {
+                                                        <span class="badge badge-success">Issued</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge badge-success">Not Submitted</span>
+                                                    }
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        
+                                    </table>
+                                </div>
+
                             </div>
                            
                         </div>
