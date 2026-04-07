@@ -265,7 +265,7 @@
             var varCourse = $('#ddlCourse option:selected').text();
             var varSession = $('#ddlSession option:selected').text();
 
-            $.post(BASE_URL + "/Student/SearchOldStudentList", {
+            $.post(BASE_URL + "/History/SearchOldStudentList", {
                 name: name,
                 classes: varClass,
                 course: varCourse,
@@ -288,7 +288,7 @@
                 $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.admissionForm +
                     "</td><td>" + element.studentName + "</td><td>" + element.year + "</td><td>" + element.classs +
                     "</td><td>" + element.course + "</td><td>" + element.mobileNo +
-                    "</td><td><a class='btn btn-default' href='../Student/PromodeStudent?id=" + element.studentId + "' ><i class='fas fa-eye'></i> View</a></td>" +
+                    "</td><td><a class='btn btn-default' href='../History/View?id=" + element.studentHistoryId + "' ><i class='fas fa-eye'></i> View</a></td>" +
                     "</tr>");
 
             });

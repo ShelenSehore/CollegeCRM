@@ -64,7 +64,7 @@ namespace CRM.Repositories
         {
             return _context.Academy.Where(x=>x.StudentId == id).ToList();
         }
-
+       
 
     }
 }

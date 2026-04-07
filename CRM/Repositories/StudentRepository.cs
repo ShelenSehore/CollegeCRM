@@ -520,7 +520,7 @@ namespace CRM.Repositories
             return null;
         }
 
-        //------Download History Data
+        //------Download History Data---------------
         public List<StudentHistory> GetByStudentHistoryPage(
                           string session,
                           string @class,
@@ -572,6 +572,16 @@ namespace CRM.Repositories
             return false;
         }
 
+
+        //------------------View History Student Detail--------------
+        public StudentHistory StudentHistoryGetById(int id)
+        {
+
+            var studentRecord = _context.StudentHistory.Where(x => x.StudentHistoryId == id)
+                      .FirstOrDefault();
+
+            return studentRecord;
+        }
 
     }
 }
