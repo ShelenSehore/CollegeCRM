@@ -96,7 +96,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Reg NO</label>
-                                                <input asp-for="RegNo" type="number" class="form-control" placeholder="Form No">
+                                                <input asp-for="Id" type="number" readonly="readonly" class="form-control" placeholder="ID No.">
                                             </div>
                                         </div>
 
@@ -272,7 +272,7 @@
                                             <select asp-for="Gender" class="form-control">
                                                 <option value="">Select</option>
                                                 <option>MALE</option>
-                                                <option>FEMLE</option>
+                                                <option>FEMALE</option>
                                             </select>
                                             <span asp-validation-for="Gender" class="text-danger"></span>
                                         </div>

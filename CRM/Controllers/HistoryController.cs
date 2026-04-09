@@ -268,6 +268,10 @@ namespace CRM.Controllers
             {
                 model.Photo = "/StudentData/Photo/" + model.AdmissionFormNo + ".jpg";
             }
+            else
+            {
+                model.Photo = "/StudentData/ProfileLogo.jpg";
+            }
 
             var TCPhoto = PhotoBaseUrl + "\\TC\\" + model.Photo + ".jpg";
             if (System.IO.File.Exists(TCPhoto))

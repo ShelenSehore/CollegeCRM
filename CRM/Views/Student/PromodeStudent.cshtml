@@ -333,7 +333,7 @@
                                                 <tr>
                                                     <th style="width: 10px">#</th>
                                                     <th>Document Name</th>
-                                                    <th>Download</th>
+                                                    <th>View</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -344,7 +344,7 @@
                                                         Photo
                                                     </td>
                                                     <td>
-                                                        <img alt="Avatar" class="table-avatar" src="@Model.Photo">
+                                                         <img alt="image" onclick="ViewDocument(this)" class="table-avatar" src="@Model.Photo"  style="cursor:pointer">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -353,7 +353,7 @@
                                                         TC
                                                     </td>
                                                     <td>
-                                                        <img alt="Avatar" class="table-avatar" src="@Model.TCPhoto">
+                                                         <img alt="image" onclick="ViewDocument(this)" class="table-avatar" src="@Model.TCPhoto" style="cursor:pointer">
                                                     </td>
                                                 </tr>
 
@@ -831,7 +831,24 @@
     </div>
 </div>
 
-
+<div class="modal fade" id="modal-ViewDocument">
+    <div class="modal-dialog" style=" min-width:750px !important; width:750px !important">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">View</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="imgViewDocument" alt="image" style="cursor:pointer">
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
 
@@ -1160,6 +1177,12 @@
             }
         }
 
+        function ViewDocument(element)
+        {
+            var imgSrc = $(element).attr("src");
+            $("#modal-ViewDocument").modal("show");
+            $("#imgViewDocument").attr("src", imgSrc);
+        }
 
     </script>
 }

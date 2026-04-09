@@ -201,9 +201,13 @@ namespace CRM.Controllers
             {
                 returnObj.studentDetail.Photo = "/StudentData/Photo/" + data.Photo + ".jpg";
             }
+            else
+            {
+                returnObj.Photo = "/StudentData/ProfileLogo.jpg";
+            }
 
             //-----------Fee Detail--------
-            
+
             var FeeDetail = _studentFeeRepo.GetFeeByStudentID(id);
             if (FeeDetail != null) 
             {

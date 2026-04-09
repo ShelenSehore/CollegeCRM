@@ -891,10 +891,14 @@ namespace CRM.Controllers
             //-------------Document List-------------------
             var PhotoBaseUrl = _mySettings.DocumentUrl;
 
-            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + model.Photo + ".jpg"; 
+            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + model.Photo + ".jpg";
             if (System.IO.File.Exists(StudentPhoto))
             {
-                model.Photo = "/StudentData/Photo/" + model.AdmissionFormNo + ".jpg"; 
+                model.Photo = "/StudentData/Photo/" + model.AdmissionFormNo + ".jpg";
+            }
+            else 
+            {
+                model.Photo = "/StudentData/ProfileLogo.jpg";
             }
 
             var TCPhoto = PhotoBaseUrl + "\\TC\\" + model.Photo + ".jpg";
