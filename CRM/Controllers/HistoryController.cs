@@ -329,9 +329,55 @@ namespace CRM.Controllers
             stuObj.UpdateDate = DateTime.Now;
             stuObj.CreateBy = "Update Admin";
 
-            _historyStudentRepo.UpdateHistoryDetail(stuObj);
+            _historyStudentRepo.UpdateHistoryDetailForHistoryPage(stuObj);
 
             
+            return Json(new { success = true, data = true });
+        }
+
+
+        //--------------------- Save Update Detail--------------
+        public IActionResult UpdateCollegeDetail(int id, string varSession, string varNewOld, string varMedium,
+            string varClass, string varCourse, string varYear, string varAdmissionFormNo, string varEnRollNo,
+             string varAdmissionDate, string varRollNo, string varSchoolarNo, string varSubCode, string varRegEx)
+
+        {
+            StudentHistory stuObj = new StudentHistory();
+            stuObj.StudentHistoryId = id;
+
+            if (!string.IsNullOrEmpty(varAdmissionFormNo))
+                stuObj.AdmissionForm = Convert.ToInt32(varAdmissionFormNo);
+
+
+            if (!string.IsNullOrEmpty(varAdmissionDate))
+                stuObj.AdmissionDate = Convert.ToDateTime(varAdmissionDate);
+
+
+            stuObj.NewOld = varNewOld;
+            stuObj.Medium = varMedium;
+            //stuObj.Session = varSession;   //-------------varSession
+            //stuObj.Class = varClass;  //-------------Class
+            //stuObj.Course = varCourse;  //-------Course
+            //stuObj.Year = varYear;  //----------Year
+            if (!string.IsNullOrEmpty(varEnRollNo))
+                stuObj.EnrolNo = varEnRollNo.ToUpper();
+
+            if (!string.IsNullOrEmpty(varRollNo))
+                stuObj.RollNo = varRollNo.ToUpper();
+
+
+            if (!string.IsNullOrEmpty(varSchoolarNo))
+                stuObj.ScholerNo = varSchoolarNo.ToUpper();
+
+            //if (!string.IsNullOrEmpty(varSubCode))
+            //    stuObj.SubCode = varSubCode.ToUpper();
+
+            stuObj.RegPvt = varRegEx;
+            stuObj.UpdateDate = DateTime.Now;
+            stuObj.UpdateBy = "Update Admin";
+
+            var teee = _historyStudentRepo.UpdateHisotryCollegeDetailForHistoryPage(stuObj);
+
             return Json(new { success = true, data = true });
         }
 

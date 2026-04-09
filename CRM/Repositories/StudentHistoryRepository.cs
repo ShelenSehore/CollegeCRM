@@ -43,7 +43,7 @@ namespace CRM.Repositories
 
         public bool UpdateHistoryDetail(StudentHistory model)
         {
-            var student = _context.StudentHistory.FirstOrDefault(x => x.StudentId == model.StudentId && x.Session == model.Session && x.Classs== model.Classs && x.Course== model.Course && x.Year==model.Year);
+            var student = _context.StudentHistory.FirstOrDefault(x => x.StudentHistoryId == model.StudentId && x.Session == model.Session && x.Classs== model.Classs && x.Course== model.Course && x.Year==model.Year);
 
             if (student != null)
             {
@@ -72,6 +72,69 @@ namespace CRM.Repositories
             }
             return false;
         }
+
+
+
+        public bool UpdateHistoryDetailForHistoryPage(StudentHistory model)
+        {
+            var student = _context.StudentHistory.FirstOrDefault(x => x.StudentHistoryId == model.StudentHistoryId);
+
+            if (student != null)
+            {
+                student.StudentName = model.StudentName;
+                student.FatherName = model.FatherName;
+                student.MotherName = model.MotherName;
+                student.MobileNo = model.MobileNo;
+                student.DOB = model.DOB;
+                student.Gender = model.Gender;
+                student.Minority = model.Minority;
+                student.Cast = model.Cast;
+                student.AdharNo = model.AdharNo;
+                student.Medium = model.Medium;
+                student.EnrolNo = model.EnrolNo;
+                student.RollNo = model.RollNo;
+                student.Minority = model.Minority;
+                student.AbcId = model.AbcId;
+                student.SamagraId = model.SamagraId;
+                student.Address = model.Address;
+                student.TCIssue = model.TCIssue;
+                student.PH = model.PH;
+                student.UpdateDate = DateTime.Now;
+                student.UpdateBy = "Admin";
+                var status = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool UpdateHisotryCollegeDetailForHistoryPage(StudentHistory model)
+        {
+            var student = _context.StudentHistory.FirstOrDefault(x => x.StudentHistoryId == model.StudentHistoryId);
+
+            if (student != null)
+            {
+                student.AdmissionForm = model.AdmissionForm;
+                student.AdmissionDate = model.AdmissionDate;
+                student.NewOld = model.NewOld;
+                student.Medium = model.Medium;
+                //student.Session = model.Session;
+                //student.Class = model.Class;
+                //student.Course = model.Course;
+                //student.Year = model.Year;
+                student.EnrolNo = model.EnrolNo;
+                student.RollNo = model.RollNo;
+                student.ScholerNo = model.ScholerNo;
+                //student.SubCode = model.SubCode;
+                student.RegPvt = model.RegPvt;
+                student.UpdateDate = model.UpdateDate;
+                student.UpdateBy = model.UpdateBy;
+
+                var status = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
 
 
         public int SaveAndGetId(StudentHistory model)

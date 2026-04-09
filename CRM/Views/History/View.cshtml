@@ -914,7 +914,7 @@
 
             if (IsValidate) {
 
-            $.post(BASE_URL + "/Student/UpdateCollegeDetail", {
+                $.post(BASE_URL + "/History/UpdateCollegeDetail", {
                 id: varid,
                 varSession: "",
                 varNewOld: varNewOld,
@@ -930,13 +930,13 @@
                 varSubCode: varSubCode,
                 varRegEx: varRegEx
             },
-                function (res) {
-
-                    $("#modal-Personal").modal("hide");
-                    Alert('success', 'Save College succeefully.', 'bg-success');
-                    location.reload(true);
-                }
-            );
+                    function (res)
+                    {
+                        $("#modal-Personal").modal("hide");
+                        Alert('success', 'Save College succeefully.', 'bg-success');
+                        location.reload(true);
+                    }
+                );
             }
         }
 
@@ -975,7 +975,7 @@
             var varAdmissionFormNo = $('#txtAcademicAdmissionFormNo').val();
 
             if (IsValidate) {
-            $.post(BASE_URL + "/Student/UpdateAcadmicDetail", {
+                $.post(BASE_URL + "/Student/UpdateCollegeDetail", {
                 id: varid,
                 varAcademicYear: varAcademicYear,
                 varAcadmicSession: varAcadmicSession,
@@ -999,47 +999,7 @@
             }
         }
 
-        function SavePromotion() {
-
-            var IsValidate = true;
-            if (!validateField("#txtPromoAdmiFormNo", "AdmiFormNo required")) IsValidate = false;
-            if (!validateField("#txtPromoAdmiDate", "AdmiDate required")) IsValidate = false;
-            if (!validateField("#ddlPromoYear", "Select PromoYear", "dropdown")) IsValidate = false;
-            if (!validateField("#ddlPromotSession", "Select PromotSession", "dropdown")) IsValidate = false;
-            if (!IsValidate) return;
-
-            var varid = $("#hdnStudentID").val();
-            var varPromotSession = $('#ddlPromotSession option:selected').text();
-            var varPromotClass = $('#txtPromotClass').val();
-            var varPromotCourse = $('#txtPromotCourse').val();
-            var varPromoYear = $('#ddlPromoYear option:selected').text();
-            var varCurrentYear = $('#txtCurrentYear').val();
-            var varCurrentSession = $('#txtCurrentSession').val();
-            var varPromotFormNo = $('#txtPromoAdmiFormNo').val();
-            var varPromotDate = $('#txtPromoAdmiDate').val();
-
-            if (IsValidate) {
-            $.post(BASE_URL + "/Student/PromotStudent", {
-                id: varid,
-                varPromotSession: varPromotSession,
-                varPromotClass: varPromotClass,
-                varPromotCourse: varPromotCourse,
-                varPromoYear: varPromoYear,
-                varCurrentYear: varCurrentYear,
-                varCurrentSession: varCurrentSession,
-                varPromotFormNo: varPromotFormNo,
-                varPromotDate: varPromotDate
-            },
-                function (res) {
-
-
-                    Alert('success', 'Successfully Promoted', 'bg-success');
-                    location.reload(true);
-                }
-            );
-          }
-        }
-
+       
         // DELETE
         function deleteAcadmicDetail(id) {
             if (confirm("Are you sure?")) {
