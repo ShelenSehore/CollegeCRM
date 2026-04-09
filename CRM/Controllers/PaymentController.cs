@@ -203,7 +203,7 @@ namespace CRM.Controllers
             }
             else
             {
-                returnObj.Photo = "/StudentData/ProfileLogo.jpg";
+                returnObj.studentDetail.Photo = "/StudentData/ProfileLogo.jpg";
             }
 
             //-----------Fee Detail--------
