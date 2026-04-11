@@ -191,7 +191,12 @@ namespace CRM.Controllers
                 .ToList();
             //----------StudentRegistration No-------
            var newRegistrationNo =  _repoStudentRegi.GetLatestId();
+
+            if(newRegistrationNo != null)
+                newRegistrationNo =  1;
+            else
             newRegistrationNo = newRegistrationNo + 1;
+
             model.RegNo = newRegistrationNo;
 
             ViewBag.BaseUrl = _baseUrl;
