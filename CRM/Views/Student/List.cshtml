@@ -104,6 +104,7 @@
                                     <tr role="row">
                                         <th class="sorting sorting_asc" style="width: 10px">#</th>
                                         <th class="sorting">FormNo</th>
+                                        <th class="sorting">Session</th>
                                         <th class="sorting">Student</th>
                                         <th class="sorting">Father Name</th>
                                         <th class="sorting">Year</th>
@@ -292,8 +293,8 @@
                     IsTCissue = "<i class='fas fa-star text-danger'></i>";
                 }
 
-                $("#tblStudentList").append("<tr><td>" + index + "</td><td>  " + IsTCissue+" " + element.admissionFormNo +
-                    "</td><td>" + element.studentName + "</td><td>" + element.fatherName + "</td><td>" + element.year + "</td><td>" + element.class +
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>  " + IsTCissue + " " + element.admissionFormNo +
+                    "</td><td>" + element.session + "</td><td>" + element.studentName + "</td><td>" + element.fatherName + "</td><td>" + element.year + "</td><td>" + element.class +
                     "</td><td>" + element.course + "</td><td>" + element.mobileNoOne +
                     "</td><td><a class='btn btn-default' href='../Student/PromodeStudent?id=" + element.id + "' ><i class='fas fa-eye'></i> View</a></td>" +
                     "<td> <input id='" + element.id+"' name='chkStudent' type='checkbox'></td></tr>");

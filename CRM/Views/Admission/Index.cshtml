@@ -109,6 +109,7 @@
                                     <tr role="row">
                                         <th class="sorting sorting_asc" style="width: 10px">#</th>
                                         <th class="sorting">RegNo</th>
+                                        <th class="sorting">Session</th>
                                         <th class="sorting">Student</th>
                                         <th class="sorting">MobileNo</th>
                                         <th class="sorting">Year</th>
@@ -120,6 +121,7 @@
                                 </thead>
 
                                 <tbody>
+
                                 </tbody>
 
 
@@ -190,7 +192,7 @@
 
 
             // Example 3: Change events (optional)
-            $("#ddlClass, #ddlYear, #ddlCourse, #ddlRegPvt").change(function () {
+            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
                 $("#tblStudentList tbody").empty();
                 SearchStudent();
             });
@@ -233,9 +235,10 @@
 
         function TableData(tableData)
         {
+            debugger;
             $("#tblStudentList tbody").empty();
             $.each(tableData.data, function (index, element) {
-                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.id + "</td><td>" + element.name +
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.id + "</td><td>" + element.session + "</td><td>" + element.name +
                     "</td><td>" + element.mobileNo + "</td><td>" + element.year + "</td><td>" + element.subject +
                     "</td><td>" + element.course + "</td><td>" + element.status +
                     "</td><td> <a class='btn btn-default' href='../Admission/ViewAdmission?id=" + element.id + "' ><i class='fas fa-eye'></i></a></td><td><input id='" + element.id +"' name='chkStudent' type='checkbox'></td></tr>");

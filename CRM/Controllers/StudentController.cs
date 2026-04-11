@@ -876,7 +876,7 @@ namespace CRM.Controllers
                     model.SelectedCourse = varStudentDetail.Course;
                     model.SelectedYear = varStudentDetail.Year;
                     model.Session = varStudentDetail.Session;
-
+                    model.Photo = varStudentDetail.Photo;
 
                 }
             }
