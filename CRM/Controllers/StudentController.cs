@@ -1208,6 +1208,7 @@ namespace CRM.Controllers
             historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
             historyObj.AbcId = SavedStudentTable.AbcNo; //----
             historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited;
+            historyObj.Photo = SavedStudentTable.Photo;
 
             historyObj.CreateBy = "Admin";
             historyObj.CreateDate = DateTime.Now;

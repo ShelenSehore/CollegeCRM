@@ -576,7 +576,9 @@ namespace CRM.Controllers
                             historyObj.SamagraId = SavedStudentTable.SamagraID; //---
                             historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
                             historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited;
-                           
+
+                            historyObj.Photo = SavedStudentTable.Photo;
+
                             historyObj.CreateBy = "Admin";
                             historyObj.CreateDate = DateTime.Now;
                             historyObj.UpdateBy = "Admin";

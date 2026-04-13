@@ -26,6 +26,7 @@ namespace CRM.Models
         public string Status { get; set; }
         public string StudentName { get; set; }
         public string FatherName { get; set; }
+        public string FatherMobileNo { get; set; }
         public string MotherName { get; set; }
         public string PH { get; set; }
         public string Cast { get; set; }
@@ -38,6 +39,8 @@ namespace CRM.Models
         public string AbcId { get; set; }
         public string SamagraId { get; set; }
         public string AdharNo { get; set; }
+        public string SubCode { get; set; }
+        public string Photo { get; set; }
         public string ExamFormSubmited { get; set; }
         public string Remark { get; set; }  //---------------
         public DateTime CreateDate { get; set; }

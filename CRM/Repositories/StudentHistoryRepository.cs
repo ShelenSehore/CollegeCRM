@@ -85,6 +85,7 @@ namespace CRM.Repositories
                 student.FatherName = model.FatherName;
                 student.MotherName = model.MotherName;
                 student.MobileNo = model.MobileNo;
+                student.FatherMobileNo = model.FatherMobileNo;
                 student.DOB = model.DOB;
                 student.Gender = model.Gender;
                 student.Minority = model.Minority;
@@ -124,7 +125,7 @@ namespace CRM.Repositories
                 student.EnrolNo = model.EnrolNo;
                 student.RollNo = model.RollNo;
                 student.ScholerNo = model.ScholerNo;
-                //student.SubCode = model.SubCode;
+                student.SubCode = model.SubCode;
                 student.RegPvt = model.RegPvt;
                 student.UpdateDate = model.UpdateDate;
                 student.UpdateBy = model.UpdateBy;

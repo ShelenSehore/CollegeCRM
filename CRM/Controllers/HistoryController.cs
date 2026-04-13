@@ -200,8 +200,8 @@ namespace CRM.Controllers
                     if (!string.IsNullOrEmpty(varStudentDetail.NewOld))
                         model.NewOld = varStudentDetail.NewOld.ToUpper();
 
-                    //if (!string.IsNullOrEmpty(varStudentDetail.co))
-                    //    model.SubCode = varStudentDetail.SubCode.ToUpper();
+                    if (!string.IsNullOrEmpty(varStudentDetail.SubCode))
+                        model.SubCode = varStudentDetail.SubCode.ToUpper();
 
                     model.Medium = varStudentDetail.Medium;
                     model.Gender = varStudentDetail.Gender;
@@ -230,8 +230,8 @@ namespace CRM.Controllers
                     if (!string.IsNullOrEmpty(varStudentDetail.MobileNo))
                         model.MobileNoOne = varStudentDetail.MobileNo.ToUpper();
 
-                    //if (!string.IsNullOrEmpty(varStudentDetail.FatherMobileNo))
-                    //    model.FatherMobileNo = varStudentDetail.FatherMobileNo.ToUpper();
+                    if (!string.IsNullOrEmpty(varStudentDetail.FatherMobileNo))
+                        model.FatherMobileNo = varStudentDetail.FatherMobileNo.ToUpper();
 
                     model.TC = varStudentDetail.TCIssue;
                     model.PH = varStudentDetail.PH;
@@ -311,7 +311,7 @@ namespace CRM.Controllers
             if (!string.IsNullOrEmpty(varDOB))
                 stuObj.DOB = Convert.ToDateTime(varDOB);
 
-           // stuObj.FatherMobileNo = varFatherMobileNo;
+            stuObj.FatherMobileNo = varFatherMobileNo;
             stuObj.Gender = varGender;
             stuObj.Minority = varMinority;
             stuObj.Cast = varCaset;
@@ -327,6 +327,7 @@ namespace CRM.Controllers
 
             if (!string.IsNullOrEmpty(varAddress))
                 stuObj.Address = varAddress.ToUpper();
+
 
             stuObj.TCIssue = varTC;
             stuObj.PH = varPH;
@@ -373,8 +374,8 @@ namespace CRM.Controllers
             if (!string.IsNullOrEmpty(varSchoolarNo))
                 stuObj.ScholerNo = varSchoolarNo.ToUpper();
 
-            //if (!string.IsNullOrEmpty(varSubCode))
-            //    stuObj.SubCode = varSubCode.ToUpper();
+            if (!string.IsNullOrEmpty(varSubCode))
+                stuObj.SubCode = varSubCode.ToUpper();
 
             stuObj.RegPvt = varRegEx;
             stuObj.UpdateDate = DateTime.Now;
