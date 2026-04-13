@@ -192,9 +192,6 @@ namespace CRM.Controllers
             //----------StudentRegistration No-------
            var newRegistrationNo =  _repoStudentRegi.GetLatestId();
 
-            if(newRegistrationNo != null)
-                newRegistrationNo =  1;
-            else
             newRegistrationNo = newRegistrationNo + 1;
 
             model.RegNo = newRegistrationNo;
@@ -400,6 +397,8 @@ namespace CRM.Controllers
             obj.Gender = student.Gender;
             obj.MobileNo = student.MobileNo;
             obj.Scholership = student.Scholership.ToString();
+            obj.DisBy = student.DisBy;
+            obj.DisResion = student.DisResion;
             obj.CreateBy = "Admin";
             obj.CreateDate = DateTime.Now;
             obj.Id = student.Id;

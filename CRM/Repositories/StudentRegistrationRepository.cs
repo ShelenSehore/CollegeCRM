@@ -24,8 +24,11 @@ namespace CRM.Repositories
 
         public int GetLatestId()
         {
-            var getRecord = _context.StudentRegistration.OrderByDescending(x => x.Id).FirstOrDefault();
-            return getRecord.Id;
+            var getRecord = _context.StudentRegistration.Count(); 
+            if (getRecord == null)
+                return 0;
+            else
+            return getRecord;
         }
 
 
