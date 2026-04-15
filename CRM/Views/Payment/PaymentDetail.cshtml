@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-md-3">
                     @if (Model.studentFeeDetail != null)
-                    { 
+                    {
                         <input type="hidden" id="hdnStudentId" value="@Model.studentFeeDetail.StudentId" />
                         <input type="hidden" id="hdnstudentFeeId" value="@Model.studentFeeDetail.Id" />
                     }
@@ -441,7 +441,7 @@
                                                 <th>
                                                     @if (Model.studentDetail.TC.ToUpper() == "YES")
                                                     {
-                                                    <span class="badge badge-success">Submitted</span>
+                                                        <span class="badge badge-success">Submitted</span>
                                                     }
                                                     else if (Model.studentDetail.TC.ToUpper() == "ISSUE")
                                                     {
@@ -454,19 +454,19 @@
                                                 </th>
                                             </tr>
                                         </thead>
-                                        
+
                                     </table>
                                 </div>
 
                             </div>
-                           
+
                         </div>
                     </div>
-                    
+
                 </div>
-               
+
             </div>
-            
+
         </div>
     </section>
     <!-- /.content -->
@@ -482,97 +482,174 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="row" style="line-height: 0.1 !important">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            RECEIPT No / BOOK No:
-                            <strong><label id="lblReciptNo"></label> / <label id="lblReciptBookNo"></label></strong>
-                        </div>
-                    </div>
-                    <div class="col-md-3 float-right"></div>
-                    <div class="col-md-3 float-right"></div>
+            <div id="divPaymentRecipt" style="padding:20px; font-family: Arial;">
 
-                    <div class="col-md-3 float-right">
-                        <div class="form-group">
-                            Date:
-                            <strong><label id="lblPayDate"></label></strong>
-                        </div>
-                    </div>
+                <!-- Header -->
+                <div style="text-align:center;">
+                    <h2>SV college Sehore</h2>
+                    <h4>Fee Payment Receipt</h4>
                 </div>
 
-                <div class="row" style="line-height: 0.1 !important">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            NAME OF STUDENT :
-                            <strong><label id="lblName"></label></strong>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            FATHER'S NAME :
-                            <strong><label id="lblFatherName"></label></strong>
-                        </div>
-                    </div>
-
-                </div>
                 <hr />
-                <div class="row" style="line-height: 0.1 !important">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            Class :
-                            <strong><label id="lblClass"></label></strong>
-                        </div>
-                    </div>
-                    <div class="col-md-3 float-right">
-                        <div class="form-group">
-                            Course :
-                            <strong><label id="lblCourse"></label></strong>
-                        </div>
-                    </div>
-                    <div class="col-md-3 float-right">
-                        <div class="form-group">
-                            Year :
-                            <strong><label id="lblYear"></label></strong>
-                        </div>
-                    </div>
 
-                    <div class="col-md-3 float-right">
-                        <div class="form-group">
-                            Session :
-                            <strong><label id="lblSession"></label></strong>
-                        </div>
-                    </div>
-                </div>
+                <!-- Top Info -->
+                <table style="width:100%; font-size:14px;">
+                    <tr>
+                        <td>Receipt No: <strong id="lblReciptNo"></strong></td>
+                        <td>Book No: <strong id="lblReciptBookNo"></strong></td>
+                        <td style="text-align:right;">Date: <strong id="lblPayDate"></strong></td>
+                    </tr>
+                </table>
+
+                <br />
+
+                <!-- Student Info -->
+                <table style="width:100%; font-size:14px;">
+                    <tr>
+                        <td>Name: <strong id="lblName"></strong></td>
+                    </tr>
+                    <tr>
+                        <td>Father Name: <strong id="lblFatherName"></strong></td>
+                    </tr>
+                </table>
+
+                <br />
+
+                <!-- Academic Info -->
+                <table style="width:100%; font-size:14px;">
+                    <tr>
+                        <td>Class: <strong id="lblClass"></strong></td>
+                        <td>Course: <strong id="lblCourse"></strong></td>
+                        <td>Year: <strong id="lblYear"></strong></td>
+                        <td>Session: <strong id="lblSession"></strong></td>
+                    </tr>
+                </table>
+
                 <hr />
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <strong>FEE DETAIL</strong><br />
-                            <ul id="lblHead"></ul>
-                        </div>
-                    </div>
+
+                <!-- Fee Details -->
+                <table style="width:100%; border-collapse: collapse; font-size:14px;" border="1">
+                    <thead>
+                        <tr>
+                            <th style="padding:5px;">Sr.</th>
+                            <th style="padding:5px;">Fee Head</th>
+                            <th style="padding:5px;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lblHead">
+                        <!-- dynamic rows -->
+                    </tbody>
+                </table>
+
+                <br />
+
+                <!-- Total -->
+                <div style="text-align:right; font-size:18px;">
+                    Total: ₹ <strong id="lblTotalPay"></strong>
                 </div>
-                <hr />
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group" style="float:right; font-size:20px;">
-                            Total Pay :
-                            <strong><label id="lblTotalPay"></label></strong>
-                        </div>
-                    </div>
+
+                <br /><br />
+
+                <!-- Signature -->
+                <div style="display:flex; justify-content:space-between;">
+                    <div>Student Signature</div>
+                    <div>Authorized Signature</div>
                 </div>
 
             </div>
+
+            @*<div id="divPaymentRecipt" class="modal-body">
+                    <div class="row" style="line-height: 0.1 !important">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                RECEIPT No : <strong><label id="lblReciptNo"></label></strong> / BOOK No: <strong><label id="lblReciptBookNo"></label></strong>
+                            </div>
+                        </div>
+                        <div class="col-md-3 float-right"></div>
+
+                        <div class="col-md-3 float-right">
+                            <div class="form-group">
+                                Date:
+                                <strong><label id="lblPayDate"></label></strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="line-height: 0.1 !important">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                NAME OF STUDENT :
+                                <strong><label id="lblName"></label></strong>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                FATHER'S NAME :
+                                <strong><label id="lblFatherName"></label></strong>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr />
+                    <div class="row" style="line-height: 0.1 !important">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                Class :
+                                <strong><label id="lblClass"></label></strong>
+                            </div>
+                        </div>
+                        <div class="col-md-3 float-right">
+                            <div class="form-group">
+                                Course :
+                                <strong><label id="lblCourse"></label></strong>
+                            </div>
+                        </div>
+                        <div class="col-md-3 float-right">
+                            <div class="form-group">
+                                Year :
+                                <strong><label id="lblYear"></label></strong>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 float-right">
+                            <div class="form-group">
+                                Session :
+                                <strong><label id="lblSession"></label></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <strong>FEE DETAIL</strong><br />
+                                <ul id="lblHead"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" style="float:right; font-size:20px;">
+                                Total Pay :
+                                <strong><label id="lblTotalPay"></label></strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>*@
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" onclick="SavePaymentDetail()"><i class="fas fa-save"> </i> Pay</button>
+                <button type="button" class="btn btn-success" onclick="SavePaymentDetail()">Pay  <i class="fas fa-save"> </i> </button>
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
+
+
+    <script src="~/ValidateJS/html2pdf.bundle.min.js"></script>
 
     <script type="text/javascript">
         // INSERT
@@ -618,7 +695,7 @@
             $('#txtAmount1, #txtAmount2,  #txtAmount3,  #txtAmount4').on('change', function () {
                 CalculateTotal();
             });
-           
+
         };
 
         //-class: 'bg-danger',  class: 'bg-warning',class: 'bg-info',
@@ -702,7 +779,7 @@
             if (!validateField("#ddlPayMode", "Select Pay Mode", "dropdown")) IsValidate = false;
 
             if (!IsValidate) return;
-           
+
             //------------------Pop Up---------------
             $("#lblReciptBookNo").text($("#txtRecBookNo").val());
             $("#lblReciptNo").text($("#txtReceptNo").val());
@@ -715,28 +792,51 @@
             $("#lblSession").text($('#ddlPaySession option:selected').text());
 
             //------Head detail-----------
+            var html = "";
+            var total = 0;
             var varFeeDetail = "";
             if ($('#ddlHead1 option:selected').text() != "Select")
             {
-                varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead1 option:selected').text() + ": " + $("#txtAmount1").val()  +"</li>";
+                html += "<tr>";
+                html += "<td style='padding:5px; text-align:center;'>1</td>";
+                html += "<td style='padding:5px;'>" + $('#ddlHead1 option:selected').text() + "</td>";
+                html += "<td style='padding:5px; text-align:right;'>₹ " + $("#txtAmount1").val() +"</td>";
+                html += "</tr>";
+               // varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead1 option:selected').text() + ": " + $("#txtAmount1").val()  +"</li>";
             }
             if ($('#ddlHead2 option:selected').text() != "Select") {
-                varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead2 option:selected').text() + ": " + $("#txtAmount2").val() + "</li>";
+                html += "<tr>";
+                html += "<td style='padding:5px; text-align:center;'>2</td>";
+                html += "<td style='padding:5px;'>" + $('#ddlHead2 option:selected').text() + "</td>";
+                html += "<td style='padding:5px; text-align:right;'>₹ " + $("#txtAmount2").val() + "</td>";
+                html += "</tr>";
+                // varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead2 option:selected').text() + ": " + $("#txtAmount2").val() + "</li>";
             }
             if ($('#ddlHead3 option:selected').text() != "Select") {
-                varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead3 option:selected').text() + ": " + $("#txtAmount3").val() + "</li>";
+
+                html += "<tr>";
+                html += "<td style='padding:5px; text-align:center;'>3</td>";
+                html += "<td style='padding:5px;'>" + $('#ddlHead3 option:selected').text() + "</td>";
+                html += "<td style='padding:5px; text-align:right;'>₹ " + $("#txtAmount3").val() + "</td>";
+                html += "</tr>";
+                //varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead3 option:selected').text() + ": " + $("#txtAmount3").val() + "</li>";
             }
             if ($('#ddlHead4 option:selected').text() != "Select") {
-                varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead4 option:selected').text() + ": " + $("#txtAmount4").val() + "</li>";
+                html += "<tr>";
+                html += "<td style='padding:5px; text-align:center;'>4</td>";
+                html += "<td style='padding:5px;'>" + $('#ddlHead4 option:selected').text() + "</td>";
+                html += "<td style='padding:5px; text-align:right;'>₹ " + $("#txtAmount4").val() + "</td>";
+                html += "</tr>";
+                //varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead4 option:selected').text() + ": " + $("#txtAmount4").val() + "</li>";
             }
-             
-            $("#lblHead").html(varFeeDetail);
+
+            $("#lblHead").html(html);
 
             $("#lblTotalPay").text($("#txtTotalPay").val());
 
             $("#modal-View").modal("show");
 
-           
+
         }
 
         function showNextHead(rowNo)
@@ -770,7 +870,7 @@
 
         function fillHeadDropdown(dropDownName, optionRemove)
         {
-            
+
             classArray = classArray.filter(function (item) {
                 return item !== optionRemove;
             });
@@ -784,6 +884,19 @@
 
         function SavePaymentDetail()
         {
+
+            var element = document.getElementById("divPaymentRecipt");
+
+            var opt = {
+                margin: 0.5,
+                filename: $("#txtRecBookNo").val() + $("#txtReceptNo").val(),
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+
             $.post(BASE_URL + "/Payment/SavePaymentDetail", {
                 studentId: varStudentId,
                 studentFeeId: varStudentFeeId,
@@ -809,7 +922,7 @@
                 function (res) {
                     location.reload(true);
                     $("#modal-View").modal("hide");
-                    
+
                 }
             );
         }
