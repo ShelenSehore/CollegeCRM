@@ -894,7 +894,7 @@ namespace CRM.Controllers
             var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + model.Photo + ".jpg";
             if (System.IO.File.Exists(StudentPhoto))
             {
-                model.Photo = "/StudentData/Photo/" + model.AdmissionFormNo + ".jpg";
+                model.Photo = "/StudentData/Photo/" + model.Photo + ".jpg";
             }
             else 
             {
@@ -913,19 +913,6 @@ namespace CRM.Controllers
             model.StudentHistoryList = _historyStudentRepo.GetListByStuId(model.Id);
 
 
-            //string[] files = Directory.GetFiles(StudentPhoto);
-
-
-            //Dictionary<string, string> temList = new Dictionary<string, string>();
-            //foreach (string file in files)
-            //{
-            //    var varfilename = Path.GetFileName(file);
-
-            //    temList.Add(varfilename, file);
-
-            //}
-
-            //model.DocumentList = temList;
 
             ViewBag.BaseUrl = _baseUrl;
             //var data = _repoStudent.GetAll();

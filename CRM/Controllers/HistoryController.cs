@@ -248,8 +248,8 @@ namespace CRM.Controllers
                     model.SelectedCourse = varStudentDetail.Course;
                     model.SelectedYear = varStudentDetail.Year;
                     model.Session = varStudentDetail.Session;
-
-
+                    model.Photo = varStudentDetail.Photo;
+                    model.TC = varStudentDetail.TCIssue;
                 }
             }
             //-----------Acadmic Detail-----------------
@@ -266,7 +266,7 @@ namespace CRM.Controllers
             var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + model.Photo + ".jpg";
             if (System.IO.File.Exists(StudentPhoto))
             {
-                model.Photo = "/StudentData/Photo/" + model.AdmissionFormNo + ".jpg";
+                model.Photo = "/StudentData/Photo/" + model.Photo + ".jpg";
             }
             else
             {

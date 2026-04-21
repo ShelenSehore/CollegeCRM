@@ -43,7 +43,7 @@ namespace CRM.Repositories
 
         public bool UpdateHistoryDetail(StudentHistory model)
         {
-            var student = _context.StudentHistory.FirstOrDefault(x => x.StudentHistoryId == model.StudentId && x.Session == model.Session && x.Classs== model.Classs && x.Course== model.Course && x.Year==model.Year);
+            var student = _context.StudentHistory.FirstOrDefault(x => x.StudentId == model.StudentId && x.Session == model.Session && x.Classs== model.Classs && x.Course== model.Course && x.Year==model.Year);
 
             if (student != null)
             {

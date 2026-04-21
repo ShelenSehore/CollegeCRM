@@ -111,6 +111,7 @@
                                         <th class="sorting">RegNo</th>
                                         <th class="sorting">Session</th>
                                         <th class="sorting">Student</th>
+                                        <th class="sorting">Father</th>
                                         <th class="sorting">MobileNo</th>
                                         <th class="sorting">Year</th>
                                         <th class="sorting">Subject</th>
@@ -238,8 +239,8 @@
             debugger;
             $("#tblStudentList tbody").empty();
             $.each(tableData.data, function (index, element) {
-                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.id + "</td><td>" + element.session + "</td><td>" + element.name +
-                    "</td><td>" + element.mobileNo + "</td><td>" + element.year + "</td><td>" + element.subject +
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.regNo + "</td><td>" + element.session + "</td><td>" + element.name +
+                    "</td><td>" + element.fatherName + "</td><td>" + element.mobileNo + "</td><td>" + element.year + "</td><td>" + element.subject +
                     "</td><td>" + element.course + "</td><td>" + element.status +
                     "</td><td> <a class='btn btn-default' href='../Admission/ViewAdmission?id=" + element.id + "' ><i class='fas fa-eye'></i></a></td><td><input id='" + element.id +"' name='chkStudent' type='checkbox'></td></tr>");
 

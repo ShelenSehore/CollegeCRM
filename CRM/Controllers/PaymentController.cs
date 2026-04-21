@@ -192,7 +192,10 @@ namespace CRM.Controllers
 
 
             //----TC  Detail ------------
-            returnObj.studentDetail.TC = data.TC.ToUpper();
+            if (!string.IsNullOrEmpty(data.TC))
+                returnObj.studentDetail.TC = data.TC.ToUpper();
+            else
+                returnObj.studentDetail.TC = "NO";
 
            var PhotoBaseUrl = _mySettings.DocumentUrl;
 
