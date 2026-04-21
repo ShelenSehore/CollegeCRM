@@ -355,9 +355,9 @@ namespace CRM.Controllers
            
 
             //--------Get List
-            var data = _repoStudent.FilterList(name, classes, year, course, session);
+            var data = _repoStudent.FilterList(name, classes, course, year,  session);
 
-
+           
 
             return Json(new { success = true, data = data });
         }
@@ -1194,7 +1194,7 @@ namespace CRM.Controllers
             historyObj.SamagraId = SavedStudentTable.SamagraID; //---
             historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
             historyObj.AbcId = SavedStudentTable.AbcNo; //----
-            historyObj.ExamFormSubmited = "No"; 
+            historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited; 
             historyObj.Photo = SavedStudentTable.Photo;
 
             historyObj.CreateBy = "Admin";

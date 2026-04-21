@@ -217,10 +217,10 @@
         window.onload = function () {
 
             //// Example 3: Change events (optional)
-            //$("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
-            //    $("#tblStudentList tbody").empty();
-            //    SearchStudent();
-            //});
+            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
+                $("#tblStudentList tbody").empty();
+                SearchStudent();
+            });
 
             SearchStudent();
 
@@ -251,7 +251,7 @@
             $('#ddlSession option:selected').prop("selected", false);
             $('#ddlClass option:selected').prop("selected", false);
             $('#ddlCourse option:selected').prop("selected", false);
-            $('#ddlYearss option:selected').prop("selected", false);
+            $('#ddlYear option:selected').prop("selected", false);
 
             SearchStudent();
         }
@@ -264,6 +264,8 @@
             var varYear = $('#ddlYear option:selected').text();
             var varCourse = $('#ddlCourse option:selected').text();
             var varSession = $('#ddlSession option:selected').text();
+
+            debugger;
 
             $.post(BASE_URL + "/Student/SearchList", {
                 name: name,
@@ -284,7 +286,7 @@
             $("#tblStudentList tbody").empty();
             var IsTCissue = "";
             $.each(tableData.data, function (index, element) {
-                debugger;
+                
                 IsTCissue = "";
                 if (element.tc === "ISSUE" ) {
                     IsTCissue = "<i class='fas fa-star text-danger'></i>";
