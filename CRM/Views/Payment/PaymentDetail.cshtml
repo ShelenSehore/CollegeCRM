@@ -683,6 +683,9 @@
 
         window.onload = function () {
 
+            var today = new Date().toISOString().split('T')[0];
+            $('#txtPaymentdate').val(today);
+
             Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -884,18 +887,6 @@
 
         function SavePaymentDetail()
         {
-
-            var element = document.getElementById("divPaymentRecipt");
-
-            var opt = {
-                margin: 0.5,
-                filename: $("#txtRecBookNo").val() + $("#txtReceptNo").val(),
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().set(opt).from(element).save();
 
             $.post(BASE_URL + "/Payment/SavePaymentDetail", {
                 studentId: varStudentId,

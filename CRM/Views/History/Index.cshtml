@@ -218,10 +218,10 @@
         window.onload = function () {
 
             //// Example 3: Change events (optional)
-            //$("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
-            //    $("#tblStudentList tbody").empty();
-            //    SearchStudent();
-            //});
+            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
+                $("#tblStudentList tbody").empty();
+                SearchStudent();
+            });
 
             SearchStudent();
 
@@ -251,7 +251,7 @@
             $('#ddlSession option:selected').prop("selected", false);
             $('#ddlClass option:selected').prop("selected", false);
             $('#ddlCourse option:selected').prop("selected", false);
-            $('#ddlYearss option:selected').prop("selected", false);
+            $('#ddlYear option:selected').prop("selected", false);
 
             SearchStudent();
         }
