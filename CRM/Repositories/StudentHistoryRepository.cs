@@ -49,6 +49,7 @@ namespace CRM.Repositories
             {
                 student.StudentName = model.StudentName;
                 student.FatherName = model.FatherName;
+                student.FatherMobileNo = model.FatherMobileNo;
                 student.MotherName = model.MotherName;
                 student.MobileNo = model.MobileNo;
                 student.DOB = model.DOB;
@@ -65,6 +66,9 @@ namespace CRM.Repositories
                 student.Address = model.Address;
                 student.TCIssue = model.TCIssue;
                 student.PH = model.PH;
+                student.ExamFormSubmited = model.ExamFormSubmited;
+                student.SubCode = model.SubCode;
+
                 student.UpdateDate = DateTime.Now;
                 student.UpdateBy = "Admin";
                 var status = _context.SaveChanges();

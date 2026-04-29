@@ -949,6 +949,7 @@ namespace CRM.Controllers
                 // historyObj.Status = SavedStudentTable.Status; //-----
                 historyObj.StudentName = SavedStudentTable.StudentName;
                 historyObj.FatherName = SavedStudentTable.FatherName;
+                historyObj.FatherMobileNo = SavedStudentTable.FatherMobileNo;
                 historyObj.MotherName = SavedStudentTable.MotherName;
                 historyObj.PH = SavedStudentTable.PH; //--
                 historyObj.Cast = SavedStudentTable.Caste;
@@ -966,6 +967,8 @@ namespace CRM.Controllers
                 historyObj.SamagraId = SavedStudentTable.SamagraID; //---
                 historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
                 historyObj.AbcId = SavedStudentTable.AbcNo; //----
+                historyObj.SubCode = SavedStudentTable.SubCode;
+
                 historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited;
 
                 historyObj.CreateBy = "Admin";
@@ -1194,7 +1197,7 @@ namespace CRM.Controllers
             historyObj.SamagraId = SavedStudentTable.SamagraID; //---
             historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
             historyObj.AbcId = SavedStudentTable.AbcNo; //----
-            historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited; 
+            historyObj.ExamFormSubmited = "NO"; 
             historyObj.Photo = SavedStudentTable.Photo;
 
             historyObj.CreateBy = "Admin";
