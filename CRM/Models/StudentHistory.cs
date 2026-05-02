@@ -42,6 +42,8 @@ namespace CRM.Models
         public string SubCode { get; set; }
         public string Photo { get; set; }
         public string ExamFormSubmited { get; set; }
+        public string Result { get; set; }
+        
         public string Remark { get; set; }  //---------------
         public DateTime CreateDate { get; set; }
         public string CreateBy { get; set; }

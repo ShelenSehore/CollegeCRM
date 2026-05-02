@@ -55,19 +55,22 @@
                                     <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <label>Name</label>
-                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
-                            </div>
 
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Roll No</label>
+                                    <input id="txtRollNumberSearch" class="form-control" type="number" placeholder="Search" aria-label="Search">
+                                </div>
+                            </div>
 
 
                         </div>
 
                         <div class="row" style="margin-bottom:5px !important">
                             <div class="col-md-6">
-
+                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
                             </div>
+
                             <div class="col-md-2">
                                 <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
                             </div>
@@ -76,12 +79,12 @@
                             </div>
                             <div class="col-md-2">
                                 <button type="button" class="btn btn-info btn-flat">Action</button>
-                                   <button type="button" class="btn btn-info btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                                       <span class="sr-only">Toggle Dropdown</span>
-                                   </button>
-                                   <div class="dropdown-menu" role="menu" style="">
-                                    <a class="btn btn-default" onclick="FillExamForm()"   ><i class="fas fa-eye"></i> Fill Exam Form</a>
-                                   </div>
+                                <button type="button" class="btn btn-info btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu" role="menu" style="">
+                                    <a class="btn btn-default" onclick="FillExamForm()"><i class="fas fa-eye"></i> Fill Exam Form</a>
+                                </div>
                             </div>
 
                             <div class="col-md-1">
@@ -239,7 +242,6 @@
             $("#hdnExcelYear").val($('#ddlYear option:selected').text());
             $("#hdnExcelCourse").val($('#ddlCourse option:selected').text());
             $("#hdnExcelSession").val($('#ddlSession option:selected').text());
-            debugger;
             $('#frmDownloadExcel').submit();
 
         }
@@ -264,15 +266,15 @@
             var varYear = $('#ddlYear option:selected').text();
             var varCourse = $('#ddlCourse option:selected').text();
             var varSession = $('#ddlSession option:selected').text();
-
-            debugger;
+            var varRollNum = $("#txtRollNumberSearch").val();
 
             $.post(BASE_URL + "/Student/SearchList", {
                 name: name,
                 classes: varClass,
                 course: varCourse,
                 year: varYear,
-                session: varSession
+                session: varSession,
+                rollNum: varRollNum
             },
                 function (res) {
 
@@ -313,13 +315,15 @@
             var varSubject = $('#ddlSubject option:selected').text();
             var varCourse = $('#ddlCourse option:selected').text();
             var varRegPvt = $('#ddlRegPvt option:selected').text();
+           
 
             $.post(BASE_URL + "/Student/DownloadExcel", {
                 name: name,
                 classes: varClass,
                 subject: varSubject,
                 course: varCourse,
-                regPvt: varRegPvt
+                regPvt: varRegPvt,
+                rollNum: varRollNum
             },
                 function (res) {
                     TableData(res)  //--------pass records for generate tabble

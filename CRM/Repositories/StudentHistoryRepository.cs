@@ -47,6 +47,19 @@ namespace CRM.Repositories
 
             if (student != null)
             {
+                student.AdmissionForm = model.AdmissionForm;
+                student.AdmissionDate = model.AdmissionDate;
+                student.ScholerNo = model.ScholerNo;
+                student.RegPvt = model.RegPvt;
+                student.NewOld = model.NewOld;
+                student.EnrolNo = model.Session;
+                student.Session = model.Session;
+                student.Session = model.Session;
+                student.Session = model.Session;
+                student.Session = model.Session;
+                student.Session = model.Session;
+                student.Session = model.Session;
+
                 student.StudentName = model.StudentName;
                 student.FatherName = model.FatherName;
                 student.FatherMobileNo = model.FatherMobileNo;

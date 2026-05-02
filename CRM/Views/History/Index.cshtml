@@ -12,8 +12,8 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item"><a href="#">Student</a></li>
-                        <li class="breadcrumb-item active"><a href="#">Old Student List</a></li>
+                        <li class="breadcrumb-item"><a href="#">History Student</a></li>
+                        <li class="breadcrumb-item active"><a href="#">List</a></li>
                     </ol>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                 <div class="dataTables_wrapper dt-bootstrap4">
 
                     <fieldset class="scheduler-border">
-                        <legend class="scheduler-border">Filters</legend>
+                        <legend class="scheduler-border">History Filters</legend>
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -55,9 +55,10 @@
                                     <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <label>Name</label>
-                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                            <div class="col-md-2">
+                                <label>Roll No</label>
+                                <input id="txtRollNumberSearch" class="form-control" type="number" placeholder="Search" aria-label="Search">
+
                             </div>
 
 
@@ -66,7 +67,7 @@
 
                         <div class="row" style="margin-bottom:5px !important">
                             <div class="col-md-6">
-
+                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
                             </div>
                             <div class="col-md-2">
                                 <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
@@ -74,15 +75,15 @@
                             <div class="col-md-1">
                                 <button type="reset" class="btn btn-default" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
                             </div>
-                            @*<div class="col-md-2">
-                                    <button type="button" class="btn btn-info btn-flat">Action</button>
-                                    <button type="button" class="btn btn-info btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <div class="dropdown-menu" role="menu" style="">
-                                        <a class="btn btn-default" onclick="FillExamForm()"><i class="fas fa-eye"></i> Fill Exam Form</a>
-                                    </div>
-                                </div>*@
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-info btn-flat">Action</button>
+                                <button type="button" class="btn btn-info btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu" role="menu" style="">
+                                    <a class="btn btn-default" onclick="ResultDetailPotUp()"><i class="fas fa-eye"></i> Fill Result</a>
+                                </div>
+                            </div>
 
                             <div class="col-md-1">
                                 <form id="frmDownloadExcel" method="post" action="DownloadOldStudentExcel">
@@ -103,12 +104,14 @@
                                 <thead>
                                     <tr role="row">
                                         <th class="sorting sorting_asc" style="width: 10px">#</th>
-                                        <th class="sorting">FormNo</th>
+                                        <th class="sorting">Form No</th>
+                                        <th class="sorting">Session</th>
                                         <th class="sorting">Student</th>
+                                        <th class="sorting">Father</th>
                                         <th class="sorting">Year</th>
                                         <th class="sorting">Subject</th>
                                         <th class="sorting">Course</th>
-                                        <th class="sorting">MobileNo</th>
+                                        <th class="sorting">Mobile No</th>
                                         <th class="sorting">View</th>
 
                                     </tr>
@@ -204,6 +207,73 @@
 
 
 
+<div class="modal fade" id="modal-FillExamForm">
+    <div class="modal-dialog" style="max-width:650px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class='fas fa-university'></i> Result Detail</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <div class="info-box-content">
+                                <span class="info-box-text">Selected Student</span>
+                                <span id="spnSelectedStudent" class="info-box-number">00</span>
+                                <input type="hidden" id="hdnSelected" />
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <div class="info-box-content">
+                                <span class="info-box-text">Session</span>
+                                <span id="spnExamSession" class="info-box-number">-</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <div class="info-box-content">
+                                <span class="info-box-text">Year</span>
+                                <span id="spnExamYear" class="info-box-number">-</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <div class="info-box-content">
+                                <span class="info-box-text">Class</span>
+                                <span id="spnExamClass" class="info-box-number">-</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" onclick="SaveResultDetail();" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 
@@ -226,10 +296,6 @@
             SearchStudent();
 
 
-
-            //$("#ddlClass ddlSubject ddlCourse ddlRegPvt").change(function () {
-            //    SearchStudent();
-            //});
         };
 
         function DownloadExcel()
@@ -264,13 +330,15 @@
             var varYear = $('#ddlYear option:selected').text();
             var varCourse = $('#ddlCourse option:selected').text();
             var varSession = $('#ddlSession option:selected').text();
+            var varRollNum = $("#txtRollNumberSearch").val();
 
             $.post(BASE_URL + "/History/SearchOldStudentList", {
                 name: name,
                 classes: varClass,
                 course: varCourse,
                 year: varYear,
-                session: varSession
+                session: varSession,
+                rollNum: varRollNum
             },
                 function (res) {
 
@@ -286,10 +354,10 @@
             $.each(tableData.data, function (index, element) {
 
                 $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.admissionForm +
-                    "</td><td>" + element.studentName + "</td><td>" + element.year + "</td><td>" + element.classs +
+                    "</td><td>" + element.session + "</td><td>" + element.studentName + "</td><td>" + element.fatherName + "</td><td>" + element.year + "</td><td>" + element.classs +
                     "</td><td>" + element.course + "</td><td>" + element.mobileNo +
                     "</td><td><a class='btn btn-default' href='../History/View?id=" + element.studentHistoryId + "' ><i class='fas fa-eye'></i> View</a></td>" +
-                    "</tr>");
+                    "<td> <input id='" + element.id +"' name='chkStudent' type='checkbox'></td></tr>");
 
             });
 
@@ -360,90 +428,44 @@
 
         }
 
-        //function PromosionDetail(id)
-        //{
-        //    var id = id;
-        //    $.post(BASE_URL + "/Student/StudentDetail", {
-        //        id: id
-        //    },
-        //    function (res) {
-        //        var detail = res.data;
-        //        $('#imgStudentPhoto').attr('src', detail.photo);
-        //        $('#achStudentName').text(detail.studentName)
-        //        var varStudyDetail = detail.year + " / " + detail.course + " / " + detail.class + " / " + detail.session;
-        //        var varAcademyDetail = detail.admissionFormNo + " / " + detail.fatherName;
-        //        $('#spnDetail').text(varStudyDetail)
-        //        $('#spnAcademicDetail').text(varAcademyDetail)
+      //----------------
+        function ResultDetailPotUp() {
 
-        //        $('#txtMbileNo').val(detail.mobileNoOne);
-        //        $('#hdnID').val(id);
-        //        $('#hdnClass').val(detail.class);
-        //        $('#hdnYear').val(detail.year);
-        //        $('#hdnSession').val(detail.session);
-        //        $('#hdnCourse').val(detail.course);
-        //        $('#hdnAdmissionDate').val(detail.admissionDate);
-        //        $('#hdnAdmisionFormNo').val(detail.admissionFormNo);
+            var selectedIds = $('input[name="chkStudent"]:checked').map(function () {
+                return this.id;
+            }).get();
+            debugger;
+            // 2. Alert the result
+            if (selectedIds.length > 0) {
 
-        //        $("#modal-Promod").modal("show");
+                $("#spnExamSession").text($('#ddlSession option:selected').text());
+                $("#spnExamYear").text($('#ddlYear option:selected').text());
+                $("#spnExamClass").text($('#ddlClass option:selected').text());
+                $("#spnSelectedStudent").text(selectedIds.length);
+                $('#hdnSelected').val(selectedIds.join(', '));
 
-        //    }
-        //    );
-        //}
+                $("#modal-FillExamForm").modal("show");
+                //alert("Selected IDs: " + selectedIds.join(', '));
+            } else {
+                alert("Please select at least one student.");
+            }
 
+        }
 
+        function SaveResultDetail() {
 
-        //function SavePromosionDetail() {
-        //    var id = $("#hdnID").val();
+            $.post(BASE_URL + "/Student/SaveExamFormFilled", {
+                ids: $("#hdnSelected").val()
 
-        //    var newAdmissionDate = $("#txtAdmissionDate").val();
-        //    var newAdmisionFormNo = $("#txtAdmissionForm").val();
-        //    var newClass = $('#ddlProdClass option:selected').text();
-        //    var newYear = $('#ddlProdYear option:selected').text();
-        //    var newCourse = $('#ddlProdCourse option:selected').text();
-        //    var newSession = $('#ddlProdSession option:selected').text();
-        //    var newMbileNo = $("#txtMbileNo").val();
+            },
+                function (res) {
+                    $("#modal-FillExamForm").modal("hide");
 
-        //    var passedAdmissionDate = $("#hdnAdmissionDate").val();
-        //    var passedAdmisionFormNo = $("#hdnAdmisionFormNo").val();
-        //    var passedClass = $("#hdnClass").val();
-        //    var passedYear = $("#hdnYear").val();
-        //    var passedCourse = $("#hdnCourse").val();
-        //    var passedSession = $("#hdnSession").val();
-        //    var passedCollege = $("#txtPassedCollege").val();
-        //    var passedBoard = $("#txtPassedBoard").val();
-        //    var passedMaxMark = $("#txtMaxMark").val();
-        //    var passedObtainMark = $("#txtObtainMark").val();
-        //    var passedResult = $("#txtResult").val();
-        //    var passedParcentage = $("#txtParcentage").val();
+                }
+            );
 
-        //    $.post(BASE_URL + "/Student/SavePromossionDetail", {
-        //        id: id,
-        //        newAdmissionDate: newAdmissionDate,
-        //        newAdmisionFormNo: newAdmisionFormNo,
-        //        newClass: newClass,
-        //        newYear: newYear,
-        //        newCourse: newCourse,
-        //        newSession: newSession,
-        //        newMbileNo: newMbileNo,
-        //        passedAdmissionDate: passedAdmissionDate,
-        //        passedAdmisionFormNo: passedAdmisionFormNo,
-        //        passedClass: passedClass,
-        //        passedYear: passedYear,
-        //        passedCourse: passedCourse,
-        //        passedSession: passedSession,
-        //        passedCollege: passedCollege,
-        //        passedBoard: passedBoard,
-        //        passedMaxMark: passedMaxMark,
-        //        passedObtainMark: passedObtainMark,
-        //        passedResult: passedResult,
-        //        passedParcentage: passedParcentage,
-        //    },
-        //        function (res) {
-        //            $("#modal-Promod").modal("hide");
-        //            SearchStudent();
-        //        }
-        //    );
-        //}
+        }
+
 
     </script>
 }

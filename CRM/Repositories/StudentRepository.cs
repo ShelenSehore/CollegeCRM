@@ -336,7 +336,7 @@ namespace CRM.Repositories
             return resultList;
         }
 
-        public List<Student> FilterList(string name, string classes, string course, string year, string session)
+        public List<Student> FilterList(string name, string classes, string course, string year, string session, string rollNum)
         {
             try { 
             
@@ -346,7 +346,11 @@ namespace CRM.Repositories
             {
                 query = query.Where(x => x.StudentName.ToLower().Contains(name.ToLower()));
             }
-            if (!string.IsNullOrWhiteSpace(classes) && (classes != "Select"))
+            if (!string.IsNullOrWhiteSpace(rollNum))
+            {
+                query = query.Where(x => x.RollNo.ToLower().Contains(rollNum.ToLower()));
+            }
+                if (!string.IsNullOrWhiteSpace(classes) && (classes != "Select"))
             {
                 query = query.Where(x => x.Class.ToLower().Contains(classes.ToLower()));
             }
@@ -526,13 +530,17 @@ namespace CRM.Repositories
                           string @class,
                           string course,
                           string year,
-                          string studentName)
+                          string studentName, string rollNum)
         {
             IQueryable<StudentHistory> query = _context.StudentHistory;
 
             if (!string.IsNullOrWhiteSpace(studentName))
             {
                 query = query.Where(x => x.StudentName.ToLower().Contains(studentName.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(rollNum))
+            {
+                query = query.Where(x => x.RollNo.ToLower().Contains(rollNum.ToLower()));
             }
             if (!string.IsNullOrWhiteSpace(session) && (session != "Select"))
             {

@@ -350,12 +350,12 @@ namespace CRM.Controllers
             return View(model);
         }
 
-        public IActionResult SearchList(string name, string classes, string year, string course, string session)
+        public IActionResult SearchList(string name, string classes, string year, string course, string session,string rollNum)
         {
            
 
             //--------Get List
-            var data = _repoStudent.FilterList(name, classes, course, year,  session);
+            var data = _repoStudent.FilterList(name, classes, course, year,  session, rollNum);
 
            
 
@@ -592,7 +592,7 @@ namespace CRM.Controllers
             try
             {
 
-                var students = _repoStudent.GetByStudentHistoryPage(hdnExcelSession, hdnExcelClass, hdnExcelCourse, hdnExcelYear, hdnExcelName);
+                var students = _repoStudent.GetByStudentHistoryPage(hdnExcelSession, hdnExcelClass, hdnExcelCourse, hdnExcelYear, hdnExcelName,"");
                 // var students = _repoStudentRegi.FilterList(name, classes, subject, course, regPvt);
 
                 using (var workbook = new XLWorkbook())
@@ -1183,6 +1183,7 @@ namespace CRM.Controllers
             // historyObj.Status = SavedStudentTable.Status; //-----
             historyObj.StudentName = SavedStudentTable.StudentName;
             historyObj.FatherName = SavedStudentTable.FatherName;
+            historyObj.FatherMobileNo = SavedStudentTable.FatherMobileNo;
             historyObj.MotherName = SavedStudentTable.MotherName;
             historyObj.PH = SavedStudentTable.PH; //--
             historyObj.Cast = SavedStudentTable.Caste;
@@ -1193,7 +1194,8 @@ namespace CRM.Controllers
 
             historyObj.Address = SavedStudentTable.Address; //----
             historyObj.MobileNo = SavedStudentTable.MobileNoOne;
-            // historyObj.TCIssue = SavedStudentTable.TCissue;//---
+            historyObj.TCIssue = SavedStudentTable.TC;//---
+            historyObj.SubCode = SavedStudentTable.SubCode;//---
             historyObj.SamagraId = SavedStudentTable.SamagraID; //---
             historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
             historyObj.AbcId = SavedStudentTable.AbcNo; //----
@@ -1341,13 +1343,13 @@ namespace CRM.Controllers
             return View(model);
         }
 
-        public IActionResult SearchOldStudentList(string name, string classes, string year, string course, string session)
-        {
-            //--------Get List
-            var data = _repoStudent.GetByStudentHistoryPage(session, classes, course, year, name);
+        //public IActionResult SearchOldStudentList(string name, string classes, string year, string course, string session)
+        //{
+        //    //--------Get List
+        //    var data = _repoStudent.GetByStudentHistoryPage(session, classes, course, year, name);
 
-            return Json(new { success = true, data = data });
-        }
+        //    return Json(new { success = true, data = data });
+        //}
 
         //--------------Delete Acadmic Detail-------------------
         

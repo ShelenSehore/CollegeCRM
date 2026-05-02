@@ -197,8 +197,8 @@ namespace CRM.Controllers
             model.RegNo = newRegistrationNo;
 
             ViewBag.BaseUrl = _baseUrl;
-            model.DisBy = "NULL";
-            model.DisResion = "NULL";
+            model.DisBy = "None";
+            model.DisResion = "None";
             return View(model);
         }
 

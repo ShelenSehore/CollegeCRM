@@ -48,7 +48,12 @@
                                 <div class="card-body">
                                     <div class="row">
 
-
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Reg NO</label>
+                                                <input asp-for="RegNo" type="number" readonly="readonly" class="form-control" placeholder="ID No.">
+                                            </div>
+                                        </div>
 
                                         <div class="col-md-2">
                                             <div class="form-group">
@@ -93,12 +98,7 @@
 
 
 
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Reg NO</label>
-                                                <input asp-for="RegNo" type="number" readonly="readonly" class="form-control" placeholder="ID No.">
-                                            </div>
-                                        </div>
+
 
                                         <div class="col-md-2">
                                             <div class="form-group">
@@ -123,8 +123,8 @@
                                                 <label>Reg/Pvt.</label>
                                                 <select id="ddlRegPvt" asp-for="RegPvt" class="form-control">
                                                     <option value="">Select</option>
-                                                    <option>Reguler</option>
-                                                    <option>Private</option>
+                                                    <option>REGULER</option>
+                                                    <option>PRIVATE</option>
                                                 </select>
                                                 <span asp-validation-for="RegPvt" class="text-danger"></span>
                                             </div>
@@ -163,7 +163,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>CMondy</label>
-                                                <input id="txtCMondy" asp-for="CMoney" type="number" class="form-control">
+                                                <input id="txtCMondy" asp-for="CMoney" type="number" readonly="readonly" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -283,7 +283,7 @@
                                             <label>Caste</label>
                                             <select asp-for="Caste" class="form-control">
                                                 <option value="">Select</option>
-                                                <option>Gen</option>
+                                                <option>GEN</option>
                                                 <option>OBC</option>
                                                 <option>SC</option>
                                                 <option>ST</option>

@@ -119,10 +119,10 @@ namespace CRM.Controllers
         }
 
 
-        public IActionResult SearchOldStudentList(string name, string classes, string year, string course, string session)
+        public IActionResult SearchOldStudentList(string name, string classes, string year, string course, string session, string rollNum)
         {
             //--------Get List
-            var data = _repoStudent.GetByStudentHistoryPage(session, classes, course, year, name);
+            var data = _repoStudent.GetByStudentHistoryPage(session, classes, course, year, name, rollNum);
 
             return Json(new { success = true, data = data });
         }
