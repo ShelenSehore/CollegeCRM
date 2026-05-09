@@ -178,5 +178,71 @@ namespace CRM.Repositories
         {
             return _context.StudentHistory.Where(x => x.StudentHistoryId == id).FirstOrDefault();
         }
+
+        public bool SaveResultList(string ids, string result)
+        {
+            if (string.IsNullOrEmpty(ids)) return false;
+
+            var idList = ids.Split(',')
+                   .Select(int.Parse)
+                   .ToList();
+
+            var studentsHistory = _context.StudentHistory.Where(x => idList.Contains(x.StudentHistoryId)).ToList();
+
+            if (studentsHistory.Any())
+            {
+                foreach (var history in studentsHistory)
+                {
+                    history.Result = result;
+                }
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        //------Download History Data---------------
+        public List<StudentHistory> GetByStudentHistoryPage(
+                          string session,
+                          string @class,
+                          string course,
+                          string year,
+                          string studentName, string rollNum, string result)
+        {
+            IQueryable<StudentHistory> query = _context.StudentHistory;
+
+            if (!string.IsNullOrWhiteSpace(studentName))
+            {
+                query = query.Where(x => x.StudentName.ToLower().Contains(studentName.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(rollNum))
+            {
+                query = query.Where(x => x.RollNo.ToLower().Contains(rollNum.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(session) && (session != "Select"))
+            {
+                query = query.Where(x => x.Session.ToLower().Contains(session.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(@class) && (@class != "Select"))
+            {
+                query = query.Where(x => x.Classs.ToLower().Contains(@class.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(course) && (course != "Select"))
+            {
+                query = query.Where(x => x.Course.ToLower().Contains(course.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(year) && (year != "Select"))
+            {
+                query = query.Where(x => x.Year.ToLower().Contains(year.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(result) && (result != "Select"))
+            {
+                query = query.Where(x => x.Result.ToLower().Contains(result.ToLower()));
+            }
+
+            return query.ToList();
+        }
+
     }
 }

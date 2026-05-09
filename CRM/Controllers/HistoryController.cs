@@ -119,10 +119,10 @@ namespace CRM.Controllers
         }
 
 
-        public IActionResult SearchOldStudentList(string name, string classes, string year, string course, string session, string rollNum)
+        public IActionResult SearchOldStudentList(string name, string classes, string year, string course, string session, string rollNum, string result)
         {
             //--------Get List
-            var data = _repoStudent.GetByStudentHistoryPage(session, classes, course, year, name, rollNum);
+            var data = _historyStudentRepo.GetByStudentHistoryPage(session, classes, course, year, name, rollNum, result);
 
             return Json(new { success = true, data = data });
         }
@@ -387,6 +387,13 @@ namespace CRM.Controllers
         }
 
 
+
+        //-------------Update Status------------
+        public IActionResult SaveResult(string ids, string result)
+        {
+            var teee = _historyStudentRepo.SaveResultList(ids, result);
+            return Json(new { success = true, data = true });
+        }
 
     }
 }

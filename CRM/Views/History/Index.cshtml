@@ -58,9 +58,17 @@
                             <div class="col-md-2">
                                 <label>Roll No</label>
                                 <input id="txtRollNumberSearch" class="form-control" type="number" placeholder="Search" aria-label="Search">
-
                             </div>
-
+                            <div class="col-md-2">
+                                <label>Result</label>
+                                <select id="ddlSearchResult" class="form-control">
+                                    <option value="">Select</option>
+                                    <option>PASS</option>
+                                    <option>FAIL</option>
+                                    <option>ATKT</option>
+                                    <option>NULL</option>
+                                </select>
+                            </div>
 
 
                         </div>
@@ -112,8 +120,9 @@
                                         <th class="sorting">Subject</th>
                                         <th class="sorting">Course</th>
                                         <th class="sorting">Mobile No</th>
+                                        <th class="sorting">Result</th>
                                         <th class="sorting">View</th>
-
+                                        <th class="sorting">Action</th>
                                     </tr>
                                 </thead>
 
@@ -135,78 +144,6 @@
     <!-- /.content -->
 </div>
 
-
-<div class="modal fade" id="modal-FillExamForm">
-    <div class="modal-dialog" style="max-width:650px !important;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"><i class='fas fa-university'></i> Exam Form Fill</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <div class="row">
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Selected Student</span>
-                                    <span id="spnSelectedStudent" class="info-box-number">00</span>
-                                    <input type="hidden" id="hdnSelected" />
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Session</span>
-                                    <span id="spnExamSession" class="info-box-number">-</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Year</span>
-                                    <span id="spnExamYear" class="info-box-number">-</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Class</span>
-                                    <span id="spnExamClass" class="info-box-number">-</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" onclick="SaveExamForm();" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
 <div class="modal fade" id="modal-FillExamForm">
     <div class="modal-dialog" style="max-width:650px !important;">
         <div class="modal-content">
@@ -225,44 +162,50 @@
                                 <span id="spnSelectedStudent" class="info-box-number">00</span>
                                 <input type="hidden" id="hdnSelected" />
                             </div>
-                            <!-- /.info-box-content -->
                         </div>
-                        <!-- /.info-box -->
                     </div>
-                    <!-- /.col -->
+
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
                             <div class="info-box-content">
                                 <span class="info-box-text">Session</span>
                                 <span id="spnExamSession" class="info-box-number">-</span>
                             </div>
-                            <!-- /.info-box-content -->
                         </div>
-                        <!-- /.info-box -->
                     </div>
-                    <!-- /.col -->
+
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
                             <div class="info-box-content">
                                 <span class="info-box-text">Year</span>
                                 <span id="spnExamYear" class="info-box-number">-</span>
                             </div>
-                            <!-- /.info-box-content -->
                         </div>
-                        <!-- /.info-box -->
                     </div>
-                    <!-- /.col -->
+
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
                             <div class="info-box-content">
                                 <span class="info-box-text">Class</span>
                                 <span id="spnExamClass" class="info-box-number">-</span>
                             </div>
-                            <!-- /.info-box-content -->
                         </div>
-                        <!-- /.info-box -->
                     </div>
-                    <!-- /.col -->
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <div class="info-box-content">
+                                <span class="info-box-text">Result</span>
+                                <select id="ddlResult" class="form-control">
+                                    <option value="">Select</option>
+                                    <option>PASS</option>
+                                    <option>FAIL</option>
+                                    <option>ATKT</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -288,7 +231,7 @@
         window.onload = function () {
 
             //// Example 3: Change events (optional)
-            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
+            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession, #ddlSearchResult").change(function () {
                 $("#tblStudentList tbody").empty();
                 SearchStudent();
             });
@@ -318,7 +261,7 @@
             $('#ddlClass option:selected').prop("selected", false);
             $('#ddlCourse option:selected').prop("selected", false);
             $('#ddlYear option:selected').prop("selected", false);
-
+            $('#ddlSearchResult option:selected').prop("selected", false);
             SearchStudent();
         }
 
@@ -331,6 +274,7 @@
             var varCourse = $('#ddlCourse option:selected').text();
             var varSession = $('#ddlSession option:selected').text();
             var varRollNum = $("#txtRollNumberSearch").val();
+            var varResult = $('#ddlSearchResult option:selected').text();
 
             $.post(BASE_URL + "/History/SearchOldStudentList", {
                 name: name,
@@ -338,7 +282,8 @@
                 course: varCourse,
                 year: varYear,
                 session: varSession,
-                rollNum: varRollNum
+                rollNum: varRollNum,
+                result: varResult
             },
                 function (res) {
 
@@ -352,12 +297,12 @@
 
             $("#tblStudentList tbody").empty();
             $.each(tableData.data, function (index, element) {
-
+                debugger;
                 $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.admissionForm +
                     "</td><td>" + element.session + "</td><td>" + element.studentName + "</td><td>" + element.fatherName + "</td><td>" + element.year + "</td><td>" + element.classs +
                     "</td><td>" + element.course + "</td><td>" + element.mobileNo +
-                    "</td><td><a class='btn btn-default' href='../History/View?id=" + element.studentHistoryId + "' ><i class='fas fa-eye'></i> View</a></td>" +
-                    "<td> <input id='" + element.id +"' name='chkStudent' type='checkbox'></td></tr>");
+                    "</td><td>" + element.result + " </td><td><a class='btn btn-default' href='../History/View?id=" + element.studentHistoryId + "' ><i class='fas fa-eye'></i> View</a></td>" +
+                    "<td> <input id='" + element.studentHistoryId +"' name='chkStudent' type='checkbox'></td></tr>");
 
             });
 
@@ -434,8 +379,7 @@
             var selectedIds = $('input[name="chkStudent"]:checked').map(function () {
                 return this.id;
             }).get();
-            debugger;
-            // 2. Alert the result
+           
             if (selectedIds.length > 0) {
 
                 $("#spnExamSession").text($('#ddlSession option:selected').text());
@@ -454,8 +398,9 @@
 
         function SaveResultDetail() {
 
-            $.post(BASE_URL + "/Student/SaveExamFormFilled", {
-                ids: $("#hdnSelected").val()
+            $.post(BASE_URL + "/History/SaveResult", {
+                ids: $("#hdnSelected").val(),
+                result: $('#ddlResult option:selected').text()
 
             },
                 function (res) {
