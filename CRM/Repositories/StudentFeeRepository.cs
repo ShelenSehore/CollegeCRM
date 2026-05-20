@@ -103,5 +103,21 @@ namespace CRM.Repositories
         }
 
 
+        public bool FeeConsessionAfterAdmission(StudentFee model)
+        {
+            var studentFee = _context.StudentFee.FirstOrDefault(x => x.Id == model.Id);
+            if (studentFee != null)
+            {
+                studentFee.DisBy = model.DisBy;
+                studentFee.DisResion = model.DisResion;
+                studentFee.Scholership = studentFee.Scholership +  model.Scholership;
+                studentFee.TotalFeeAfterDiscount = model.TotalFeeAfterDiscount;
+                var status = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+
     }
 }

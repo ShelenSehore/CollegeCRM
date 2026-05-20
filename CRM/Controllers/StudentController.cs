@@ -1160,6 +1160,53 @@ namespace CRM.Controllers
             var OldFeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, varPromotClass, varPromotCourse, varCurrentSession, varCurrentYear, "New");
 
             var SavedStudentTable = _repoStudent.GetById(id);
+           
+            //-------------Student Fee---------------
+            StudentFee studentFee = new StudentFee();
+            studentFee.StudentId = id;
+            studentFee.Year = FeeMasterDetail.Year.ToUpper();
+            studentFee.Course = varPromotCourse;
+            studentFee.Class = varPromotClass;
+            studentFee.Session = varPromotSession;
+            studentFee.NewOld = "PROMOTE";
+            studentFee.NewStudentFee = 0;
+            studentFee.CMoney = FeeMasterDetail.CMoney;
+            studentFee.TutionFee = FeeMasterDetail.TutionFee;
+            studentFee.OtherFee = FeeMasterDetail.OtherFee;
+            studentFee.TotalFee =  0+ FeeMasterDetail.TutionFee + FeeMasterDetail.OtherFee;
+            //studentFee.TotalFeeCM = FeeDetail.TotalFeeCM; //---- Not using
+            studentFee.Scholership = OldFeeDetail.Scholership;
+            studentFee.TotalFeeAfterDiscount = studentFee.TotalFee - studentFee.Scholership;
+            studentFee.CMoneyPaidOrNot = OldFeeDetail.CMoneyPaidOrNot;
+            studentFee.DisBy = OldFeeDetail.DisBy;
+            studentFee.DisResion = OldFeeDetail.DisResion;
+            studentFee.CreatedBy = "Admin";
+            studentFee.CreatedDateTime = DateTime.Now;
+
+            studentFee.UpdateDateTime = DateTime.Now;
+            studentFee.UpdateBy = "";
+            _studentFeeRepo.Add(studentFee);
+
+
+            //---------Update Student Detail----------------
+            studentFee.Year = FeeMasterDetail.Year.ToUpper();
+            studentFee.Course = varPromotCourse;
+            studentFee.Class = varPromotClass;
+            studentFee.Session = varPromotSession;
+
+            Student stuObj = new Student();
+            stuObj.Id = id;
+            stuObj.Year = FeeMasterDetail.Year.ToUpper();
+            stuObj.Course = varPromotCourse;
+            stuObj.Class = varPromotClass;
+            stuObj.Session = varPromotSession;
+            stuObj.ExamFormSubmited = "No";
+            stuObj.UpdateDatetime = DateTime.Now;
+            stuObj.UpdatedBy = "UPdate Admin";
+
+            var teee = _repoStudent.PromoteStudentDetail(stuObj);
+
+
             //------------ Add Student History----
             StudentHistory historyObj = new StudentHistory();
 
@@ -1199,7 +1246,7 @@ namespace CRM.Controllers
             historyObj.SamagraId = SavedStudentTable.SamagraID; //---
             historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
             historyObj.AbcId = SavedStudentTable.AbcNo; //----
-            historyObj.ExamFormSubmited = "NO"; 
+            historyObj.ExamFormSubmited = "NO";
             historyObj.Photo = SavedStudentTable.Photo;
 
             historyObj.CreateBy = "Admin";
@@ -1208,52 +1255,6 @@ namespace CRM.Controllers
             historyObj.UpdateDate = DateTime.Now;
             _historyStudentRepo.Add(historyObj);
 
-
-
-            //-------------Student Fee---------------
-            StudentFee studentFee = new StudentFee();
-            studentFee.StudentId = id;
-            studentFee.Year = FeeMasterDetail.Year.ToUpper();
-            studentFee.Course = varPromotCourse;
-            studentFee.Class = varPromotClass;
-            studentFee.Session = varPromotSession;
-            studentFee.NewOld = "Promote";
-            studentFee.NewStudentFee = 0;
-            studentFee.CMoney = FeeMasterDetail.CMoney;
-            studentFee.TutionFee = FeeMasterDetail.TutionFee;
-            studentFee.OtherFee = FeeMasterDetail.OtherFee;
-            studentFee.TotalFee =  0+ FeeMasterDetail.TutionFee + FeeMasterDetail.OtherFee;
-            //studentFee.TotalFeeCM = FeeDetail.TotalFeeCM; //---- Not using
-            studentFee.Scholership = OldFeeDetail.Scholership;
-            studentFee.TotalFeeAfterDiscount = studentFee.TotalFee - studentFee.Scholership;
-            studentFee.CMoneyPaidOrNot = "NO";
-            studentFee.DisBy = OldFeeDetail.DisBy;
-            studentFee.DisResion = OldFeeDetail.DisResion;
-            studentFee.CreatedBy = "Admin";
-            studentFee.CreatedDateTime = DateTime.Now;
-
-            studentFee.UpdateDateTime = DateTime.Now;
-            studentFee.UpdateBy = "";
-            _studentFeeRepo.Add(studentFee);
-
-
-            //---------Update Student Detail----------------
-            studentFee.Year = FeeMasterDetail.Year;
-            studentFee.Course = varPromotCourse;
-            studentFee.Class = varPromotClass;
-            studentFee.Session = varPromotSession;
-
-            Student stuObj = new Student();
-            stuObj.Id = id;
-            stuObj.Year = FeeMasterDetail.Year;
-            stuObj.Course = varPromotCourse;
-            stuObj.Class = varPromotClass;
-            stuObj.Session = varPromotSession;
-            stuObj.ExamFormSubmited = "No";
-            stuObj.UpdateDatetime = DateTime.Now;
-            stuObj.UpdatedBy = "UPdate Admin";
-
-            var teee = _repoStudent.PromoteStudentDetail(stuObj);
 
 
             return Json(new { success = true, data = true });

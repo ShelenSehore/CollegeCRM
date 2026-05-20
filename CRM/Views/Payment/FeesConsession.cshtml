@@ -1,0 +1,438 @@
+﻿@model CRM.ModelsForView.StudentListView
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    ViewData["Title"] = "Payment";
+    var baseUrl = ViewBag.BaseUrl;
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="#">Fees</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Consession</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="card">
+            <div class="card-body">
+                <div class="dataTables_wrapper dt-bootstrap4">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Filters</legend>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Session</label>
+                                        <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Year</label>
+                                    <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Class</label>
+                                    <select id="ddlClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Course</label>
+                                    <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Name</label>
+                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="row" style="margin-bottom:5px !important">
+                            <div class="col-md-8">
+
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="reset" class="btn btn-default" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
+                            </div>
+
+                            <div class="col-md-1">
+                                <form id="frmDownloadExcel" method="post" action="DownloadExcel">
+                                    <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
+                                    <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
+                                    <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
+                                    <input type="hidden" name="hdnExcelYear" id="hdnExcelYear" />
+                                    <input type="hidden" name="hdnExcelName" id="hdnExcelName" />
+                                </form>
+                                <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i></button>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="row" style="margin-bottom:5px !important">
+                        <div class="col-sm-12">
+
+                            <div class="input-group input-group-sm">
+                                <input id="txtSearch" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                                <div class="input-group-append">
+                                    <button id="btnSearch" onclick="SearchStudent()" class="btn btn-navbar" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting sorting_asc" style="width: 10px">#</th>
+                                        <th class="sorting">FormNo</th>
+                                        <th class="sorting">Student</th>
+                                        <th class="sorting">Father</th>
+                                        <th class="sorting">Year</th>
+                                        <th class="sorting">Subject</th>
+                                        <th class="sorting">Course</th>
+                                        <th class="sorting">MobileNo</th>
+                                        <th class="sorting">View</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                </tbody>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+
+
+    </section>
+    <!-- /.content -->
+</div>
+
+<div class="modal fade" id="modal-ConcessionPopUp">
+    <div class="modal-dialog" style="max-width:650px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class='fas fa-university'></i> Concession Detail</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <div class="card card-widget widget-user-2">
+                            <!-- Add the bg color to the header using any of the bg-* classes -->
+                            <div class="widget-user-header bg-warning">
+                                <div class="widget-user-image">
+                                    <img id="imgPhoto" class="img-circle elevation-2"  alt="User Avatar">
+                                </div>
+                                <!-- /.widget-user-image -->
+                                <h3 class="widget-user-username"><span id="spnName" ></span></h3>
+                                <h5 class="widget-user-desc"><span id="spnClass"></span></h5>
+                            </div>
+                            <div class="card-footer p-0">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            Total Fee     <span style="float:right !important" id="spnTotalFee"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            Discount    <span style="float:right !important" id="spnDiscount"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            Discount By    <span style="float:right !important" id="spnDiscountBy"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            Total Fee After Discount   <span style="float:right !important" id="spnFeeAfterDiscount"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Scolership</label>
+
+                                <input type="hidden" id="hdnStudentFeeId" />
+                                <input type="hidden" id="hdnTotalFeeCurrently" />
+                                <input type="hidden" id="hdnCurrentlyDiscount" />
+                                <input type="number" class="form-control valid" id="txtScholership" name="Scholership" value="0">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Discount By</label>
+                                <input type="text" class="form-control valid"  id="txtDiscountBy" name="DiscountBy" value="0"  >
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Disc Regisn</label>
+                                <input type="text" class="form-control valid"  id="txtDiscountReasion" name="DiscountReasion" value="0"  >
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Total Fee After Dis</label>
+                                <input type="number" class="form-control valid"  id="txtAfterDiscountTotalFee" name="txtAfterDiscountTotalFee" value="0" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" onclick="SaveConcession();" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        // INSERT
+
+        var BASE_URL = "@baseUrl";
+
+        var Toast;
+        window.onload = function () {
+
+            // Example 3: Change events (optional)
+            $("#ddlClass, #ddlCourse, #ddlYear, #ddlSession").change(function () {
+                $("#tblStudentList tbody").empty();
+                SearchStudent();
+            });
+
+            SearchStudent();
+
+            $("#txtScholership").change(function () {
+                varScholership = this.value;
+
+                if (varScholership != "" && varScholership != "0") {
+                    var varScholershipAmount = parseFloat(varScholership) || 0;
+                    var varTotalFeeAmount = parseFloat($('#hdnTotalFeeCurrently').val()) || 0
+                    $("#txtAfterDiscountTotalFee").val(varTotalFeeAmount - varScholershipAmount);
+                }
+            });
+
+
+        };
+
+        //-class: 'bg-danger',  class: 'bg-warning',class: 'bg-info',
+        function Alert(icon, title, className) {
+            Toast.fire({
+                icon: icon,
+                title: title,
+                class: className,
+            })
+        }
+
+
+        function Reset() {
+
+            $("#txtSearch").val('');
+            $('#ddlSession option:selected').prop("selected", false);
+            $('#ddlClass option:selected').prop("selected", false);
+            $('#ddlCourse option:selected').prop("selected", false);
+            $('#ddlYearss option:selected').prop("selected", false);
+
+            SearchStudent();
+        }
+
+        function SearchStudent() {
+
+            var name = $("#txtSearch").val();
+            var varClass = $('#ddlClass option:selected').text();
+            var varCourse = $('#ddlCourse option:selected').text();
+            var varYear = $('#ddlYear option:selected').text();
+            var varSession = $('#ddlSession option:selected').text();
+
+            $.post(BASE_URL + "/Payment/SearchList", {
+                name: name,
+                classes: varClass,
+                course: varCourse,
+                year: varYear,
+                session: varSession
+            },
+                function (res) {
+                    TableData(res)  //--------pass records for generate tabble
+                }
+            );
+        }
+
+        function TableData(tableData)
+        {
+            $("#tblStudentList tbody").empty();
+            $.each(tableData.data, function (index, element) {
+                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.admissionFormNo +
+                    "</td><td>" + element.studentName + "</td><td>" + element.fatherName + "</td><td>" + element.class + "</td><td>" + element.course +
+                    "</td><td>" + element.course + "</td><td>" + element.mobileNoOne +
+                   // "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' >Payment</a></td></tr>");
+                    "</td><td><button type='button' class='btn btn-info btn-flat'>Action</button>" +
+                    "<button type='button' class='btn btn-info btn-flat dropdown-toggle dropdown-icon' data-toggle='dropdown'>" +
+                    "<span class='sr-only'>Toggle Dropdown</span></button>" +
+                    "<div class='dropdown-menu' role='menu'>" +
+                    "<a class='dropdown-item' onclick='ConcessionPopUp(" + element.id + ")' ><i class='fas fa-university'></i> Concession</a>" +
+                    "</div></div></td></tr>");
+
+            });
+
+
+
+        }
+
+       
+
+        //-----------------Concession PopUp------
+        function ConcessionPopUp(studentId)
+        {
+            $.post(BASE_URL + "/Payment/GetFeeDetail", {
+                id: studentId
+            },
+                function (res) {
+                    var photoUrl = "/StudentData/Photo/" + res.studentData.photo + ".jpg";
+                    $('#imgPhoto').attr('src', photoUrl);
+                    
+                    $('#hdnStudentFeeId').val(res.concessionDetail.id);
+                    $('#hdnTotalFeeCurrently').val(res.concessionDetail.totalFeeAfterDiscount);
+                    $('#hdnCurrentlyDiscount').val(res.concessionDetail.scholership);
+                    
+                    $('#spnName').text(res.studentData.studentName + " / " + res.studentData.fatherName);
+                    $('#spnClass').text(res.studentData.class + " / " + res.studentData.course + "/" + res.studentData.year + "/" + res.studentData.session);
+                    $('#spnTotalFee').text(res.concessionDetail.totalFee);
+                    $('#spnDiscount').text(res.concessionDetail.scholership);
+                    $('#spnDiscountBy').text(res.concessionDetail.disBy + " / " + res.concessionDetail.disResion)
+                    $('#spnFeeAfterDiscount').text(res.concessionDetail.totalFeeAfterDiscount);
+                    $("#modal-ConcessionPopUp").modal("show");
+                }
+             );
+
+            
+
+        }
+
+        //------------------Save Concession ---------------
+
+        function SaveConcession()
+        {
+           
+            //var IsValidate = true;
+            //if (!validateField("#txtScholership", "Scholership required")) IsValidate = false;
+            //if (!validateField("#txtDiscountBy", "Discount By required")) IsValidate = false;
+            //if (!validateField("#txtDiscountReasion", "Discount Reasion required")) IsValidate = false;
+
+            //if (!IsValidate) return;
+
+            $.post(BASE_URL + "/Payment/SaveConcession", {
+                studentFeeId: $('#hdnStudentFeeId').val(),
+                scholership: $('#txtScholership').val(),
+                discountBy: $('#txtDiscountBy').val(),
+                discountRession: $('#txtDiscountReasion').val(),
+                afterDiscountTotalFee: $('#txtAfterDiscountTotalFee').val()
+               
+            },
+                function (res) {
+                    Alert('success', 'Successfully Promoted', 'bg-success');
+                    $("#modal-View").modal("hide");
+
+                }
+            );
+        }
+
+
+        function validateField(selector, message, type = "") {
+            var value = $(selector).val();
+            var errorId = selector.replace('#', '') + "Error";
+
+            // Dropdown validation
+            if (type === "dropdown") {
+
+                if (value === "" || value === "0" || value === null || value === "Select") {
+                    $(selector).addClass("is-invalid");
+
+                    if ($("#" + errorId).length == 0) {
+                        $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">' + message + '</span>');
+                    }
+                    return false;
+                } else {
+                    $(selector).removeClass("is-invalid");
+                    $("#" + errorId).remove();
+                    return true;
+                }
+            }
+
+            // Required validation
+            if (value === "") {
+                $(selector).addClass("is-invalid");
+
+                if ($("#" + errorId).length == 0) {
+                    $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">' + message + '</span>');
+                }
+                return false;
+            }
+
+            // Mobile validation
+            if (type === "mobile") {
+                var mobilePattern = /^[0-9]{10}$/;
+                if (!mobilePattern.test(value)) {
+                    $(selector).addClass("is-invalid");
+
+                    if ($("#" + errorId).length == 0) {
+                        $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">Enter valid 10 digit mobile number</span>');
+                    }
+                    return false;
+                }
+            }
+
+            // Valid case
+            $(selector).removeClass("is-invalid");
+            $("#" + errorId).remove();
+            return true;
+        }
+
+
+    </script>
+}
+

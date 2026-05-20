@@ -230,7 +230,6 @@ namespace CRM.Controllers
                         skipFirst = skipFirst + 1;
 
                     }
-                    
                 }
                 returnObj.FeeDueList = FeeDetail.OrderByDescending(x => x.Id).ToList();
 
@@ -323,7 +322,7 @@ namespace CRM.Controllers
                         RecBookNo = recBookNo.ToUpper(),
                         RecNumber = recNumber.ToUpper(),
                         PaymentMode = paymentMode.ToUpper(),
-                        TransactionNo = transactionNo.ToUpper(),
+                        TransactionNo = string.IsNullOrEmpty(transactionNo) ? "00" : transactionNo,
                         CreatedBy = "Admin",
                         Head = varHead1.ToUpper(),
                         Amount = varAmount1,
@@ -493,6 +492,89 @@ namespace CRM.Controllers
             {
                 return false;
             }
+        }
+
+        //-----------------Fees Consession--------------
+
+        
+        public IActionResult FeesConsession()
+        {
+            ViewBag.BaseUrl = _baseUrl;
+            var model = new StudentListView();
+
+            model.ClassList = _classRepo.GetAll()
+                      .Select(x => new SelectListItem
+                      {
+                          Value = x.Name.ToString(),
+                          Text = x.Name
+                      })
+                      .ToList();
+
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+
+
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
+
+
+
+            return View(model);
+        }
+
+
+        public IActionResult GetFeeDetail(string id)
+        {
+
+            var data = _repoStudent.GetById(Convert.ToInt32(id));
+            var FeeDetail = _studentFeeRepo.GetFeeByStudentID(Convert.ToInt32(id));
+            var ConcessionDetail = FeeDetail.OrderByDescending(x => x.Id).FirstOrDefault();
+            return Json(new { success = true, studentData = data, concessionDetail = ConcessionDetail });
+        }
+
+
+        public IActionResult SaveConcession(int studentFeeId, int scholership, string discountBy, string discountRession, int afterDiscountTotalFee)
+        {
+            ViewBag.BaseUrl = _baseUrl;
+            StudentFee updateFee = new StudentFee();
+            updateFee.Id = studentFeeId;
+            updateFee.Scholership = scholership;
+            updateFee.DisBy = discountBy;
+            updateFee.DisResion = discountRession;
+            updateFee.TotalFeeAfterDiscount = afterDiscountTotalFee;
+            var tee =_studentFeeRepo.FeeConsessionAfterAdmission(updateFee);
+
+            return Json(new { success = true, data = "" });
         }
 
 

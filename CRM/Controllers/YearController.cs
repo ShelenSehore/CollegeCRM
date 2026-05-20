@@ -73,7 +73,7 @@ namespace CRM.Controllers
             if (data == null)
                 return Json(new { success = false, message = "Year not found" });
 
-            data.Name = className;
+            data.Name = className.ToUpper() ;
             data.CreatedBy = "Admin";
             data.CreatedDateTime = DateTime.Now;
 
