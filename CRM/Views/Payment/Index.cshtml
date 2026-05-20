@@ -5,227 +5,1252 @@
     var baseUrl = ViewBag.BaseUrl;
 }
 
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+    :root {
+        --bg-primary: #0f1117;
+        --bg-secondary: #161922;
+        --bg-card: rgba(22, 25, 34, 0.85);
+        --bg-card-solid: #1a1d28;
+        --glass: rgba(255, 255, 255, 0.04);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --accent-teal: #00e5a0;
+        --accent-teal-dim: rgba(0, 229, 160, 0.15);
+        --accent-coral: #ff6b6b;
+        --accent-coral-dim: rgba(255, 107, 107, 0.15);
+        --accent-amber: #ffc145;
+        --accent-amber-dim: rgba(255, 193, 69, 0.15);
+        --accent-sky: #38bdf8;
+        --accent-sky-dim: rgba(56, 189, 248, 0.15);
+        --accent-violet: #c084fc;
+        --accent-violet-dim: rgba(192, 132, 252, 0.15);
+        --text-primary: #f0f2f5;
+        --text-secondary: #8b8fa3;
+        --text-muted: #5a5e72;
+        --border: rgba(255, 255, 255, 0.06);
+        --shadow-glow-teal: 0 0 30px rgba(0, 229, 160, 0.12);
+        --shadow-glow-coral: 0 0 30px rgba(255, 107, 107, 0.12);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 20px;
+    }
+
+    .content-wrapper {
+        background: var(--bg-primary) !important;
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+        /* ===== Animated Background ===== */
+        .content-wrapper::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 229, 160, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: floatBlob1 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content-wrapper::after {
+            content: '';
+            position: fixed;
+            bottom: -150px;
+            left: -150px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: floatBlob2 18s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+    @@keyframes floatBlob1 {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        33% {
+            transform: translate(-80px, 60px) scale(1.1);
+        }
+
+        66% {
+            transform: translate(40px, -40px) scale(0.95);
+        }
+    }
+
+    @@keyframes floatBlob2 {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        33% {
+            transform: translate(60px, -50px) scale(1.05);
+        }
+
+        66% {
+            transform: translate(-30px, 30px) scale(0.9);
+        }
+    }
+
+    .content-header,
+    .content {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ===== Breadcrumb ===== */
+    .breadcrumb {
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .breadcrumb-item a {
+        color: var(--text-secondary) !important;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+        .breadcrumb-item a:hover {
+            color: var(--accent-teal) !important;
+        }
+
+    .breadcrumb-item.active a {
+        color: var(--accent-teal) !important;
+        font-weight: 600;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: var(--text-muted) !important;
+        content: '›' !important;
+        font-size: 1rem;
+    }
+
+    /* ===== Page Title Bar ===== */
+    .page-title-bar {
+        background: linear-gradient(135deg, rgba(0, 229, 160, 0.1) 0%, rgba(56, 189, 248, 0.08) 50%, rgba(192, 132, 252, 0.06) 100%);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-xl);
+        padding: 28px 32px;
+        margin-bottom: 24px;
+        backdrop-filter: blur(20px);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .page-title-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-sky), var(--accent-violet));
+            border-radius: 2px;
+        }
+
+        .page-title-bar h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+            .page-title-bar h1 span {
+                background: linear-gradient(135deg, var(--accent-teal), var(--accent-sky));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+        .page-title-bar .subtitle {
+            color: var(--text-secondary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+    .total-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--accent-teal-dim);
+        border: 1px solid rgba(0, 229, 160, 0.25);
+        color: var(--accent-teal);
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        font-size: 0.9rem;
+        padding: 6px 16px;
+        border-radius: 50px;
+    }
+
+        .total-badge .count {
+            font-size: 1.1rem;
+        }
+
+    /* ===== Stat Cards Row ===== */
+    .stat-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .stat-card {
+        background: var(--bg-card);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        padding: 20px 22px;
+        backdrop-filter: blur(12px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .stat-card:nth-child(1)::before {
+            background: var(--accent-teal);
+        }
+
+        .stat-card:nth-child(2)::before {
+            background: var(--accent-sky);
+        }
+
+        .stat-card:nth-child(3)::before {
+            background: var(--accent-amber);
+        }
+
+        .stat-card:nth-child(4)::before {
+            background: var(--accent-coral);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .stat-card:nth-child(1):hover {
+            box-shadow: var(--shadow-glow-teal);
+        }
+
+        .stat-card:nth-child(2):hover {
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.12);
+        }
+
+        .stat-card:nth-child(3):hover {
+            box-shadow: 0 0 30px rgba(255, 193, 69, 0.12);
+        }
+
+        .stat-card:nth-child(4):hover {
+            box-shadow: var(--shadow-glow-coral);
+        }
+
+        .stat-card .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: 14px;
+        }
+
+        .stat-card:nth-child(1) .stat-icon {
+            background: var(--accent-teal-dim);
+            color: var(--accent-teal);
+        }
+
+        .stat-card:nth-child(2) .stat-icon {
+            background: var(--accent-sky-dim);
+            color: var(--accent-sky);
+        }
+
+        .stat-card:nth-child(3) .stat-icon {
+            background: var(--accent-amber-dim);
+            color: var(--accent-amber);
+        }
+
+        .stat-card:nth-child(4) .stat-icon {
+            background: var(--accent-coral-dim);
+            color: var(--accent-coral);
+        }
+
+        .stat-card .stat-label {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .stat-card .stat-value {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+        }
+
+    /* ===== Main Card ===== */
+    .main-card {
+        background: var(--bg-card);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-xl);
+        backdrop-filter: blur(20px);
+        overflow: hidden;
+    }
+
+        .main-card .card-body {
+            padding: 0 !important;
+        }
+
+    /* ===== Filter Section ===== */
+    .filter-section {
+        padding: 24px 28px;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+    }
+
+    .filter-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+        .filter-header .filter-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-teal);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+    @@keyframes pulse-dot {
+        0%, 100% {
+            opacity: 1;
+            box-shadow: 0 0 0 0 rgba(0, 229, 160, 0.4);
+        }
+
+        50% {
+            opacity: 0.7;
+            box-shadow: 0 0 0 6px rgba(0, 229, 160, 0);
+        }
+    }
+
+    .filter-header h3 {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text-primary);
+        margin: 0;
+        letter-spacing: -0.2px;
+    }
+
+    .filter-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+        .filter-group label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            background: var(--glass) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: var(--radius-sm) !important;
+            color: var(--text-primary) !important;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            padding: 10px 14px !important;
+            height: auto !important;
+            transition: all 0.3s;
+            outline: none !important;
+        }
+
+            .filter-group select:focus,
+            .filter-group input:focus {
+                border-color: var(--accent-teal) !important;
+                box-shadow: 0 0 0 3px rgba(0, 229, 160, 0.1) !important;
+                background: rgba(0, 229, 160, 0.04) !important;
+            }
+
+            .filter-group select option {
+                background: var(--bg-secondary);
+                color: var(--text-primary);
+            }
+
+    .filter-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    /* ===== Buttons ===== */
+    .btn-search {
+        background: linear-gradient(135deg, var(--accent-teal), #00c98a) !important;
+        color: #0f1117 !important;
+        border: none !important;
+        border-radius: var(--radius-sm) !important;
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 0.85rem !important;
+        padding: 10px 24px !important;
+        letter-spacing: 0.3px;
+        transition: all 0.3s !important;
+        box-shadow: 0 4px 15px rgba(0, 229, 160, 0.25);
+    }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 229, 160, 0.35) !important;
+        }
+
+    .btn-reset {
+        background: var(--glass) !important;
+        color: var(--text-secondary) !important;
+        border: 1px solid var(--glass-border) !important;
+        border-radius: var(--radius-sm) !important;
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 0.85rem !important;
+        padding: 10px 20px !important;
+        transition: all 0.3s !important;
+    }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: var(--text-primary) !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+        }
+
+    .btn-excel {
+        background: linear-gradient(135deg, #10b981, #059669) !important;
+        color: #fff !important;
+        border: none !important;
+        border-radius: var(--radius-sm) !important;
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 0.85rem !important;
+        padding: 10px 18px !important;
+        transition: all 0.3s !important;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+    }
+
+        .btn-excel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.35) !important;
+        }
+
+    /* ===== Table Section ===== */
+    .table-section {
+        padding: 0;
+    }
+
+    .table-top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 28px;
+        border-bottom: 1px solid var(--border);
+    }
+
+        .table-top-bar .table-info {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+            .table-top-bar .table-info strong {
+                color: var(--accent-teal);
+            }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    #tblStudentList {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 0 !important;
+    }
+
+        #tblStudentList thead tr {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        #tblStudentList thead th {
+            font-family: 'Space Grotesk', sans-serif !important;
+            font-size: 0.7rem !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1.2px !important;
+            color: var(--text-secondary) !important;
+            padding: 14px 18px !important;
+            border: none !important;
+            border-bottom: 1px solid var(--border) !important;
+            white-space: nowrap;
+        }
+
+        #tblStudentList tbody tr {
+            transition: all 0.3s;
+            border: none;
+        }
+
+            #tblStudentList tbody tr:hover {
+                background: rgba(0, 229, 160, 0.04) !important;
+            }
+
+        #tblStudentList tbody td {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            padding: 14px 18px !important;
+            border: none !important;
+            border-bottom: 1px solid var(--border) !important;
+            vertical-align: middle;
+        }
+
+        #tblStudentList tbody tr:last-child td {
+            border-bottom: none !important;
+        }
+
+    .row-index {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+    }
+
+    .form-no {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--accent-sky-dim);
+        color: var(--accent-sky);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.8rem;
+    }
+
+    .student-name {
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .father-name {
+        color: var(--text-secondary);
+    }
+
+    .course-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+        .course-badge.science {
+            background: var(--accent-teal-dim);
+            color: var(--accent-teal);
+        }
+
+        .course-badge.arts {
+            background: var(--accent-amber-dim);
+            color: var(--accent-amber);
+        }
+
+        .course-badge.commerce {
+            background: var(--accent-violet-dim);
+            color: var(--accent-violet);
+        }
+
+        .course-badge.default {
+            background: var(--accent-sky-dim);
+            color: var(--accent-sky);
+        }
+
+    .mobile-no {
+        font-family: 'Space Grotesk', sans-serif;
+        color: var(--text-secondary);
+        font-size: 0.83rem;
+    }
+
+    /* ===== Action Buttons ===== */
+    .action-group {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+    }
+
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--glass-border);
+        background: var(--glass);
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none !important;
+    }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .action-btn.pay:hover {
+            background: var(--accent-teal-dim);
+            color: var(--accent-teal);
+            border-color: rgba(0, 229, 160, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 229, 160, 0.15);
+        }
+
+        .action-btn.view:hover {
+            background: var(--accent-sky-dim);
+            color: var(--accent-sky);
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+        }
+
+        .action-btn.edit:hover {
+            background: var(--accent-amber-dim);
+            color: var(--accent-amber);
+            border-color: rgba(255, 193, 69, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 193, 69, 0.15);
+        }
+
+    /* ===== Empty State ===== */
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .empty-state h4 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+    /* ===== Modal ===== */
+    .modal-content {
+        background: var(--bg-card-solid) !important;
+        border: 1px solid var(--glass-border) !important;
+        border-radius: var(--radius-xl) !important;
+        overflow: hidden;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, rgba(0, 229, 160, 0.15), rgba(56, 189, 248, 0.1)) !important;
+        border-bottom: 1px solid var(--glass-border) !important;
+        padding: 20px 24px !important;
+        position: relative;
+    }
+
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-sky));
+        }
+
+    .modal-title {
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 700 !important;
+        color: var(--text-primary) !important;
+        font-size: 1.1rem !important;
+    }
+
+        .modal-title i {
+            color: var(--accent-teal) !important;
+            margin-right: 8px;
+        }
+
+    .modal-header .close {
+        color: var(--text-secondary) !important;
+        font-size: 1.5rem !important;
+        opacity: 1 !important;
+        text-shadow: none !important;
+        transition: color 0.3s;
+    }
+
+        .modal-header .close:hover {
+            color: var(--accent-coral) !important;
+        }
+
+    .modal-body {
+        padding: 24px !important;
+    }
+
+    .modal-footer {
+        border-top: 1px solid var(--border) !important;
+        padding: 16px 24px !important;
+    }
+
+        .modal-footer .btn-default {
+            background: var(--glass) !important;
+            color: var(--text-secondary) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: var(--radius-sm) !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 600 !important;
+        }
+
+            .modal-footer .btn-default:hover {
+                background: rgba(255, 255, 255, 0.08) !important;
+                color: var(--text-primary) !important;
+            }
+
+        .modal-footer .btn-primary {
+            background: linear-gradient(135deg, var(--accent-teal), #00c98a) !important;
+            color: #0f1117 !important;
+            border: none !important;
+            border-radius: var(--radius-sm) !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 15px rgba(0, 229, 160, 0.25);
+        }
+
+    /* ===== Student Profile Card in Modal ===== */
+    .student-profile-card {
+        background: linear-gradient(135deg, rgba(0, 229, 160, 0.08), rgba(56, 189, 248, 0.06));
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+    }
+
+    .student-profile-header {
+        background: linear-gradient(135deg, #00e5a0, #00b8d4, #38bdf8) !important;
+        padding: 24px 24px 50px !important;
+        position: relative;
+        text-align: center;
+    }
+
+        .student-profile-header h3 {
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 800 !important;
+            font-size: 1.3rem !important;
+            color: #0f1117 !important;
+            margin: 0 !important;
+        }
+
+        .student-profile-header h5 {
+            font-family: 'Space Grotesk', sans-serif !important;
+            color: rgba(15, 17, 23, 0.65) !important;
+            font-size: 0.85rem !important;
+            margin: 4px 0 0 !important;
+        }
+
+    .student-profile-image {
+        margin-top: -40px;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+
+        .student-profile-image img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid var(--bg-card-solid);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+        }
+
+    .student-detail-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        padding: 16px 0 0;
+    }
+
+    .student-detail-item {
+        text-align: center;
+        padding: 14px 8px;
+        border-right: 1px solid var(--border);
+    }
+
+        .student-detail-item:nth-child(3n) {
+            border-right: none;
+        }
+
+        .student-detail-item:nth-child(n+4) {
+            border-top: 1px solid var(--border);
+        }
+
+        .student-detail-item .detail-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .student-detail-item .detail-value {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+        }
+
+            .student-detail-item .detail-value.teal {
+                color: var(--accent-teal);
+            }
+
+            .student-detail-item .detail-value.coral {
+                color: var(--accent-coral);
+            }
+
+            .student-detail-item .detail-value.amber {
+                color: var(--accent-amber);
+            }
+
+    /* ===== Fee Section in Modal ===== */
+    .fee-section {
+        margin-top: 16px;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-md);
+        padding: 16px;
+    }
+
+        .fee-section h5 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin: 0 0 12px;
+        }
+
+    .fee-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+        .fee-row:last-child {
+            border-bottom: none;
+        }
+
+        .fee-row .fee-label {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .fee-row .fee-value {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+    /* ===== Scrollbar ===== */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--text-muted);
+        border-radius: 3px;
+    }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+    /* ===== Animations ===== */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-in {
+        animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        opacity: 0;
+    }
+
+        .animate-in:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .animate-in:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .animate-in:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .animate-in:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+    /* ===== Responsive ===== */
+    @@media (max-width: 1200px) {
+        .filter-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .stat-cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .filter-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .stat-cards {
+            grid-template-columns: 1fr;
+        }
+
+        .page-title-bar {
+            padding: 20px;
+        }
+
+            .page-title-bar h1 {
+                font-size: 1.3rem;
+            }
+    }
+
+    /* ===== Loading Shimmer ===== */
+    @@keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+
+        100% {
+            background-position: 200% 0;
+        }
+    }
+
+    .shimmer-row td {
+        background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.03) 50%, transparent 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        height: 48px;
+    }
+</style>
+
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+    <!-- Background Decorations -->
+    <div style="position:fixed;top:50%;left:50%;width:400px;height:400px;background:radial-gradient(circle,rgba(192,132,252,0.04) 0%,transparent 70%);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:0;animation:floatBlob1 22s ease-in-out infinite;"></div>
+
+    <!-- Content Header -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><a href="#">Payment</a></li>
-                        <li class="breadcrumb-item active"><a href="#">List</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Student List</a></li>
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
     <!-- Main content -->
     <section class="content">
-        <div class="card">
-            <div class="card-body">
-                <div class="dataTables_wrapper dt-bootstrap4">
-                    <fieldset class="scheduler-border">
-                        <legend class="scheduler-border">Filters</legend>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label>Session</label>
-                                        <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Year</label>
-                                    <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Class</label>
-                                    <select id="ddlClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Course</label>
-                                    <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label>Name</label>
-                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
-                            </div>
-
-
-
-                        </div>
-
-                        <div class="row" style="margin-bottom:5px !important">
-                            <div class="col-md-8">
-
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
-                            </div>
-                            <div class="col-md-1">
-                                <button type="reset" class="btn btn-default" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
-                            </div>
-                           
-                            <div class="col-md-1">
-                                <form id="frmDownloadExcel" method="post" action="DownloadExcel">
-                                    <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
-                                    <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
-                                    <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
-                                    <input type="hidden" name="hdnExcelYear" id="hdnExcelYear" />
-                                    <input type="hidden" name="hdnExcelName" id="hdnExcelName" />
-                                </form>
-                                <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i></button>
-                            </div>
-                        </div>
-                    </fieldset>
-
-                    <div class="row" style="margin-bottom:5px !important">
-                        <div class="col-sm-12">
-
-                            <div class="input-group input-group-sm">
-                                <input id="txtSearch" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                                <div class="input-group-append">
-                                    <button id="btnSearch" onclick="SearchStudent()" class="btn btn-navbar" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
-                                <thead>
-                                    <tr role="row">
-                                        <th class="sorting sorting_asc" style="width: 10px">#</th>
-                                        <th class="sorting">FormNo</th>
-                                        <th class="sorting">Student</th>
-                                        <th class="sorting">Father</th>
-                                        <th class="sorting">Year</th>
-                                        <th class="sorting">Subject</th>
-                                        <th class="sorting">Course</th>
-                                        <th class="sorting">MobileNo</th>
-                                        <th class="sorting">View</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                </tbody>
-
-
-                            </table>
-
-                        </div>
-                    </div>
-
+        <!-- Page Title Bar -->
+        <div class="page-title-bar animate-in">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                    <h1>Student <span>Payments</span></h1>
+                    <div class="subtitle">Manage and track student payment records</div>
+                </div>
+                <div class="total-badge">
+                    <i class="fas fa-users" style="font-size:0.8rem;"></i>
+                    Total Students: <span class="count" id="totalCount">0</span>
                 </div>
             </div>
-            <!-- /.card-body -->
         </div>
 
+        <!-- Stat Cards -->
+        <div class="stat-cards">
+            <div class="stat-card animate-in">
+                <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
+                <div class="stat-label">Total Students</div>
+                <div class="stat-value" id="statTotal">0</div>
+            </div>
+            <div class="stat-card animate-in">
+                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-label">Fully Paid</div>
+                <div class="stat-value" id="statPaid">0</div>
+            </div>
+            <div class="stat-card animate-in">
+                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                <div class="stat-label">Partial Payment</div>
+                <div class="stat-value" id="statPartial">0</div>
+            </div>
+            <div class="stat-card animate-in">
+                <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="stat-label">Unpaid</div>
+                <div class="stat-value" id="statUnpaid">0</div>
+            </div>
+        </div>
 
+        <!-- Main Card with Filters + Table -->
+        <div class="main-card animate-in">
+            <div class="card-body">
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <div class="filter-header">
+                        <div class="filter-dot"></div>
+                        <h3>Filter Students</h3>
+                    </div>
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label>Session</label>
+                            <select id="ddlSession" asp-items="Model.SessionList" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Year</label>
+                            <select id="ddlYear" asp-items="Model.YearList" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Class</label>
+                            <select id="ddlClass" asp-items="Model.ClassList" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Course</label>
+                            <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Search Name</label>
+                            <input id="txtSearch" class="form-control" type="search" placeholder="Type student name..." aria-label="Search">
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn-search">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                        <button type="reset" class="btn-reset" onclick="Reset()">
+                            <i class="fas fa-rotate-right"></i> Reset
+                        </button>
+                        <div style="flex:1;"></div>
+                        <form id="frmDownloadExcel" method="post" action="DownloadExcel">
+                            <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
+                            <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
+                            <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
+                            <input type="hidden" name="hdnExcelYear" id="hdnExcelYear" />
+                            <input type="hidden" name="hdnExcelName" id="hdnExcelName" />
+                        </form>
+                        <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn-excel">
+                            <i class="fas fa-file-excel"></i> Export
+                        </button>
+                    </div>
+                </div>
 
+                <!-- Table Section -->
+                <div class="table-section">
+                    <div class="table-top-bar">
+                        <div class="table-info">
+                            Showing <strong id="showingCount">0</strong> students
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="tblStudentList" class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width:50px">#</th>
+                                    <th>Form No</th>
+                                    <th>Student</th>
+                                    <th>Father</th>
+                                    <th>Year</th>
+                                    <th>Subject</th>
+                                    <th>Course</th>
+                                    <th>Mobile</th>
+                                    <th style="width:140px">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-    <!-- /.content -->
 </div>
 
+<!-- Payment Detail Modal -->
 <div class="modal fade" id="modal-Promod">
-    <div class="modal-dialog" style="max-width:650px !important;">
+    <div class="modal-dialog" style="max-width:620px !important;">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><i class='fas fa-university'></i> Payment Detail</h4>
+                <h4 class="modal-title"><i class="fas fa-university"></i> Payment Detail</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- Widget: user widget style 1 -->
-                        <div class="card card-widget widget-user">
-                            <!-- Add the bg color to the header using any of the bg-* classes -->
-                            <div class="widget-user-header bg-info">
-                                <h3 class="widget-user-username" id="achStudentName"></h3>
-                                <h5 class="widget-user-desc" id="achSession"></h5>
+                        <div class="student-profile-card">
+                            <!-- Gradient Header -->
+                            <div class="student-profile-header">
+                                <h3 id="achStudentName"></h3>
+                                <h5 id="achSession"></h5>
                             </div>
-                            <div class="widget-user-image">
-                                <img id="imgStudentPhoto" class="img-circle elevation-2" src="~/dist/img/user7-128x128.jpg" alt="User Avatar">
+                            <!-- Profile Image -->
+                            <div class="student-profile-image">
+                                <img id="imgStudentPhoto" src="~/dist/img/user7-128x128.jpg" alt="Student Photo">
                             </div>
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col-sm-4 border-right">
-                                        <div class="description-block">
-                                            <span class="description-text">Year</span>
-                                            <h5 class="description-header" id="achYear"></h5>
-                                        </div>
-                                        <!-- /.description-block -->
+                            <!-- Detail Grid -->
+                            <div style="padding: 8px 16px 16px;">
+                                <div class="student-detail-grid">
+                                    <div class="student-detail-item">
+                                        <div class="detail-label">Year</div>
+                                        <div class="detail-value" id="achYear"></div>
                                     </div>
-                                    <!-- /.col -->
-                                    <div class="col-sm-4 border-right">
-                                        <div class="description-block">
-                                            <span class="description-text">Class</span>
-                                            <h5 class="description-header" id="achClass"></h5>
-                                        </div>
-                                        <!-- /.description-block -->
+                                    <div class="student-detail-item">
+                                        <div class="detail-label">Class</div>
+                                        <div class="detail-value" id="achClass"></div>
                                     </div>
-                                    <!-- /.col -->
-                                    <div class="col-sm-4">
-                                        <div class="description-block">
-                                            <span class="description-text">Course</span>
-                                            <h5 class="description-header" id="achCourse"></h5>
-                                        </div>
-                                        <!-- /.description-block -->
+                                    <div class="student-detail-item">
+                                        <div class="detail-label">Course</div>
+                                        <div class="detail-value" id="achCourse"></div>
                                     </div>
-                                    <!-- /.col -->
+                                    <div class="student-detail-item">
+                                        <div class="detail-label">Total Fee</div>
+                                        <div class="detail-value teal" id="achTotalFee"></div>
+                                    </div>
+                                    <div class="student-detail-item">
+                                        <div class="detail-label">Paid Fee</div>
+                                        <div class="detail-value" id="achPaid" style="color:var(--accent-teal);"></div>
+                                    </div>
+                                    <div class="student-detail-item">
+                                        <div class="detail-label">Scholarship</div>
+                                        <div class="detail-value amber" id="achScholer"></div>
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="description-block">
-                                            <span class="description-text">Total Fee</span>
-                                            <h5 class="description-header" id="achTotalFee"></h5>
-                                        </div>
+
+                                <!-- Fee Progress -->
+                                <div class="fee-section">
+                                    <h5><i class="fas fa-chart-line" style="color:var(--accent-teal);margin-right:6px;"></i> Payment Progress</h5>
+                                    <div style="background:var(--glass);border-radius:8px;height:12px;overflow:hidden;border:1px solid var(--glass-border);">
+                                        <div id="feeProgressBar" style="height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent-teal),var(--accent-sky));transition:width 0.8s cubic-bezier(0.4,0,0.2,1);width:0%;"></div>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="description-block">
-                                            <span class="description-text">Paid Fee</span>
-                                            <h5 class="description-header" id="achPaid"></h5>
-                                        </div>
+                                    <div style="display:flex;justify-content:space-between;margin-top:8px;">
+                                        <span style="font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:var(--text-muted);">0%</span>
+                                        <span id="feePercent" style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;color:var(--accent-teal);">0%</span>
+                                        <span style="font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:var(--text-muted);">100%</span>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="description-block">
-                                            <span class="description-text">Scholership</span>
-                                            <h5 class="description-header" id="achScholer"></h5>
-                                        </div>
+
+                                    <!-- Balance -->
+                                    <div class="fee-row" style="margin-top:8px;">
+                                        <span class="fee-label">Remaining Balance</span>
+                                        <span class="fee-value" id="achBalance" style="color:var(--accent-coral);">0</span>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
-                   
                     </div>
-                    <div class="col-md-12">
-                        teste
-                    </div>
-                   
                 </div>
-
-                
-
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" onclick="SavePromosionDetail();" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                <button type="button" onclick="SavePromosionDetail();" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save
+                </button>
             </div>
         </div>
     </div>
@@ -234,36 +1259,34 @@
 
 @section Scripts {
     <script type="text/javascript">
-        // INSERT
-
         var BASE_URL = "@baseUrl";
 
-
         window.onload = function () {
-
-            // Example 3: Change events (optional)
             $("#ddlClass, #ddlCourse, #ddlYear, #ddlSession").change(function () {
                 $("#tblStudentList tbody").empty();
                 SearchStudent();
             });
 
-            SearchStudent();
+            // Enter key triggers search
+            $("#txtSearch").on('keypress', function (e) {
+                if (e.which === 13) {
+                    SearchStudent();
+                }
+            });
 
+            SearchStudent();
         };
 
         function Reset() {
-
             $("#txtSearch").val('');
-            $('#ddlSession option:selected').prop("selected", false);
-            $('#ddlClass option:selected').prop("selected", false);
-            $('#ddlCourse option:selected').prop("selected", false);
-            $('#ddlYearss option:selected').prop("selected", false);
-
+            $('#ddlSession option:first').prop("selected", true);
+            $('#ddlClass option:first').prop("selected", true);
+            $('#ddlCourse option:first').prop("selected", true);
+            $('#ddlYear option:first').prop("selected", true);
             SearchStudent();
         }
 
         function SearchStudent() {
-
             var name = $("#txtSearch").val();
             var varClass = $('#ddlClass option:selected').text();
             var varCourse = $('#ddlCourse option:selected').text();
@@ -278,64 +1301,113 @@
                 session: varSession
             },
                 function (res) {
-                    TableData(res)  //--------pass records for generate tabble
+                    TableData(res);
                 }
             );
         }
 
-        function TableData(tableData)
-        {
-            $("#tblStudentList tbody").empty();
-            $.each(tableData.data, function (index, element) {
-                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.admissionFormNo +
-                    "</td><td>" + element.studentName + "</td><td>" + element.fatherName + "</td><td>" + element.class + "</td><td>" + element.course +
-                    "</td><td>" + element.course + "</td><td>" + element.mobileNoOne +
-                   // "</td><td> <a class='btn btn-default' href='../Student/index?id=" + element.id + "' >Payment</a></td></tr>");
-                    "</td><td><button type='button' class='btn btn-info btn-flat'>Action</button>" +
-                    "<button type='button' class='btn btn-info btn-flat dropdown-toggle dropdown-icon' data-toggle='dropdown'>" +
-                    "<span class='sr-only'>Toggle Dropdown</span></button>" +
-                    "<div class='dropdown-menu' role='menu'>" +
-                   // "<a class='dropdown-item' onclick='PaymentDetail(" + element.id + ")' ><i class='fas fa-university'></i> Payment</a>" +
-                    "<a class='btn btn-default' href='../Payment/PaymentDetail?id=" + element.id + "' ><i class='fas fa-eye'></i> Pay </a>" +
-                    "<a class='dropdown-item' data-toggle='modal' data-target='#modal-View'><i class='fas fa-eye'></i> View Detail</a>" +
-                    "<a class='btn btn-default' href='../Student/index?id=" + element.id + "' ><i class='fas fa-eye'></i> Update Detail</a>" +
-                    "</div></div></td></tr>");
-
-            });
-
-
-
+        function getCourseBadgeClass(course) {
+            var c = (course || '').toLowerCase();
+            if (c.includes('sci')) return 'science';
+            if (c.includes('art')) return 'arts';
+            if (c.includes('com') || c.includes('comm')) return 'commerce';
+            return 'default';
         }
 
-        //------------------Promossion PopUp----------------------
+        function TableData(tableData) {
+            $("#tblStudentList tbody").empty();
 
+            var data = tableData.data || [];
+            var count = data.length;
+
+            // Update counts
+            $('#totalCount').text(count);
+            $('#statTotal').text(count);
+            $('#showingCount').text(count);
+
+            if (count === 0) {
+                $("#tblStudentList tbody").append(
+                    '<tr><td colspan="9" style="text-align:center;padding:60px 20px;">' +
+                    '<div class="empty-state">' +
+                    '<i class="fas fa-search"></i>' +
+                    '<h4>No students found</h4>' +
+                    '<p>Try adjusting your filters or search criteria</p>' +
+                    '</div></td></tr>'
+                );
+                return;
+            }
+
+            $.each(data, function (index, element) {
+                var badgeClass = getCourseBadgeClass(element.course);
+                var rowNum = index + 1;
+
+                $("#tblStudentList tbody").append(
+                    '<tr style="animation:fadeInUp 0.3s ease forwards;animation-delay:' + (index * 0.03) + 's;opacity:0;">' +
+                    '<td><span class="row-index">' + rowNum + '</span></td>' +
+                    '<td><span class="form-no"><i class="fas fa-hashtag" style="font-size:0.65rem;"></i> ' + (element.admissionFormNo || '-') + '</span></td>' +
+                    '<td><span class="student-name">' + (element.studentName || '-') + '</span></td>' +
+                    '<td><span class="father-name">' + (element.fatherName || '-') + '</span></td>' +
+                    '<td>' + (element.year || '-') + '</td>' +
+                    '<td>' + (element.subject || '-') + '</td>' +
+                    '<td><span class="course-badge ' + badgeClass + '">' + (element.course || '-') + '</span></td>' +
+                    '<td><span class="mobile-no"><i class="fas fa-phone" style="font-size:0.65rem;margin-right:4px;color:var(--text-muted);"></i>' + (element.mobileNoOne || '-') + '</span></td>' +
+                    '<td>' +
+                        '<div class="action-group">' +
+                            '<a class="action-btn pay" href="../Payment/PaymentDetail?id=' + element.id + '" title="Pay"><i class="fas fa-credit-card"></i></a>' +
+                            '<a class="action-btn view" data-toggle="modal" data-target="#modal-View" onclick="PaymentDetail(' + element.id + ')" title="View"><i class="fas fa-eye"></i></a>' +
+                            '<a class="action-btn edit" href="../Student/index?id=' + element.id + '" title="Edit"><i class="fas fa-pen"></i></a>' +
+                        '</div>' +
+                    '</td></tr>'
+                );
+            });
+        }
+
+        // Payment Detail Modal
         function PaymentDetail(id) {
-            var id = id;
             $.post(BASE_URL + "/Payment/StudentPaymentDetail", {
                 id: id
             },
                 function (res) {
-                   
                     var detail = res.data.studentDetail;
                     $('#imgStudentPhoto').attr('src', detail.photo);
-                    $('#achStudentName').text(detail.studentName + " / " + detail.fatherName)
-                    $('#achYear').text(detail.year)
-                    $('#achClass').text(detail.class)
-                    $('#achCourse').text(detail.course)
-                    $('#achSession').text( detail.session + " / FormNo. " + detail.admissionFormNo)
+                    $('#achStudentName').text(detail.studentName + " / " + detail.fatherName);
+                    $('#achYear').text(detail.year);
+                    $('#achClass').text(detail.class);
+                    $('#achCourse').text(detail.course);
+                    $('#achSession').text(detail.session + " / FormNo. " + detail.admissionFormNo);
 
-                    //------------------Fee Detail-------
                     var feedetail = res.data.studentFeeDetail;
-                    $('#achTotalFee').text(feedetail.totalFeeAfterDiscount);
-                    $('#achPaid').text(feedetail.paidAmount);
-                    $('#achScholer').text(feedetail.scholership);
-                    $("#modal-Promod").modal("show");
+                    var totalFee = parseFloat(feedetail.totalFeeAfterDiscount) || 0;
+                    var paidAmount = parseFloat(feedetail.paidAmount) || 0;
+                    var scholarship = parseFloat(feedetail.scholership) || 0;
+                    var balance = totalFee - paidAmount - scholarship;
+                    var percent = totalFee > 0 ? Math.round(((paidAmount + scholarship) / totalFee) * 100) : 0;
+                    if (percent > 100) percent = 100;
 
+                    $('#achTotalFee').text(formatCurrency(totalFee));
+                    $('#achPaid').text(formatCurrency(paidAmount));
+                    $('#achScholer').text(formatCurrency(scholarship));
+                    $('#achBalance').text(formatCurrency(balance));
+
+                    // Animate progress bar
+                    setTimeout(function () {
+                        $('#feeProgressBar').css('width', percent + '%');
+                        $('#feePercent').text(percent + '%');
+                    }, 200);
+
+                    $("#modal-Promod").modal("show");
                 }
             );
         }
 
+        function formatCurrency(num) {
+            return num.toLocaleString('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 });
+        }
 
+        // Reset progress bar when modal closes
+        $('#modal-Promod').on('hidden.bs.modal', function () {
+            $('#feeProgressBar').css('width', '0%');
+            $('#feePercent').text('0%');
+        });
     </script>
 }
-

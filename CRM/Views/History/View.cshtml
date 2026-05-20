@@ -1,5 +1,4 @@
-﻿
-@model CRM.ModelsForView.StudentViewModel
+﻿@model CRM.ModelsForView.StudentViewModel
 
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
@@ -7,73 +6,570 @@
     var baseUrl = ViewBag.BaseUrl;
 
     <style type="text/css">
-        .PersonalDetailLable {
-            font-weight: 15;
+        /* ── Base Reset & Fonts ── */
+        @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        .content-wrapper {
+            background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 40%, #24243e 100%) !important;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .content-header {
+            background: transparent !important;
+        }
+
+        /* ── Breadcrumb ── */
+        .breadcrumb {
+            background: rgba(255,255,255,0.08) !important;
+            backdrop-filter: blur(12px);
+            border-radius: 12px !important;
+            padding: 10px 20px !important;
+        }
+        .breadcrumb-item a {
+            color: #a78bfa !important;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .breadcrumb-item a:hover { color: #c4b5fd !important; }
+        .breadcrumb-item.active a {
+            color: #f9a8d4 !important;
+        }
+        .breadcrumb-item + .breadcrumb-item::before {
+            color: rgba(255,255,255,0.3) !important;
+        }
+
+        /* ── Profile Card ── */
+        .profile-card {
+            background: linear-gradient(160deg, #6366f1, #8b5cf6, #a855f7) !important;
+            border: none !important;
+            border-radius: 20px !important;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(99,102,241,0.35), 0 0 0 1px rgba(255,255,255,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .profile-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(99,102,241,0.5), 0 0 0 1px rgba(255,255,255,0.12);
+        }
+        .profile-card .card-body {
+            background: transparent !important;
+        }
+        .profile-card .profile-username {
+            color: #fff !important;
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: -0.3px;
+        }
+        .profile-card .text-muted {
+            color: rgba(255,255,255,0.75) !important;
+            font-weight: 500;
+        }
+        .profile-card .tc-badge {
+            background: linear-gradient(135deg, #f43f5e, #e11d48);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        @@keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 8px rgba(244,63,94,0.4); }
+            50% { box-shadow: 0 0 20px rgba(244,63,94,0.7); }
+        }
+        .img-circle {
+            border-radius: 50% !important;
+            border: 4px solid rgba(255,255,255,0.3) !important;
+            width: 120px !important;
+            height: 120px !important;
+            object-fit: cover;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+            transition: transform 0.4s;
+        }
+        .img-circle:hover { transform: scale(1.08); }
+        .exam-badge {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        /* ── Education Card ── */
+        .education-card {
+            background: linear-gradient(160deg, #0ea5e9, #06b6d4, #14b8a6) !important;
+            border: none !important;
+            border-radius: 20px !important;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(14,165,233,0.3), 0 0 0 1px rgba(255,255,255,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .education-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(14,165,233,0.45), 0 0 0 1px rgba(255,255,255,0.12);
+        }
+        .education-card .card-header {
+            background: rgba(255,255,255,0.12) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.15) !important;
+            color: #fff !important;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .education-card .card-title {
+            color: #fff !important;
+            font-weight: 700;
+        }
+        .education-card .list-group-item {
+            background: transparent !important;
+            border-color: rgba(255,255,255,0.1) !important;
+            color: #fff !important;
+            padding: 10px 16px;
+        }
+        .education-card .list-group-item b {
+            color: rgba(255,255,255,0.7) !important;
+            font-weight: 600;
             font-size: 13px;
         }
-
-        .PersonalDetailText {
-            font-weight: 450 !important;
-            font-size: 15px;
-            color: #096f99 !important
+        .education-card .list-group-item a {
+            color: #fef08a !important;
+            font-weight: 700;
         }
 
-        .img-circle {
-            border-radius: 10% !important;
-            height-min: 100px !important;
+        /* ── Main Tab Card ── */
+        .main-card {
+            background: rgba(255,255,255,0.05) !important;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08) !important;
+            border-radius: 20px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .main-card .card-header {
+            background: rgba(255,255,255,0.04) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+            padding: 16px 24px !important;
+        }
+
+        /* ── Colorful Nav Pills ── */
+        .main-card .nav-pills .nav-link {
+            border-radius: 12px !important;
+            padding: 10px 22px !important;
+            font-weight: 600;
+            font-size: 14px;
+            color: rgba(255,255,255,0.5) !important;
+            transition: all 0.3s ease;
+            margin-right: 6px;
+            background: transparent !important;
+            border: 1px solid transparent;
+        }
+        .main-card .nav-pills .nav-link:hover {
+            color: #fff !important;
+            background: rgba(255,255,255,0.08) !important;
+        }
+        .main-card .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, #f97316, #ef4444) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 16px rgba(249,115,22,0.4);
+            border: none;
+        }
+        .main-card .nav-pills .nav-link[href="#College"] {
+            /* No special - just active/hover */
+        }
+        .main-card .nav-pills .nav-link[href="#College"].active {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6) !important;
+            box-shadow: 0 4px 16px rgba(6,182,212,0.4);
+        }
+        .main-card .nav-pills .nav-link[href="#Academic"].active {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            box-shadow: 0 4px 16px rgba(16,185,129,0.4);
+        }
+        .main-card .nav-pills .nav-link[href="#Document"].active {
+            background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+            box-shadow: 0 4px 16px rgba(168,85,247,0.4);
+        }
+
+        /* ── Form Fields ── */
+        .PersonalDetailLable {
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: rgba(255,255,255,0.45) !important;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .PersonalDetailText {
+            background: rgba(255,255,255,0.06) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            border-radius: 10px !important;
+            color: #e0e7ff !important;
+            font-weight: 500 !important;
+            font-size: 14px !important;
+            padding: 10px 14px !important;
+            transition: all 0.3s;
+        }
+        .PersonalDetailText:focus {
+            border-color: #818cf8 !important;
+            box-shadow: 0 0 0 3px rgba(129,140,248,0.2) !important;
+            background: rgba(255,255,255,0.1) !important;
+        }
+        textarea.PersonalDetailText {
+            min-height: 60px !important;
+            resize: none;
+        }
+
+        /* ── Tables ── */
+        .custom-table {
+            background: rgba(255,255,255,0.03) !important;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .custom-table thead th {
+            background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(239,68,68,0.1)) !important;
+            color: #fdba74 !important;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+            padding: 14px 16px;
+        }
+        .custom-table tbody td {
+            color: #cbd5e1 !important;
+            border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+            padding: 12px 16px;
+            font-weight: 500;
+            vertical-align: middle;
+        }
+        .custom-table tbody tr:hover {
+            background: rgba(255,255,255,0.04) !important;
+        }
+        .custom-table tbody tr:last-child td {
+            border-bottom: none !important;
+        }
+
+        /* ── Action Buttons ── */
+        .btn-edit {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+            border: none !important;
+            color: #fff !important;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 10px !important;
+            padding: 8px 20px !important;
+            transition: all 0.3s;
+            box-shadow: 0 4px 14px rgba(99,102,241,0.3);
+        }
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99,102,241,0.5);
+            color: #fff !important;
+        }
+        .btn-add {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            border: none !important;
+            color: #fff !important;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 10px !important;
+            padding: 8px 20px !important;
+            transition: all 0.3s;
+            box-shadow: 0 4px 14px rgba(16,185,129,0.3);
+        }
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16,185,129,0.5);
+            color: #fff !important;
+        }
+        .btn-delete {
+            background: linear-gradient(135deg, #f43f5e, #e11d48) !important;
+            border: none !important;
+            color: #fff !important;
+            border-radius: 8px !important;
+            padding: 5px 12px !important;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        .btn-delete:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 16px rgba(244,63,94,0.4);
+        }
+
+        /* ── Document Images ── */
+        .doc-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid rgba(168,85,247,0.3);
+            transition: transform 0.3s;
+        }
+        .doc-thumb:hover {
+            transform: scale(1.15);
+            border-color: #a855f7;
+        }
+
+        /* ── Modals ── */
+        .modal-content {
+            background: linear-gradient(160deg, #1e1b4b, #1e1e3f, #1a1a3e) !important;
+            border: 1px solid rgba(255,255,255,0.08) !important;
+            border-radius: 20px !important;
+            color: #e2e8f0;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+        }
+        .modal-header {
+            border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+            padding: 20px 28px !important;
+        }
+        .modal-title {
+            color: #fff !important;
+            font-weight: 800;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .modal-header .close {
+            color: rgba(255,255,255,0.4) !important;
+            font-size: 28px;
+            text-shadow: none;
+            transition: color 0.2s;
+        }
+        .modal-header .close:hover { color: #f43f5e !important; }
+        .modal-body { padding: 24px 28px !important; }
+        .modal-body label {
+            color: rgba(255,255,255,0.55) !important;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .modal-body .form-control {
+            background: rgba(255,255,255,0.06) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            border-radius: 10px !important;
+            color: #e0e7ff !important;
+            font-weight: 500;
+            padding: 10px 14px !important;
+            transition: all 0.3s;
+        }
+        .modal-body .form-control:focus {
+            border-color: #818cf8 !important;
+            box-shadow: 0 0 0 3px rgba(129,140,248,0.2) !important;
+            background: rgba(255,255,255,0.1) !important;
+            color: #fff !important;
+        }
+        .modal-body select.form-control option {
+            background: #1e1b4b !important;
+            color: #e2e8f0 !important;
+        }
+        .modal-footer {
+            border-top: 1px solid rgba(255,255,255,0.08) !important;
+            padding: 16px 28px !important;
+        }
+        .modal-footer .btn-default {
+            background: rgba(255,255,255,0.06) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            color: #94a3b8 !important;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .modal-footer .btn-default:hover {
+            background: rgba(255,255,255,0.12) !important;
+            color: #fff !important;
+        }
+        .modal-footer .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            border: none !important;
+            border-radius: 10px;
+            font-weight: 700;
+            padding: 8px 24px;
+            box-shadow: 0 4px 14px rgba(16,185,129,0.3);
+        }
+        .modal-footer .btn-success:hover {
+            box-shadow: 0 6px 24px rgba(16,185,129,0.5);
+            transform: translateY(-1px);
+        }
+        .modal-footer .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+            border: none !important;
+            border-radius: 10px;
+            font-weight: 700;
+            padding: 8px 24px;
+            box-shadow: 0 4px 14px rgba(99,102,241,0.3);
+        }
+        .modal-footer .btn-primary:hover {
+            box-shadow: 0 6px 24px rgba(99,102,241,0.5);
+            transform: translateY(-1px);
+        }
+
+        /* ── Decorative blobs ── */
+        .blob-1 {
+            position: fixed;
+            top: -150px;
+            right: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: float-blob 8s ease-in-out infinite;
+        }
+        .blob-2 {
+            position: fixed;
+            bottom: -200px;
+            left: -100px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(14,165,233,0.1), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: float-blob 10s ease-in-out infinite reverse;
+        }
+        .blob-3 {
+            position: fixed;
+            top: 40%;
+            left: 30%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(168,85,247,0.08), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: float-blob 12s ease-in-out infinite;
+        }
+        @@keyframes float-blob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -20px) scale(1.05); }
+            66% { transform: translate(-20px, 15px) scale(0.95); }
+        }
+
+        /* ── Section label chips ── */
+        .section-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 4px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        /* ── Validation ── */
+        .is-invalid {
+            border-color: #f43f5e !important;
+            box-shadow: 0 0 0 3px rgba(244,63,94,0.15) !important;
+        }
+        .invalid-feedback {
+            color: #fb7185 !important;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99,102,241,0.3);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99,102,241,0.5);
+        }
+
+        /* ── Back link ── */
+        .back-link {
+            color: rgba(255,255,255,0.4);
+            font-weight: 600;
+            font-size: 13px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #a78bfa; }
+
+        /* ── Row spacing inside tabs ── */
+        .tab-pane .row > [class*="col-md"] {
+            margin-bottom: 12px;
         }
     </style>
 }
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+
+<!-- Decorative background blobs -->
+<div class="blob-1"></div>
+<div class="blob-2"></div>
+<div class="blob-3"></div>
+
+<div class="content-wrapper" style="position:relative; z-index:1;">
+    <!-- Content Header -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item"><a href="~/Student/List">List</a></li>
-                        <li class="breadcrumb-item active"><a href="#">Studdent Detail </a></li>
+                        <li class="breadcrumb-item"><a href="~/Student/List"><i class="fas fa-arrow-left mr-1"></i> List</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Student Detail</a></li>
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+
+                <!-- ═══════════ LEFT COLUMN ═══════════ -->
                 <div class="col-md-3">
 
-                    <div class="card card-primary card-outline">
-                        <div class="card-body box-profile">
+                    <!-- Profile Card -->
+                    <div class="card card-primary card-outline profile-card mb-4">
+                        <div class="card-body box-profile text-center">
                             @if (Model.TC == "ISSUE")
                             {
-                                <i class='fas fa-star text-danger'></i> <p class="text-muted text-center">TC Isseued</p>
+                                <div class="mb-3">
+                                    <span class="tc-badge">
+                                        <i class="fas fa-star"></i> TC Issued
+                                    </span>
+                                </div>
                             }
-                            <div class="text-center">
+                            <div class="text-center mb-3">
                                 <img class="profile-user-img img-fluid img-circle"
                                      src="@Model.Photo"
                                      alt="User profile picture">
                             </div>
                             <input type="hidden" value="@Model.Id" id="hdnStudentID" />
-                            <h3 class="profile-username text-center">@Model.StudentName</h3>
-
-
-                            <p class="text-muted text-center">@Model.FatherName</p>
-                            <p class="text-muted text-center">@Model.MobileNoOne</p>
-                            <p class="text-muted text-center">Exam Form Filled  @Model.ExamFormSubmited</p>
-
+                            <h3 class="profile-username">@Model.StudentName</h3>
+                            <p class="text-muted mb-1"><i class="fas fa-user-tie mr-1"></i> @Model.FatherName</p>
+                            <p class="text-muted mb-1"><i class="fas fa-phone mr-1"></i> @Model.MobileNoOne</p>
+                            <span class="exam-badge"><i class="fas fa-file-alt mr-1"></i> Exam Form: @Model.ExamFormSubmited</span>
                         </div>
-                        <!-- /.card-body -->
                     </div>
 
-                    <div class="card card-primary">
+                    <!-- Education Card -->
+                    <div class="card card-primary education-card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-book mr-1"></i> Education</h3>
+                            <h3 class="card-title"><i class="fas fa-graduation-cap mr-1"></i> Education</h3>
                         </div>
-
                         <div class="card-body">
-
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
                                     <b>Session</b> <a class="float-right">@Model.Session</a>
@@ -88,127 +584,101 @@
                                     <b>Year</b> <a class="float-right">@Model.Year</a>
                                 </li>
                             </ul>
-
-
                         </div>
-
                     </div>
 
                 </div>
-                <!-- /.col -->
+
+                <!-- ═══════════ RIGHT COLUMN ═══════════ -->
                 <div class="col-md-9">
-                    <div class="card">
+                    <div class="card main-card">
                         <div class="card-header p-2">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#Personal" data-toggle="tab"><i class="fas fa-user"></i> Personal</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#College" data-toggle="tab"><i class="fas fa-university"></i> College</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#Academic" data-toggle="tab">Academic</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#Document" data-toggle="tab">Document</a></li>
+                            <ul class="nav nav-pills" id="detailTabs">
+                                <li class="nav-item"><a class="nav-link active" href="#Personal" data-toggle="tab"><i class="fas fa-user mr-1"></i> Personal</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#College" data-toggle="tab"><i class="fas fa-university mr-1"></i> College</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#Academic" data-toggle="tab"><i class="fas fa-book-open mr-1"></i> Academic</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#Document" data-toggle="tab"><i class="fas fa-folder-open mr-1"></i> Document</a></li>
                             </ul>
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
-                                <!-- /.Personal Detail -->
+
+                                <!-- ──── PERSONAL TAB ──── -->
                                 <div class="active tab-pane" id="Personal">
+                                    <div class="section-chip"><i class="fas fa-id-card"></i> Personal Information</div>
                                     <div class="row">
 
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Name</label>
                                             <input asp-for="StudentName" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Father Name</label>
                                             <input asp-for="FatherName" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="PersonalDetailLable">Mother Name</label>
-                                                <input asp-for="MotherName" readonly="readonly" class="form-control PersonalDetailText" />
-                                            </div>
+                                            <label class="PersonalDetailLable">Mother Name</label>
+                                            <input asp-for="MotherName" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="PersonalDetailLable">Mobile No</label>
-                                                <input asp-for="MobileNoOne" readonly="readonly" class="form-control PersonalDetailText" />
-                                            </div>
+                                            <label class="PersonalDetailLable">Mobile No</label>
+                                            <input asp-for="MobileNoOne" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">DOB</label>
                                             <input asp-for="DOB" type="date" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="PersonalDetailLable">FatherMobileNo</label>
-                                                <input asp-for="FatherMobileNo" readonly="readonly" class="form-control PersonalDetailText" />
-                                            </div>
+                                            <label class="PersonalDetailLable">Father Mobile</label>
+                                            <input asp-for="FatherMobileNo" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-2">
                                             <label class="PersonalDetailLable">Gender</label>
                                             <input asp-for="Gender" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-2">
                                             <label class="PersonalDetailLable">Minority</label>
                                             <input asp-for="Minority" readonly="readonly" class="form-control PersonalDetailText" />
-
                                         </div>
-
                                         <div class="col-md-2">
                                             <label class="PersonalDetailLable">Caste</label>
                                             <input asp-for="Caste" readonly="readonly" class="form-control PersonalDetailText" />
-
                                         </div>
-                                        <div class="col-md-2 custom-checkbox">
+                                        <div class="col-md-2">
                                             <label class="PersonalDetailLable">TC</label>
                                             <input asp-for="TC" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-2 custom-checkbox">
+                                        <div class="col-md-2">
                                             <label class="PersonalDetailLable">PH</label>
                                             <input asp-for="PH" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Aadhaar No</label>
                                             <input asp-for="AadhaarNo" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">ABC No</label>
                                             <input asp-for="AbcNo" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-2">
-                                            <label class="PersonalDetailLable">SamagraID</label>
+                                            <label class="PersonalDetailLable">Samagra ID</label>
                                             <input asp-for="SamagraID" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-8">
-                                            <label class="PersonalDetailLable"> Address</label>
-                                            <textarea asp-for="Address" readonly="readonly" class="form-control PersonalDetailText"></textarea>
+                                            <label class="PersonalDetailLable">Address</label>
+                                            <textarea asp-for="Address" readonly="readonly" class="form-control PersonalDetailText" rows="2"></textarea>
                                         </div>
-                                        <div class="col-md-2">
-
-
-                                            <a data-toggle='modal' data-target='#modal-Personal' class="btn btn-info btn-sm" href="#">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Change Detail
+                                        <div class="col-md-2 d-flex align-items-end">
+                                            <a data-toggle='modal' data-target='#modal-Personal' class="btn btn-edit" href="#">
+                                                <i class="fas fa-pencil-alt mr-1"></i> Edit
                                             </a>
-
                                         </div>
-
-
-
                                     </div>
                                 </div>
-                                <!-- /.College Detail -->
+
+                                <!-- ──── COLLEGE TAB ──── -->
                                 <div class="tab-pane" id="College">
+                                    <div class="section-chip"><i class="fas fa-university"></i> College Details</div>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Session</label>
@@ -227,11 +697,11 @@
                                             <input asp-for="Year" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
-                                            <label class="PersonalDetailLable">NewOld</label>
+                                            <label class="PersonalDetailLable">New / Old</label>
                                             <input asp-for="NewOld" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
-                                            <label class="PersonalDetailLable">RegEx</label>
+                                            <label class="PersonalDetailLable">Reg / Ex</label>
                                             <input asp-for="RegEx" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
@@ -246,534 +716,421 @@
                                             <label class="PersonalDetailLable">Admission Date</label>
                                             <input asp-for="AdmissionDate" type="date" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Roll No</label>
                                             <input asp-for="RollNo" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
-                                            <label class="PersonalDetailLable">Schoolar No</label>
+                                            <label class="PersonalDetailLable">Scholar No</label>
                                             <input asp-for="SchoolarNo" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Sub Code</label>
                                             <input asp-for="SubCode" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-12">
-
-                                            <a style="float:right !important; padding-top:10px;" data-toggle='modal' data-target='#modal-College' class="btn btn-info btn-sm" href="#">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Change Detail
+                                        <div class="col-md-12 d-flex justify-content-end" style="padding-top:10px;">
+                                            <a data-toggle='modal' data-target='#modal-College' class="btn btn-edit" href="#">
+                                                <i class="fas fa-pencil-alt mr-1"></i> Edit
                                             </a>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- /.Academic -->
+                                <!-- ──── ACADEMIC TAB ──── -->
                                 <div class="tab-pane" id="Academic">
+                                    <div class="section-chip"><i class="fas fa-book-open"></i> Academic History</div>
                                     <div class="row">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 10px">#</th>
-                                                    <th>Session</th>
-                                                    <th>School/College</th>
-                                                    <th>Board</th>
-                                                    <th>Year</th>
-                                                    <th>Result</th>
-                                                    <th>Obtain</th>
-                                                    <th>Delete</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (Model.AcadmicList != null)
-                                                {
-                                                    int SeNo = 1;
-                                                    foreach (var AcadmicRow in Model.AcadmicList)
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered custom-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 40px">#</th>
+                                                        <th>Session</th>
+                                                        <th>School / College</th>
+                                                        <th>Board</th>
+                                                        <th>Year</th>
+                                                        <th>Result</th>
+                                                        <th>Obtain</th>
+                                                        <th style="width: 70px">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model.AcadmicList != null)
                                                     {
-                                                        <tr>
-                                                            <td>@SeNo</td>
-                                                            <td>@AcadmicRow.Session</td>
-                                                            <td>@AcadmicRow.Board</td>
-                                                            <td>@AcadmicRow.SchoolName</td>
-                                                            <td>@AcadmicRow.PassingYear</td>
-                                                            <td>@AcadmicRow.Result</td>
-                                                            <td>@AcadmicRow.ObtMark /  @AcadmicRow.MaxMark </td>
-                                                            <td>
-                                                                <a class="btn btn-danger btn-sm" onclick="deleteAcadmicDetail(@AcadmicRow.Id)">
-                                                                    <i class="fas fa-trash">
-                                                                    </i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        SeNo = SeNo + 1;
+                                                        int SeNo = 1;
+                                                        foreach (var AcadmicRow in Model.AcadmicList)
+                                                        {
+                                                            <tr>
+                                                                <td>@SeNo</td>
+                                                                <td>@AcadmicRow.Session</td>
+                                                                <td>@AcadmicRow.SchoolName</td>
+                                                                <td>@AcadmicRow.Board</td>
+                                                                <td>@AcadmicRow.PassingYear</td>
+                                                                <td><span class="badge @((AcadmicRow.Result == "PASS") ? "badge-success" : "badge-danger") px-2 py-1" style="font-size:11px;border-radius:6px;">@AcadmicRow.Result</span></td>
+                                                                <td>@AcadmicRow.ObtMark / @AcadmicRow.MaxMark</td>
+                                                                <td>
+                                                                    <a class="btn btn-delete" onclick="deleteAcadmicDetail(@AcadmicRow.Id)">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            SeNo = SeNo + 1;
+                                                        }
                                                     }
-                                                }
-
-                                            </tbody>
-                                        </table>
-                                        <div class="col-md-2">
-                                            <a data-toggle='modal' data-target='#modal-Academic' class="btn btn-info btn-sm" href="#">
-                                                <i class="fas fa-pluse-alt">
-                                                </i>
-                                                Add Detail
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a data-toggle='modal' data-target='#modal-Academic' class="btn btn-add" href="#">
+                                                <i class="fas fa-plus mr-1"></i> Add Detail
                                             </a>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- /.Document -->
+                                <!-- ──── DOCUMENT TAB ──── -->
                                 <div class="tab-pane" id="Document">
+                                    <div class="section-chip"><i class="fas fa-folder-open"></i> Uploaded Documents</div>
                                     <div class="row">
-                                        <table class="table table-striped projects">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 10px">#</th>
-                                                    <th>Document Name</th>
-                                                    <th>Download</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>
-                                                        Photo
-                                                    </td>
-                                                    <td>
-                                                        <img alt="Avatar" class="table-avatar" src="@Model.Photo">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>
-                                                        TC
-                                                    </td>
-                                                    <td>
-                                                        <img alt="Avatar" class="table-avatar" src="@Model.TCPhoto">
-                                                    </td>
-                                                </tr>
-
-                                                @if (Model.DocumentList != null)
-                                                {
-                                                    foreach (var row in Model.DocumentList)
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered custom-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 40px">#</th>
+                                                        <th>Document Name</th>
+                                                        <th>Preview</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td><i class="fas fa-camera mr-2" style="color:#6366f1;"></i> Photo</td>
+                                                        <td><img alt="Photo" class="doc-thumb" src="@Model.Photo"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td><i class="fas fa-file-alt mr-2" style="color:#06b6d4;"></i> TC</td>
+                                                        <td><img alt="TC" class="doc-thumb" src="@Model.TCPhoto"></td>
+                                                    </tr>
+                                                    @if (Model.DocumentList != null)
                                                     {
-                                                        <tr>
-                                                            <th style="width: 10px">#</th>
-                                                            <th>@row.Key</th>
-                                                            <th> View</th>
-                                                        </tr>
+                                                        int docNo = 3;
+                                                        foreach (var row in Model.DocumentList)
+                                                        {
+                                                            <tr>
+                                                                <td>@docNo</td>
+                                                                <td><i class="fas fa-file mr-2" style="color:#a855f7;"></i> @row.Key</td>
+                                                                <td><span class="badge badge-info px-3 py-2" style="font-size:12px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#a855f7);">View</span></td>
+                                                            </tr>
+                                                            docNo++;
+                                                        }
                                                     }
-
-                                                }
-                                            </tbody>
-                                        </table>
-
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
 
-                               
-
-                                </div>
-                                <!-- /.tab-content -->
-                            </div><!-- /.card-body -->
+                            </div>
+                            <!-- /.tab-content -->
                         </div>
-                        <!-- /.card -->
+                        <!-- /.card-body -->
                     </div>
-                    <!-- /.col -->
+                    <!-- /.card -->
                 </div>
-                <!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-    </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+    </section>
+</div>
 
-    <div class="modal fade" id="modal-Personal">
-        <div class="modal-dialog" style=" min-width:750px !important; width:750px !important">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Peronal Detail</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label>First Name</label>
-                            <input id="txtStudentName" asp-for="StudentName" class="form-control">
-                        </div>
-
-                        <div class="col-md-3">
-                            <label>Father Name</label>
-                            <input id="txtFatherName" asp-for="FatherName" class="form-control">
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Mother Name</label>
-                                <input id="txtMotherName" asp-for="MotherName" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Mobile No</label>
-                                <input id="txtMobileNo" asp-for="MobileNoOne" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label>DOB</label>
-                            <input id="txtDOB" asp-for="DOB" type="date" class="form-control">
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>FatherMobileNo</label>
-                                <input id="txtFatherMobileNo" asp-for="FatherMobileNo" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="col-md-2">
-                            <label>Gender</label>
-                            <select id="ddlGender" asp-for="Gender" class="form-control">
-                                <option>Select</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-2">
-                            <label>Minority</label>
-                            <select id="ddlMinority" asp-for="Minority" class="form-control">
-                                <option>Select</option>
-                                <option>Yes</option>
-                                <option>No</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-2">
-                            <label>Caste</label>
-                            <select id="ddlCaset" asp-for="Caste" class="form-control">
-                                <option>Select</option>
-                                <option>Gen</option>
-                                <option>OBC</option>
-                                <option>SC</option>
-                                <option>ST</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2 custom-checkbox">
-                            <label>TC Submited</label>
-                            <select id="ddlTC" asp-for="TC" class="form-control">
-                                <option>Select</option>
-                                <option>Yes</option>
-                                <option>No</option>
-                            </select>
-
-                        </div>
-                        <div class="col-md-2 custom-checkbox">
-                            <label>Is Handicapped</label>
-                            <select id="ddlPH" asp-for="PH" class="form-control">
-                                <option>Select</option>
-                                <option>Yes</option>
-                                <option>No</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label>Aadhaar No</label>
-                            <input id="txtAadhaarNo" asp-for="AadhaarNo" class="form-control">
-                        </div>
-
-                        <div class="col-md-3">
-                            <label>ABC No</label>
-                            <input id="txtAbcNo" asp-for="AbcNo" class="form-control">
-                        </div>
-
-                        <div class="col-md-2">
-                            <label>SamagraID</label>
-                            <input id="txtSamagraID" asp-for="SamagraID" class="form-control">
-                        </div>
-
-                        <div class="col-md-8">
-                            <label>Address</label>
-                            <textarea id="txtAddress" asp-for="Address" class="form-control"></textarea>
-                        </div>
-
+<!-- ═══════════ MODAL: PERSONAL ═══════════ -->
+<div class="modal fade" id="modal-Personal">
+    <div class="modal-dialog" style="min-width:750px !important; width:750px !important">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-user-edit mr-2"></i> Personal Detail</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>First Name</label>
+                        <input id="txtStudentName" asp-for="StudentName" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Father Name</label>
+                        <input id="txtFatherName" asp-for="FatherName" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Mother Name</label>
+                        <input id="txtMotherName" asp-for="MotherName" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Mobile No</label>
+                        <input id="txtMobileNo" asp-for="MobileNoOne" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>DOB</label>
+                        <input id="txtDOB" asp-for="DOB" type="date" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Father Mobile</label>
+                        <input id="txtFatherMobileNo" asp-for="FatherMobileNo" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label>Gender</label>
+                        <select id="ddlGender" asp-for="Gender" class="form-control">
+                            <option>Select</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Minority</label>
+                        <select id="ddlMinority" asp-for="Minority" class="form-control">
+                            <option>Select</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Caste</label>
+                        <select id="ddlCaset" asp-for="Caste" class="form-control">
+                            <option>Select</option>
+                            <option>Gen</option>
+                            <option>OBC</option>
+                            <option>SC</option>
+                            <option>ST</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>TC Submitted</label>
+                        <select id="ddlTC" asp-for="TC" class="form-control">
+                            <option>Select</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Is Handicapped</label>
+                        <select id="ddlPH" asp-for="PH" class="form-control">
+                            <option>Select</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Aadhaar No</label>
+                        <input id="txtAadhaarNo" asp-for="AadhaarNo" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>ABC No</label>
+                        <input id="txtAbcNo" asp-for="AbcNo" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label>Samagra ID</label>
+                        <input id="txtSamagraID" asp-for="SamagraID" class="form-control">
+                    </div>
+                    <div class="col-md-8">
+                        <label>Address</label>
+                        <textarea id="txtAddress" asp-for="Address" class="form-control" rows="2"></textarea>
                     </div>
                 </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" onclick="SavePersonalDetail()"><i class="fas fa-save"> </i> Save changes</button>
-
-                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="SavePersonalDetail()"><i class="fas fa-save mr-1"></i> Save Changes</button>
             </div>
         </div>
     </div>
+</div>
 
-
-    <div class="modal fade" id="modal-College">
-        <div class="modal-dialog" style=" min-width:750px !important; width:750px !important">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">College</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>NewOld</label>
-                                <select id="ddlNewOld" asp-for="NewOld" class="form-control">
-                                    <option>Select</option>
-                                    <option>NEW</option>
-                                    <option>OLD</option>
-                                    <option>EX</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Is Reguler</label>
-                                <select id="ddlRegEx" asp-for="RegEx" class="form-control">
-                                    <option>Select</option>
-                                    <option>REGULER</option>
-                                    <option>PRIVATE</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Medium</label>
-                                <select id="ddlMedium" asp-for="Medium" class="form-control">
-                                    <option>Select</option>
-                                    <option>Hindi</option>
-                                    <option>English</option>
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Admission Form No</label>
-                                <input id="txtAdmissionFormNo" type="number" asp-for="AdmissionFormNo" class="form-control" placeholder="Form No">
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>EnRollNo</label>
-                                <input id="txtEnRollNo" asp-for="EnRollNo" class="form-control" placeholder="Roll No">
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>AdmissionDate</label>
-                                <input id="txtAdmissionDate" asp-for="AdmissionDate" type="date" class="form-control">
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>RollNo</label>
-                                <input id="txtRollNo" asp-for="RollNo" class="form-control" placeholder="Roll No">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>SchoolarNo</label>
-                                <input id="txtSchoolarNo" asp-for="SchoolarNo" class="form-control" placeholder="Roll No">
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>SubCode</label>
-                                <input id="txtSubCode" asp-for="SubCode" class="form-control" placeholder="Roll No">
-                            </div>
-                        </div>
-
-
-
+<!-- ═══════════ MODAL: COLLEGE ═══════════ -->
+<div class="modal fade" id="modal-College">
+    <div class="modal-dialog" style="min-width:750px !important; width:750px !important">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-university mr-2"></i> College Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>New / Old</label>
+                        <select id="ddlNewOld" asp-for="NewOld" class="form-control">
+                            <option>Select</option>
+                            <option>NEW</option>
+                            <option>OLD</option>
+                            <option>EX</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Is Regular</label>
+                        <select id="ddlRegEx" asp-for="RegEx" class="form-control">
+                            <option>Select</option>
+                            <option>REGULER</option>
+                            <option>PRIVATE</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Medium</label>
+                        <select id="ddlMedium" asp-for="Medium" class="form-control">
+                            <option>Select</option>
+                            <option>Hindi</option>
+                            <option>English</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Admission Form No</label>
+                        <input id="txtAdmissionFormNo" type="number" asp-for="AdmissionFormNo" class="form-control" placeholder="Form No">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Enroll No</label>
+                        <input id="txtEnRollNo" asp-for="EnRollNo" class="form-control" placeholder="Enroll No">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Admission Date</label>
+                        <input id="txtAdmissionDate" asp-for="AdmissionDate" type="date" class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Roll No</label>
+                        <input id="txtRollNo" asp-for="RollNo" class="form-control" placeholder="Roll No">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Scholar No</label>
+                        <input id="txtSchoolarNo" asp-for="SchoolarNo" class="form-control" placeholder="Scholar No">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Sub Code</label>
+                        <input id="txtSubCode" asp-for="SubCode" class="form-control" placeholder="Sub Code">
                     </div>
                 </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" onclick="SaveCollegeDetail()"><i class="fas fa-save"> </i> Save changes</button>
-                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="SaveCollegeDetail()"><i class="fas fa-save mr-1"></i> Save Changes</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="modal-Academic">
-        <div class="modal-dialog" style=" min-width:750px !important; width:750px !important">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">College</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Admission Form No</label>
-                                <input type="text" asp-for="AdmissionFormNo" id="txtAcademicAdmissionFormNo" class="form-control" placeholder="Parcentage">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>12th school Name</label>
-                                <input id="txtSchoolName" type="text" asp-for="SchoolName" class="form-control" placeholder="12th school Name">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Passsing Year</label>
-                                <input id="txtAcademicYear" type="number" asp-for="PassingYear" class="form-control" placeholder="Passing Year">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Session</label>
-                                <select id="ddlAcadmicSession" asp-for="Session" asp-items="Model.SessionList" class="form-control">
-                                    <option>Select</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Class</label>
-                                <select id="ddlAcadmicClass" asp-for="Class" asp-items="Model.ClassList" class="form-control">
-                                    <option>Select</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Course</label>
-                                <select id="ddlAcadmicCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
-                                    <option>Select</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Board</label>
-                                <input type="text" id="txtBoard" asp-for="Board" class="form-control" placeholder="Board">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Max. Marks</label>
-                                <input type="text" id="txtMaxMark" asp-for="MaxMark" class="form-control" placeholder="Max. Marks">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Obtain Marks</label>
-                                <input type="text" id="txtObtMark" asp-for="ObtMark" class="form-control" placeholder="Obtain Marks">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Result</label>
-
-                                <select id="ddlResult" asp-for="Result" class="form-control">
-                                    <option>Select</option>
-                                    <option>PASS</option>
-                                    <option>FAIL</option>
-                                    <option>NC</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Parcentage</label>
-                                <input type="text" id="txtParcent" asp-for="Parcent" class="form-control" placeholder="Parcentage">
-                            </div>
-                        </div>
-
-
-
+<!-- ═══════════ MODAL: ACADEMIC ═══════════ -->
+<div class="modal fade" id="modal-Academic">
+    <div class="modal-dialog" style="min-width:750px !important; width:750px !important">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-book-open mr-2"></i> Academic Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Admission Form No</label>
+                        <input type="text" asp-for="AdmissionFormNo" id="txtAcademicAdmissionFormNo" class="form-control" placeholder="Admission Form No">
+                    </div>
+                    <div class="col-md-3">
+                        <label>12th School Name</label>
+                        <input id="txtSchoolName" type="text" asp-for="SchoolName" class="form-control" placeholder="12th School Name">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Passing Year</label>
+                        <input id="txtAcademicYear" type="number" asp-for="PassingYear" class="form-control" placeholder="Passing Year">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Session</label>
+                        <select id="ddlAcadmicSession" asp-for="Session" asp-items="Model.SessionList" class="form-control">
+                            <option>Select</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Class</label>
+                        <select id="ddlAcadmicClass" asp-for="Class" asp-items="Model.ClassList" class="form-control">
+                            <option>Select</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Course</label>
+                        <select id="ddlAcadmicCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
+                            <option>Select</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Board</label>
+                        <input type="text" id="txtBoard" asp-for="Board" class="form-control" placeholder="Board">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Max. Marks</label>
+                        <input type="text" id="txtMaxMark" asp-for="MaxMark" class="form-control" placeholder="Max. Marks">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Obtain Marks</label>
+                        <input type="text" id="txtObtMark" asp-for="ObtMark" class="form-control" placeholder="Obtain Marks">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Result</label>
+                        <select id="ddlResult" asp-for="Result" class="form-control">
+                            <option>Select</option>
+                            <option>PASS</option>
+                            <option>FAIL</option>
+                            <option>NC</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Percentage</label>
+                        <input type="text" id="txtParcent" asp-for="Parcent" class="form-control" placeholder="Percentage">
                     </div>
                 </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="SaveAcadmicDetail()"><i class="fas fa-save"></i> Save changes</button>
-                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="SaveAcadmicDetail()"><i class="fas fa-save mr-1"></i> Save Changes</button>
             </div>
         </div>
     </div>
+</div>
 
-
-
-    @section Scripts {
-
-        <script type="text/javascript">
+@section Scripts {
+    <script type="text/javascript">
         // INSERT
-
         var BASE_URL = "@baseUrl";
-
         var Toast;
-        window.onload = function () {
 
+        window.onload = function () {
             Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
                 timer: 50000
             });
-
-
         };
 
-        //-class: 'bg-danger',  class: 'bg-warning',class: 'bg-info',
-        function Alert(icon, title, className)
-        {
+        function Alert(icon, title, className) {
             Toast.fire({
                 icon: icon,
                 title: title,
                 class: className,
-            })
+            });
         }
 
-        function SavePersonalDetail()
-        {
+        function SavePersonalDetail() {
             var IsValidate = true;
 
             if (!validateField("#txtStudentName", "Student name required")) IsValidate = false;
             if (!validateField("#txtFatherName", "Father name required")) IsValidate = false;
             if (!validateField("#txtMotherName", "Mother name required")) IsValidate = false;
-
-            // 👇 Mobile validation added here
             if (!validateField("#txtMobileNo", "Mobile number required", "mobile")) IsValidate = false;
             if (!validateField("#txtFatherMobileNo", "Father mobile required", "mobile")) IsValidate = false;
-
             if (!validateField("#txtDOB", "Date of birth required")) IsValidate = false;
             if (!validateField("#txtAadhaarNo", "Aadhaar number required")) IsValidate = false;
             if (!validateField("#txtAddress", "Address required")) IsValidate = false;
-
             if (!validateField("#ddlGender", "Select gender", "dropdown")) IsValidate = false;
             if (!validateField("#ddlMinority", "Select minority", "dropdown")) IsValidate = false;
             if (!validateField("#ddlCaset", "Select caste", "dropdown")) IsValidate = false;
@@ -781,9 +1138,6 @@
             if (!validateField("#ddlPH", "Select PH", "dropdown")) IsValidate = false;
 
             if (!IsValidate) return;
-
-
-
 
             var varid = $("#hdnStudentID").val();
             var varStudentName = $("#txtStudentName").val();
@@ -804,30 +1158,28 @@
 
             if (IsValidate) {
                 $.post(BASE_URL + "/History/SaveStudentHistory", {
-                id: varid,
-                varStudentName: varStudentName,
-                varFatherName: varFatherName,
-                varMotherName: varMotherName,
-                varMobileNo: varMobileNo,
-                varDOB: varDOB,
-                varFatherMobileNo: varFatherMobileNo,
-                varGender: varGender,
-                varMinority: varMinority,
-                varCaset: varCaset,
-                varAbcNo: varAbcNo,
-                varSamagraID: varSamagraID,
-                varAddress: varAddress,
-                varTC: varTC,
-                varPH: varPH,
-                varAdhaarNo: varAdhaarNo
-            },
+                    id: varid,
+                    varStudentName: varStudentName,
+                    varFatherName: varFatherName,
+                    varMotherName: varMotherName,
+                    varMobileNo: varMobileNo,
+                    varDOB: varDOB,
+                    varFatherMobileNo: varFatherMobileNo,
+                    varGender: varGender,
+                    varMinority: varMinority,
+                    varCaset: varCaset,
+                    varAbcNo: varAbcNo,
+                    varSamagraID: varSamagraID,
+                    varAddress: varAddress,
+                    varTC: varTC,
+                    varPH: varPH,
+                    varAdhaarNo: varAdhaarNo
+                },
                 function (res) {
-
                     $("#modal-Personal").modal("hide");
-                    Alert('success', 'Personal Detail Save succeefully.', 'bg-success');
+                    Alert('success', 'Personal Detail Saved Successfully', 'bg-success');
                     location.reload(true);
-                }
-            );
+                });
             }
         }
 
@@ -835,12 +1187,9 @@
             var value = $(selector).val();
             var errorId = selector.replace('#', '') + "Error";
 
-            // Dropdown validation
             if (type === "dropdown") {
-
                 if (value === "" || value === "0" || value === null || value === "Select") {
                     $(selector).addClass("is-invalid");
-
                     if ($("#" + errorId).length == 0) {
                         $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">' + message + '</span>');
                     }
@@ -852,22 +1201,18 @@
                 }
             }
 
-            // Required validation
             if (value === "") {
                 $(selector).addClass("is-invalid");
-
                 if ($("#" + errorId).length == 0) {
                     $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">' + message + '</span>');
                 }
                 return false;
             }
 
-            // Mobile validation
             if (type === "mobile") {
                 var mobilePattern = /^[0-9]{10}$/;
                 if (!mobilePattern.test(value)) {
                     $(selector).addClass("is-invalid");
-
                     if ($("#" + errorId).length == 0) {
                         $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">Enter valid 10 digit mobile number</span>');
                     }
@@ -875,15 +1220,12 @@
                 }
             }
 
-            // Valid case
             $(selector).removeClass("is-invalid");
             $("#" + errorId).remove();
             return true;
         }
 
-
-        function SaveCollegeDetail()
-        {
+        function SaveCollegeDetail() {
             var IsValidate = true;
             if (!validateField("#txtAdmissionFormNo", "AdmissionFormNo required")) IsValidate = false;
             if (!validateField("#txtEnRollNo", "EnRollNo required")) IsValidate = false;
@@ -891,16 +1233,13 @@
             if (!validateField("#txtRollNo", "RollNo required")) IsValidate = false;
             if (!validateField("#txtSchoolarNo", "SchoolarNo required")) IsValidate = false;
             if (!validateField("#txtSubCode", "SubCode required")) IsValidate = false;
-
             if (!validateField("#ddlNewOld", "Select NewOld", "dropdown")) IsValidate = false;
             if (!validateField("#ddlMedium", "Select Medium", "dropdown")) IsValidate = false;
             if (!validateField("#ddlRegEx", "Select RegEx", "dropdown")) IsValidate = false;
 
             if (!IsValidate) return;
 
-
             var varid = $("#hdnStudentID").val();
-
             var varNewOld = $('#ddlNewOld option:selected').text();
             var varMedium = $('#ddlMedium option:selected').text();
             var varAdmissionFormNo = $('#txtAdmissionFormNo').val();
@@ -911,52 +1250,43 @@
             var varSubCode = $('#txtSubCode').val();
             var varRegEx = $('#ddlRegEx option:selected').text();
 
-
             if (IsValidate) {
-
                 $.post(BASE_URL + "/History/UpdateCollegeDetail", {
-                id: varid,
-                varSession: "",
-                varNewOld: varNewOld,
-                varMedium: varMedium,
-                varClass: "",
-                varCourse: "",
-                varYear: "",
-                varAdmissionFormNo: varAdmissionFormNo,
-                varEnRollNo: varEnRollNo,
-                varAdmissionDate: varAdmissionDate,
-                varRollNo: varRollNo,
-                varSchoolarNo: varSchoolarNo,
-                varSubCode: varSubCode,
-                varRegEx: varRegEx
-            },
-                    function (res)
-                    {
-                        $("#modal-Personal").modal("hide");
-                        Alert('success', 'Save College succeefully.', 'bg-success');
-                        location.reload(true);
-                    }
-                );
+                    id: varid,
+                    varSession: "",
+                    varNewOld: varNewOld,
+                    varMedium: varMedium,
+                    varClass: "",
+                    varCourse: "",
+                    varYear: "",
+                    varAdmissionFormNo: varAdmissionFormNo,
+                    varEnRollNo: varEnRollNo,
+                    varAdmissionDate: varAdmissionDate,
+                    varRollNo: varRollNo,
+                    varSchoolarNo: varSchoolarNo,
+                    varSubCode: varSubCode,
+                    varRegEx: varRegEx
+                },
+                function (res) {
+                    $("#modal-College").modal("hide");
+                    Alert('success', 'College Detail Saved Successfully', 'bg-success');
+                    location.reload(true);
+                });
             }
         }
 
-
         function SaveAcadmicDetail() {
-
             var IsValidate = true;
             if (!validateField("#txtAcademicYear", "Academic Year required")) IsValidate = false;
             if (!validateField("#txtSchoolName", "School Name required")) IsValidate = false;
             if (!validateField("#txtBoard", "Board required")) IsValidate = false;
             if (!validateField("#txtMaxMark", "Max Mark required")) IsValidate = false;
             if (!validateField("#txtObtMark", "ObtMark required")) IsValidate = false;
-            if (!validateField("#txtParcent", "Parcent required")) IsValidate = false;
+            if (!validateField("#txtParcent", "Percent required")) IsValidate = false;
             if (!validateField("#txtAcademicAdmissionFormNo", "Admission FormNo required")) IsValidate = false;
-
-
-            if (!validateField("#ddlAcadmicSession", "Select Acadmic Session", "dropdown")) IsValidate = false;
-            if (!validateField("#ddlAcadmicClass", "Select Acadmic Class", "dropdown")) IsValidate = false;
-            if (!validateField("#ddlAcadmicCourse", "Select Acadmic Course", "dropdown")) IsValidate = false;
-            if (!validateField("#ddlAcadmicCourse", "Select Acadmic Course", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlAcadmicSession", "Select Academic Session", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlAcadmicClass", "Select Academic Class", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlAcadmicCourse", "Select Academic Course", "dropdown")) IsValidate = false;
             if (!validateField("#ddlResult", "Select Result", "dropdown")) IsValidate = false;
 
             if (!IsValidate) return;
@@ -976,45 +1306,49 @@
 
             if (IsValidate) {
                 $.post(BASE_URL + "/Student/UpdateCollegeDetail", {
-                id: varid,
-                varAcademicYear: varAcademicYear,
-                varAcadmicSession: varAcadmicSession,
-                varAcadmicClass: varAcadmicClass,
-                varAcadmicCourse: varAcadmicCourse,
-                varSchoolName: varSchoolName,
-                varBoard: varBoard,
-                varMaxMark: varMaxMark,
-                varObtMark: varObtMark,
-                varResult: varResult,
-                varParcent: varParcent,
-                varAdmissionFormNo: varAdmissionFormNo
-            },
+                    id: varid,
+                    varAcademicYear: varAcademicYear,
+                    varAcadmicSession: varAcadmicSession,
+                    varAcadmicClass: varAcadmicClass,
+                    varAcadmicCourse: varAcadmicCourse,
+                    varSchoolName: varSchoolName,
+                    varBoard: varBoard,
+                    varMaxMark: varMaxMark,
+                    varObtMark: varObtMark,
+                    varResult: varResult,
+                    varParcent: varParcent,
+                    varAdmissionFormNo: varAdmissionFormNo
+                },
                 function (res) {
-
-                    $("#modal-Personal").modal("hide");
-                    Alert('success', 'Save acadmic succeefully.', 'bg-success');
+                    $("#modal-Academic").modal("hide");
+                    Alert('success', 'Academic Detail Saved Successfully', 'bg-success');
                     location.reload(true);
-                }
-            );
+                });
             }
         }
 
-       
         // DELETE
         function deleteAcadmicDetail(id) {
-            if (confirm("Are you sure?")) {
-                $.post(BASE_URL + "/Student/Delete", {
-                    id: id,
-                },
-                    function (res) {
-
-                        Alert('success', 'Successfully Promoted', 'bg-success');
-                        location.reload(true);
-                    }
-                );
-            }
+            Swal.fire({
+                title: 'Delete Record?',
+                text: 'This action cannot be undone.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e11d48',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Yes, delete it',
+                background: '#1e1b4b',
+                color: '#e2e8f0'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post(BASE_URL + "/Student/Delete", { id: id },
+                        function (res) {
+                            Alert('success', 'Deleted Successfully', 'bg-success');
+                            location.reload(true);
+                        }
+                    );
+                }
+            });
         }
-
-
-        </script>
-    }
+    </script>
+}

@@ -1,154 +1,658 @@
 ﻿@model CRM.ModelsForView.StudentListView
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "Student List";
     var baseUrl = ViewBag.BaseUrl;
 }
 
+<style>
+    :root {
+        --clr-primary: #6366f1;
+        --clr-primary-light: #818cf8;
+        --clr-accent-teal: #14b8a6;
+        --clr-accent-orange: #f97316;
+        --clr-accent-pink: #ec4899;
+        --clr-accent-sky: #0ea5e9;
+        --clr-accent-lime: #84cc16;
+        --clr-accent-red: #ef4444;
+        --clr-bg-start: #f0f4ff;
+        --clr-bg-end: #fdf2f8;
+        --clr-card: #ffffff;
+        --clr-text: #1e293b;
+        --clr-text-muted: #64748b;
+        --clr-border: #e2e8f0;
+        --clr-input-bg: #f8fafc;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+        --shadow-md: 0 4px 14px rgba(0,0,0,.07);
+        --shadow-lg: 0 10px 30px rgba(0,0,0,.1);
+        --radius: 14px;
+        --radius-sm: 10px;
+        --transition: .25s cubic-bezier(.4,0,.2,1);
+    }
+
+    .content-wrapper {
+        background: linear-gradient(160deg, var(--clr-bg-start) 0%, #ede9fe 25%, #fce7f3 55%, var(--clr-bg-end) 100%);
+        min-height: 100vh;
+        padding-bottom: 60px;
+    }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb { background: none !important; padding: 0 !important; margin: 0 !important; font-size: .85rem; }
+    .breadcrumb-item a { color: var(--clr-primary); text-decoration: none; font-weight: 600; transition: var(--transition); }
+    .breadcrumb-item a:hover { color: var(--clr-accent-pink); }
+    .breadcrumb-item.active { color: var(--clr-text-muted); font-weight: 500; }
+    .breadcrumb-item + .breadcrumb-item::before { color: #cbd5e1; content: "›"; }
+
+    /* ===== PAGE BANNER ===== */
+    .page-banner {
+        background: linear-gradient(135deg, var(--clr-primary) 0%, #8b5cf6 50%, var(--clr-accent-pink) 100%);
+        border-radius: var(--radius);
+        padding: 26px 32px;
+        margin-bottom: 24px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(99,102,241,.28);
+    }
+    .page-banner::before {
+        content: ''; position: absolute; top: -40%; right: -6%;
+        width: 240px; height: 240px; background: rgba(255,255,255,.1); border-radius: 50%;
+    }
+    .page-banner::after {
+        content: ''; position: absolute; bottom: -50%; left: 12%;
+        width: 160px; height: 160px; background: rgba(255,255,255,.07); border-radius: 50%;
+    }
+    .page-banner h1 { color: #fff; font-size: 1.5rem; font-weight: 800; margin: 0; position: relative; z-index: 1; letter-spacing: -.02em; }
+    .page-banner p { color: rgba(255,255,255,.75); margin: 5px 0 0; font-size: .88rem; position: relative; z-index: 1; }
+    .page-banner .banner-icon {
+        position: absolute; right: 28px; top: 50%; transform: translateY(-50%);
+        font-size: 3rem; color: rgba(255,255,255,.18); z-index: 1;
+    }
+
+    /* ===== STAT CARDS ROW ===== */
+    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 24px; }
+    @@media (max-width: 992px) { .stat-row { grid-template-columns: repeat(2, 1fr); } }
+    @@media (max-width: 576px) { .stat-row { grid-template-columns: 1fr; } }
+
+    .stat-card {
+        background: var(--clr-card);
+        border-radius: var(--radius);
+        padding: 20px 22px;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--clr-border);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+    .stat-card::before {
+        content: ''; position: absolute; top: 0; left: 0; bottom: 0;
+        width: 4px; border-radius: var(--radius) 0 0 var(--radius);
+    }
+    .stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+
+    .stat-card.total::before { background: linear-gradient(180deg, var(--clr-primary), var(--clr-accent-sky)); }
+    .stat-card.total .stat-icon { background: linear-gradient(135deg, #eef2ff, #e0e7ff); color: var(--clr-primary); }
+
+    .stat-card.session::before { background: linear-gradient(180deg, var(--clr-accent-teal), var(--clr-accent-lime)); }
+    .stat-card.session .stat-icon { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); color: var(--clr-accent-teal); }
+
+    .stat-card.course::before { background: linear-gradient(180deg, var(--clr-accent-orange), #fbbf24); }
+    .stat-card.course .stat-icon { background: linear-gradient(135deg, #fff7ed, #ffedd5); color: var(--clr-accent-orange); }
+
+    .stat-card.selected::before { background: linear-gradient(180deg, var(--clr-accent-pink), #f472b6); }
+    .stat-card.selected .stat-icon { background: linear-gradient(135deg, #fdf2f8, #fce7f3); color: var(--clr-accent-pink); }
+
+    .stat-icon {
+        width: 48px; height: 48px; border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.2rem; flex-shrink: 0;
+    }
+    .stat-info { flex: 1; }
+    .stat-label { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--clr-text-muted); margin-bottom: 2px; }
+    .stat-value { font-size: 1.65rem; font-weight: 800; color: var(--clr-text); line-height: 1.1; }
+    .stat-card.total .stat-value { color: var(--clr-primary); }
+    .stat-card.session .stat-value { color: #0d9488; }
+    .stat-card.course .stat-value { color: #c2410c; }
+    .stat-card.selected .stat-value { color: #be185d; }
+
+    /* ===== FILTER PANEL ===== */
+    .filter-panel {
+        background: var(--clr-card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--clr-border);
+        margin-bottom: 24px;
+        overflow: hidden;
+        transition: var(--transition);
+    }
+    .filter-panel:hover { box-shadow: var(--shadow-lg); }
+
+    .filter-header {
+        display: flex; align-items: center; gap: 10px;
+        padding: 14px 22px;
+        background: linear-gradient(90deg, #f8fafc, #f1f5f9);
+        border-bottom: 1px solid var(--clr-border);
+    }
+    .filter-header .fh-icon { color: var(--clr-accent-sky); font-size: .95rem; }
+    .filter-header .fh-title { font-size: .9rem; font-weight: 700; color: var(--clr-text); margin: 0; }
+    .filter-header .fh-badge {
+        font-size: .68rem; font-weight: 700; padding: 2px 10px;
+        background: #ede9fe; color: #7c3aed; border-radius: 20px;
+        text-transform: uppercase; letter-spacing: .04em;
+    }
+
+    .filter-body { padding: 20px 22px 14px; }
+
+    .filter-body label {
+        font-size: .73rem; font-weight: 700; text-transform: uppercase;
+        letter-spacing: .04em; color: var(--clr-text-muted); margin-bottom: 5px; display: block;
+    }
+    .filter-body .form-control,
+    .filter-body select.form-control {
+        border: 2px solid var(--clr-border); border-radius: var(--radius-sm);
+        padding: 9px 12px; font-size: .88rem; color: var(--clr-text);
+        background: var(--clr-input-bg); transition: var(--transition); height: auto;
+        box-shadow: none !important;
+    }
+    .filter-body .form-control:focus,
+    .filter-body select.form-control:focus {
+        border-color: var(--clr-primary); background: #fff;
+        box-shadow: 0 0 0 4px rgba(99,102,241,.1) !important; outline: none;
+    }
+
+    /* Filter action row */
+    .filter-actions {
+        display: flex; align-items: center; gap: 10px;
+        padding: 0 22px 18px; flex-wrap: wrap;
+    }
+
+    .btn-search {
+        background: linear-gradient(135deg, var(--clr-primary) 0%, #8b5cf6 100%);
+        color: #fff; border: none; border-radius: var(--radius-sm);
+        padding: 9px 22px; font-size: .85rem; font-weight: 700;
+        cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+        box-shadow: 0 3px 12px rgba(99,102,241,.3); transition: var(--transition);
+    }
+    .btn-search:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(99,102,241,.4); }
+
+    .btn-reset {
+        background: #f1f5f9; color: var(--clr-text-muted); border: 2px solid var(--clr-border);
+        border-radius: var(--radius-sm); padding: 9px 18px; font-size: .85rem; font-weight: 700;
+        cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition);
+    }
+    .btn-reset:hover { background: #fee2e2; color: var(--clr-accent-red); border-color: #fca5a5; }
+
+    .btn-action-group {
+        display: inline-flex; align-items: center;
+        border-radius: var(--radius-sm); overflow: hidden; border: 2px solid var(--clr-accent-teal);
+    }
+    .btn-action-main {
+        background: var(--clr-accent-teal); color: #fff; border: none;
+        padding: 9px 16px; font-size: .85rem; font-weight: 700;
+        cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition);
+    }
+    .btn-action-main:hover { background: #0d9488; }
+    .btn-action-toggle {
+        background: var(--clr-accent-teal); color: #fff; border: none; border-left: 1px solid rgba(255,255,255,.3);
+        padding: 9px 12px; font-size: .85rem; cursor: pointer; transition: var(--transition);
+    }
+    .btn-action-toggle:hover { background: #0d9488; }
+
+    .btn-excel {
+        background: linear-gradient(135deg, var(--clr-accent-lime) 0%, #65a30d 100%);
+        color: #fff; border: none; border-radius: var(--radius-sm);
+        padding: 9px 16px; font-size: .85rem; font-weight: 700;
+        cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+        box-shadow: 0 3px 12px rgba(132,204,22,.3); transition: var(--transition);
+    }
+    .btn-excel:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(132,204,22,.4); }
+
+    .action-separator { width: 1px; height: 28px; background: var(--clr-border); margin: 0 4px; }
+
+    /* Dropdown override */
+    .dropdown-menu { border-radius: var(--radius-sm) !important; box-shadow: var(--shadow-lg) !important; border: 1px solid var(--clr-border) !important; padding: 6px !important; }
+    .dropdown-menu .btn-default {
+        display: flex; align-items: center; gap: 8px; width: 100%;
+        padding: 10px 14px; border-radius: 8px; font-size: .85rem; font-weight: 600;
+        color: var(--clr-text); transition: var(--transition); border: none; background: none;
+    }
+    .dropdown-menu .btn-default:hover { background: #f0fdfa; color: #0d9488; }
+    .dropdown-menu .btn-default i { color: var(--clr-accent-teal); }
+
+    /* ===== TABLE PANEL ===== */
+    .table-panel {
+        background: var(--clr-card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--clr-border);
+        overflow: hidden;
+    }
+
+    .table-top-strip {
+        height: 4px;
+        background: linear-gradient(90deg,
+            var(--clr-primary), var(--clr-accent-sky), var(--clr-accent-teal),
+            var(--clr-accent-lime), var(--clr-accent-orange), var(--clr-accent-pink), var(--clr-primary));
+        background-size: 300% 100%;
+        animation: stripMove 6s linear infinite;
+    }
+    @@keyframes stripMove {
+        0% { background-position: 0% 0%; }
+        100% { background-position: 300% 0%; }
+    }
+
+    .table-header-bar {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 16px 22px; border-bottom: 1px solid var(--clr-border);
+        background: linear-gradient(90deg, #f8fafc, #fff);
+    }
+    .table-header-bar .thb-left { display: flex; align-items: center; gap: 10px; }
+    .table-header-bar .thb-icon { color: var(--clr-primary); font-size: 1rem; }
+    .table-header-bar .thb-title { font-size: .95rem; font-weight: 700; color: var(--clr-text); margin: 0; }
+    .table-header-bar .thb-count {
+        font-size: .72rem; font-weight: 700; padding: 3px 10px;
+        background: #ede9fe; color: #7c3aed; border-radius: 20px;
+    }
+
+    /* ===== TABLE ===== */
+    .custom-table {
+        width: 100%; border-collapse: separate; border-spacing: 0;
+        font-size: .88rem;
+    }
+    .custom-table thead th {
+        background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+        color: var(--clr-text-muted); font-size: .73rem; font-weight: 700;
+        text-transform: uppercase; letter-spacing: .05em;
+        padding: 14px 14px; border-bottom: 2px solid var(--clr-border);
+        white-space: nowrap; position: sticky; top: 0; z-index: 2;
+    }
+    .custom-table thead th:first-child { border-radius: 0; }
+    .custom-table thead th:last-child { border-radius: 0; }
+
+    .custom-table tbody tr {
+        transition: var(--transition);
+    }
+    .custom-table tbody tr:hover { background: #f5f3ff !important; }
+    .custom-table tbody tr:nth-child(even) { background: #fafafa; }
+    .custom-table tbody tr:nth-child(odd) { background: #fff; }
+    .custom-table tbody tr:nth-child(even):hover { background: #f5f3ff !important; }
+
+    .custom-table tbody td {
+        padding: 12px 14px; border-bottom: 1px solid #f1f5f9;
+        color: var(--clr-text); vertical-align: middle;
+    }
+
+    /* Row number column */
+    .custom-table .col-num {
+        font-weight: 800; color: var(--clr-text-muted); font-size: .8rem;
+        width: 40px; text-align: center;
+    }
+
+    /* RegNo badge */
+    .reg-badge {
+        display: inline-flex; align-items: center; justify-content: center;
+        background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+        color: var(--clr-primary); font-weight: 700; font-size: .82rem;
+        padding: 4px 12px; border-radius: 8px; min-width: 60px;
+    }
+
+    /* Student name */
+    .student-name { font-weight: 700; color: var(--clr-text); }
+    .father-name { color: var(--clr-text-muted); font-size: .84rem; }
+
+    /* Mobile pill */
+    .mobile-pill {
+        display: inline-flex; align-items: center; gap: 5px;
+        background: #f0fdfa; color: #0f766e; font-weight: 600;
+        padding: 4px 10px; border-radius: 8px; font-size: .82rem;
+    }
+    .mobile-pill i { font-size: .7rem; }
+
+    /* Session/Year tag */
+    .info-tag {
+        display: inline-block; padding: 3px 10px; border-radius: 6px;
+        font-size: .78rem; font-weight: 600;
+    }
+    .info-tag.session { background: #fef3c7; color: #b45309; }
+    .info-tag.year { background: #dbeafe; color: #1d4ed8; }
+    .info-tag.subject { background: #fce7f3; color: #be185d; }
+    .info-tag.course { background: #d1fae5; color: #065f46; }
+
+    /* Status badges */
+    .status-badge {
+        display: inline-flex; align-items: center; gap: 4px;
+        padding: 4px 12px; border-radius: 20px;
+        font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .03em;
+    }
+    .status-badge.done { background: #dcfce7; color: #166534; }
+    .status-badge.done::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
+    .status-badge.inquiry { background: #fef3c7; color: #92400e; }
+    .status-badge.inquiry::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #f59e0b; }
+    .status-badge.follow { background: #dbeafe; color: #1e40af; }
+    .status-badge.follow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #3b82f6; }
+    .status-badge.default { background: #f1f5f9; color: #64748b; }
+    .status-badge.default::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #94a3b8; }
+
+    /* View button */
+    .btn-view {
+        width: 34px; height: 34px; border-radius: 8px; border: 2px solid #e0e7ff;
+        background: #f5f3ff; color: var(--clr-primary); font-size: .85rem;
+        display: inline-flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: var(--transition); text-decoration: none;
+    }
+    .btn-view:hover {
+        background: var(--clr-primary); color: #fff; border-color: var(--clr-primary);
+        transform: scale(1.1); box-shadow: 0 4px 12px rgba(99,102,241,.3);
+    }
+
+    /* Custom checkbox */
+    .custom-check { position: relative; width: 20px; height: 20px; cursor: pointer; }
+    .custom-check input {
+        position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; margin: 0;
+    }
+    .custom-check .checkmark {
+        position: absolute; top: 0; left: 0; width: 20px; height: 20px;
+        border: 2px solid #cbd5e1; border-radius: 6px; background: #fff;
+        transition: var(--transition);
+    }
+    .custom-check input:checked ~ .checkmark {
+        background: var(--clr-primary); border-color: var(--clr-primary);
+    }
+    .custom-check .checkmark::after {
+        content: ''; position: absolute; display: none;
+        left: 5px; top: 1px; width: 6px; height: 11px;
+        border: solid #fff; border-width: 0 2.5px 2.5px 0;
+        transform: rotate(45deg);
+    }
+    .custom-check input:checked ~ .checkmark::after { display: block; }
+    .custom-check input:hover ~ .checkmark { border-color: var(--clr-primary); box-shadow: 0 0 0 3px rgba(99,102,241,.12); }
+
+    /* Empty state */
+    .empty-state {
+        text-align: center; padding: 60px 20px;
+    }
+    .empty-state .empty-icon {
+        font-size: 3.5rem; color: #e2e8f0; margin-bottom: 16px;
+    }
+    .empty-state .empty-title {
+        font-size: 1.1rem; font-weight: 700; color: var(--clr-text-muted); margin-bottom: 6px;
+    }
+    .empty-state .empty-desc {
+        font-size: .88rem; color: #94a3b8;
+    }
+
+    /* Table scroll wrapper */
+    .table-scroll { overflow-x: auto; }
+
+    /* ===== MODAL ===== */
+    .modal-content {
+        border-radius: var(--radius) !important;
+        box-shadow: var(--shadow-lg) !important;
+        border: none !important;
+        overflow: hidden;
+    }
+    .modal-header {
+        background: linear-gradient(135deg, var(--clr-primary), #8b5cf6);
+        color: #fff; border: none !important; padding: 18px 24px;
+    }
+    .modal-header .modal-title { font-weight: 700; font-size: 1rem; }
+    .modal-header .close { color: rgba(255,255,255,.8); text-shadow: none; opacity: 1; font-size: 1.4rem; }
+    .modal-header .close:hover { color: #fff; }
+    .modal-body { padding: 24px; }
+    .modal-body label {
+        font-size: .78rem; font-weight: 700; text-transform: uppercase;
+        letter-spacing: .04em; color: var(--clr-text-muted); margin-bottom: 6px; display: block;
+    }
+    .modal-body .form-control {
+        border: 2px solid var(--clr-border); border-radius: var(--radius-sm);
+        padding: 10px 14px; font-size: .9rem; height: auto; box-shadow: none !important;
+    }
+    .modal-body .form-control:focus {
+        border-color: var(--clr-primary); box-shadow: 0 0 0 4px rgba(99,102,241,.1) !important; outline: none;
+    }
+    .modal-footer {
+        border-top: 1px solid var(--clr-border); padding: 14px 24px;
+    }
+    .modal-footer .btn-default {
+        border: 2px solid var(--clr-border); border-radius: var(--radius-sm);
+        padding: 9px 20px; font-weight: 600; font-size: .88rem;
+        transition: var(--transition);
+    }
+    .modal-footer .btn-default:hover { background: #fee2e2; color: var(--clr-accent-red); border-color: #fca5a5; }
+    .modal-footer .btn-primary {
+        background: linear-gradient(135deg, var(--clr-primary), #8b5cf6); border: none;
+        border-radius: var(--radius-sm); padding: 9px 24px; font-weight: 700; font-size: .88rem;
+        display: inline-flex; align-items: center; gap: 6px;
+        box-shadow: 0 3px 12px rgba(99,102,241,.3); transition: var(--transition);
+    }
+    .modal-footer .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(99,102,241,.4); }
+
+    /* ===== ANIMATIONS ===== */
+    @@keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .stat-card { animation: fadeInUp .5s ease both; }
+    .stat-card:nth-child(1) { animation-delay: .05s; }
+    .stat-card:nth-child(2) { animation-delay: .12s; }
+    .stat-card:nth-child(3) { animation-delay: .19s; }
+    .stat-card:nth-child(4) { animation-delay: .26s; }
+    .filter-panel { animation: fadeInUp .5s ease .3s both; }
+    .table-panel { animation: fadeInUp .5s ease .4s both; }
+
+    /* Row fade-in for table */
+    @@keyframes rowFade {
+        from { opacity: 0; transform: translateX(-8px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    .custom-table tbody tr { animation: rowFade .3s ease both; }
+
+    /* ===== SWEETALERT ===== */
+    .swal2-popup.swal2-toast { border-radius: var(--radius-sm) !important; box-shadow: var(--shadow-lg) !important; }
+
+    .content-header { padding: 18px 0 0; }
+</style>
 
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+    <!-- Content Header -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><a href="#">Admission</a></li>
-                        <li class="breadcrumb-item active"><a href="#">List</a></li>
+                        <li class="breadcrumb-item active">Student List</li>
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
-        <div class="card">
-            <div class="card-body">
-                <div class="dataTables_wrapper dt-bootstrap4">
-                   
-                    <fieldset class="scheduler-border">
-                        <legend class="scheduler-border">Filters</legend>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label>Session</label>
-                                        <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Year</label>
-                                    <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Class</label>
-                                    <select id="ddlClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Course</label>
-                                    <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label>Name</label>
-                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
-                            </div>
+        <div class="container-fluid">
 
+            <!-- ===== PAGE BANNER ===== -->
+            <div class="page-banner">
+                <h1>Student Admission List</h1>
+                <p>Search, filter and manage all student admissions</p>
+                <i class="fas fa-users banner-icon"></i>
+            </div>
 
-                            <input type="hidden" id="hdnSelected" />
-                        </div>
+            <!-- ===== STAT CARDS ===== -->
+            <div class="stat-row">
+                <div class="stat-card total">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Students</div>
+                        <div class="stat-value" id="statTotal">0</div>
+                    </div>
+                </div>
+                <div class="stat-card session">
+                    <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Active Session</div>
+                        <div class="stat-value" id="statSession">—</div>
+                    </div>
+                </div>
+                <div class="stat-card course">
+                    <div class="stat-icon"><i class="fas fa-book-open"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Courses</div>
+                        <div class="stat-value" id="statCourse">—</div>
+                    </div>
+                </div>
+                <div class="stat-card selected">
+                    <div class="stat-icon"><i class="fas fa-check-double"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Selected</div>
+                        <div class="stat-value" id="statSelected">0</div>
+                    </div>
+                </div>
+            </div>
 
-                        <div class="row" style="margin-bottom:5px !important">
-                            <div class="col-md-6">
-
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
-                            </div>
-                            <div class="col-md-1">
-                                <button type="reset" class="btn btn-default" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" class="btn btn-info btn-flat">Action</button>
-                                <button type="button" class="btn btn-info btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                @*<div class="dropdown-menu" role="menu" style="">
-                                    <a class="btn btn-default" onclick="ChangStatus()"><i class="fas fa-eye"></i> Change Status</a>
-                                </div>*@
-                                <div class="dropdown-menu" role="menu" style="">
-                                    <a class="btn btn-default" onclick="AdmissionCompleted()"><i class="fas fa-eye"></i> Admission Done</a>
-                                </div>
-                            </div>
-
-                            <div class="col-md-1">
-                                <form id="frmDownloadExcel" method="post" action="DownloadExcel">
-                                    <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
-                                    <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
-                                    <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
-                                    <input type="hidden" name="hdnExcelYear" id="hdnExcelYear" />
-                                    <input type="hidden" name="hdnExcelName" id="hdnExcelName" />
-                                </form>
-                                <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i></button>
-                            </div>
-                        </div>
-                    </fieldset>
-
-
+            <!-- ===== FILTER PANEL ===== -->
+            <div class="filter-panel">
+                <div class="filter-header">
+                    <i class="fas fa-filter fh-icon"></i>
+                    <h3 class="fh-title">Filters</h3>
+                    <span class="fh-badge">Narrow Results</span>
+                </div>
+                <div class="filter-body">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
-                                <thead>
-                                    <tr role="row">
-                                        <th class="sorting sorting_asc" style="width: 10px">#</th>
-                                        <th class="sorting">RegNo</th>
-                                        <th class="sorting">Session</th>
-                                        <th class="sorting">Student</th>
-                                        <th class="sorting">Father</th>
-                                        <th class="sorting">MobileNo</th>
-                                        <th class="sorting">Year</th>
-                                        <th class="sorting">Subject</th>
-                                        <th class="sorting">Course</th>
-                                        <th class="sorting">View</th>
-                                        <th class="sorting">Select</th>
-                                    </tr>
-                                </thead>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Session</label>
+                                <select id="ddlSession" asp-items="Model.SessionList" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Year</label>
+                                <select id="ddlYear" asp-items="Model.YearList" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Class</label>
+                                <select id="ddlClass" asp-items="Model.ClassList" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Course</label>
+                                <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Student Name</label>
+                                <div style="position:relative">
+                                    <i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:.82rem"></i>
+                                    <input id="txtSearch" class="form-control" type="search" placeholder="Type to search..."
+                                           aria-label="Search" style="padding-left:34px">
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="hdnSelected" />
+                    </div>
+                </div>
 
-                                <tbody>
+                <div class="filter-actions">
+                    <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn-search">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                    <button type="reset" class="btn-reset" onclick="Reset()">
+                        <i class="fas fa-rotate-left"></i> Reset
+                    </button>
 
-                                </tbody>
+                    <div class="action-separator"></div>
 
-
-                            </table>
-
+                    <div style="position:relative;display:inline-block">
+                        <div class="btn-action-group">
+                            <button type="button" class="btn-action-main" onclick="AdmissionCompleted()">
+                                <i class="fas fa-clipboard-check"></i> Action
+                            </button>
+                            <button type="button" class="btn-action-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" role="menu">
+                            <a class="btn btn-default" onclick="AdmissionCompleted()">
+                                <i class="fas fa-check-circle"></i> Admission Done
+                            </a>
                         </div>
                     </div>
 
+                    <div class="action-separator"></div>
+
+                    <form id="frmDownloadExcel" method="post" action="DownloadExcel" style="display:inline">
+                        <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
+                        <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
+                        <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
+                        <input type="hidden" name="hdnExcelYear" id="hdnExcelYear" />
+                        <input type="hidden" name="hdnExcelName" id="hdnExcelName" />
+                    </form>
+                    <button type="button" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn-excel">
+                        <i class="fas fa-file-excel"></i> Excel
+                    </button>
                 </div>
             </div>
-            <!-- /.card-body -->
+
+            <!-- ===== TABLE PANEL ===== -->
+            <div class="table-panel">
+                <div class="table-top-strip"></div>
+                <div class="table-header-bar">
+                    <div class="thb-left">
+                        <i class="fas fa-table-list thb-icon"></i>
+                        <h3 class="thb-title">Students</h3>
+                        <span class="thb-count" id="tableCount">0 records</span>
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table class="custom-table" id="tblStudentList">
+                        <thead>
+                            <tr>
+                                <th style="width:50px;text-align:center">#</th>
+                                <th>Reg No</th>
+                                <th>Session</th>
+                                <th>Student Name</th>
+                                <th>Father Name</th>
+                                <th>Mobile</th>
+                                <th>Year</th>
+                                <th>Subject</th>
+                                <th>Course</th>
+                                <th>Status</th>
+                                <th style="width:60px;text-align:center">View</th>
+                                <th style="width:55px;text-align:center">Select</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Rows injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
-
-
-
     </section>
-    <!-- /.content -->
 </div>
 
-
-
+<!-- ===== MODAL ===== -->
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add New Class</h4>
+                <h4 class="modal-title"><i class="fas fa-exchange-alt"></i> Change Status</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -166,21 +670,20 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="saveClass()"><i class="fas fa-save"></i> Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="saveClass()">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 
 @section Scripts {
     <script type="text/javascript">
-        // INSERT
-
         var BASE_URL = "@baseUrl";
         var Toast;
+        var allStudentData = [];
 
         window.onload = function () {
 
@@ -188,33 +691,29 @@
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 1000
+                timer: 2000,
+                timerProgressBar: true,
             });
 
-
-            // Example 3: Change events (optional)
+            /* Auto-search on dropdown change */
             $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
-                $("#tblStudentList tbody").empty();
                 SearchStudent();
             });
 
-            SearchStudent();
+            /* Track checkbox selections for the "Selected" stat card */
+            $(document).on('change', 'input[name="chkStudent"]', function () {
+                var count = $('input[name="chkStudent"]:checked').length;
+                $('#statSelected').text(count);
+            });
 
-            //$("#ddlClass ddlSubject ddlCourse ddlRegPvt").change(function () {
-            //    SearchStudent();
-            //});
+            SearchStudent();
         };
 
         function Alert(icon, title, className) {
-            Toast.fire({
-                icon: icon,
-                title: title,
-                class: className,
-            })
+            Toast.fire({ icon: icon, title: title, class: className });
         }
 
         function SearchStudent() {
-
             var name = $("#txtSearch").val();
             var varClass = $('#ddlClass option:selected').text();
             var varYear = $('#ddlYear option:selected').text();
@@ -227,93 +726,150 @@
                 year: varYear,
                 course: varCourse,
                 session: varSession
-            },
-                function (res) {
-                    TableData(res)  //--------pass records for generate tabble
-                }
-            );
+            }, function (res) {
+                TableData(res);
+            });
         }
 
-        function TableData(tableData)
-        {
-            debugger;
-            $("#tblStudentList tbody").empty();
-            $.each(tableData.data, function (index, element) {
-                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.regNo + "</td><td>" + element.session + "</td><td>" + element.name +
-                    "</td><td>" + element.fatherName + "</td><td>" + element.mobileNo + "</td><td>" + element.year + "</td><td>" + element.subject +
-                    "</td><td>" + element.course + "</td><td>" + element.status +
-                    "</td><td> <a class='btn btn-default' href='../Admission/ViewAdmission?id=" + element.id + "' ><i class='fas fa-eye'></i></a></td><td><input id='" + element.id +"' name='chkStudent' type='checkbox'></td></tr>");
+        /* ===== Helper: determine status CSS class ===== */
+        function getStatusClass(status) {
+            if (!status) return 'default';
+            var s = status.toString().toLowerCase().trim();
+            if (s === 'done') return 'done';
+            if (s === 'inquiry') return 'inquiry';
+            if (s === 'follow') return 'follow';
+            return 'default';
+        }
 
+        /* ===== Helper: escape HTML to prevent XSS ===== */
+        function esc(str) {
+            if (!str) return '';
+            var div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        /* ===== Extract unique values for stat cards ===== */
+        function updateStats(data) {
+            var sessions = new Set();
+            var courses = new Set();
+            $.each(data, function (i, el) {
+                if (el.session) sessions.add(el.session);
+                if (el.course) courses.add(el.course);
             });
 
+            $('#statTotal').text(data.length);
+            $('#tableCount').text(data.length + ' record' + (data.length !== 1 ? 's' : ''));
 
+            if (sessions.size > 0) {
+                $('#statSession').text(sessions.size);
+                $('#statSession').css('font-size', sessions.size > 9 ? '1.3rem' : '1.65rem');
+            } else {
+                $('#statSession').text('—');
+            }
 
+            if (courses.size > 0) {
+                $('#statCourse').text(courses.size);
+                $('#statCourse').css('font-size', courses.size > 9 ? '1.3rem' : '1.65rem');
+            } else {
+                $('#statCourse').text('—');
+            }
+        }
+
+        function TableData(response) {
+            var tableData = response.data;
+            allStudentData = tableData || [];
+
+            $("#tblStudentList tbody").empty();
+
+            if (!tableData || tableData.length === 0) {
+                $("#tblStudentList tbody").append(
+                    '<tr><td colspan="12">' +
+                    '<div class="empty-state">' +
+                    '<div class="empty-icon"><i class="fas fa-inbox"></i></div>' +
+                    '<div class="empty-title">No students found</div>' +
+                    '<div class="empty-desc">Try adjusting your filters or search term</div>' +
+                    '</div></td></tr>'
+                );
+                updateStats([]);
+                return;
+            }
+
+            updateStats(tableData);
+
+            $.each(tableData, function (index, element) {
+                var statusClass = getStatusClass(element.status);
+                var statusText = element.status || 'N/A';
+                var rowDelay = Math.min(index * 0.03, 1);
+
+                var row = '<tr style="animation-delay:' + rowDelay + 's">' +
+                    '<td class="col-num">' + (index + 1) + '</td>' +
+                    '<td><span class="reg-badge">' + esc(element.regNo) + '</span></td>' +
+                    '<td><span class="info-tag session">' + esc(element.session) + '</span></td>' +
+                    '<td><span class="student-name">' + esc(element.name) + '</span></td>' +
+                    '<td><span class="father-name">' + esc(element.fatherName) + '</span></td>' +
+                    '<td><span class="mobile-pill"><i class="fas fa-phone"></i> ' + esc(element.mobileNo) + '</span></td>' +
+                    '<td><span class="info-tag year">' + esc(element.year) + '</span></td>' +
+                    '<td><span class="info-tag subject">' + esc(element.subject) + '</span></td>' +
+                    '<td><span class="info-tag course">' + esc(element.course) + '</span></td>' +
+                    '<td><span class="status-badge ' + statusClass + '">' + esc(statusText) + '</span></td>' +
+                    '<td style="text-align:center"><a class="btn-view" href="../Admission/ViewAdmission?id=' + esc(element.id) + '" title="View Details"><i class="fas fa-eye"></i></a></td>' +
+                    '<td style="text-align:center"><label class="custom-check"><input id="' + esc(element.id) + '" name="chkStudent" type="checkbox"><span class="checkmark"></span></label></td>' +
+                    '</tr>';
+
+                $("#tblStudentList").append(row);
+            });
+
+            /* Reset selected count after re-render */
+            $('#statSelected').text(0);
         }
 
         function Reset() {
-
             $("#txtSearch").val('');
-            $('#ddlSession option:selected').prop("selected", false);
-            $('#ddlClass option:selected').prop("selected", false);
-            $('#ddlCourse option:selected').prop("selected", false);
-            $('#ddlYear option:selected').prop("selected", false);
-
+            $('#ddlSession').val('');
+            $('#ddlClass').val('');
+            $('#ddlCourse').val('');
+            $('#ddlYear').val('');
             SearchStudent();
         }
-
 
         function AdmissionCompleted() {
             var selectedIds = $('input[name="chkStudent"]:checked').map(function () {
                 return this.id;
             }).get();
 
-            // 2. Alert the result
             if (selectedIds.length > 0) {
-                $('#hdnSelected').val(selectedIds.join(', '));
+                $('#hdnSelected').val(selectedIds.join(','));
                 AdmissionDone();
             } else {
-                alert("Please select at least one student.");
+                Alert('warning', 'Please select at least one student.', '');
             }
-
         }
-
 
         function AdmissionDone() {
-
             $.post(BASE_URL + "/Admission/AdmissionDone", {
                 studentList: $("#hdnSelected").val()
-
-            },
-                function (res) {
-                    var saveStatus = res.success;
-                    if (saveStatus) {
-                        Alert('success', 'Succeefully done', 'bg-success');
-                        SearchStudent();
-                    }
-                    else
-                        Alert('warning', 'Some eror occured Try Again', 'bg-success');
-                    
-
+            }, function (res) {
+                if (res.success) {
+                    Alert('success', 'Admission marked as Done!', '');
+                    SearchStudent();
+                } else {
+                    Alert('error', 'Some error occurred. Try Again.', '');
                 }
-            );
-
+            });
         }
 
-
         function DownloadExcel() {
-            $("#Loader").show();
             $("#hdnExcelName").val($("#txtSearch").val());
             $("#hdnExcelClass").val($('#ddlClass option:selected').text());
             $("#hdnExcelYear").val($('#ddlYear option:selected').text());
             $("#hdnExcelCourse").val($('#ddlCourse option:selected').text());
             $("#hdnExcelSession").val($('#ddlSession option:selected').text());
             $('#frmDownloadExcel').submit();
-
         }
 
-        
         function ChangStatus() {
-            $("#modal-default").show();
+            $("#modal-default").modal('show');
         }
     </script>
 }

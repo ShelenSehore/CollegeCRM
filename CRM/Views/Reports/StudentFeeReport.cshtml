@@ -5,6 +5,188 @@
     var baseUrl = ViewBag.BaseUrl;
 }
 
+<style>
+    :root {
+        --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+        --gradient-emerald: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+        --gradient-amber: linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #fbbf24 100%);
+        --gradient-rose: linear-gradient(135deg, #e11d48 0%, #f43f5e 50%, #fb7185 100%);
+        --bg-deep: #0f0f1a;
+        --bg-card: #1a1a2e;
+        --bg-card-alt: #16213e;
+        --bg-input: #1e1e36;
+        --border-glow: rgba(139, 92, 246, 0.25);
+        --text-primary: #f1f5f9;
+        --text-muted: #94a3b8;
+        --accent-purple: #8b5cf6;
+        --accent-cyan: #22d3ee;
+    }
+
+    .content-wrapper { background: var(--bg-deep) !important; min-height: 100vh; }
+    .content-header { background: transparent !important; }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        background: rgba(139, 92, 246, 0.1) !important;
+        border: 1px solid var(--border-glow);
+        border-radius: 10px;
+        padding: 10px 18px !important;
+    }
+    .breadcrumb-item a { color: var(--accent-cyan) !important; font-weight: 600; font-size: 0.85rem; text-decoration: none; }
+    .breadcrumb-item.active a { color: var(--accent-purple) !important; }
+    .breadcrumb-item + .breadcrumb-item::before { color: var(--text-muted) !important; }
+
+    /* Main Card */
+    .main-card {
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-glow);
+        border-radius: 20px !important;
+        box-shadow: 0 0 60px rgba(139, 92, 246, 0.08), 0 8px 32px rgba(0,0,0,0.4) !important;
+        overflow: hidden;
+    }
+    .main-card .card-body { padding: 2rem !important; }
+
+    /* Filter Fieldset */
+    .scheduler-border {
+        border: 1px solid var(--border-glow) !important;
+        border-radius: 16px !important;
+        padding: 1.5rem 1.5rem 1rem !important;
+        background: linear-gradient(145deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.03));
+    }
+    .scheduler-border legend {
+        background: var(--bg-card) !important;
+        color: var(--accent-cyan) !important;
+        font-size: 0.95rem !important; font-weight: 700 !important;
+        letter-spacing: 1.5px; text-transform: uppercase;
+        padding: 0 16px !important; width: auto !important;
+        border: none !important; margin-bottom: 0.8rem !important;
+    }
+
+    /* Form Controls */
+    .scheduler-border label {
+        color: var(--text-muted) !important; font-size: 0.78rem; font-weight: 600;
+        letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 4px;
+    }
+    .scheduler-border .form-control {
+        background: var(--bg-input) !important; border: 1px solid rgba(139, 92, 246, 0.2) !important;
+        color: var(--text-primary) !important; border-radius: 10px !important;
+        padding: 8px 14px; font-size: 0.88rem; transition: all 0.3s ease;
+    }
+    .scheduler-border .form-control:focus {
+        border-color: var(--accent-purple) !important;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15), 0 0 20px rgba(139, 92, 246, 0.1) !important;
+    }
+    .scheduler-border select.form-control option { background: var(--bg-input); color: var(--text-primary); }
+
+    /* Buttons */
+    .btn-glow-search {
+        background: var(--gradient-primary) !important; border: none !important; color: #fff !important;
+        font-weight: 700; border-radius: 12px !important; padding: 9px 28px !important;
+        box-shadow: 0 4px 20px rgba(139, 92, 246, 0.35); transition: all 0.3s ease;
+    }
+    .btn-glow-search:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(139, 92, 246, 0.5); color: #fff !important; }
+
+    .btn-glow-reset {
+        background: rgba(139, 92, 246, 0.12) !important; border: 1px solid rgba(139, 92, 246, 0.3) !important;
+        color: var(--accent-purple) !important; font-weight: 700; border-radius: 12px !important;
+        padding: 9px 28px !important; transition: all 0.3s ease;
+    }
+    .btn-glow-reset:hover { background: rgba(139, 92, 246, 0.22) !important; transform: translateY(-2px); color: var(--accent-cyan) !important; }
+
+    .btn-glow-excel {
+        background: var(--gradient-emerald) !important; border: none !important; color: #fff !important;
+        font-weight: 700; border-radius: 12px !important; padding: 9px 22px !important;
+        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.35); transition: all 0.3s ease; float: right;
+    }
+    .btn-glow-excel:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(16, 185, 129, 0.5); color: #fff !important; }
+
+    .btn-view-history {
+        background: rgba(34, 211, 238, 0.1) !important; border: 1px solid rgba(34, 211, 238, 0.3) !important;
+        color: var(--accent-cyan) !important; font-weight: 600; border-radius: 8px !important;
+        padding: 4px 12px !important; font-size: 0.8rem; transition: all 0.2s ease; text-decoration: none !important;
+    }
+    .btn-view-history:hover { background: var(--accent-cyan) !important; color: #0f0f1a !important; }
+
+    /* Stat Cards */
+    .stat-card {
+        border-radius: 18px !important; padding: 1.2rem 1.4rem !important; position: relative;
+        overflow: hidden; border: none !important; min-height: 105px; display: flex;
+        align-items: center; gap: 1rem; transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-card:hover { transform: translateY(-4px); }
+    .stat-card::before {
+        content: ''; position: absolute; top: -30%; right: -20%; width: 120px; height: 120px;
+        border-radius: 50%; background: rgba(255,255,255,0.06);
+    }
+    .stat-icon {
+        width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center;
+        justify-content: center; font-size: 1.4rem; color: #fff; flex-shrink: 0; position: relative; z-index: 1;
+        background: rgba(255,255,255,0.2);
+    }
+    .stat-body { position: relative; z-index: 1; }
+    .stat-label {
+        font-size: 0.72rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+        color: rgba(255,255,255,0.75); margin-bottom: 2px;
+    }
+    .stat-value { font-size: 1.55rem; font-weight: 800; color: #fff; line-height: 1.2; }
+
+    .stat-card.card-fee { background: var(--gradient-primary) !important; box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3); }
+    .stat-card.card-paid { background: var(--gradient-emerald) !important; box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3); }
+    .stat-card.card-dues { background: var(--gradient-rose) !important; box-shadow: 0 8px 30px rgba(244, 63, 94, 0.3); }
+    .stat-card.card-date { background: var(--gradient-amber) !important; box-shadow: 0 8px 30px rgba(245, 158, 11, 0.3); }
+
+    /* Table */
+    .table-wrapper { border-radius: 16px; overflow: hidden; border: 1px solid var(--border-glow); }
+    #tblStudentList { width: 100% !important; background: var(--bg-card-alt) !important; }
+    #tblStudentList thead tr { background: linear-gradient(135deg, #1e1b4b, #312e81) !important; }
+    #tblStudentList thead th {
+        background: transparent !important; color: var(--accent-cyan) !important; font-size: 0.76rem !important;
+        font-weight: 700 !important; letter-spacing: 1px; text-transform: uppercase; padding: 14px 12px !important;
+        border-bottom: 2px solid var(--accent-purple) !important; white-space: nowrap;
+    }
+    #tblStudentList tbody tr { background: var(--bg-card) !important; transition: background 0.2s ease; }
+    #tblStudentList tbody tr:nth-child(even) { background: rgba(139, 92, 246, 0.04) !important; }
+    #tblStudentList tbody tr:hover { background: rgba(139, 92, 246, 0.1) !important; }
+    #tblStudentList tbody td {
+        color: var(--text-primary) !important; font-size: 0.88rem; padding: 10px 12px !important;
+        border-color: rgba(139, 92, 246, 0.1) !important; white-space: nowrap; vertical-align: middle;
+    }
+    #tblStudentList tbody td:first-child { color: var(--accent-purple) !important; font-weight: 700; }
+
+    /* Loader */
+    .overlay { background: rgba(15, 15, 26, 0.85) !important; border-radius: 16px; z-index: 10; }
+    .overlay i { color: var(--accent-purple) !important; }
+
+    /* Section Title */
+    .section-title {
+        font-size: 1.6rem; font-weight: 900; color: var(--text-primary); letter-spacing: -0.5px;
+        margin-bottom: 1.5rem; position: relative; padding-left: 18px;
+    }
+    .section-title::before {
+        content: ''; position: absolute; left: 0; top: 4px; bottom: 4px;
+        width: 5px; border-radius: 4px; background: var(--gradient-primary);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
+
+    /* Animations */
+    @@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .stat-card { animation: fadeSlideUp 0.6s ease-out both; }
+    .stat-card:nth-child(1) { animation-delay: 0.05s; }
+    .stat-card:nth-child(2) { animation-delay: 0.12s; }
+    .stat-card:nth-child(3) { animation-delay: 0.19s; }
+    .stat-card:nth-child(4) { animation-delay: 0.26s; }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .stat-card { animation: none !important; }
+        .btn-glow-search:hover, .btn-glow-reset:hover, .btn-glow-excel:hover, .stat-card:hover { transform: none !important; }
+    }
+</style>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -17,29 +199,31 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
     <!-- Main content -->
     <section class="content">
-        <div class="card">
+        <div class="card main-card">
             <div class="card-body">
                 <div class="dataTables_wrapper dt-bootstrap4">
+
+                    <h2 class="section-title">Student Fee Report</h2>
 
                     <fieldset class="scheduler-border">
                         <legend class="scheduler-border">Filters</legend>
 
                         <div class="row">
                             <div class="col-md-3">
-                                <label>Name</label>
-                                <input id="txtSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input id="txtSearch" class="form-control" type="search" placeholder="Search Student..." aria-label="Search">
+                                </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <div class="form-group">
-                                        <label>Session</label>
-                                        <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
-                                    </div>
+                                    <label>Session</label>
+                                    <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -48,7 +232,6 @@
                                     <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
                                 </div>
                             </div>
-
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Class</label>
@@ -61,195 +244,128 @@
                                     <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
                                 </div>
                             </div>
-
-
-
-
                         </div>
 
                         <div class="row" style="margin-bottom:5px !important">
-                            <div class="col-md-3">
-
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2">
+                                <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-glow-search"><i class="fas fa-search"></i> Search</button>
                             </div>
                             <div class="col-md-2">
-                                <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+                                <button type="reset" class="btn btn-glow-reset" onclick="Reset()"><i class="fas fa-rotate-right"></i> Reset</button>
                             </div>
-                            <div class="col-md-2">
-                                <button type="reset" class="btn btn-default" style="float:left !important" onclick="Reset()"><i class="fas fa-gear"></i> Reset</button>
-                            </div>
-                            <div class="col-md-3">
-                                .
-                            </div>
-
+                            <div class="col-md-3"></div>
                             <div class="col-md-2">
                                 <form id="frmDownloadExcel"></form>
-                                <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-success"><i class="fas fa-file-excel"></i></button>
+                                <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-glow-excel"><i class="fas fa-file-excel"></i> Export</button>
                             </div>
-
-
-
                         </div>
                     </fieldset>
 
-                    <div class="row">
+                    <!-- Stat Cards -->
+                    <div class="row" style="margin-top:1.5rem;">
                         <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total Fee</span>
-                                    <span id="spnTotalStudent" class="info-box-number">000</span>
+                            <div class="stat-card card-fee">
+                                <div class="stat-icon"><i class="fas fa-coins"></i></div>
+                                <div class="stat-body">
+                                    <div class="stat-label">Total Fee</div>
+                                    <div id="spnTotalStudent" class="stat-value">000</div>
                                 </div>
-                                <!-- /.info-box-content -->
                             </div>
-                            <!-- /.info-box -->
                         </div>
-                        <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Paid</span>
-                                    <span id="spnAmount" class="info-box-number">00</span>
+                            <div class="stat-card card-paid">
+                                <div class="stat-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+                                <div class="stat-body">
+                                    <div class="stat-label">Paid</div>
+                                    <div id="spnAmount" class="stat-value">00</div>
                                 </div>
-                                <!-- /.info-box-content -->
                             </div>
-                            <!-- /.info-box -->
                         </div>
-                        <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Dues</span>
-                                    <span id="spnDues" class="info-box-number">000</span>
+                            <div class="stat-card card-dues">
+                                <div class="stat-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                                <div class="stat-body">
+                                    <div class="stat-label">Dues</div>
+                                    <div id="spnDues" class="stat-value">000</div>
                                 </div>
-                                <!-- /.info-box-content -->
                             </div>
-                            <!-- /.info-box -->
                         </div>
-                        <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">From To Date</span>
-                                    <span id="spnFromTo" class="info-box-number">00</span>
+                            <div class="stat-card card-date">
+                                <div class="stat-icon"><i class="fas fa-calendar-days"></i></div>
+                                <div class="stat-body">
+                                    <div class="stat-label">Date Info</div>
+                                    <div id="spnFromTo" class="stat-value" style="font-size:1.1rem;">00</div>
                                 </div>
-                                <!-- /.info-box-content -->
                             </div>
-                            <!-- /.info-box -->
                         </div>
-                        <!-- /.col -->
                     </div>
 
-                    <div class="row">
+                    <!-- Table -->
+                    <div class="row" style="margin-top:1.5rem;">
                         <div class="col-sm-12">
-
-
-
                             <div id="Loader" class="overlay" style="display:none;"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
 
-                            <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
-                                <thead>
-                                    <tr role="row">
-                                        <th class="sorting sorting_asc" style="width: 10px">#</th>
-                                        <th class="sorting">StudentName</th>
-                                        <th class="sorting">FatherName</th>
-                                        <th class="sorting">MobileNoOne</th>
-                                        <th class="sorting">Session</th>
-                                        <th class="sorting">Year</th>
-                                        <th class="sorting">Class</th>
-                                        <th class="sorting">Course</th>
-                                        <th class="sorting">Total Fee</th>
-                                        <th class="sorting">Paid Fee</th>
-                                        <th class="sorting">Due Fee</th>
-                                        <th class="sorting">Discount</th>
-                                        <th class="sorting">Discount By</th>
-                                        <th class="sorting">View History</th>
-
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                </tbody>
-
-
-                            </table>
-
+                            <div class="table-wrapper">
+                                <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting sorting_asc" style="width: 10px">#</th>
+                                            <th class="sorting">Student Name</th>
+                                            <th class="sorting">Father Name</th>
+                                            <th class="sorting">Mobile No</th>
+                                            <th class="sorting">Session</th>
+                                            <th class="sorting">Year</th>
+                                            <th class="sorting">Class</th>
+                                            <th class="sorting">Course</th>
+                                            <th class="sorting">Total Fee</th>
+                                            <th class="sorting">Paid Fee</th>
+                                            <th class="sorting">Due Fee</th>
+                                            <th class="sorting">Discount</th>
+                                            <th class="sorting">Discount By</th>
+                                            <th class="sorting">View History</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
                 </div>
             </div>
-            <!-- /.card-body -->
         </div>
-
     </section>
-    <!-- /.content -->
 </div>
 
-
-
 @section Scripts {
-
-
     <script type="text/javascript">
-        // INSERT
-
         var BASE_URL = "@baseUrl";
         var studentTable;
 
         window.onload = function () {
-
-            //Date picker
+            // Date picker (kept in case needed elsewhere)
             $('#reservationdate, #reservationEnddate').datetimepicker({
                 format: 'DD/MM/YYYY'
             });
-
-
-            //// Example 3: Change events (optional)
-            //$("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
-            //    $("#tblStudentList tbody").empty();
-            //    SearchStudent();
-            //});
-
             SearchStudent();
-
-
-
         };
 
-
-
-
-        function DownloadExcel()
-        {
-
+        function DownloadExcel() {
             $('form#frmDownloadExcel').submit();
-
         }
 
-
         function Reset() {
-
-
-           
             $("#txtSearch").val('');
             $('#ddlSession option:selected').prop("selected", false);
             $('#ddlYear option:selected').prop("selected", false);
             $('#ddlClass option:selected').prop("selected", false);
             $('#ddlCourse option:selected').prop("selected", false);
-
             SearchStudent();
         }
 
-
         function SearchStudent() {
-           
             var name = $("#txtSearch").val();
             var varSession = $('#ddlSession option:selected').text();
             var varYear = $('#ddlYear option:selected').text();
@@ -258,27 +374,20 @@
             $("#Loader").show();
 
             $.post(BASE_URL + "/Reports/FeeReport", {
-               
                 name: name,
                 session: varSession,
                 year: varYear,
                 classes: varClass,
                 course: varCourse
             },
-                function (res) {
+            function (res) {
+                TableData(res)
+            });
 
-                    TableData(res)  //--------pass records for generate tabble
-                }
-            );
-
-            $("#spnHead").text(varHad);
-            $("#spnFromTo").text(varFromDate);
+            // Fixed bug: Removed references to undefined variables varHad and varFromDate
         }
 
-
-
-        function TableData(tableData)
-        {
+        function TableData(tableData) {
             $("#tblStudentList tbody").empty();
 
             var varTotalFee = 0;
@@ -286,18 +395,28 @@
             var varTotalDue = 0;
             var varRemaningFee = 0;
 
-
             $.each(tableData.data, function (index, element) {
 
                 varRemaningFee = element.totalFeeAfterDiscount - element.paidAmount;
 
-                $("#tblStudentList").append("<tr><td>" + index + "</td><td>" + element.studentName + "</td><td>" + element.fatherName +
-                    "</td><td>" + element.mobileNoOne + "</td><td>" + element.session + "</td><td>" + element.year +
-                    "</td><td>" + element.class + "</td><td>" + element.course +
-                    "</td><td>" + element.totalFeeAfterDiscount + "</td><td>" + element.paidAmount +
-                    "</td><td>" + varRemaningFee + "</td><td>" + element.scholership + "</td><td>" + element.scholership +
-                    "</td><td><a class='btn btn-default' href='../Student/PromodeStudent?id=5023'><i class='fas fa-eye'></i> View</a></td>"+
-                    "</tr>");
+                $("#tblStudentList").append(
+                    "<tr>" +
+                    "<td>" + (index + 1) + "</td>" + /* Adjusted index to start from 1 */
+                    "<td>" + element.studentName + "</td>" +
+                    "<td>" + element.fatherName + "</td>" +
+                    "<td>" + element.mobileNoOne + "</td>" +
+                    "<td>" + element.session + "</td>" +
+                    "<td>" + element.year + "</td>" +
+                    "<td>" + element.class + "</td>" +
+                    "<td>" + element.course + "</td>" +
+                    "<td>" + element.totalFeeAfterDiscount + "</td>" +
+                    "<td>" + element.paidAmount + "</td>" +
+                    "<td>" + varRemaningFee + "</td>" +
+                    "<td>" + element.scholership + "</td>" +
+                    "<td>" + element.scholership + "</td>" +
+                    "<td><a class='btn btn-view-history' href='../Student/PromodeStudent?id=5023'><i class='fas fa-eye'></i> View</a></td>" +
+                    "</tr>"
+                );
 
                 varTotalFee = varTotalFee + element.totalFeeAfterDiscount;
                 varTotalPaid = varTotalPaid + element.paidAmount;
@@ -307,14 +426,11 @@
             $("#spnTotalStudent").text(varTotalFee);
             $("#spnAmount").text(varTotalPaid);
             $("#spnDues").text(varTotalDue);
-            $("#Loader").hide()
-
+            $("#Loader").hide();
         }
-
 
         //----------Download excel file-------------
         function ExcelDownload() {
-
             var name = $("#txtSearch").val();
             var varClass = $('#ddlClass option:selected').text();
             var varSubject = $('#ddlSubject option:selected').text();
@@ -328,13 +444,9 @@
                 course: varCourse,
                 regPvt: varRegPvt
             },
-                function (res) {
-                    TableData(res)  //--------pass records for generate tabble
-                }
-            );
+            function (res) {
+                TableData(res)
+            });
         }
-
-
-
     </script>
 }

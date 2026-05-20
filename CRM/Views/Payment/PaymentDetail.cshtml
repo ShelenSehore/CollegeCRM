@@ -1,11 +1,1046 @@
-﻿
-@model CRM.ModelsForView.StudentPaymentDetailView
+﻿@model CRM.ModelsForView.StudentPaymentDetailView
 
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
     ViewData["Title"] = "Registration";
     var baseUrl = ViewBag.BaseUrl;
 }
+
+<style>
+    /* ═══════════════════════════════════════════════════════
+       ROOT VARIABLES & RESET
+       ═══════════════════════════════════════════════════════ */
+    :root {
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --gradient-warning: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        --gradient-danger: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+        --gradient-dark: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+        --gradient-gold: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+        --gradient-mint: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        --gradient-sunset: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+        --gradient-ocean: linear-gradient(135deg, #2E3192 0%, #1BFFFF 100%);
+        --gradient-candy: linear-gradient(135deg, #FC466B 0%, #3F5EFB 100%);
+        --gradient-aurora: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+
+        --bg-body: #f0f2f5;
+        --bg-card: #ffffff;
+        --text-primary: #1a1a2e;
+        --text-secondary: #6c757d;
+        --text-muted: #adb5bd;
+        --border-light: #e8ecf1;
+        --shadow-sm: 0 2px 8px rgba(102, 126, 234, 0.08);
+        --shadow-md: 0 4px 20px rgba(102, 126, 234, 0.12);
+        --shadow-lg: 0 8px 40px rgba(102, 126, 234, 0.18);
+        --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.2);
+        --radius-sm: 10px;
+        --radius-md: 16px;
+        --radius-lg: 24px;
+        --radius-xl: 32px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .content-wrapper {
+        background: var(--bg-body) !important;
+        min-height: 100vh;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       BREADCRUMB
+       ═══════════════════════════════════════════════════════ */
+    .content-header {
+        padding: 20px 0 0 !important;
+    }
+
+    .breadcrumb {
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .breadcrumb-item a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        transition: var(--transition);
+    }
+
+    .breadcrumb-item a:hover {
+        background: var(--gradient-primary);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .breadcrumb-item.active a {
+        background: var(--gradient-primary);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: '';
+        display: none;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       PROFILE CARD
+       ═══════════════════════════════════════════════════════ */
+    .profile-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border-light);
+        transition: var(--transition);
+        position: relative;
+    }
+
+    .profile-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 120px;
+        background: var(--gradient-primary);
+        z-index: 0;
+    }
+
+    .profile-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .profile-card .card-body {
+        position: relative;
+        z-index: 1;
+        padding: 30px 24px 24px !important;
+        text-align: center;
+    }
+
+    .profile-user-img {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        border: 4px solid #fff;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        object-fit: cover;
+        margin-top: 20px;
+        transition: var(--transition);
+    }
+
+    .profile-card:hover .profile-user-img {
+        transform: scale(1.05);
+        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
+    }
+
+    .profile-username {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin: 16px 0 4px !important;
+        letter-spacing: -0.3px;
+    }
+
+    .profile-card .text-muted {
+        font-size: 13px;
+        color: var(--text-secondary) !important;
+        margin-bottom: 2px !important;
+    }
+
+    .profile-card .contact-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(135deg, #e8ecf8, #f0e6ff);
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #5b4a9e;
+        margin-top: 10px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       EDUCATION CARD
+       ═══════════════════════════════════════════════════════ */
+    .education-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border-light);
+        transition: var(--transition);
+    }
+
+    .education-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .education-card .card-header {
+        background: var(--gradient-dark);
+        padding: 14px 20px !important;
+        border: none !important;
+    }
+
+    .education-card .card-header h3 {
+        color: #fff !important;
+        font-size: 15px;
+        font-weight: 700;
+        margin: 0 !important;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .education-card .card-header h3 i {
+        font-size: 16px;
+        opacity: 0.9;
+    }
+
+    .education-card .card-body {
+        padding: 16px 20px !important;
+    }
+
+    .edu-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .edu-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px dashed var(--border-light);
+        transition: var(--transition);
+    }
+
+    .edu-list li:last-child {
+        border-bottom: none;
+    }
+
+    .edu-list li:hover {
+        padding-left: 8px;
+    }
+
+    .edu-list li b {
+        font-size: 13px;
+        color: var(--text-secondary);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .edu-list li a,
+    .edu-list li span {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text-primary);
+        background: linear-gradient(135deg, #f8f9ff, #f0e6ff);
+        padding: 4px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .edu-list li:hover span {
+        background: var(--gradient-primary);
+        color: #fff;
+        transform: scale(1.02);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       MAIN TAB CARD
+       ═══════════════════════════════════════════════════════ */
+    .main-tab-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border-light);
+    }
+
+    .main-tab-card > .card-header {
+        background: #fff !important;
+        padding: 16px 20px 0 !important;
+        border: none !important;
+        border-bottom: 2px solid var(--border-light) !important;
+    }
+
+    .main-tab-card > .card-body {
+        padding: 24px !important;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CUSTOM TAB PILLS
+       ═══════════════════════════════════════════════════════ */
+    .nav-pills {
+        gap: 6px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 2px;
+    }
+
+    .nav-pills::-webkit-scrollbar {
+        height: 0;
+    }
+
+    .nav-pills .nav-link {
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 10px 20px !important;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-secondary) !important;
+        background: #f4f6fa;
+        transition: var(--transition);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+    }
+
+    .nav-pills .nav-link:hover {
+        background: linear-gradient(135deg, #e8ecf8, #f0e6ff);
+        color: #5b4a9e !important;
+        transform: translateY(-1px);
+    }
+
+    .nav-pills .nav-link.active {
+        background: var(--gradient-primary) !important;
+        color: #fff !important;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.35);
+        transform: translateY(-1px);
+    }
+
+    .nav-pills .badge {
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 8px;
+        font-weight: 700;
+    }
+
+    .nav-pills .nav-link.active .badge {
+        background: rgba(255,255,255,0.25) !important;
+        color: #fff !important;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       STAT CARDS
+       ═══════════════════════════════════════════════════════ */
+    .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    @@media (max-width: 768px) {
+        .stat-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .stat-card {
+        border-radius: var(--radius-md);
+        padding: 22px 20px;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        transition: var(--transition);
+        border: none;
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.12);
+        transition: var(--transition);
+    }
+
+    .stat-card::after {
+        content: '';
+        position: absolute;
+        bottom: -40px;
+        left: -20px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.08);
+        transition: var(--transition);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+
+    .stat-card:hover::before {
+        transform: scale(1.5);
+    }
+
+    .stat-card .inner {
+        position: relative;
+        z-index: 1;
+    }
+
+    .stat-card .inner h3 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #fff;
+        margin: 0 0 4px;
+        letter-spacing: -0.5px;
+    }
+
+    .stat-card .inner p {
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(255,255,255,0.85);
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
+
+    .stat-card .icon {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 32px;
+        color: rgba(255,255,255,0.2);
+        z-index: 1;
+    }
+
+    .stat-card.total-fee { background: var(--gradient-primary); }
+    .stat-card.paid-fee { background: var(--gradient-mint); }
+    .stat-card.remaining-fee { background: var(--gradient-sunset); }
+    .stat-card.caution-money { background: var(--gradient-candy); }
+
+    /* ═══════════════════════════════════════════════════════
+       TABLES
+       ═══════════════════════════════════════════════════════ */
+    .custom-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        border: 1px solid var(--border-light);
+    }
+
+    .custom-table thead th {
+        background: var(--gradient-dark);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 14px 16px;
+        border: none;
+    }
+
+    .custom-table tbody td {
+        padding: 12px 16px;
+        font-size: 14px;
+        color: var(--text-primary);
+        border-bottom: 1px solid var(--border-light);
+        transition: var(--transition);
+    }
+
+    .custom-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .custom-table tbody tr:hover td {
+        background: linear-gradient(135deg, #f8f9ff, #f5f0ff);
+    }
+
+    .custom-table tbody tr:nth-child(even) td {
+        background: #fafbfe;
+    }
+
+    .custom-table tbody tr:nth-child(even):hover td {
+        background: linear-gradient(135deg, #f8f9ff, #f5f0ff);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       PAY NOW SECTION
+       ═══════════════════════════════════════════════════════ */
+    .pay-form-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    @@media (max-width: 992px) {
+        .pay-form-row {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 6px;
+    }
+
+    .form-control,
+    .pay-form-row select,
+    .pay-form-row input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 2px solid var(--border-light);
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+        background: #fff;
+        transition: var(--transition);
+        outline: none;
+    }
+
+    .form-control:focus,
+    .pay-form-row select:focus,
+    .pay-form-row input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12);
+    }
+
+    .form-control.is-invalid {
+        border-color: #f5576c !important;
+        box-shadow: 0 0 0 4px rgba(245, 87, 108, 0.1) !important;
+    }
+
+    .invalid-feedback {
+        font-size: 12px;
+        font-weight: 600;
+        color: #f5576c;
+    }
+
+    .PersonalDetailText {
+        background: linear-gradient(135deg, #f8f9ff, #f0e6ff) !important;
+        border-color: #d4c5f5 !important;
+        font-weight: 700 !important;
+        color: #5b4a9e !important;
+    }
+
+    /* Pay table inputs */
+    .pay-table .text-black,
+    .pay-table select,
+    .pay-table input[type="number"],
+    .pay-table input[type="date"] {
+        padding: 10px 14px;
+        border: 2px solid var(--border-light);
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+        background: #fff;
+        transition: var(--transition);
+        outline: none;
+        width: 100%;
+    }
+
+    .pay-table .text-black:focus,
+    .pay-table select:focus,
+    .pay-table input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12);
+    }
+
+    .pay-table .text-black.is-invalid,
+    .pay-table select.is-invalid,
+    .pay-table input.is-invalid {
+        border-color: #f5576c !important;
+        box-shadow: 0 0 0 4px rgba(245, 87, 108, 0.1) !important;
+    }
+
+    .pay-table td[style*="width:25%"] select,
+    .pay-table td div[style*="width:50%"] input {
+        width: 100% !important;
+    }
+
+    .pay-table .head-row-label {
+        background: var(--gradient-primary);
+        color: #fff;
+        padding: 10px 16px !important;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .pay-table .fa-plus {
+        cursor: pointer;
+        color: #667eea;
+        margin-left: 10px;
+        font-size: 16px;
+        transition: var(--transition);
+        padding: 6px;
+        border-radius: 8px;
+    }
+
+    .pay-table .fa-plus:hover {
+        background: var(--gradient-primary);
+        color: #fff;
+        transform: scale(1.15);
+    }
+
+    .pay-table .total-row td {
+        background: linear-gradient(135deg, #f8f9ff, #f0e6ff) !important;
+        font-weight: 800;
+        font-size: 15px;
+        color: #5b4a9e;
+    }
+
+    .pay-table .total-row input {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        font-size: 18px;
+        font-weight: 800;
+        color: #5b4a9e;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       BUTTONS
+       ═══════════════════════════════════════════════════════ */
+    .btn-process-pay {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 14px 24px;
+        background: var(--gradient-mint);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: var(--transition);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .btn-process-pay:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(17, 153, 142, 0.35);
+    }
+
+    .btn-process-pay:active {
+        transform: translateY(0);
+    }
+
+    .btn-process-pay i {
+        font-size: 16px;
+        animation: bellRing 2s infinite;
+    }
+
+    @@keyframes bellRing {
+        0%, 100% { transform: rotate(0); }
+        10% { transform: rotate(15deg); }
+        20% { transform: rotate(-15deg); }
+        30% { transform: rotate(10deg); }
+        40% { transform: rotate(0); }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       MODAL
+       ═══════════════════════════════════════════════════════ */
+    .modal-content {
+        border: none;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: 0 25px 80px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+        background: var(--gradient-primary);
+        padding: 18px 24px !important;
+        border: none !important;
+    }
+
+    .modal-header .modal-title {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .modal-header .close {
+        color: rgba(255,255,255,0.8);
+        font-size: 24px;
+        opacity: 1;
+        text-shadow: none;
+        transition: var(--transition);
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    .modal-header .close:hover {
+        background: rgba(255,255,255,0.2);
+        color: #fff;
+    }
+
+    /* Receipt Styling */
+    .receipt-wrapper {
+        padding: 28px;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        position: relative;
+    }
+
+    .receipt-header {
+        text-align: center;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .receipt-header::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: var(--gradient-primary);
+        margin: 12px auto 0;
+        border-radius: 2px;
+    }
+
+    .receipt-header h2 {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin: 0 0 2px;
+        letter-spacing: -0.3px;
+    }
+
+    .receipt-header h4 {
+        font-size: 13px;
+        font-weight: 600;
+        color: #667eea;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin: 0;
+    }
+
+    .receipt-divider {
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+        margin: 16px 0;
+    }
+
+    .receipt-info-table {
+        width: 100%;
+        font-size: 13px;
+        color: var(--text-secondary);
+    }
+
+    .receipt-info-table strong {
+        color: var(--text-primary);
+        font-weight: 700;
+    }
+
+    .receipt-student-info {
+        background: linear-gradient(135deg, #f8f9ff, #f0e6ff);
+        padding: 14px 18px;
+        border-radius: var(--radius-sm);
+        margin: 14px 0;
+        border-left: 4px solid #667eea;
+    }
+
+    .receipt-student-info table {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .receipt-student-info strong {
+        color: var(--text-primary);
+        font-weight: 700;
+    }
+
+    .receipt-fee-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        border: 1px solid var(--border-light);
+        margin: 14px 0;
+    }
+
+    .receipt-fee-table thead th {
+        background: var(--gradient-dark);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 10px 14px;
+        border: none;
+    }
+
+    .receipt-fee-table tbody td {
+        padding: 10px 14px;
+        font-size: 13px;
+        border-bottom: 1px solid var(--border-light);
+        color: var(--text-primary);
+    }
+
+    .receipt-fee-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .receipt-total {
+        text-align: right;
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--text-primary);
+        padding: 8px 0;
+    }
+
+    .receipt-total strong {
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .receipt-signatures {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+        padding-top: 20px;
+    }
+
+    .receipt-signatures div {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding-top: 30px;
+        border-top: 1px dashed var(--border-light);
+        min-width: 150px;
+        text-align: center;
+    }
+
+    .modal-footer {
+        padding: 16px 24px !important;
+        border-top: 1px solid var(--border-light);
+        background: #fafbfe;
+    }
+
+    .btn-modal-close {
+        padding: 10px 24px;
+        border: 2px solid var(--border-light);
+        background: #fff;
+        color: var(--text-secondary);
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        font-size: 14px;
+        transition: var(--transition);
+        cursor: pointer;
+    }
+
+    .btn-modal-close:hover {
+        border-color: #667eea;
+        color: #667eea;
+        background: #f8f9ff;
+    }
+
+    .btn-modal-save {
+        padding: 10px 28px;
+        border: none;
+        background: var(--gradient-mint);
+        color: #fff;
+        border-radius: var(--radius-sm);
+        font-weight: 700;
+        font-size: 14px;
+        transition: var(--transition);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-modal-save:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(17, 153, 142, 0.35);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       TC BADGES
+       ═══════════════════════════════════════════════════════ */
+    .badge-tc {
+        padding: 6px 18px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-tc-submitted {
+        background: linear-gradient(135deg, #d4edda, #c3e6cb);
+        color: #155724;
+    }
+
+    .badge-tc-issued {
+        background: linear-gradient(135deg, #cce5ff, #b8daff);
+        color: #004085;
+    }
+
+    .badge-tc-not-submitted {
+        background: linear-gradient(135deg, #fff3cd, #ffeeba);
+        color: #856404;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       DUES AMOUNT HIGHLIGHT
+       ═══════════════════════════════════════════════════════ */
+    .due-amount-cell {
+        font-weight: 800;
+        color: #f5576c;
+        font-size: 15px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       ANIMATIONS
+       ═══════════════════════════════════════════════════════ */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .stat-card {
+        animation: fadeInUp 0.5s ease forwards;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0s; }
+    .stat-card:nth-child(2) { animation-delay: 0.08s; }
+    .stat-card:nth-child(3) { animation-delay: 0.16s; }
+    .stat-card:nth-child(4) { animation-delay: 0.24s; }
+
+    .profile-card {
+        animation: fadeInUp 0.4s ease forwards;
+    }
+
+    .education-card {
+        animation: fadeInUp 0.4s ease 0.1s forwards;
+        opacity: 0;
+        animation-fill-mode: forwards;
+    }
+
+    .main-tab-card {
+        animation: fadeInUp 0.4s ease 0.15s forwards;
+        opacity: 0;
+        animation-fill-mode: forwards;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       SCROLLBAR
+       ═══════════════════════════════════════════════════════ */
+    .tab-content::-webkit-scrollbar,
+    .custom-table-wrap::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .tab-content::-webkit-scrollbar-track,
+    .custom-table-wrap::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .tab-content::-webkit-scrollbar-thumb,
+    .custom-table-wrap::-webkit-scrollbar-thumb {
+        background: var(--gradient-primary);
+        border-radius: 3px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       FEE PROGRESS BAR (optional enhancement)
+       ═══════════════════════════════════════════════════════ */
+    .fee-progress-bar {
+        width: 100%;
+        height: 8px;
+        background: #e8ecf1;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .fee-progress-bar .fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 1s ease;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       HISTORY TABLE ROW ANIMATION
+       ═══════════════════════════════════════════════════════ */
+    .custom-table tbody tr {
+        transition: var(--transition);
+    }
+
+    .custom-table tbody tr:hover {
+        transform: scale(1.005);
+    }
+
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text-muted);
+    }
+
+    .empty-state i {
+        font-size: 48px;
+        margin-bottom: 12px;
+        opacity: 0.3;
+    }
+
+    .empty-state p {
+        font-size: 14px;
+        font-weight: 500;
+    }
+</style>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -13,12 +1048,12 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item"><a href="~/Payment/index">Payment</a></li>
+                        <li class="breadcrumb-item"><a href="~/Payment/index"><i class="fas fa-arrow-left mr-1"></i> Payment</a></li>
                         <li class="breadcrumb-item active"><a href="#">Payment Detail</a></li>
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
     <section class="content">
@@ -38,502 +1073,526 @@
                     <input type="hidden" id="hdnYear" value="@Model.studentDetail.Year" />
                     <input type="hidden" id="hdnSession" value="@Model.studentDetail.Session" />
 
-                    <!-- Profile Image -->
-                    <div class="card card-primary card-outline">
+                    <!-- Profile Card -->
+                    <div class="profile-card mb-4">
                         <div class="card-body box-profile">
-                            <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle"
-                                     src="@Model.studentDetail.Photo"
-                                     alt="User profile picture">
-                            </div>
+                            <img class="profile-user-img img-fluid"
+                                 src="@Model.studentDetail.Photo"
+                                 alt="User profile picture">
 
                             <h3 class="profile-username text-center">@Model.studentDetail.StudentName</h3>
-
-
                             <p class="text-muted text-center">@Model.studentDetail.FatherName</p>
-                            <p class="text-muted text-center">@Model.studentDetail.MobileNoOne</p>
-
+                            <div class="contact-pill">
+                                <i class="fas fa-phone-alt"></i>
+                                @Model.studentDetail.MobileNoOne
+                            </div>
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
-                    <!-- About Me Box -->
-                    <div class="card card-primary">
+
+                    <!-- Education Card -->
+                    <div class="education-card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-book mr-1"></i> Education</h3>
+                            <h3 class="card-title"><i class="fas fa-graduation-cap mr-1"></i> Education</h3>
                         </div>
-                        <!-- /.card-header -->
                         <div class="card-body">
-
-                            <ul class="list-group list-group-unbordered mb-3">
-                                <li class="list-group-item">
-                                    <b>Session</b> <a class="float-right">@Model.studentDetail.Session</a>
+                            <ul class="edu-list">
+                                <li>
+                                    <b>Session</b>
+                                    <span>@Model.studentDetail.Session</span>
                                 </li>
-                                <li class="list-group-item">
-                                    <b>Class</b> <a class="float-right">@Model.studentDetail.Class</a>
+                                <li>
+                                    <b>Class</b>
+                                    <span>@Model.studentDetail.Class</span>
                                 </li>
-                                <li class="list-group-item">
-                                    <b>Course</b> <a class="float-right">@Model.studentDetail.Course</a>
+                                <li>
+                                    <b>Course</b>
+                                    <span>@Model.studentDetail.Course</span>
                                 </li>
-                                <li class="list-group-item">
-                                    <b>Year</b> <a class="float-right">@Model.studentDetail.Year</a>
+                                <li>
+                                    <b>Year</b>
+                                    <span>@Model.studentDetail.Year</span>
                                 </li>
-
                             </ul>
-
-
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
                 </div>
+
                 <!-- /.col -->
                 <div class="col-md-9">
-                    <div class="card">
+                    <div class="main-tab-card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#Detail" data-toggle="tab">Payment Detail</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#PayNow" data-toggle="tab">Pay Now </a></li>
-                                <li class="nav-item"><a class="nav-link" href="#History" data-toggle="tab">Payment History</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#OldDues" data-toggle="tab">Old Dues  <span class="badge bg-danger">@Model.OldDuesAmount.ToString()</span> </a></li>
-                                <li class="nav-item"><a class="nav-link" href="#TC" data-toggle="tab">TC Detail</a></li>
+                                <li class="nav-item"><a class="nav-link active" href="#Detail" data-toggle="tab"><i class="fas fa-receipt mr-1"></i> Payment Detail</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#PayNow" data-toggle="tab"><i class="fas fa-money-bill-wave mr-1"></i> Pay Now</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#History" data-toggle="tab"><i class="fas fa-history mr-1"></i> History</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#OldDues" data-toggle="tab">Old Dues <span class="badge bg-danger">@Model.OldDuesAmount.ToString()</span></a></li>
+                                <li class="nav-item"><a class="nav-link" href="#TC" data-toggle="tab"><i class="fas fa-file-alt mr-1"></i> TC</a></li>
                             </ul>
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
 
+                                <!-- ═══════ PAYMENT DETAIL TAB ═══════ -->
                                 <div class="active tab-pane" id="Detail">
-
-                                    <div class="container-fluid">
-                                        <!-- Small boxes (Stat box) -->
-                                        <div class="row">
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg-info">
-                                                    <div class="inner">
-                                                        <h3>@Model.studentFeeDetail.TotalFeeAfterDiscount</h3>
-
-                                                        <p>Total Fee</p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="ion ion-bag"></i>
-                                                    </div>
-
-                                                </div>
+                                    <div class="stat-grid">
+                                        <div class="stat-card total-fee">
+                                            <div class="inner">
+                                                <h3>@Model.studentFeeDetail.TotalFeeAfterDiscount</h3>
+                                                <p>Total Fee</p>
                                             </div>
-                                            <!-- ./col -->
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg-success">
-                                                    <div class="inner">
-                                                        <h3>@Model.studentFeeDetail.PaidAmount<sup style="font-size: 20px"></sup></h3>
-
-                                                        <p>Paid Fee</p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="ion ion-stats-bars"></i>
-                                                    </div>
-
-                                                </div>
+                                            <div class="icon">
+                                                <i class="fas fa-wallet"></i>
                                             </div>
-                                            <!-- ./col -->
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg-warning">
-                                                    <div class="inner">
-                                                        @{
-
-                                                            int remainingFee = @Model.studentFeeDetail.TotalFeeAfterDiscount - @Model.studentFeeDetail.PaidAmount;
-
-                                                        }
-                                                        <h3>@remainingFee</h3>
-
-                                                        <p>Remaining Fee </p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="ion ion-person-add"></i>
-                                                    </div>
-
-                                                </div>
+                                        </div>
+                                        <div class="stat-card paid-fee">
+                                            <div class="inner">
+                                                <h3>@Model.studentFeeDetail.PaidAmount</h3>
+                                                <p>Paid Fee</p>
                                             </div>
-                                            <!-- ./col -->
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg-danger">
-                                                    <div class="inner">
-                                                        <h3>@Model.studentFeeDetail.CMoney</h3>
-
-                                                        <p>Caution Money Paid  @Model.studentFeeDetail.CMoneyPaidOrNot</p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="ion ion-pie-graph"></i>
-                                                    </div>
-
-                                                </div>
+                                            <div class="icon">
+                                                <i class="fas fa-check-circle"></i>
                                             </div>
-                                            <!-- ./col -->
+                                        </div>
+                                        <div class="stat-card remaining-fee">
+                                            <div class="inner">
+                                                @{
+                                                    int remainingFee = @Model.studentFeeDetail.TotalFeeAfterDiscount - @Model.studentFeeDetail.PaidAmount;
+                                                }
+                                                <h3>@remainingFee</h3>
+                                                <p>Remaining Fee</p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </div>
+                                        </div>
+                                        <div class="stat-card caution-money">
+                                            <div class="inner">
+                                                <h3>@Model.studentFeeDetail.CMoney</h3>
+                                                <p>Caution Money</p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fas fa-shield-alt"></i>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <table class="table table-bordered">
+                                    @{
+                                        var totalFee = Model.studentFeeDetail.TotalFeeAfterDiscount;
+                                        var paidFee = Model.studentFeeDetail.PaidAmount;
+                                        var progressPercent = totalFee > 0 ? ((double)paidFee / totalFee) * 100 : 0;
+                                        var progressColor = progressPercent >= 100 ? "var(--gradient-mint)" : progressPercent >= 50 ? "var(--gradient-aurora)" : "var(--gradient-sunset)";
+                                    }
+
+                                    <div style="margin-bottom: 20px; padding: 16px 20px; background: #fafbfe; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                            <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Payment Progress</span>
+                                            <span style="font-size: 14px; font-weight: 800; color: #667eea;">@progressPercent.ToString("F1")%</span>
+                                        </div>
+                                        <div class="fee-progress-bar">
+                                            <div class="fill" style="width: @progressPercent%; background: @progressColor;"></div>
+                                        </div>
+                                    </div>
+
+                                    <table class="custom-table">
                                         <thead>
                                             <tr>
-
                                                 <th>Fee Name</th>
                                                 <th>Progress</th>
-                                                <th style="width: 40px">Amount</th>
+                                                <th style="width: 120px;">Amount</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-
-                                                <td>New Student Fee</td>
-                                                <td></td>
-                                                <td>@Model.studentFeeDetail.NewStudentFee</td>
+                                                <td><i class="fas fa-user-plus mr-2" style="color: #667eea;"></i> New Student Fee</td>
+                                                <td>
+                                                    <div class="fee-progress-bar" style="max-width: 200px;">
+                                                        <div class="fill" style="width: 100%; background: var(--gradient-mint);"></div>
+                                                    </div>
+                                                </td>
+                                                <td style="font-weight: 700;">@Model.studentFeeDetail.NewStudentFee</td>
                                             </tr>
                                             <tr>
-
-                                                <td>Fee</td>
-                                                <td></td>
-                                                <td>@Model.studentFeeDetail.TotalFee</td>
+                                                <td><i class="fas fa-book mr-2" style="color: #f5576c;"></i> Fee</td>
+                                                <td>
+                                                    <div class="fee-progress-bar" style="max-width: 200px;">
+                                                        <div class="fill" style="width: @progressPercent%; background: @progressColor;"></div>
+                                                    </div>
+                                                </td>
+                                                <td style="font-weight: 700;">@Model.studentFeeDetail.TotalFee</td>
                                             </tr>
-
                                             <tr>
-
-                                                <td>Scholership/ By</td>
-                                                <td></td>
-                                                <td>@Model.studentFeeDetail.Scholership /@Model.studentFeeDetail.DisBy </td>
+                                                <td><i class="fas fa-award mr-2" style="color: #f5af19;"></i> Scholarship / By</td>
+                                                <td>
+                                                    <span style="font-size: 12px; font-weight: 600; color: var(--text-muted);">—</span>
+                                                </td>
+                                                <td style="font-weight: 700;">@Model.studentFeeDetail.Scholership / @Model.studentFeeDetail.DisBy</td>
                                             </tr>
-
-
                                         </tbody>
                                     </table>
                                 </div>
 
+                                <!-- ═══════ PAY NOW TAB ═══════ -->
                                 <div class="tab-pane" id="PayNow">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Passsing Year</label>
-                                                <select id="ddlPayYear" asp-items="Model.YearList" class="form-control">
-                                                    <option>Select</option>
-                                                </select>
-                                            </div>
+                                    <div class="pay-form-row">
+                                        <div class="form-group">
+                                            <label>Passing Year</label>
+                                            <select id="ddlPayYear" asp-items="Model.YearList" class="form-control">
+                                                <option>Select</option>
+                                            </select>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Session</label>
-                                                <select id="ddlPaySession" asp-items="Model.SessionList" class="form-control">
-                                                    <option>Select</option>
-                                                </select>
-                                            </div>
+                                        <div class="form-group">
+                                            <label>Session</label>
+                                            <select id="ddlPaySession" asp-items="Model.SessionList" class="form-control">
+                                                <option>Select</option>
+                                            </select>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Class</label>
-                                                <input readonly="readonly" value="@Model.studentDetail.Class" class="form-control PersonalDetailText" />
-
-                                            </div>
+                                        <div class="form-group">
+                                            <label>Class</label>
+                                            <input readonly="readonly" value="@Model.studentDetail.Class" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Course</label>
-                                                <input value="@Model.studentDetail.Course" readonly="readonly" class="form-control PersonalDetailText" />
-                                            </div>
+                                        <div class="form-group">
+                                            <label>Course</label>
+                                            <input value="@Model.studentDetail.Course" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                     </div>
-                                    <table class="table table-bordered">
+
+                                    <table class="custom-table pay-table">
                                         <thead>
                                             <tr>
-
-                                                <th>Recipt</th>
-                                                <th style="width: 60%">Detail</th>
+                                                <th style="width: 160px;">Receipt</th>
+                                                <th>Detail</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-
+                                                <td style="font-weight: 600;">Pay Mode</td>
                                                 <td>
-                                                    Pay Mode
-                                                </td>
-                                                <td>
-                                                    <select id="ddlPayMode" style="width:25%; float:left">
-                                                        <option>Select</option>
-                                                        <option>Cash</option>
-                                                        <option>Online</option>
-                                                        <option>Check</option>
-                                                    </select>
-
-                                                    <div style="width:50%; float:right;">Date : <input type="date" id="txtPaymentdate" /></div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-
-                                                <td>
-                                                    Transace ID
-                                                </td>
-                                                <td>
-                                                    <input id="txtTransactionID" class="text-black" type="number" />
+                                                    <div style="display: flex; gap: 12px;">
+                                                        <select id="ddlPayMode" style="width: 30%; flex-shrink: 0;">
+                                                            <option>Select</option>
+                                                            <option>Cash</option>
+                                                            <option>Online</option>
+                                                            <option>Check</option>
+                                                        </select>
+                                                        <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                                                            <i class="fas fa-calendar-alt" style="color: var(--text-muted);"></i>
+                                                            <span style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">Date:</span>
+                                                            <input type="date" id="txtPaymentdate" style="flex: 1;" />
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
-
+                                                <td style="font-weight: 600;">Transaction ID</td>
                                                 <td>
-                                                    Rec Book No.
-                                                </td>
-                                                <td>
-                                                    <input id="txtRecBookNo" class="text-black" type="number" />
+                                                    <div style="position: relative;">
+                                                        <i class="fas fa-hashtag" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 12px;"></i>
+                                                        <input id="txtTransactionID" class="text-black" type="number" style="padding-left: 36px;" />
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
-
+                                                <td style="font-weight: 600;">Rec Book No.</td>
                                                 <td>
-                                                    Recept No.
-                                                </td>
-                                                <td>
-                                                    <input id="txtReceptNo" class="text-black" type="number" />
+                                                    <div style="position: relative;">
+                                                        <i class="fas fa-book" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 12px;"></i>
+                                                        <input id="txtRecBookNo" class="text-black" type="number" style="padding-left: 36px;" />
+                                                    </div>
                                                 </td>
                                             </tr>
-                                            <tr><td colspan="2"><strong>Head</strong></td></tr>
+                                            <tr>
+                                                <td style="font-weight: 600;">Receipt No.</td>
+                                                <td>
+                                                    <div style="position: relative;">
+                                                        <i class="fas fa-receipt" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 12px;"></i>
+                                                        <input id="txtReceptNo" class="text-black" type="number" style="padding-left: 36px;" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" class="head-row-label">
+                                                    <i class="fas fa-list-ul mr-2"></i> Fee Heads
+                                                </td>
+                                            </tr>
                                             <tr id="row1">
-
                                                 <td>
                                                     <select id="ddlHead1" class="form-control">
                                                         <option>Select</option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input id="txtAmount1" class="text-black" type="number" /><i onclick="showNextHead('2')" class="fas fa-plus"></i>
+                                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                                        <div style="position: relative; flex: 1;">
+                                                            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-weight: 700; font-size: 14px;">₹</span>
+                                                            <input id="txtAmount1" class="text-black" type="number" style="padding-left: 32px;" />
+                                                        </div>
+                                                        <i onclick="showNextHead('2')" class="fas fa-plus-circle" style="cursor: pointer; color: #667eea; font-size: 22px; transition: var(--transition); flex-shrink: 0;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></i>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr id="row2" style="display:none">
-
                                                 <td>
                                                     <select id="ddlHead2" class="form-control">
                                                         <option>Select</option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input id="txtAmount2" class="text-black" type="number" /><i onclick="showNextHead('3')" class="fas fa-plus"></i>
+                                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                                        <div style="position: relative; flex: 1;">
+                                                            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-weight: 700; font-size: 14px;">₹</span>
+                                                            <input id="txtAmount2" class="text-black" type="number" style="padding-left: 32px;" />
+                                                        </div>
+                                                        <i onclick="showNextHead('3')" class="fas fa-plus-circle" style="cursor: pointer; color: #667eea; font-size: 22px; transition: var(--transition); flex-shrink: 0;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></i>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr id="row3" style="display:none">
-
                                                 <td>
                                                     <select id="ddlHead3" class="form-control">
                                                         <option>Select</option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input id="txtAmount3" class="text-black" type="number" /><i onclick="showNextHead('4')" class="fas fa-plus"></i>
+                                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                                        <div style="position: relative; flex: 1;">
+                                                            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-weight: 700; font-size: 14px;">₹</span>
+                                                            <input id="txtAmount3" class="text-black" type="number" style="padding-left: 32px;" />
+                                                        </div>
+                                                        <i onclick="showNextHead('4')" class="fas fa-plus-circle" style="cursor: pointer; color: #667eea; font-size: 22px; transition: var(--transition); flex-shrink: 0;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"></i>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr id="row4" style="display:none">
-
                                                 <td>
                                                     <select id="ddlHead4" class="form-control">
                                                         <option>Select</option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input id="txtAmount4" class="text-black" type="number" />
+                                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                                        <div style="position: relative; flex: 1;">
+                                                            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-weight: 700; font-size: 14px;">₹</span>
+                                                            <input id="txtAmount4" class="text-black" type="number" style="padding-left: 32px;" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="total-row">
+                                                <td><i class="fas fa-calculator mr-2"></i> Total Pay</td>
+                                                <td>
+                                                    <div style="position: relative; display: inline-block; width: 200px; float: right;">
+                                                        <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-weight: 700; font-size: 16px; color: #5b4a9e;">₹</span>
+                                                        <input id="txtTotalPay" readonly="readonly" class="text-black" type="number" style="padding-left: 32px; font-size: 18px;" />
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
-
-                                                <td>
-                                                    <strong> Total Pay</strong>
-                                                </td>
-                                                <td>
-                                                    <strong> <input id="txtTotalPay" readonly="readonly" class="text-black" type="number" /> </strong>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td colspan="2">
-                                                    <button type="button" onclick="payNow();" class="btn btn-success btn-block" /><i class="fa fa-bell"></i> Process for Pay </button>
+                                                <td colspan="2" style="border: none; padding: 20px 16px 8px;">
+                                                    <button type="button" onclick="payNow();" class="btn-process-pay">
+                                                        <i class="fas fa-bell"></i> Process for Pay
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
 
+                                <!-- ═══════ HISTORY TAB ═══════ -->
                                 <div class="tab-pane" id="History">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 10px">#</th>
-                                                <th>Session</th>
-                                                <th>Year</th>
-                                                <th style="30%">Head</th>
-                                                <th>Amount</th>
-                                                <th>ReciptNo</th>
-                                                <th>Mode</th>
-                                                <th>Date</th>
-                                                <th>Taken By</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if (Model.studentTransaction.Count() > 0)
-                                            {
-                                                int rowNo = 1;
-
-                                                foreach (var row in Model.studentTransaction)
-                                                {
+                                    @if (Model.studentTransaction.Count() > 0)
+                                    {
+                                        <div class="custom-table-wrap" style="max-height: 500px; overflow-y: auto; border-radius: var(--radius-md);">
+                                            <table class="custom-table">
+                                                <thead style="position: sticky; top: 0; z-index: 2;">
                                                     <tr>
-                                                        <td> @rowNo </td>
-                                                        <td> @row.Session </td>
-                                                        <td> @row.Year </td>
-                                                        <td> @row.Head </td>
-                                                        <td> @row.Amount </td>
-                                                        <td> @row.RecNumber </td>
-                                                        <td> @row.PaymentMode </td>
-                                                        <td> @row.CreateDateTime.ToString("dd/MM/yyyy") </td>
-                                                        <td> @row.CreatedBy </td>
+                                                        <th style="width: 50px;">#</th>
+                                                        <th>Session</th>
+                                                        <th>Year</th>
+                                                        <th>Head</th>
+                                                        <th>Amount</th>
+                                                        <th>Receipt No</th>
+                                                        <th>Mode</th>
+                                                        <th>Date</th>
+                                                        <th>Taken By</th>
                                                     </tr>
-                                                    rowNo = rowNo + 1;
-
-                                                }
-
-                                            }
-
-                                        </tbody>
-                                    </table>
+                                                </thead>
+                                                <tbody>
+                                                    @{
+                                                        int rowNo = 1;
+                                                        foreach (var row in Model.studentTransaction)
+                                                        {
+                                                            <tr>
+                                                                <td style="font-weight: 700; color: var(--text-muted);">@rowNo</td>
+                                                                <td>@row.Session</td>
+                                                                <td>@row.Year</td>
+                                                                <td>
+                                                                    <span style="background: linear-gradient(135deg, #f8f9ff, #f0e6ff); padding: 3px 12px; border-radius: 6px; font-weight: 600; font-size: 13px;">@row.Head</span>
+                                                                </td>
+                                                                <td style="font-weight: 800; color: #11998e;">₹ @row.Amount</td>
+                                                                <td style="font-weight: 600;">@row.RecNumber</td>
+                                                                <td>
+                                                                    @{
+                                                                        var modeClass = row.PaymentMode?.ToLower() switch
+                                                                        {
+                                                                            "cash" => "background: linear-gradient(135deg, #d4edda, #c3e6cb); color: #155724;",
+                                                                            "online" => "background: linear-gradient(135deg, #cce5ff, #b8daff); color: #004085;",
+                                                                            "check" => "background: linear-gradient(135deg, #fff3cd, #ffeeba); color: #856404;",
+                                                                            _ => "background: #f4f6fa; color: var(--text-secondary);"
+                                                                        };
+                                                                    }
+                                                                    <span style="@modeClass padding: 3px 12px; border-radius: 6px; font-weight: 600; font-size: 12px; text-transform: uppercase;">@row.PaymentMode</span>
+                                                                </td>
+                                                                <td style="font-size: 13px;">@row.CreateDateTime.ToString("dd/MM/yyyy")</td>
+                                                                <td style="font-size: 13px; color: var(--text-secondary);">@row.CreatedBy</td>
+                                                            </tr>
+                                                            rowNo++;
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="empty-state">
+                                            <i class="fas fa-inbox d-block"></i>
+                                            <p>No payment history found</p>
+                                        </div>
+                                    }
                                 </div>
 
+                                <!-- ═══════ OLD DUES TAB ═══════ -->
                                 <div class="tab-pane" id="OldDues">
-                                    <table class="table table-bordered">
+                                    <table class="custom-table">
                                         <thead>
                                             <tr>
                                                 <th>Year</th>
                                                 <th>Class</th>
                                                 <th>Course</th>
-                                                <th>Total Fee Amount</th>
-                                                <th>Paid Amount</th>
+                                                <th>Total Fee</th>
+                                                <th>Paid</th>
                                                 <th>Dues</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach (var rowDue in Model.FeeDueList.OrderByDescending(x => x.Id))
                                             {
+                                                var varDues = rowDue.TotalFeeAfterDiscount - rowDue.PaidAmount;
                                                 <tr>
-                                                    <td>@rowDue.Year</td>
+                                                    <td style="font-weight: 600;">@rowDue.Year</td>
                                                     <td>@rowDue.Class</td>
                                                     <td>@rowDue.Course</td>
-                                                    <td>@rowDue.TotalFeeAfterDiscount</td>
-                                                    <td>@rowDue.PaidAmount</td>
-                                                    @{
-                                                        int varDues = @rowDue.TotalFeeAfterDiscount - @rowDue.PaidAmount;
-                                                    }
-                                                    <td>@varDues</td>
+                                                    <td style="font-weight: 600;">₹ @rowDue.TotalFeeAfterDiscount</td>
+                                                    <td style="font-weight: 700; color: #11998e;">₹ @rowDue.PaidAmount</td>
+                                                    <td class="due-amount-cell">₹ @varDues</td>
                                                 </tr>
                                             }
                                         </tbody>
                                     </table>
                                 </div>
 
-
+                                <!-- ═══════ TC TAB ═══════ -->
                                 <div class="tab-pane" id="TC">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>TC</th>
-                                                <th>
-                                                    @if (Model.studentDetail.TC.ToUpper() == "YES")
-                                                    {
-                                                        <span class="badge badge-success">Submitted</span>
-                                                    }
-                                                    else if (Model.studentDetail.TC.ToUpper() == "ISSUE")
-                                                    {
-                                                        <span class="badge badge-success">Issued</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="badge badge-success">Not Submitted</span>
-                                                    }
-                                                </th>
-                                            </tr>
-                                        </thead>
-
-                                    </table>
+                                    <div style="display: flex; align-items: center; gap: 20px; padding: 20px; background: #fafbfe; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                                        <div style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px;
+                                            @(Model.studentDetail.TC.ToUpper() == "YES" || Model.studentDetail.TC.ToUpper() == "ISSUE" ? "background: linear-gradient(135deg, #d4edda, #c3e6cb); color: #155724;" : "background: linear-gradient(135deg, #fff3cd, #ffeeba); color: #856404;")">
+                                            <i class="fas fa-file-alt"></i>
+                                        </div>
+                                        <div>
+                                            <div style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">Transfer Certificate</div>
+                                            @if (Model.studentDetail.TC.ToUpper() == "YES")
+                                            {
+                                                <span class="badge-tc badge-tc-submitted"><i class="fas fa-check-circle mr-1"></i> Submitted</span>
+                                            }
+                                            else if (Model.studentDetail.TC.ToUpper() == "ISSUE")
+                                            {
+                                                <span class="badge-tc badge-tc-issued"><i class="fas fa-stamp mr-1"></i> Issued</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge-tc badge-tc-not-submitted"><i class="fas fa-times-circle mr-1"></i> Not Submitted</span>
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
-
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     </section>
-    <!-- /.content -->
-
 </div>
 
+<!-- ═══════ RECEIPT MODAL ═══════ -->
 <div class="modal fade" id="modal-View">
-    <div class="modal-dialog" style="max-width:650px !important;">
+    <div class="modal-dialog" style="max-width: 650px !important;">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Payment Recipt</h4>
+                <h4 class="modal-title"><i class="fas fa-receipt mr-2"></i> Payment Receipt</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div id="divPaymentRecipt" style="padding:20px; font-family: Arial;">
 
+            <div id="divPaymentRecipt" class="receipt-wrapper">
                 <!-- Header -->
-                <div style="text-align:center;">
-                    <h2>SV college Sehore</h2>
+                <div class="receipt-header">
+                    <h2>SV College Sehore</h2>
                     <h4>Fee Payment Receipt</h4>
                 </div>
 
-                <hr />
+                <hr class="receipt-divider" />
 
                 <!-- Top Info -->
-                <table style="width:100%; font-size:14px;">
+                <table class="receipt-info-table">
                     <tr>
                         <td>Receipt No: <strong id="lblReciptNo"></strong></td>
-                        <td>Book No: <strong id="lblReciptBookNo"></strong></td>
-                        <td style="text-align:right;">Date: <strong id="lblPayDate"></strong></td>
+                        <td style="text-align: center;">Book No: <strong id="lblReciptBookNo"></strong></td>
+                        <td style="text-align: right;">Date: <strong id="lblPayDate"></strong></td>
                     </tr>
                 </table>
-
-                <br />
 
                 <!-- Student Info -->
-                <table style="width:100%; font-size:14px;">
-                    <tr>
-                        <td>Name: <strong id="lblName"></strong></td>
-                    </tr>
-                    <tr>
-                        <td>Father Name: <strong id="lblFatherName"></strong></td>
-                    </tr>
-                </table>
-
-                <br />
+                <div class="receipt-student-info">
+                    <table>
+                        <tr>
+                            <td style="width: 50%; padding-bottom: 6px;">Name: <strong id="lblName"></strong></td>
+                            <td>Father: <strong id="lblFatherName"></strong></td>
+                        </tr>
+                    </table>
+                </div>
 
                 <!-- Academic Info -->
-                <table style="width:100%; font-size:14px;">
-                    <tr>
-                        <td>Class: <strong id="lblClass"></strong></td>
-                        <td>Course: <strong id="lblCourse"></strong></td>
-                        <td>Year: <strong id="lblYear"></strong></td>
-                        <td>Session: <strong id="lblSession"></strong></td>
-                    </tr>
-                </table>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 100px; background: #f8f9ff; padding: 8px 14px; border-radius: 8px; font-size: 12px;">
+                        <span style="color: var(--text-muted); font-weight: 600;">CLASS</span><br>
+                        <strong id="lblClass"></strong>
+                    </div>
+                    <div style="flex: 1; min-width: 100px; background: #f8f9ff; padding: 8px 14px; border-radius: 8px; font-size: 12px;">
+                        <span style="color: var(--text-muted); font-weight: 600;">COURSE</span><br>
+                        <strong id="lblCourse"></strong>
+                    </div>
+                    <div style="flex: 1; min-width: 100px; background: #f8f9ff; padding: 8px 14px; border-radius: 8px; font-size: 12px;">
+                        <span style="color: var(--text-muted); font-weight: 600;">YEAR</span><br>
+                        <strong id="lblYear"></strong>
+                    </div>
+                    <div style="flex: 1; min-width: 100px; background: #f8f9ff; padding: 8px 14px; border-radius: 8px; font-size: 12px;">
+                        <span style="color: var(--text-muted); font-weight: 600;">SESSION</span><br>
+                        <strong id="lblSession"></strong>
+                    </div>
+                </div>
 
-                <hr />
+                <hr class="receipt-divider" />
 
                 <!-- Fee Details -->
-                <table style="width:100%; border-collapse: collapse; font-size:14px;" border="1">
+                <table class="receipt-fee-table">
                     <thead>
                         <tr>
-                            <th style="padding:5px;">Sr.</th>
-                            <th style="padding:5px;">Fee Head</th>
-                            <th style="padding:5px;">Amount</th>
+                            <th style="width: 50px; text-align: center;">Sr.</th>
+                            <th>Fee Head</th>
+                            <th style="width: 120px; text-align: right;">Amount</th>
                         </tr>
                     </thead>
                     <tbody id="lblHead">
@@ -541,148 +1600,46 @@
                     </tbody>
                 </table>
 
-                <br />
-
                 <!-- Total -->
-                <div style="text-align:right; font-size:18px;">
-                    Total: ₹ <strong id="lblTotalPay"></strong>
+                <div class="receipt-total">
+                    Total: <strong id="lblTotalPay"></strong>
                 </div>
 
-                <br /><br />
-
-                <!-- Signature -->
-                <div style="display:flex; justify-content:space-between;">
+                <!-- Signatures -->
+                <div class="receipt-signatures">
                     <div>Student Signature</div>
                     <div>Authorized Signature</div>
                 </div>
-
             </div>
 
-            @*<div id="divPaymentRecipt" class="modal-body">
-                    <div class="row" style="line-height: 0.1 !important">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                RECEIPT No : <strong><label id="lblReciptNo"></label></strong> / BOOK No: <strong><label id="lblReciptBookNo"></label></strong>
-                            </div>
-                        </div>
-                        <div class="col-md-3 float-right"></div>
-
-                        <div class="col-md-3 float-right">
-                            <div class="form-group">
-                                Date:
-                                <strong><label id="lblPayDate"></label></strong>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row" style="line-height: 0.1 !important">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                NAME OF STUDENT :
-                                <strong><label id="lblName"></label></strong>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                FATHER'S NAME :
-                                <strong><label id="lblFatherName"></label></strong>
-                            </div>
-                        </div>
-
-                    </div>
-                    <hr />
-                    <div class="row" style="line-height: 0.1 !important">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                Class :
-                                <strong><label id="lblClass"></label></strong>
-                            </div>
-                        </div>
-                        <div class="col-md-3 float-right">
-                            <div class="form-group">
-                                Course :
-                                <strong><label id="lblCourse"></label></strong>
-                            </div>
-                        </div>
-                        <div class="col-md-3 float-right">
-                            <div class="form-group">
-                                Year :
-                                <strong><label id="lblYear"></label></strong>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 float-right">
-                            <div class="form-group">
-                                Session :
-                                <strong><label id="lblSession"></label></strong>
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <strong>FEE DETAIL</strong><br />
-                                <ul id="lblHead"></ul>
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group" style="float:right; font-size:20px;">
-                                Total Pay :
-                                <strong><label id="lblTotalPay"></label></strong>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>*@
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" onclick="SavePaymentDetail()">Pay  <i class="fas fa-save"> </i> </button>
+                <button type="button" class="btn-modal-close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn-modal-save" onclick="SavePaymentDetail()">
+                    <i class="fas fa-save"></i> Confirm & Pay
+                </button>
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-
-
     <script src="~/ValidateJS/html2pdf.bundle.min.js"></script>
 
     <script type="text/javascript">
-        // INSERT
-
         var BASE_URL = "@baseUrl";
         var Toast;
-        var classArray = ["Admission fees",
-            "Identity card fees",
-            "Tuition fees",
-            "Annual function fees",
-            "College development fees",
-            "Activity fees",
-            "University Exam. fees",
-            "Bravery activity fees",
-            "Departmental library fees",
-            "Late fees",
-            "Maintenance fees",
-            "Establishment & college development fees",
-            "Subject transfer fees",
-            "Caution money",
-            "Laboratory fees",
-            "Transfer certificate fees",
-            "College exam fees",
-            "Medical fees",
-            "Poor student fund",
-            "Forwarding fees",
-            "Enrollment Fees",
-            "Eligibility Fees",
-            "On line portal Fees",
-            "Other fees"];
+        var classArray = [
+            "Admission fees", "Identity card fees", "Tuition fees",
+            "Annual function fees", "College development fees", "Activity fees",
+            "University Exam. fees", "Bravery activity fees", "Departmental library fees",
+            "Late fees", "Maintenance fees", "Establishment & college development fees",
+            "Subject transfer fees", "Caution money", "Laboratory fees",
+            "Transfer certificate fees", "College exam fees", "Medical fees",
+            "Poor student fund", "Forwarding fees", "Enrollment Fees",
+            "Eligibility Fees", "On line portal Fees", "Other fees"
+        ];
 
         window.onload = function () {
-
             var today = new Date().toISOString().split('T')[0];
             $('#txtPaymentdate').val(today);
 
@@ -695,31 +1652,22 @@
 
             fillHeadDropdown("1", 'na');
 
-            $('#txtAmount1, #txtAmount2,  #txtAmount3,  #txtAmount4').on('change', function () {
+            $('#txtAmount1, #txtAmount2, #txtAmount3, #txtAmount4').on('change', function () {
                 CalculateTotal();
             });
-
         };
 
-        //-class: 'bg-danger',  class: 'bg-warning',class: 'bg-info',
         function Alert(icon, title, className) {
-            Toast.fire({
-                icon: icon,
-                title: title,
-                class: className,
-            })
+            Toast.fire({ icon: icon, title: title, class: className })
         }
 
         function validateField(selector, message, type = "") {
             var value = $(selector).val();
             var errorId = selector.replace('#', '') + "Error";
 
-            // Dropdown validation
             if (type === "dropdown") {
-                debugger;
                 if (value === "" || value === "0" || value === null || value === "Select") {
                     $(selector).addClass("is-invalid");
-
                     if ($("#" + errorId).length == 0) {
                         $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">' + message + '</span>');
                     }
@@ -731,17 +1679,14 @@
                 }
             }
 
-            // Required validation
             if (value === "") {
                 $(selector).addClass("is-invalid");
-
                 if ($("#" + errorId).length == 0) {
                     $(selector).after('<span id="' + errorId + '" class="error invalid-feedback">' + message + '</span>');
                 }
                 return false;
             }
 
-            // Valid case
             $(selector).removeClass("is-invalid");
             $("#" + errorId).remove();
             return true;
@@ -749,31 +1694,20 @@
 
         var varStudentId = 0;
         var varStudentFeeId = 0;
-        var varHead1 = "";
-        var varAmount1 = 0;
-        var varHead2 = "";
-        var varAmount2 = 0;
-        var varHead3 = "";
-        var varAmount3 = 0;
-        var varHead4 = "";
-        var varAmount4 = 0;
 
         function CalculateTotal() {
-            var temtotalPay1 = parseFloat($("#txtAmount1").val()) || 0;
-            var temtotalPay2 = parseFloat($("#txtAmount2").val()) || 0;
-            var temtotalPay3 = parseFloat($("#txtAmount3").val()) || 0;
-            var temtotalPay4 = parseFloat($("#txtAmount4").val()) || 0;
-            $("#txtTotalPay").val(temtotalPay1 + temtotalPay2 + temtotalPay3 + temtotalPay4);
+            var t1 = parseFloat($("#txtAmount1").val()) || 0;
+            var t2 = parseFloat($("#txtAmount2").val()) || 0;
+            var t3 = parseFloat($("#txtAmount3").val()) || 0;
+            var t4 = parseFloat($("#txtAmount4").val()) || 0;
+            $("#txtTotalPay").val(t1 + t2 + t3 + t4);
         }
 
-
         function payNow() {
-
             var IsValidate = true;
             varStudentId = $("#hdnStudentId").val();
             varStudentFeeId = $("#hdnstudentFeeId").val();
 
-            //----------Validate-------------------
             if (!validateField("#txtRecBookNo", "RecBookNo required")) IsValidate = false;
             if (!validateField("#txtReceptNo", "ReceptNo required")) IsValidate = false;
             if (!validateField("#txtPaymentdate", "Payment date required")) IsValidate = false;
@@ -783,7 +1717,6 @@
 
             if (!IsValidate) return;
 
-            //------------------Pop Up---------------
             $("#lblReciptBookNo").text($("#txtRecBookNo").val());
             $("#lblReciptNo").text($("#txtReceptNo").val());
             $("#lblPayDate").text($("#txtPaymentdate").val());
@@ -794,64 +1727,36 @@
             $("#lblYear").text($('#ddlPayYear option:selected').text());
             $("#lblSession").text($('#ddlPaySession option:selected').text());
 
-            //------Head detail-----------
             var html = "";
-            var total = 0;
-            var varFeeDetail = "";
-            if ($('#ddlHead1 option:selected').text() != "Select")
-            {
-                html += "<tr>";
-                html += "<td style='padding:5px; text-align:center;'>1</td>";
-                html += "<td style='padding:5px;'>" + $('#ddlHead1 option:selected').text() + "</td>";
-                html += "<td style='padding:5px; text-align:right;'>₹ " + $("#txtAmount1").val() +"</td>";
-                html += "</tr>";
-               // varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead1 option:selected').text() + ": " + $("#txtAmount1").val()  +"</li>";
+            var sr = 1;
+            if ($('#ddlHead1 option:selected').text() != "Select") {
+                html += "<tr><td style='text-align:center;'>" + sr + "</td><td>" + $('#ddlHead1 option:selected').text() + "</td><td style='text-align:right;'>₹ " + $("#txtAmount1").val() + "</td></tr>";
+                sr++;
             }
             if ($('#ddlHead2 option:selected').text() != "Select") {
-                html += "<tr>";
-                html += "<td style='padding:5px; text-align:center;'>2</td>";
-                html += "<td style='padding:5px;'>" + $('#ddlHead2 option:selected').text() + "</td>";
-                html += "<td style='padding:5px; text-align:right;'>₹ " + $("#txtAmount2").val() + "</td>";
-                html += "</tr>";
-                // varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead2 option:selected').text() + ": " + $("#txtAmount2").val() + "</li>";
+                html += "<tr><td style='text-align:center;'>" + sr + "</td><td>" + $('#ddlHead2 option:selected').text() + "</td><td style='text-align:right;'>₹ " + $("#txtAmount2").val() + "</td></tr>";
+                sr++;
             }
             if ($('#ddlHead3 option:selected').text() != "Select") {
-
-                html += "<tr>";
-                html += "<td style='padding:5px; text-align:center;'>3</td>";
-                html += "<td style='padding:5px;'>" + $('#ddlHead3 option:selected').text() + "</td>";
-                html += "<td style='padding:5px; text-align:right;'>₹ " + $("#txtAmount3").val() + "</td>";
-                html += "</tr>";
-                //varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead3 option:selected').text() + ": " + $("#txtAmount3").val() + "</li>";
+                html += "<tr><td style='text-align:center;'>" + sr + "</td><td>" + $('#ddlHead3 option:selected').text() + "</td><td style='text-align:right;'>₹ " + $("#txtAmount3").val() + "</td></tr>";
+                sr++;
             }
             if ($('#ddlHead4 option:selected').text() != "Select") {
-                html += "<tr>";
-                html += "<td style='padding:5px; text-align:center;'>4</td>";
-                html += "<td style='padding:5px;'>" + $('#ddlHead4 option:selected').text() + "</td>";
-                html += "<td style='padding:5px; text-align:right;'>₹ " + $("#txtAmount4").val() + "</td>";
-                html += "</tr>";
-                //varFeeDetail = varFeeDetail + "<li>" + $('#ddlHead4 option:selected').text() + ": " + $("#txtAmount4").val() + "</li>";
+                html += "<tr><td style='text-align:center;'>" + sr + "</td><td>" + $('#ddlHead4 option:selected').text() + "</td><td style='text-align:right;'>₹ " + $("#txtAmount4").val() + "</td></tr>";
             }
 
             $("#lblHead").html(html);
-
-            $("#lblTotalPay").text($("#txtTotalPay").val());
-
+            $("#lblTotalPay").text("₹ " + $("#txtTotalPay").val());
             $("#modal-View").modal("show");
-
-
         }
 
-        function showNextHead(rowNo)
-        {
+        function showNextHead(rowNo) {
             if (rowNo != "1") {
                 var ddlHeadValidation = parseFloat(rowNo) - 1;
                 var getValue = $("#ddlHead" + ddlHeadValidation + " option:selected").text();
-                if ((getValue == null) || (getValue == "Select"))  //----- Validation for Head dropdown----
-                {
+                if ((getValue == null) || (getValue == "Select")) {
                     $("#ddlHead" + ddlHeadValidation).addClass("is-invalid");
-                }
-                else {
+                } else {
                     $("#ddlHead" + ddlHeadValidation).removeClass("is-invalid");
                     $("#row" + rowNo).show();
                     var tee = rowNo - 1;
@@ -859,21 +1764,16 @@
                     var testoption = $("#" + ddlName + " option:selected").text();
                     fillHeadDropdown(rowNo, testoption);
                 }
-            }
-            else {
-                $("#ddlHead" + ddlHeadValidation).removeClass("is-invalid");
+            } else {
                 $("#row" + rowNo).show();
                 var tee = rowNo - 1;
                 var ddlName = "ddlHead" + tee;
                 var testoption = $("#" + ddlName + " option:selected").text();
                 fillHeadDropdown(rowNo, testoption);
             }
-
         }
 
-        function fillHeadDropdown(dropDownName, optionRemove)
-        {
-
+        function fillHeadDropdown(dropDownName, optionRemove) {
             classArray = classArray.filter(function (item) {
                 return item !== optionRemove;
             });
@@ -885,9 +1785,7 @@
             });
         }
 
-        function SavePaymentDetail()
-        {
-
+        function SavePaymentDetail() {
             $.post(BASE_URL + "/Payment/SavePaymentDetail", {
                 studentId: varStudentId,
                 studentFeeId: varStudentFeeId,
@@ -913,11 +1811,8 @@
                 function (res) {
                     location.reload(true);
                     $("#modal-View").modal("hide");
-
                 }
             );
         }
-
-
     </script>
 }
