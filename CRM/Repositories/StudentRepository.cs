@@ -289,7 +289,7 @@ namespace CRM.Repositories
                     resultList.Add(new StudentFeeAcademiExcelDownload
                     {
                         Id = row.Id,
-                        AdmissionFormNo = row.AdmissionFormNo,
+                        AdmissionFormNo = row.AdmissionFormNo.HasValue? row.AdmissionFormNo : 0,
                         Year = row.Year,
                         Session = row.Session,
                         EnRollNo = row.EnRollNo,

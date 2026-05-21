@@ -10,7 +10,7 @@ namespace CRM.Models
 
         public int Id { get; set; }
         public int? RegNo { get; set; }
-        public int? FormNo { get; set; }
+        public long FormNo { get; set; }
         public int? SchoNo { get; set; }
         public string? Session { get; set; }
         public string? Year { get; set; }

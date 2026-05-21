@@ -21,7 +21,7 @@ namespace CRM.ModelsForView
 
         //--------------------
 
-        public int? AdmissionFormNo { get; set; }
+        public long? AdmissionFormNo { get; set; }
         public string? Year { get; set; }
         public string? Session { get; set; }
 

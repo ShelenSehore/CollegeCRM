@@ -14,7 +14,7 @@ namespace CRM.ModelsForView
         public int? RegNo { get; set; }
 
         [Required(ErrorMessage = "Enter form number")]
-        public int? FormNo { get; set; }
+        public long? FormNo { get; set; }
         public int? SchoNo { get; set; }
 
         [Required(ErrorMessage = "Please select session")]

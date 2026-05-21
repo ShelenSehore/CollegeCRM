@@ -182,7 +182,7 @@ namespace CRM.Controllers
                 {
                     studentId = varStudentDetail.StudentId;
                     model.Id = varStudentDetail.StudentHistoryId;
-                    model.AdmissionFormNo = varStudentDetail.AdmissionForm;
+                    model.AdmissionFormNo =  varStudentDetail.AdmissionForm;
                     model.Year = varStudentDetail.Year;
                     model.EnRollNo = varStudentDetail.EnrolNo;
                     model.AdmissionDate = varStudentDetail.AdmissionDate;

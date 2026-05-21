@@ -212,7 +212,7 @@ namespace CRM.Controllers
             StudentRegistration obj = new StudentRegistration();
 
             obj.RegNo = student.RegNo;
-            obj.FormNo = student.FormNo;
+            obj.FormNo = student.FormNo.Value;
             obj.SchoNo = student.SchoNo;
             obj.Session = student.Session;
             obj.Year = student.Year.ToUpper();    //-----Year
@@ -380,7 +380,7 @@ namespace CRM.Controllers
             StudentRegistration obj = new StudentRegistration();
 
             obj.RegNo = student.RegNo;
-            obj.FormNo = student.FormNo;
+            obj.FormNo = student.FormNo.HasValue?student.FormNo.Value:00;
             obj.SchoNo = student.SchoNo;
             obj.Session = student.Session;
             obj.Year = student.Year.ToUpper();    //-----Year
@@ -547,7 +547,7 @@ namespace CRM.Controllers
                             
                             StudentHistory historyObj = new StudentHistory();
                             historyObj.StudentId = SavedStudentTable.Id;
-                            historyObj.AdmissionForm = SavedStudentTable.AdmissionFormNo.Value;
+                            historyObj.AdmissionForm = SavedStudentTable.AdmissionFormNo.HasValue?SavedStudentTable.AdmissionFormNo.Value : 0;
                             historyObj.AdmissionDate = DateTime.Now;
                             historyObj.Session = SavedStudentTable.Session.ToUpper();
                             historyObj.Classs = SavedStudentTable.Class.ToUpper();

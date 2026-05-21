@@ -161,7 +161,7 @@ namespace CRM.Repositories
                         rowObj.Amount = row.Amount;
                         rowObj.PaymentMode = row.PaymentMode;
                         rowObj.TransactionNo = row.TransactionNo;
-                        rowObj.AdmissionFormNo = row.AdmissionFormNo;
+                        rowObj.AdmissionFormNo = row.AdmissionFormNo.HasValue ? row.AdmissionFormNo.Value : 0;
                         rowObj.Year = row.Year;
                         rowObj.Session = row.Session;
                         rowObj.Class = row.Class;

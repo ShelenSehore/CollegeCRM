@@ -2,6 +2,44 @@
 @{
     ViewData["Title"] = "Index";
 }
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+    window.onload = function () {
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            title: {
+                text: "Session 2026-2027"
+            },
+            axisY: {
+                title: "Student Number",
+                suffix: "No"
+            },
+            axisX: {
+                title: "Countries"
+            },
+            data: [{
+                type: "column",
+                yValueFormatString: "#,##0.0#" % "",
+                dataPoints: [
+                    { label: "Bsc", y: 100},
+                    { label: "Bsc Com", y:45 },
+                    { label: "Bcom", y: 70 },
+                    { label: "Bcom Com", y: 56},
+                    { label: "Bio", y: 87 },
+                    { label: "Bio Tech", y: 77 },
+                    { label: "BCA", y: 60 },
+                    { label: "BBA", y: 44 }
+
+                ]
+            }]
+        });
+        chart.render();
+
+    }
+</script>
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -85,7 +123,11 @@
                 </div>
                 <!-- ./col -->
             </div>
+            <div class="row">
 
+                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+            </div>
 
             
 

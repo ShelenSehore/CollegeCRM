@@ -1051,7 +1051,7 @@ namespace CRM.Controllers
             stuObj.Id = id;
 
             if (!string.IsNullOrEmpty(varAdmissionFormNo))
-                stuObj.AdmissionFormNo = Convert.ToInt32(varAdmissionFormNo);
+                stuObj.AdmissionFormNo = Convert.ToInt64(varAdmissionFormNo);
 
 
             if (!string.IsNullOrEmpty(varAdmissionDate))
@@ -1147,7 +1147,7 @@ namespace CRM.Controllers
         //--------------------- Promoted Detail--------------
         public IActionResult PromotStudent(int id, string varPromotSession, string varPromotClass,
             string varPromotCourse, string varPromoYear, string varCurrentYear, string varCurrentSession,
-            int varPromotFormNo, string varPromotDate)
+            long varPromotFormNo, string varPromotDate)
 
         {
             //-------Fee Master-------------

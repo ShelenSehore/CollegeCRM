@@ -9,7 +9,7 @@ namespace CRM.Models
     {
         public int StudentHistoryId { get; set; }
         public int StudentId { get; set; }
-        public int AdmissionForm { get; set; }
+        public long AdmissionForm { get; set; }
         public DateTime AdmissionDate { get; set; }
         public string Session { get; set; }
         public string Classs { get; set; }
