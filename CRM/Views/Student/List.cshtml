@@ -557,6 +557,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Form No</label>
+                                <div class="search-with-icon">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input id="txtFormNumberSearch" class="form-control" type="number" placeholder="Enter roll no" aria-label="Roll No">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Enroll No</label>
+                                <div class="search-with-icon">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input id="txtEnrolloSearch" class="form-control" type="number" placeholder="Enter roll no" aria-label="Roll No">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -768,6 +786,9 @@
             var varCourse = $('#ddlCourse option:selected').text();
             var varSession = $('#ddlSession option:selected').text();
             var varRollNum = $("#txtRollNumberSearch").val();
+            var varFormNum = $("#txtFormNumberSearch").val();
+            var varEnrolNum = $("#txtEnrolloSearch").val();
+            
 
             $.post(BASE_URL + "/Student/SearchList", {
                 name: name,
@@ -775,7 +796,9 @@
                 course: varCourse,
                 year: varYear,
                 session: varSession,
-                rollNum: varRollNum
+                rollNum: varRollNum,
+                formNum: varFormNum,
+                enrolNum: varEnrolNum
             }, function (res) {
                 TableData(res);
             });
@@ -838,6 +861,8 @@
             $('#ddlClass').val('');
             $('#ddlCourse').val('');
             $('#ddlYear').val('');
+            $("#txtFormNumberSearch").val('');
+            $("#txtEnrolloSearch").val('');
             SearchStudent();
         }
 

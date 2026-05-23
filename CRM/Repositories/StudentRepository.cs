@@ -336,7 +336,7 @@ namespace CRM.Repositories
             return resultList;
         }
 
-        public List<Student> FilterList(string name, string classes, string course, string year, string session, string rollNum)
+        public List<Student> FilterList(string name, string classes, string course, string year, string session, string rollNum, long formNum, string enrolNum)
         {
             try { 
             
@@ -345,6 +345,14 @@ namespace CRM.Repositories
             if (!string.IsNullOrWhiteSpace(name))
             {
                 query = query.Where(x => x.StudentName.ToLower().Contains(name.ToLower()));
+            }
+            if (formNum != 0)
+            {
+                query = query.Where(x => x.AdmissionFormNo ==  formNum);
+            }
+            if (!string.IsNullOrWhiteSpace(enrolNum))
+            {
+                query = query.Where(x => x.EnRollNo.ToLower().Contains(enrolNum.ToLower()));
             }
             if (!string.IsNullOrWhiteSpace(rollNum))
             {
