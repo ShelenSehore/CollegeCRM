@@ -894,20 +894,22 @@ namespace CRM.Controllers
             var PhotoBaseUrl = _mySettings.DocumentUrl;
 
             var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + model.Photo + ".jpg";
-            if (System.IO.File.Exists(StudentPhoto))
-            {
-                model.Photo = "/StudentData/Photo/" + model.Photo + ".jpg";
-            }
-            else 
-            {
-                model.Photo = "/StudentData/ProfileLogo.jpg";
-            }
+            model.Photo = "/StudentData/Photo/" + model.Photo + ".jpg";
+            //if (System.IO.File.Exists(StudentPhoto))
+            //{
+                
+            //}
+            //else 
+            //{
+            //    model.Photo = "/StudentData/ProfileLogo.jpg";
+            //}
 
             var TCPhoto = PhotoBaseUrl + "\\TC\\" + model.Photo + ".jpg";
-            if (System.IO.File.Exists(TCPhoto))
-            {
-                model.TCPhoto = "/StudentData/TC/" + model.AdmissionFormNo + ".jpg";
-            }
+            model.TCPhoto = "/StudentData/TC/" + model.AdmissionFormNo + ".jpg";
+            //if (System.IO.File.Exists(TCPhoto))
+            //{
+                
+            //}
 
 
             //-----------------Student History-----------------

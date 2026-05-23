@@ -200,14 +200,15 @@ namespace CRM.Controllers
            var PhotoBaseUrl = _mySettings.DocumentUrl;
 
             var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + data.Photo + ".jpg";
-            if (System.IO.File.Exists(StudentPhoto))
-            {
-                returnObj.studentDetail.Photo = "/StudentData/Photo/" + data.Photo + ".jpg";
-            }
-            else
-            {
-                returnObj.studentDetail.Photo = "/StudentData/ProfileLogo.jpg";
-            }
+            returnObj.studentDetail.Photo = "/StudentData/Photo/" + data.Photo + ".jpg";
+            //if (System.IO.File.Exists(StudentPhoto))
+            //{
+                
+            //}
+            //else
+            //{
+            //    returnObj.studentDetail.Photo = "/StudentData/ProfileLogo.jpg";
+            //}
 
             //-----------Fee Detail--------
 
