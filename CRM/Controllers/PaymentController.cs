@@ -398,8 +398,8 @@ namespace CRM.Controllers
                 {
                     if (varHead1 == "Caution money" || varHead2 == "Caution money" || varHead3 == "Caution money" || varHead4 == "Caution money")
                         studentFee.CMoneyPaidOrNot = "YES";
-                    else
-                        studentFee.CMoneyPaidOrNot = "NO";
+                    //else
+                    //    studentFee.CMoneyPaidOrNot = "NO";
                 }
                 else
                 {
