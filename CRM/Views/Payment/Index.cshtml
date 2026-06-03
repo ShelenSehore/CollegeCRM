@@ -1488,7 +1488,7 @@
                                     <th>Student</th>
                                     <th>Father</th>
                                     <th>Year</th>
-                                    <th>Subject</th>
+                                    <th>Class</th>
                                     <th>Course</th>
                                     <th>Mobile</th>
                                     <th class="no-print" style="width:140px">Actions</th>
@@ -1756,7 +1756,7 @@
                     '<td><span class="student-name">' + (element.studentName || '-') + '</span></td>' +
                     '<td><span class="father-name">' + (element.fatherName || '-') + '</span></td>' +
                     '<td>' + (element.year || '-') + '</td>' +
-                    '<td>' + (element.subject || '-') + '</td>' +
+                    '<td>' + (element.class || '-') + '</td>' +
                     '<td><span class="course-badge ' + badgeClass + '">' + (element.course || '-') + '</span></td>' +
                     '<td><span class="mobile-no"><i class="fas fa-phone" style="font-size:0.65rem;margin-right:4px;color:var(--text-muted);"></i>' + (element.mobileNoOne || '-') + '</span></td>' +
                     '<td class="no-print">' +
@@ -1924,7 +1924,7 @@
                 $.each(allStudentData, function (index, element) {
                     var badgeClass = getCourseBadgeClass(element.course);
                     var rowNum = index + 1;
-
+                   
                     $("#tblStudentList tbody").append(
                         '<tr>' +
                         '<td><span class="row-index">' + rowNum + '</span></td>' +
@@ -1932,7 +1932,7 @@
                         '<td><span class="student-name">' + (element.studentName || '-') + '</span></td>' +
                         '<td><span class="father-name">' + (element.fatherName || '-') + '</span></td>' +
                         '<td>' + (element.year || '-') + '</td>' +
-                        '<td>' + (element.subject || '-') + '</td>' +
+                        '<td>' + (element.class || '-') + '</td>' +
                         '<td><span class="course-badge ' + badgeClass + '">' + (element.course || '-') + '</span></td>' +
                         '<td><span class="mobile-no">' + (element.mobileNoOne || '-') + '</span></td>' +
                         '</tr>'   // No action column in print

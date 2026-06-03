@@ -1846,7 +1846,10 @@
                             <tr>
                                 <th style="width:50px;text-align:center">#</th>
                                 <th>Form No</th>
-                                <th>Session</th>                                
+                                <th>Roll No</th>
+                                <th>TC Submit</th>
+                                <th>Exam Form Submit</th>
+                                <th>Session</th>
                                 <th>Student Name</th>
                                 <th>Father Name</th>
                                 <th>Year</th>
@@ -2119,7 +2122,6 @@
                 if (element.tc === "ISSUE") {
                     tcHtml = '<span class="tc-badge" title="TC Issued"><i class="fas fa-star"></i></span>';
                 }
-
                 var isChecked = selectedIds.has(String(element.id));
                 var checkedAttr = isChecked ? ' checked' : '';
 
@@ -2127,6 +2129,9 @@
                     '<tr style="animation-delay:' + delay + 's">' +
                     '<td class="col-num">' + (globalIndex + 1) + '</td>' +
                     '<td><div class="formno-cell">' + tcHtml + '<span class="formno-badge">' + esc(element.admissionFormNo) + '</span></div></td>' +
+                    '<td class="col-num">' + esc(element.rollNo) + '</td>' +
+                    '<td class="col-num">' + esc(element.tC) + '</td>' +
+                    '<td class="col-num">' + esc(element.examFormSubmited) + '</td>' +
                     '<td><span class="info-tag session">' + esc(element.session) + '</span></td>' +                    
                     '<td><span class="student-name">' + esc(element.studentName) + '</span></td>' +
                     '<td><span class="father-name">' + esc(element.fatherName) + '</span></td>' +

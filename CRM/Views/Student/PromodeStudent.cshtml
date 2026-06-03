@@ -1203,6 +1203,29 @@
                                         <label>New Admission Date</label>
                                         <input id="txtPromoAdmiDate" type="date">
                                     </div>
+
+                                    <div class="promo-form-field">
+                                        <label>Exam Form Submited</label>
+                                        <select id="ddlPromossionExamFormSubmited" class="form-control">
+                                            <option value="">Select</option>
+                                            <option>YES</option>
+                                            <option>NO</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="promo-form-field">
+                                        <label>Current Result</label>
+                                        <select id="ddlPromossionResult" class="form-control">
+                                            <option value="">Select</option>
+                                            <option>PASS</option>
+                                            <option>FAIL</option>
+                                            <option>ATKT</option>
+                                            <option>SUPPLE</option>
+                                            <option>AWAITED</option>
+                                            <option>NULL</option>
+                                        </select>
+                                    </div>
+
                                 </div>
                                 <div style="max-width:280px;margin:0 auto;">
                                     <button onclick="SavePromotion()" class="btn-promote">
@@ -1236,6 +1259,8 @@
                                         </div>
                                     </div>
                                 </div>
+                          
+                              
                             </div>
 
                             <!-- ── History ── -->
@@ -1778,6 +1803,8 @@
             if (!validateField("#txtPromoAdmiDate", "Date required")) ok = false;
             if (!validateField("#ddlPromoYear", "Select year", "dropdown")) ok = false;
             if (!validateField("#ddlPromotSession", "Select session", "dropdown")) ok = false;
+            if (!validateField("#ddlPromossionResult", "Select Result", "dropdown")) ok = false;
+            if (!validateField("#ddlPromossionExamFormSubmited", "Select Exam Form Sumitted", "dropdown")) ok = false;
             if (!ok) return;
 
             $.post(BASE_URL + "/Student/PromotStudent", {
@@ -1789,12 +1816,16 @@
                 varCurrentYear: $('#txtCurrentYear').val(),
                 varCurrentSession: $('#txtCurrentSession').val(),
                 varPromotFormNo: $('#txtPromoAdmiFormNo').val(),
-                varPromotDate: $('#txtPromoAdmiDate').val()
+                varPromotDate: $('#txtPromoAdmiDate').val(),
+                varBeforePromotResult: $('#ddlPromossionResult option:selected').text(),
+                varBeforePromotExamForm: $('#ddlPromossionExamFormSubmited option:selected').text()
             }, function (res) {
                 Alert('success', 'Student promoted successfully!');
                 setTimeout(function () { location.reload(true); }, 600);
             });
         }
+
+        
 
         // ── Delete Academic ──
         function deleteAcadmicDetail(id) {

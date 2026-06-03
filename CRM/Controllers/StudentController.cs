@@ -1151,7 +1151,7 @@ namespace CRM.Controllers
         //--------------------- Promoted Detail--------------
         public IActionResult PromotStudent(int id, string varPromotSession, string varPromotClass,
             string varPromotCourse, string varPromoYear, string varCurrentYear, string varCurrentSession,
-            long varPromotFormNo, string varPromotDate)
+            long varPromotFormNo, string varPromotDate, string varBeforePromotResult, string varBeforePromotExamForm)
 
         {
             //-------Fee Master-------------
@@ -1250,7 +1250,8 @@ namespace CRM.Controllers
             historyObj.SamagraId = SavedStudentTable.SamagraID; //---
             historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
             historyObj.AbcId = SavedStudentTable.AbcNo; //----
-            historyObj.ExamFormSubmited = "NO";
+            historyObj.ExamFormSubmited = varBeforePromotExamForm;
+            historyObj.Result = varBeforePromotResult;
             historyObj.Photo = SavedStudentTable.Photo;
 
             historyObj.CreateBy = "Admin";
@@ -1264,6 +1265,8 @@ namespace CRM.Controllers
             return Json(new { success = true, data = true });
         }
 
+
+       
 
         //----------Fill Exam Form--------------
 
