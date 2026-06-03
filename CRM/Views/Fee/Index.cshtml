@@ -5,14 +5,132 @@
     var baseUrl = ViewBag.BaseUrl;
 }
 
+<!-- Custom Modern Styles -->
+<style>
+    .modern-card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+        .modern-card .card-header {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            padding: 1rem 1.5rem;
+            border-bottom: none;
+        }
+
+            .modern-card .card-header h5 {
+                font-weight: 600;
+                letter-spacing: 0.5px;
+            }
+
+    .modern-table thead th {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+        color: #495057;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 1rem 0.75rem;
+    }
+
+    .modern-table tbody tr {
+        transition: all 0.2s ease;
+    }
+
+        .modern-table tbody tr:hover {
+            background-color: #f1f3f5;
+            transform: translateY(-1px);
+        }
+
+    .modern-table td {
+        vertical-align: middle;
+        padding: 0.85rem 0.75rem;
+        border-color: #f1f1f1;
+    }
+
+    .badge-pill-custom {
+        padding: 0.5em 0.9em;
+        border-radius: 50rem;
+        font-weight: 600;
+        font-size: 0.8rem;
+    }
+
+    .fee-detail-box {
+        background: #f8f9fa;
+        padding: 8px 12px;
+        border-radius: 8px;
+        line-height: 1.6;
+    }
+
+        .fee-detail-box div {
+            font-size: 0.85rem;
+        }
+
+    /* Pagination Styles */
+    .pagination-footer {
+        background: #ffffff;
+        border-top: 1px solid #e9ecef;
+        padding: 1rem 1.5rem;
+        border-radius: 0 0 12px 12px;
+    }
+
+    .page-btn {
+        border: 1px solid #dee2e6;
+        background: #fff;
+        color: #007bff;
+        padding: 6px 14px;
+        margin: 0 3px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+    }
+
+        .page-btn:hover:not(.disabled) {
+            background: #e9ecef;
+            border-color: #ced4da;
+        }
+
+        .page-btn.active {
+            background: #007bff;
+            color: #fff;
+            border-color: #007bff;
+            box-shadow: 0 2px 5px rgba(0,123,255,0.3);
+        }
+
+        .page-btn.disabled {
+            color: #ced4da;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+    .btn-action-delete {
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        transition: all 0.2s;
+    }
+
+        .btn-action-delete:hover {
+            transform: scale(1.1);
+        }
+</style>
+
 <div class="content-wrapper">
 
     <!-- Header -->
     <section class="content-header">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">Fee Management</h4>
-            <a class="btn btn-primary" href="@Url.Action("AddFee", "Fee")">
-                <i class="fas fa-plus"></i> Add Fee
+            <h4 class="mb-0 font-weight-bold">Fee Management</h4>
+            <a class="btn btn-primary btn-lg rounded-pill shadow-sm" href="@Url.Action("AddFee", "Fee")">
+                <i class="fas fa-plus mr-1"></i> Add Fee
             </a>
         </div>
     </section>
@@ -21,18 +139,18 @@
     <section class="content">
         <div class="container-fluid">
 
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Fee Structure List</h5>
+            <div class="card modern-card">
+                <div class="card-header text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-list-ul mr-2"></i>Fee Structure List</h5>                    
                 </div>
 
                 <div class="card-body p-0">
                     <div class="table-responsive">
 
-                        <table class="table table-hover table-striped mb-0">
-                            <thead class="bg-light">
+                        <table class="table table-hover mb-0 modern-table" id="feeTable">
+                            <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th width="60">#</th>
                                     <th>Type</th>
                                     <th>Session</th>
                                     <th>Year</th>
@@ -40,11 +158,11 @@
                                     <th>Course</th>
                                     <th class="text-center">Fee Details</th>
                                     <th class="text-center">Total</th>
-                                    <th class="text-center">Action</th>
+                                    <th class="text-center" width="80">Action</th>
                                 </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody id="feeTableBody">
                                 @{
                                     int i = 1;
                                 }
@@ -53,38 +171,40 @@
                                 {
                                     foreach (var item in Model.FeeClassList)
                                     {
-                                        <tr>
-                                            <td>@i</td>
+                                        <tr class="fee-row">
+                                            <td class="font-weight-bold text-muted">@i</td>
                                             <td>
-                                                <span class="badge badge-info">
+                                                <span class="badge badge-pill badge-info badge-pill-custom">
                                                     @item.NewOld
                                                 </span>
                                             </td>
-                                            <td>@item.Session</td>
+                                            <td class="font-weight-semibold">@item.Session</td>
                                             <td>@item.Year</td>
                                             <td>@item.Subject</td>
                                             <td>@item.Course</td>
 
                                             <!-- Fee Breakdown -->
                                             <td class="small">
-                                                <div><strong>Admission:</strong> ₹@item.NewStudentFee</div>
-                                                <div><strong>CMoney:</strong> ₹@item.CMoney</div>
-                                                <div><strong>Tution:</strong> ₹@item.TutionFee</div>
-                                                <div><strong>Other:</strong> ₹@item.OtherFee</div>
+                                                <div class="fee-detail-box">
+                                                    <div><strong>Admission:</strong> ₹@item.NewStudentFee</div>
+                                                    <div><strong>CMoney:</strong> ₹@item.CMoney</div>
+                                                    <div><strong>Tution:</strong> ₹@item.TutionFee</div>
+                                                    <div><strong>Other:</strong> ₹@item.OtherFee</div>
+                                                </div>
                                             </td>
 
                                             <!-- Total Highlight -->
                                             <td class="text-center">
-                                                <span class="badge badge-success p-2">
+                                                <span class="badge badge-success badge-pill-custom p-2 font-size-md">
                                                     ₹@item.TotalFee
                                                 </span>
                                             </td>
 
                                             <!-- Action -->
                                             <td class="text-center">
-                                                <button class="btn btn-sm btn-danger"
-                                                        onclick="deleteFee(@item.Id)">
-                                                    <i class="fas fa-trash"></i>
+                                                <button class="btn btn-danger btn-action-delete"
+                                                        onclick="deleteFee(@item.Id)" title="Delete">
+                                                    <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -94,7 +214,8 @@
                                 else
                                 {
                                     <tr>
-                                        <td colspan="9" class="text-center text-muted p-4">
+                                        <td colspan="9" class="text-center text-muted p-5">
+                                            <i class="fas fa-folder-open fa-3x mb-3 d-block"></i>
                                             No fee records found
                                         </td>
                                     </tr>
@@ -105,6 +226,15 @@
 
                     </div>
                 </div>
+
+                <!-- Pagination Footer -->
+                @if (Model.FeeClassList != null && Model.FeeClassList.Count() > 50)
+                {
+                    <div class="pagination-footer d-flex justify-content-between align-items-center">
+                        <div id="pagingInfo" class="text-muted small font-weight-bold"></div>
+                        <div id="paginationControls" class="d-flex align-items-center"></div>
+                    </div>
+                }
             </div>
 
         </div>
@@ -114,7 +244,6 @@
 @section Scripts {
     <script>
     var BASE_URL = "@baseUrl";
-
     var Toast;
 
     $(document).ready(function () {
@@ -124,10 +253,86 @@
             timer: 1500,
             showConfirmButton: false
         });
+
+        // Set total record count
+        var totalRecords = $('.fee-row').length;
+        $('#totalRecordBadge').text(totalRecords + ' Records');
+
+        // Initialize Pagination if more than 50 records
+        if (totalRecords > 50) {
+            setupPagination();
+        }
     });
 
     function Alert(icon, title) {
         Toast.fire({ icon: icon, title: title });
+    }
+
+    // ── Pagination Logic (50 per page) ──
+    function setupPagination() {
+        var pageSize = 50;
+        var $rows = $('#feeTableBody .fee-row');
+        var totalRows = $rows.length;
+        var totalPages = Math.ceil(totalRows / pageSize);
+        var currentPage = 1;
+
+        function displayPage(page) {
+            currentPage = page;
+            var start = (page - 1) * pageSize;
+            var end = start + pageSize;
+
+            $rows.hide().slice(start, end).show();
+
+            var endIdx = Math.min(end, totalRows);
+            $('#pagingInfo').text('Showing ' + (start + 1) + ' to ' + endIdx + ' of ' + totalRows + ' entries');
+
+            renderPaginationButtons(page);
+        }
+
+        function renderPaginationButtons(page) {
+            var $controls = $('#paginationControls');
+            $controls.empty();
+
+            // Previous Button
+            $controls.append('<button class="page-btn ' + (page === 1 ? 'disabled' : '') + '" data-page="' + (page - 1) + '">« Prev</button>');
+
+            // Page Numbers Logic (Show max 3 pages around current, with first/last always visible)
+            var startPage = Math.max(1, page - 1);
+            var endPage = Math.min(totalPages, page + 1);
+
+            if (page === 1) endPage = Math.min(3, totalPages);
+            if (page === totalPages) startPage = Math.max(1, totalPages - 2);
+
+            if (startPage > 1) {
+                $controls.append('<button class="page-btn" data-page="1">1</button>');
+                if (startPage > 2) $controls.append('<span class="px-1 text-muted">...</span>');
+            }
+
+            for (var i = startPage; i <= endPage; i++) {
+                $controls.append('<button class="page-btn ' + (i === page ? 'active' : '') + '" data-page="' + i + '">' + i + '</button>');
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) $controls.append('<span class="px-1 text-muted">...</span>');
+                $controls.append('<button class="page-btn" data-page="' + totalPages + '">' + totalPages + '</button>');
+            }
+
+            // Next Button
+            $controls.append('<button class="page-btn ' + (page === totalPages ? 'disabled' : '') + '" data-page="' + (page + 1) + '">Next »</button>');
+        }
+
+        // Event Delegation for Pagination Clicks
+        $('#paginationControls').on('click', '.page-btn:not(.disabled)', function() {
+            var targetPage = $(this).data('page');
+            if (targetPage >= 1 && targetPage <= totalPages) {
+                displayPage(targetPage);
+                // Scroll to top of table smoothly
+                $('html, body').animate({ scrollTop: $('#feeTable').offset().top - 100 }, 300);
+            }
+        });
+
+        // Initialize first page
+        displayPage(1);
     }
 
     // DELETE
@@ -137,7 +342,12 @@
             text: "This action cannot be undone",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#d33"
+            confirmButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+            customClass: {
+                confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-default'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post(BASE_URL + "/Fee/DeleteFee", { id: id }, function () {

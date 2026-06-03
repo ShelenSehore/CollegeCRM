@@ -17,7 +17,7 @@ namespace CRM.Repositories
         }
         public List<MstSession> GetAll()
         {
-            return _context.MstSession.ToList();
+            return _context.MstSession.OrderByDescending(x=>x.Id).ToList();
         }
 
         public void Add(MstSession model)

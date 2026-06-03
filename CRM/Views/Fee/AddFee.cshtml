@@ -1,168 +1,280 @@
 ﻿@model CRM.ModelsForView.FeeViewModel
 
-@{
-    ViewData["Title"] = "Add Fee";
+@{ ViewData["Title"] = "Add Fee";
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 
-    var baseUrl = ViewBag.BaseUrl;
-}
+    var baseUrl = ViewBag.BaseUrl; }
 
+<!-- Modern Custom Styles -->
+<style>
+    .content-wrapper {
+        background-color: #f4f6f9;
+    }
 
+    .modern-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        overflow: hidden;
+    }
+
+        .modern-card .card-header {
+            background: linear-gradient(135deg, #007bff 0%, #004a9f 100%);
+            padding: 1.2rem 1.5rem;
+            border-bottom: none;
+        }
+
+            .modern-card .card-header .card-title {
+                color: #fff;
+                font-weight: 700;
+                font-size: 1.3rem;
+                letter-spacing: 0.5px;
+            }
+
+    .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 25px;
+        margin-top: 10px;
+    }
+
+        .section-divider .line {
+            height: 2px;
+            flex: 1;
+            background: linear-gradient(to right, #007bff, transparent);
+            border-radius: 2px;
+        }
+
+        .section-divider span {
+            color: #343a40;
+            font-weight: 700;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+    .form-group label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #495057;
+        margin-bottom: 0.5rem;
+    }
+
+        .form-group label i {
+            color: #007bff;
+            margin-right: 5px;
+        }
+
+    .modern-input {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 0.55rem 0.75rem;
+        transition: all 0.3s ease;
+        background-color: #fff;
+    }
+
+        .modern-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.15rem rgba(0,123,255,0.15);
+        }
+
+    .total-fee-input {
+        background-color: #e6f7ff !important;
+        border: 2px solid #007bff !important;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #004a9f;
+        text-align: right;
+        border-radius: 8px;
+        padding: 0.55rem 0.75rem;
+    }
+
+        .total-fee-input:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.2);
+        }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+        border: none;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+        color: #fff;
+    }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
+            color: #fff;
+        }
+
+    .btn-cancel {
+        background: #6c757d;
+        border: none;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        color: #fff;
+    }
+
+        .btn-cancel:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            color: #fff;
+        }
+</style>
 
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+    <!-- Content Header -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item"><a href="#">Fee</a></li>
-                        <li class="breadcrumb-item active">Add New Fee</li>
+                <div class="col-sm-12">
+                    <h4 class="mb-0 font-weight-bold">Add New Fee Structure</h4>
+                    <ol class="breadcrumb float-sm-left p-0 mt-1 bg-transparent">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Fee")" class="text-primary">Fee List</a></li>
+                        <li class="breadcrumb-item active">Add New</li>
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <!-- left column -->
                 <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card card-primary">
 
-                        <!-- /.card-header -->
-                        <!-- form start -->
+                    <div class="card modern-card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-file-invoice-dollar mr-2"></i> Fee Entry Form</h3>
+                        </div>
+
                         <form asp-action="FeePost" method="post">
+                            <div class="card-body" style="padding: 2rem;">
 
-                            <!-- COLLEGE DETAILS -->
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title"><i class="fas fa-university"></i> Class Detail</h3>
+                                <!-- Academic Details Section -->
+                                <div class="section-divider">
+                                    <i class="fas fa-graduation-cap text-primary"></i>
+                                    <span>Academic Details</span>
+                                    <div class="line"></div>
                                 </div>
-                                <div class="card-body">
 
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Session</label>
-                                                <select id="ddlSession" class="form-control" asp-items="Model.SessionList" asp-for="Session">
-                                                    <option>Select</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>NewOld</label>
-                                                <select id="ddlNewOld" class="form-control" asp-for="NewOld">
-                                                    <option>Select</option>
-                                                    <option>New</option>
-                                                    <option>Old</option>
-                                                </select>
-                                            </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-calendar-alt"></i> Session</label>
+                                            <select id="ddlSession" class="form-control modern-input" asp-items="Model.SessionList" asp-for="Session">
+                                                <option value="">Select Session</option>
+                                            </select>
                                         </div>
                                     </div>
-
-
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Year</label>
-                                                <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Class</label>
-                                                <select id="ddlClass" asp-for="Subject" asp-items="Model.ClassList"  class="form-control"> <option>Select</option></select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Course</label>
-                                                <select id="ddlCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
-                                            </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-user-tag"></i> New / Old</label>
+                                            <select id="ddlNewOld" class="form-control modern-input" asp-for="NewOld">
+                                                <option value="">Select Type</option>
+                                                <option>New</option>
+                                                <option>Old</option>
+                                            </select>
                                         </div>
                                     </div>
-
-                                   
-
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>New Admin Fee</label>
-                                                <input id="txtNewStudentFee" type="number" asp-for="NewStudentFee" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>C. Money</label>
-                                                <input id="txtCMoney" type="number" asp-for="CMoney" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Tution Fee</label>
-                                                <input id="txtTutionFee" type="number" asp-for="TutionFee" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Other Fees</label>
-                                                <input id="txtOtherFee" type="number" asp-for="OtherFee" class="form-control">
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Total Fee</label>
-                                                <input id="txtTotalFee" type="number" asp-for="TotalFee" readonly="readonly" class="form-control">
-                                            </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-calendar-day"></i> Year</label>
+                                            <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control modern-input">
+                                                <option value="">Select Year</option>
+                                            </select>
                                         </div>
                                     </div>
-
-
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-chalkboard"></i> Class</label>
+                                            <select id="ddlClass" asp-for="Subject" asp-items="Model.ClassList" class="form-control modern-input">
+                                                <option value="">Select Class</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-book-open"></i> Course</label>
+                                            <select id="ddlCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control modern-input">
+                                                <option value="">Select Course</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Fee Details Section -->
+                                <div class="section-divider mt-4">
+                                    <i class="fas fa-rupee-sign text-primary"></i>
+                                    <span>Fee Details</span>
+                                    <div class="line"></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Admission Fee</label>
+                                            <input id="txtNewStudentFee" type="number" asp-for="NewStudentFee" class="form-control modern-input fee-input" placeholder="0.00">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>C. Money</label>
+                                            <input id="txtCMoney" type="number" asp-for="CMoney" class="form-control modern-input fee-input" placeholder="0.00">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Tution Fee</label>
+                                            <input id="txtTutionFee" type="number" asp-for="TutionFee" class="form-control modern-input fee-input" placeholder="0.00">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Other Fees</label>
+                                            <input id="txtOtherFee" type="number" asp-for="OtherFee" class="form-control modern-input fee-input" placeholder="0.00">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-end mt-3">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="text-primary font-weight-bold"><i class="fas fa-calculator"></i> Total Fee</label>
+                                            <input id="txtTotalFee" type="number" asp-for="TotalFee" readonly="readonly" class="form-control total-fee-input">
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
-
-
-
-                            <div class="text-center mt-4 mb-5">
-
-                                <button class="btn btn-primary px-4" type="submit">
-                                    <i class="fas fa-save"></i> Save
+                            <div class="card-footer text-center pb-4" style="background: #fff; border-top: 1px solid #eee;">
+                                <button class="btn btn-submit mr-2" type="submit">
+                                    <i class="fas fa-save mr-1"></i> Save Fee
                                 </button>
-
-                                <a class="btn btn-danger px-4" href="@Url.Action("index", "Fee")">
-                                    <i class="fas fa-times"></i> Exit
+                                <a class="btn btn-cancel" href="@Url.Action("Index", "Fee")">
+                                    <i class="fas fa-times mr-1"></i> Cancel
                                 </a>
-
                             </div>
-
                         </form>
-
-
 
                     </div>
 
                 </div>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
-    <!-- /.content -->
 </div>
 
 
@@ -171,7 +283,7 @@
     <script type="text/javascript">
         // INSERT
         var BASE_URL = "@baseUrl";
-     
+
 
         var varNewStudent = "";
         var varTutionFee = "";
@@ -188,7 +300,7 @@
                 timer: 1000
             });
 
-            
+
             //$("#ddlClass").change(function () {
             //    var selectedClass = $(this).val();
             //    var varYear = $('#ddlYear option:selected').text()
@@ -206,12 +318,12 @@
 
 
             $("#txtNewStudentFee, #txtTutionFee,#txtOtherFee").change(function () {
-               
+
                 var NewStudentFee = parseFloat($('#txtNewStudentFee').val()) || 0;
                 var varTutionFee = parseFloat($('#txtTutionFee').val()) || 0;
                 var varOtherFee = parseFloat($('#txtOtherFee').val()) || 0;
                 $("#txtTotalFee").val(NewStudentFee + varTutionFee + varOtherFee);
-                
+
             });
 
             $("#txtNewStudentFee").change(function () {
@@ -226,7 +338,7 @@
                 varOtherFee = this.value;
                 if (varNewStudent != "" && varTutionFee != "" && varOtherFee != "") { CalculateFee(); }
             });
-          
+
 
         };
 

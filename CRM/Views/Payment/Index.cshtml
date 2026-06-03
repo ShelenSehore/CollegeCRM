@@ -9,28 +9,32 @@
     @@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
     :root {
-        --bg-primary: #0f1117;
-        --bg-secondary: #161922;
-        --bg-card: rgba(22, 25, 34, 0.85);
-        --bg-card-solid: #1a1d28;
-        --glass: rgba(255, 255, 255, 0.04);
-        --glass-border: rgba(255, 255, 255, 0.08);
-        --accent-teal: #00e5a0;
-        --accent-teal-dim: rgba(0, 229, 160, 0.15);
-        --accent-coral: #ff6b6b;
-        --accent-coral-dim: rgba(255, 107, 107, 0.15);
-        --accent-amber: #ffc145;
-        --accent-amber-dim: rgba(255, 193, 69, 0.15);
-        --accent-sky: #38bdf8;
-        --accent-sky-dim: rgba(56, 189, 248, 0.15);
-        --accent-violet: #c084fc;
-        --accent-violet-dim: rgba(192, 132, 252, 0.15);
-        --text-primary: #f0f2f5;
-        --text-secondary: #8b8fa3;
-        --text-muted: #5a5e72;
-        --border: rgba(255, 255, 255, 0.06);
-        --shadow-glow-teal: 0 0 30px rgba(0, 229, 160, 0.12);
-        --shadow-glow-coral: 0 0 30px rgba(255, 107, 107, 0.12);
+        --bg-primary: #f0f4ff;
+        --bg-secondary: #e8ecf8;
+        --bg-card: #ffffff;
+        --bg-card-solid: #ffffff;
+        --glass: rgba(0, 0, 0, 0.025);
+        --glass-border: rgba(0, 0, 0, 0.07);
+        --accent-teal: #00b386;
+        --accent-teal-dim: rgba(0, 179, 134, 0.1);
+        --accent-coral: #e74c5e;
+        --accent-coral-dim: rgba(231, 76, 94, 0.08);
+        --accent-amber: #e6a817;
+        --accent-amber-dim: rgba(230, 168, 23, 0.1);
+        --accent-sky: #2b8fd4;
+        --accent-sky-dim: rgba(43, 143, 212, 0.09);
+        --accent-violet: #9356e0;
+        --accent-violet-dim: rgba(147, 86, 224, 0.09);
+        --accent-rose: #e0468a;
+        --accent-rose-dim: rgba(224, 70, 138, 0.09);
+        --text-primary: #1a1d2e;
+        --text-secondary: #555a72;
+        --text-muted: #9ca3af;
+        --border: rgba(0, 0, 0, 0.06);
+        --shadow-card: 0 2px 16px rgba(30, 40, 80, 0.06);
+        --shadow-card-hover: 0 8px 30px rgba(30, 40, 80, 0.1);
+        --shadow-glow-teal: 0 0 24px rgba(0, 179, 134, 0.12);
+        --shadow-glow-coral: 0 0 24px rgba(231, 76, 94, 0.10);
         --radius-sm: 8px;
         --radius-md: 12px;
         --radius-lg: 16px;
@@ -44,15 +48,14 @@
         overflow: hidden;
     }
 
-        /* ===== Animated Background ===== */
         .content-wrapper::before {
             content: '';
             position: fixed;
-            top: -200px;
-            right: -200px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0, 229, 160, 0.08) 0%, transparent 70%);
+            top: -180px;
+            right: -180px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 179, 134, 0.07) 0%, transparent 70%);
             border-radius: 50%;
             animation: floatBlob1 20s ease-in-out infinite;
             pointer-events: none;
@@ -62,11 +65,11 @@
         .content-wrapper::after {
             content: '';
             position: fixed;
-            bottom: -150px;
-            left: -150px;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 107, 107, 0.06) 0%, transparent 70%);
+            bottom: -120px;
+            left: -120px;
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(231, 76, 94, 0.05) 0%, transparent 70%);
             border-radius: 50%;
             animation: floatBlob2 18s ease-in-out infinite;
             pointer-events: none;
@@ -101,8 +104,7 @@
         }
     }
 
-    .content-header,
-    .content {
+    .content-header, .content {
         position: relative;
         z-index: 1;
     }
@@ -135,13 +137,13 @@
 
     .breadcrumb-item + .breadcrumb-item::before {
         color: var(--text-muted) !important;
-        content: '›' !important;
+        content: '\203A' !important;
         font-size: 1rem;
     }
 
     /* ===== Page Title Bar ===== */
     .page-title-bar {
-        background: linear-gradient(135deg, rgba(0, 229, 160, 0.1) 0%, rgba(56, 189, 248, 0.08) 50%, rgba(192, 132, 252, 0.06) 100%);
+        background: linear-gradient(135deg, rgba(0,179,134,0.08) 0%, rgba(43,143,212,0.06) 50%, rgba(147,86,224,0.05) 100%);
         border: 1px solid var(--glass-border);
         border-radius: var(--radius-xl);
         padding: 28px 32px;
@@ -149,6 +151,7 @@
         backdrop-filter: blur(20px);
         position: relative;
         overflow: hidden;
+        box-shadow: var(--shadow-card);
     }
 
         .page-title-bar::before {
@@ -157,9 +160,9 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 2px;
+            height: 3px;
             background: linear-gradient(90deg, var(--accent-teal), var(--accent-sky), var(--accent-violet));
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
         .page-title-bar h1 {
@@ -190,7 +193,7 @@
         align-items: center;
         gap: 6px;
         background: var(--accent-teal-dim);
-        border: 1px solid rgba(0, 229, 160, 0.25);
+        border: 1px solid rgba(0,179,134,0.2);
         color: var(--accent-teal);
         font-family: 'Outfit', sans-serif;
         font-weight: 700;
@@ -203,7 +206,7 @@
             font-size: 1.1rem;
         }
 
-    /* ===== Stat Cards Row ===== */
+    /* ===== Stat Cards ===== */
     .stat-cards {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -216,8 +219,8 @@
         border: 1px solid var(--glass-border);
         border-radius: var(--radius-lg);
         padding: 20px 22px;
-        backdrop-filter: blur(12px);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: var(--shadow-card);
+        transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
         position: relative;
         overflow: hidden;
     }
@@ -250,23 +253,24 @@
 
         .stat-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(255, 255, 255, 0.12);
+            border-color: rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-card-hover);
         }
 
         .stat-card:nth-child(1):hover {
-            box-shadow: var(--shadow-glow-teal);
+            box-shadow: var(--shadow-glow-teal), var(--shadow-card-hover);
         }
 
         .stat-card:nth-child(2):hover {
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.12);
+            box-shadow: 0 0 24px rgba(43,143,212,0.1), var(--shadow-card-hover);
         }
 
         .stat-card:nth-child(3):hover {
-            box-shadow: 0 0 30px rgba(255, 193, 69, 0.12);
+            box-shadow: 0 0 24px rgba(230,168,23,0.1), var(--shadow-card-hover);
         }
 
         .stat-card:nth-child(4):hover {
-            box-shadow: var(--shadow-glow-coral);
+            box-shadow: var(--shadow-glow-coral), var(--shadow-card-hover);
         }
 
         .stat-card .stat-icon {
@@ -321,7 +325,7 @@
         background: var(--bg-card);
         border: 1px solid var(--glass-border);
         border-radius: var(--radius-xl);
-        backdrop-filter: blur(20px);
+        box-shadow: var(--shadow-card);
         overflow: hidden;
     }
 
@@ -333,7 +337,7 @@
     .filter-section {
         padding: 24px 28px;
         border-bottom: 1px solid var(--border);
-        background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+        background: linear-gradient(180deg, rgba(0,0,0,0.01) 0%, transparent 100%);
     }
 
     .filter-header {
@@ -354,12 +358,12 @@
     @@keyframes pulse-dot {
         0%, 100% {
             opacity: 1;
-            box-shadow: 0 0 0 0 rgba(0, 229, 160, 0.4);
+            box-shadow: 0 0 0 0 rgba(0,179,134,0.4);
         }
 
         50% {
             opacity: 0.7;
-            box-shadow: 0 0 0 6px rgba(0, 229, 160, 0);
+            box-shadow: 0 0 0 6px rgba(0,179,134,0);
         }
     }
 
@@ -369,7 +373,6 @@
         font-size: 1rem;
         color: var(--text-primary);
         margin: 0;
-        letter-spacing: -0.2px;
     }
 
     .filter-grid {
@@ -395,10 +398,9 @@
             margin: 0;
         }
 
-        .filter-group select,
-        .filter-group input {
-            background: var(--glass) !important;
-            border: 1px solid var(--glass-border) !important;
+        .filter-group select, .filter-group input {
+            background: #f7f8fc !important;
+            border: 1.5px solid #dde1ed !important;
             border-radius: var(--radius-sm) !important;
             color: var(--text-primary) !important;
             font-family: 'Space Grotesk', sans-serif;
@@ -409,15 +411,14 @@
             outline: none !important;
         }
 
-            .filter-group select:focus,
-            .filter-group input:focus {
+            .filter-group select:focus, .filter-group input:focus {
                 border-color: var(--accent-teal) !important;
-                box-shadow: 0 0 0 3px rgba(0, 229, 160, 0.1) !important;
-                background: rgba(0, 229, 160, 0.04) !important;
+                box-shadow: 0 0 0 3px rgba(0,179,134,0.1) !important;
+                background: #fff !important;
             }
 
             .filter-group select option {
-                background: var(--bg-secondary);
+                background: #fff;
                 color: var(--text-primary);
             }
 
@@ -429,8 +430,8 @@
 
     /* ===== Buttons ===== */
     .btn-search {
-        background: linear-gradient(135deg, var(--accent-teal), #00c98a) !important;
-        color: #0f1117 !important;
+        background: linear-gradient(135deg, var(--accent-teal), #00a076) !important;
+        color: #fff !important;
         border: none !important;
         border-radius: var(--radius-sm) !important;
         font-family: 'Outfit', sans-serif !important;
@@ -439,18 +440,19 @@
         padding: 10px 24px !important;
         letter-spacing: 0.3px;
         transition: all 0.3s !important;
-        box-shadow: 0 4px 15px rgba(0, 229, 160, 0.25);
+        box-shadow: 0 4px 15px rgba(0,179,134,0.2);
     }
 
         .btn-search:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 229, 160, 0.35) !important;
+            box-shadow: 0 6px 25px rgba(0,179,134,0.3) !important;
+            color: #fff !important;
         }
 
     .btn-reset {
-        background: var(--glass) !important;
+        background: #fff !important;
         color: var(--text-secondary) !important;
-        border: 1px solid var(--glass-border) !important;
+        border: 1.5px solid #dde1ed !important;
         border-radius: var(--radius-sm) !important;
         font-family: 'Outfit', sans-serif !important;
         font-weight: 600 !important;
@@ -460,9 +462,9 @@
     }
 
         .btn-reset:hover {
-            background: rgba(255, 255, 255, 0.08) !important;
-            color: var(--text-primary) !important;
-            border-color: rgba(255, 255, 255, 0.15) !important;
+            background: #f7f8fc !important;
+            color: var(--accent-coral) !important;
+            border-color: var(--accent-coral) !important;
         }
 
     .btn-excel {
@@ -475,12 +477,32 @@
         font-size: 0.85rem !important;
         padding: 10px 18px !important;
         transition: all 0.3s !important;
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+        box-shadow: 0 4px 15px rgba(16,185,129,0.2);
     }
 
         .btn-excel:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.35) !important;
+            box-shadow: 0 6px 25px rgba(16,185,129,0.3) !important;
+            color: #fff !important;
+        }
+
+    .btn-print {
+        background: linear-gradient(135deg, var(--accent-sky), #1a6faa) !important;
+        color: #fff !important;
+        border: none !important;
+        border-radius: var(--radius-sm) !important;
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 0.85rem !important;
+        padding: 10px 18px !important;
+        transition: all 0.3s !important;
+        box-shadow: 0 4px 15px rgba(43,143,212,0.2);
+    }
+
+        .btn-print:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(43,143,212,0.3) !important;
+            color: #fff !important;
         }
 
     /* ===== Table Section ===== */
@@ -494,6 +516,7 @@
         align-items: center;
         padding: 16px 28px;
         border-bottom: 1px solid var(--border);
+        background: #fafbff;
     }
 
         .table-top-bar .table-info {
@@ -518,7 +541,7 @@
     }
 
         #tblStudentList thead tr {
-            background: rgba(255, 255, 255, 0.03);
+            background: linear-gradient(135deg, #2b3a67, #3b4f8a, #4c63a8);
         }
 
         #tblStudentList thead th {
@@ -527,10 +550,9 @@
             font-weight: 600 !important;
             text-transform: uppercase !important;
             letter-spacing: 1.2px !important;
-            color: var(--text-secondary) !important;
+            color: rgba(255,255,255,0.92) !important;
             padding: 14px 18px !important;
             border: none !important;
-            border-bottom: 1px solid var(--border) !important;
             white-space: nowrap;
         }
 
@@ -540,7 +562,7 @@
         }
 
             #tblStudentList tbody tr:hover {
-                background: rgba(0, 229, 160, 0.04) !important;
+                background: rgba(0,179,134,0.04) !important;
             }
 
         #tblStudentList tbody td {
@@ -557,6 +579,14 @@
             border-bottom: none !important;
         }
 
+        #tblStudentList tbody tr:nth-child(even) {
+            background: #fafbff;
+        }
+
+            #tblStudentList tbody tr:nth-child(even):hover {
+                background: rgba(0,179,134,0.04) !important;
+            }
+
     .row-index {
         display: inline-flex;
         align-items: center;
@@ -564,12 +594,11 @@
         width: 28px;
         height: 28px;
         border-radius: 8px;
-        background: var(--glass);
-        border: 1px solid var(--glass-border);
+        background: linear-gradient(135deg, var(--accent-teal), #00a076);
         font-family: 'Outfit', sans-serif;
         font-weight: 700;
         font-size: 0.75rem;
-        color: var(--text-secondary);
+        color: #fff;
     }
 
     .form-no {
@@ -642,8 +671,8 @@
         width: 34px;
         height: 34px;
         border-radius: var(--radius-sm);
-        border: 1px solid var(--glass-border);
-        background: var(--glass);
+        border: 1px solid #dde1ed;
+        background: #f7f8fc;
         color: var(--text-secondary);
         font-size: 0.85rem;
         cursor: pointer;
@@ -658,22 +687,22 @@
         .action-btn.pay:hover {
             background: var(--accent-teal-dim);
             color: var(--accent-teal);
-            border-color: rgba(0, 229, 160, 0.3);
-            box-shadow: 0 4px 12px rgba(0, 229, 160, 0.15);
+            border-color: rgba(0,179,134,0.3);
+            box-shadow: 0 4px 12px rgba(0,179,134,0.12);
         }
 
         .action-btn.view:hover {
             background: var(--accent-sky-dim);
             color: var(--accent-sky);
-            border-color: rgba(56, 189, 248, 0.3);
-            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+            border-color: rgba(43,143,212,0.3);
+            box-shadow: 0 4px 12px rgba(43,143,212,0.12);
         }
 
         .action-btn.edit:hover {
             background: var(--accent-amber-dim);
             color: var(--accent-amber);
-            border-color: rgba(255, 193, 69, 0.3);
-            box-shadow: 0 4px 12px rgba(255, 193, 69, 0.15);
+            border-color: rgba(230,168,23,0.3);
+            box-shadow: 0 4px 12px rgba(230,168,23,0.12);
         }
 
     /* ===== Empty State ===== */
@@ -700,17 +729,139 @@
             font-size: 0.85rem;
         }
 
+    /* ═══════════════════════════════════════════════════ */
+    /* PAGINATION                                         */
+    /* ═══════════════════════════════════════════════════ */
+    .pagination-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 28px;
+        border-top: 1px solid var(--border);
+        background: #fafbff;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .pagination-info {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+    }
+
+        .pagination-info strong {
+            color: var(--accent-teal);
+        }
+
+    .pagination-controls {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-wrap: wrap;
+    }
+
+    .page-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
+        border-radius: var(--radius-sm);
+        border: 1.5px solid #dde1ed;
+        background: #fff;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 600;
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.3s;
+        padding: 0 6px;
+        text-decoration: none !important;
+    }
+
+        .page-btn:hover:not(.disabled):not(.active) {
+            border-color: var(--accent-teal);
+            color: var(--accent-teal);
+            background: var(--accent-teal-dim);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0,179,134,0.1);
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, var(--accent-teal), #00a076);
+            color: #fff;
+            border-color: var(--accent-teal);
+            box-shadow: 0 4px 12px rgba(0,179,134,0.25);
+        }
+
+        .page-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .page-btn.nav-btn {
+            padding: 0 12px;
+            gap: 4px;
+            font-size: 0.78rem;
+            letter-spacing: 0.3px;
+        }
+
+    .page-ellipsis {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .page-size-selector {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .page-size-selector label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .page-size-selector select {
+            background: #f7f8fc !important;
+            border: 1.5px solid #dde1ed !important;
+            border-radius: var(--radius-sm) !important;
+            color: var(--text-primary) !important;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
+            padding: 6px 10px !important;
+            height: auto !important;
+            outline: none !important;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+            .page-size-selector select:focus {
+                border-color: var(--accent-teal) !important;
+                box-shadow: 0 0 0 3px rgba(0,179,134,0.1) !important;
+            }
+
     /* ===== Modal ===== */
     .modal-content {
         background: var(--bg-card-solid) !important;
         border: 1px solid var(--glass-border) !important;
         border-radius: var(--radius-xl) !important;
         overflow: hidden;
-        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 25px 80px rgba(0,0,0,0.12);
     }
 
     .modal-header {
-        background: linear-gradient(135deg, rgba(0, 229, 160, 0.15), rgba(56, 189, 248, 0.1)) !important;
+        background: linear-gradient(135deg, rgba(0,179,134,0.08), rgba(43,143,212,0.06)) !important;
         border-bottom: 1px solid var(--glass-border) !important;
         padding: 20px 24px !important;
         position: relative;
@@ -722,7 +873,7 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 2px;
+            height: 3px;
             background: linear-gradient(90deg, var(--accent-teal), var(--accent-sky));
         }
 
@@ -760,39 +911,39 @@
     }
 
         .modal-footer .btn-default {
-            background: var(--glass) !important;
+            background: #f7f8fc !important;
             color: var(--text-secondary) !important;
-            border: 1px solid var(--glass-border) !important;
+            border: 1.5px solid #dde1ed !important;
             border-radius: var(--radius-sm) !important;
             font-family: 'Outfit', sans-serif !important;
             font-weight: 600 !important;
         }
 
             .modal-footer .btn-default:hover {
-                background: rgba(255, 255, 255, 0.08) !important;
+                background: #eef0f7 !important;
                 color: var(--text-primary) !important;
             }
 
         .modal-footer .btn-primary {
-            background: linear-gradient(135deg, var(--accent-teal), #00c98a) !important;
-            color: #0f1117 !important;
+            background: linear-gradient(135deg, var(--accent-teal), #00a076) !important;
+            color: #fff !important;
             border: none !important;
             border-radius: var(--radius-sm) !important;
             font-family: 'Outfit', sans-serif !important;
             font-weight: 700 !important;
-            box-shadow: 0 4px 15px rgba(0, 229, 160, 0.25);
+            box-shadow: 0 4px 15px rgba(0,179,134,0.2);
         }
 
     /* ===== Student Profile Card in Modal ===== */
     .student-profile-card {
-        background: linear-gradient(135deg, rgba(0, 229, 160, 0.08), rgba(56, 189, 248, 0.06));
+        background: #fafbff;
         border: 1px solid var(--glass-border);
         border-radius: var(--radius-lg);
         overflow: hidden;
     }
 
     .student-profile-header {
-        background: linear-gradient(135deg, #00e5a0, #00b8d4, #38bdf8) !important;
+        background: linear-gradient(135deg, #00b386, #00a0c8, #2b8fd4) !important;
         padding: 24px 24px 50px !important;
         position: relative;
         text-align: center;
@@ -802,13 +953,13 @@
             font-family: 'Outfit', sans-serif !important;
             font-weight: 800 !important;
             font-size: 1.3rem !important;
-            color: #0f1117 !important;
+            color: #fff !important;
             margin: 0 !important;
         }
 
         .student-profile-header h5 {
             font-family: 'Space Grotesk', sans-serif !important;
-            color: rgba(15, 17, 23, 0.65) !important;
+            color: rgba(255,255,255,0.78) !important;
             font-size: 0.85rem !important;
             margin: 4px 0 0 !important;
         }
@@ -824,8 +975,8 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            border: 4px solid var(--bg-card-solid);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 4px solid #fff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             object-fit: cover;
         }
 
@@ -881,7 +1032,7 @@
     /* ===== Fee Section in Modal ===== */
     .fee-section {
         margin-top: 16px;
-        background: var(--glass);
+        background: #fff;
         border: 1px solid var(--glass-border);
         border-radius: var(--radius-md);
         padding: 16px;
@@ -930,12 +1081,12 @@
     }
 
     ::-webkit-scrollbar-thumb {
-        background: var(--text-muted);
+        background: #c5c9d8;
         border-radius: 3px;
     }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-secondary);
+            background: #9ca3af;
         }
 
     /* ===== Animations ===== */
@@ -952,7 +1103,7 @@
     }
 
     .animate-in {
-        animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        animation: fadeInUp 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
         opacity: 0;
     }
 
@@ -999,32 +1150,193 @@
             .page-title-bar h1 {
                 font-size: 1.3rem;
             }
-    }
 
-    /* ===== Loading Shimmer ===== */
-    @@keyframes shimmer {
-        0% {
-            background-position: -200% 0;
+        .pagination-wrapper {
+            flex-direction: column;
+            align-items: stretch;
         }
 
-        100% {
-            background-position: 200% 0;
+        .pagination-controls {
+            justify-content: center;
+        }
+
+        .pagination-info {
+            text-align: center;
         }
     }
 
-    .shimmer-row td {
-        background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.03) 50%, transparent 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.5s infinite;
-        height: 48px;
+    /* ═══════════════════════════════════════════════════ */
+    /* PRINT STYLES                                       */
+    /* ═══════════════════════════════════════════════════ */
+    @@media print {
+        /* Hide everything not needed */
+        .content-header,
+        .page-title-bar,
+        .stat-cards,
+        .filter-section,
+        .pagination-wrapper,
+        .action-group,
+        .btn-print,
+        .btn-excel,
+        .bg-orbs,
+        .content-wrapper::before,
+        .content-wrapper::after,
+        .sidebar,
+        .main-sidebar,
+        .main-footer,
+        .nav,
+        .breadcrumb,
+        div[style*="position:fixed"] {
+            display: none !important;
+        }
+
+        body {
+            background: #fff !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-size: 11px !important;
+        }
+
+        .content-wrapper {
+            background: #fff !important;
+            min-height: auto !important;
+            overflow: visible !important;
+        }
+
+            .content-wrapper::before,
+            .content-wrapper::after {
+                display: none !important;
+            }
+
+        .content {
+            padding: 0 !important;
+        }
+
+        .main-card {
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            overflow: visible !important;
+        }
+
+        .table-section {
+            padding: 0 !important;
+        }
+
+        .table-top-bar {
+            display: none !important;
+        }
+        /* Print Header */
+        .print-header {
+            display: block !important;
+            text-align: center;
+            padding: 20px 0 16px;
+            border-bottom: 3px double #1a1d2e;
+            margin-bottom: 16px;
+        }
+
+            .print-header h2 {
+                font-family: 'Outfit', sans-serif !important;
+                font-weight: 800 !important;
+                font-size: 18pt !important;
+                color: #1a1d2e !important;
+                margin: 0 0 4px !important;
+            }
+
+            .print-header h4 {
+                font-family: 'Space Grotesk', sans-serif !important;
+                font-size: 11pt !important;
+                color: #555a72 !important;
+                margin: 0 0 4px !important;
+                font-weight: 500 !important;
+            }
+
+            .print-header .print-meta {
+                display: flex;
+                justify-content: center;
+                gap: 24px;
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 9pt;
+                color: #9ca3af;
+                margin-top: 8px;
+            }
+        /* Table print styles */
+        #tblStudentList thead tr {
+            background: #2b3a67 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        #tblStudentList thead th {
+            color: #fff !important;
+            padding: 8px 10px !important;
+            font-size: 8pt !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        #tblStudentList tbody td {
+            padding: 6px 10px !important;
+            font-size: 9pt !important;
+            color: #1a1d2e !important;
+            border-bottom: 1px solid #ddd !important;
+        }
+
+        #tblStudentList tbody tr:nth-child(even) {
+            background: #f5f6fa !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .row-index {
+            background: var(--accent-teal) !important;
+            color: #fff !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            width: 22px;
+            height: 22px;
+            font-size: 7pt !important;
+        }
+
+        .course-badge {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .form-no {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        /* Print footer */
+        .print-footer {
+            display: block !important;
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 12px;
+            border-top: 1px solid #ddd;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 8pt;
+            color: #9ca3af;
+        }
+        /* Page break avoidance */
+        #tblStudentList tbody tr {
+            page-break-inside: avoid;
+        }
+
+        #tblStudentList thead {
+            display: table-header-group;
+        }
+    }
+
+    /* Print header/footer hidden on screen */
+    .print-header, .print-footer {
+        display: none;
     }
 </style>
 
 <div class="content-wrapper">
-    <!-- Background Decorations -->
-    <div style="position:fixed;top:50%;left:50%;width:400px;height:400px;background:radial-gradient(circle,rgba(192,132,252,0.04) 0%,transparent 70%);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:0;animation:floatBlob1 22s ease-in-out infinite;"></div>
+    <div style="position:fixed;top:50%;left:50%;width:400px;height:400px;background:radial-gradient(circle,rgba(147,86,224,0.04) 0%,transparent 70%);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:0;animation:floatBlob1 22s ease-in-out infinite;"></div>
 
-    <!-- Content Header -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -1038,7 +1350,6 @@
         </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
         <!-- Page Title Bar -->
         <div class="page-title-bar animate-in">
@@ -1078,7 +1389,7 @@
             </div>
         </div>
 
-        <!-- Main Card with Filters + Table -->
+        <!-- Main Card -->
         <div class="main-card animate-in">
             <div class="card-body">
                 <!-- Filter Section -->
@@ -1135,6 +1446,9 @@
                         <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn-excel">
                             <i class="fas fa-file-excel"></i> Export
                         </button>
+                        <button type="button" onclick="printStudentList()" class="btn-print">
+                            <i class="fas fa-print"></i> Print
+                        </button>
                     </div>
                 </div>
 
@@ -1142,10 +1456,30 @@
                 <div class="table-section">
                     <div class="table-top-bar">
                         <div class="table-info">
-                            Showing <strong id="showingCount">0</strong> students
+                            Showing <strong id="showingFrom">0</strong>-<strong id="showingTo">0</strong> of <strong id="showingTotal">0</strong> students
+                        </div>
+                        <div class="page-size-selector">
+                            <label>Rows per page:</label>
+                            <select id="ddlPageSize" onchange="changePageSize()">
+                                <option value="25">25</option>
+                                <option value="50" selected>50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="99999">All</option>
+                            </select>
                         </div>
                     </div>
                     <div class="table-wrapper">
+                        <!-- Print Header (only visible in print) -->
+                        <div class="print-header">
+                            <h2 id="printCollegeName">Student Payment List</h2>
+                            <h4 id="printFilterInfo">All Students</h4>
+                            <div class="print-meta">
+                                <span>Printed: <span id="printDate"></span></span>
+                                <span>Page <span class="print-page-number">1</span></span>
+                            </div>
+                        </div>
+
                         <table id="tblStudentList" class="table">
                             <thead>
                                 <tr>
@@ -1157,13 +1491,24 @@
                                     <th>Subject</th>
                                     <th>Course</th>
                                     <th>Mobile</th>
-                                    <th style="width:140px">Actions</th>
+                                    <th class="no-print" style="width:140px">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!-- Data loaded dynamically -->
-                            </tbody>
+                            <tbody></tbody>
                         </table>
+
+                        <!-- Print Footer (only visible in print) -->
+                        <div class="print-footer">
+                            This is a system-generated document. &mdash; Page <span class="print-page-number">1</span>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-wrapper" id="paginationWrapper">
+                        <div class="pagination-info">
+                            Showing <strong id="pgFrom">0</strong>-<strong id="pgTo">0</strong> of <strong id="pgTotal">0</strong> records
+                        </div>
+                        <div class="pagination-controls" id="paginationControls"></div>
                     </div>
                 </div>
             </div>
@@ -1185,17 +1530,14 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="student-profile-card">
-                            <!-- Gradient Header -->
                             <div class="student-profile-header">
                                 <h3 id="achStudentName"></h3>
                                 <h5 id="achSession"></h5>
                             </div>
-                            <!-- Profile Image -->
                             <div class="student-profile-image">
                                 <img id="imgStudentPhoto" src="~/dist/img/user7-128x128.jpg" alt="Student Photo">
                             </div>
-                            <!-- Detail Grid -->
-                            <div style="padding: 8px 16px 16px;">
+                            <div style="padding:8px 16px 16px;">
                                 <div class="student-detail-grid">
                                     <div class="student-detail-item">
                                         <div class="detail-label">Year</div>
@@ -1222,11 +1564,9 @@
                                         <div class="detail-value amber" id="achScholer"></div>
                                     </div>
                                 </div>
-
-                                <!-- Fee Progress -->
                                 <div class="fee-section">
                                     <h5><i class="fas fa-chart-line" style="color:var(--accent-teal);margin-right:6px;"></i> Payment Progress</h5>
-                                    <div style="background:var(--glass);border-radius:8px;height:12px;overflow:hidden;border:1px solid var(--glass-border);">
+                                    <div style="background:#eef0f7;border-radius:8px;height:12px;overflow:hidden;border:1px solid var(--glass-border);">
                                         <div id="feeProgressBar" style="height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent-teal),var(--accent-sky));transition:width 0.8s cubic-bezier(0.4,0,0.2,1);width:0%;"></div>
                                     </div>
                                     <div style="display:flex;justify-content:space-between;margin-top:8px;">
@@ -1234,8 +1574,6 @@
                                         <span id="feePercent" style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;color:var(--accent-teal);">0%</span>
                                         <span style="font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:var(--text-muted);">100%</span>
                                     </div>
-
-                                    <!-- Balance -->
                                     <div class="fee-row" style="margin-top:8px;">
                                         <span class="fee-label">Remaining Balance</span>
                                         <span class="fee-value" id="achBalance" style="color:var(--accent-coral);">0</span>
@@ -1261,15 +1599,27 @@
     <script type="text/javascript">
         var BASE_URL = "@baseUrl";
 
+        // ═══════════════════════════════════════════════════
+        // Pagination State
+        // ═══════════════════════════════════════════════════
+        var allStudentData = [];   // Full dataset from server
+        var currentPage = 1;
+        var pageSize = 50;         // Default 50 per page
+        var totalRecords = 0;
+
+        // ═══════════════════════════════════════════════════
+        // Initialization
+        // ═══════════════════════════════════════════════════
         window.onload = function () {
             $("#ddlClass, #ddlCourse, #ddlYear, #ddlSession").change(function () {
-                $("#tblStudentList tbody").empty();
+                currentPage = 1;
                 SearchStudent();
             });
 
-            // Enter key triggers search
             $("#txtSearch").on('keypress', function (e) {
                 if (e.which === 13) {
+                    e.preventDefault();
+                    currentPage = 1;
                     SearchStudent();
                 }
             });
@@ -1277,15 +1627,22 @@
             SearchStudent();
         };
 
+        // ═══════════════════════════════════════════════════
+        // Reset Filters
+        // ═══════════════════════════════════════════════════
         function Reset() {
             $("#txtSearch").val('');
             $('#ddlSession option:first').prop("selected", true);
             $('#ddlClass option:first').prop("selected", true);
             $('#ddlCourse option:first').prop("selected", true);
             $('#ddlYear option:first').prop("selected", true);
+            currentPage = 1;
             SearchStudent();
         }
 
+        // ═══════════════════════════════════════════════════
+        // Search Students (fetch all data, paginate client-side)
+        // ═══════════════════════════════════════════════════
         function SearchStudent() {
             var name = $("#txtSearch").val();
             var varClass = $('#ddlClass option:selected').text();
@@ -1299,13 +1656,72 @@
                 course: varCourse,
                 year: varYear,
                 session: varSession
-            },
-                function (res) {
-                    TableData(res);
-                }
-            );
+            }, function (res) {
+                allStudentData = res.data || [];
+                totalRecords = allStudentData.length;
+
+                // Update stats
+                updateStats();
+
+                // Reset to page 1 if current page exceeds total pages
+                var totalPages = Math.ceil(totalRecords / pageSize);
+                if (currentPage > totalPages) currentPage = 1;
+                if (currentPage < 1) currentPage = 1;
+
+                renderPage();
+            });
         }
 
+        // ═══════════════════════════════════════════════════
+        // Update Stat Cards
+        // ═══════════════════════════════════════════════════
+        function updateStats() {
+            $('#totalCount').text(totalRecords);
+            $('#statTotal').text(totalRecords);
+
+            // If your data has payment status, count them. Otherwise show 0.
+            var paid = 0, partial = 0, unpaid = 0;
+            $.each(allStudentData, function (i, s) {
+                var status = (s.paymentStatus || '').toLowerCase();
+                if (status === 'paid' || status === 'fully paid') paid++;
+                else if (status === 'partial' || status === 'partially paid') partial++;
+                else unpaid++;
+            });
+            // If no paymentStatus field, estimate from counts
+            if (paid === 0 && partial === 0 && unpaid === 0) {
+                unpaid = totalRecords;
+            }
+            $('#statPaid').text(paid);
+            $('#statPartial').text(partial);
+            $('#statUnpaid').text(unpaid);
+        }
+
+        // ═══════════════════════════════════════════════════
+        // Render Current Page
+        // ═══════════════════════════════════════════════════
+        function renderPage() {
+            var startIndex = (currentPage - 1) * pageSize;
+            var endIndex = Math.min(startIndex + pageSize, totalRecords);
+            var pageData = allStudentData.slice(startIndex, endIndex);
+
+            // Update showing counts
+            var fromNum = totalRecords === 0 ? 0 : startIndex + 1;
+            var toNum = endIndex;
+
+            $('#showingFrom').text(fromNum);
+            $('#showingTo').text(toNum);
+            $('#showingTotal').text(totalRecords);
+            $('#pgFrom').text(fromNum);
+            $('#pgTo').text(toNum);
+            $('#pgTotal').text(totalRecords);
+
+            renderTable(pageData, startIndex);
+            renderPagination();
+        }
+
+        // ═══════════════════════════════════════════════════
+        // Render Table Rows
+        // ═══════════════════════════════════════════════════
         function getCourseBadgeClass(course) {
             var c = (course || '').toLowerCase();
             if (c.includes('sci')) return 'science';
@@ -1314,18 +1730,10 @@
             return 'default';
         }
 
-        function TableData(tableData) {
+        function renderTable(data, startIndex) {
             $("#tblStudentList tbody").empty();
 
-            var data = tableData.data || [];
-            var count = data.length;
-
-            // Update counts
-            $('#totalCount').text(count);
-            $('#statTotal').text(count);
-            $('#showingCount').text(count);
-
-            if (count === 0) {
+            if (data.length === 0) {
                 $("#tblStudentList tbody").append(
                     '<tr><td colspan="9" style="text-align:center;padding:60px 20px;">' +
                     '<div class="empty-state">' +
@@ -1339,10 +1747,10 @@
 
             $.each(data, function (index, element) {
                 var badgeClass = getCourseBadgeClass(element.course);
-                var rowNum = index + 1;
+                var rowNum = startIndex + index + 1;  // Global row number across pages
 
                 $("#tblStudentList tbody").append(
-                    '<tr style="animation:fadeInUp 0.3s ease forwards;animation-delay:' + (index * 0.03) + 's;opacity:0;">' +
+                    '<tr style="animation:fadeInUp 0.3s ease forwards;animation-delay:' + (index * 0.02) + 's;opacity:0;">' +
                     '<td><span class="row-index">' + rowNum + '</span></td>' +
                     '<td><span class="form-no"><i class="fas fa-hashtag" style="font-size:0.65rem;"></i> ' + (element.admissionFormNo || '-') + '</span></td>' +
                     '<td><span class="student-name">' + (element.studentName || '-') + '</span></td>' +
@@ -1351,7 +1759,7 @@
                     '<td>' + (element.subject || '-') + '</td>' +
                     '<td><span class="course-badge ' + badgeClass + '">' + (element.course || '-') + '</span></td>' +
                     '<td><span class="mobile-no"><i class="fas fa-phone" style="font-size:0.65rem;margin-right:4px;color:var(--text-muted);"></i>' + (element.mobileNoOne || '-') + '</span></td>' +
-                    '<td>' +
+                    '<td class="no-print">' +
                         '<div class="action-group">' +
                             '<a class="action-btn pay" href="../Payment/PaymentDetail?id=' + element.id + '" title="Pay"><i class="fas fa-credit-card"></i></a>' +
                             '<a class="action-btn view" data-toggle="modal" data-target="#modal-View" onclick="PaymentDetail(' + element.id + ')" title="View"><i class="fas fa-eye"></i></a>' +
@@ -1362,52 +1770,238 @@
             });
         }
 
+        // ═══════════════════════════════════════════════════
+        // Render Pagination Controls
+        // ═══════════════════════════════════════════════════
+        function renderPagination() {
+            var totalPages = Math.ceil(totalRecords / pageSize);
+            if (totalPages <= 0) totalPages = 1;
+            var container = $('#paginationControls');
+            container.empty();
+
+            // Hide pagination if only 1 page
+            if (totalPages <= 1 && totalRecords <= pageSize) {
+                $('#paginationWrapper').css('display', totalRecords === 0 ? 'none' : 'flex');
+                if (totalRecords === 0) return;
+            }
+            $('#paginationWrapper').show();
+
+            // Previous Button
+            container.append(
+                '<button class="page-btn nav-btn ' + (currentPage === 1 ? 'disabled' : '') + '" ' +
+                'onclick="goToPage(' + (currentPage - 1) + ')" ' +
+                (currentPage === 1 ? 'disabled' : '') + '>' +
+                '<i class="fas fa-chevron-left"></i> Prev</button>'
+            );
+
+            // Page Number Buttons with smart ellipsis
+            var pages = generatePageNumbers(currentPage, totalPages);
+            $.each(pages, function (i, p) {
+                if (p === '...') {
+                    container.append('<span class="page-ellipsis">...</span>');
+                } else {
+                    container.append(
+                        '<button class="page-btn ' + (p === currentPage ? 'active' : '') + '" ' +
+                        'onclick="goToPage(' + p + ')">' + p + '</button>'
+                    );
+                }
+            });
+
+            // Next Button
+            container.append(
+                '<button class="page-btn nav-btn ' + (currentPage === totalPages ? 'disabled' : '') + '" ' +
+                'onclick="goToPage(' + (currentPage + 1) + ')" ' +
+                (currentPage === totalPages ? 'disabled' : '') + '>' +
+                'Next <i class="fas fa-chevron-right"></i></button>'
+            );
+        }
+
+        // Generate smart page number array with ellipsis
+        function generatePageNumbers(current, total) {
+            var pages = [];
+
+            if (total <= 7) {
+                // Show all pages if 7 or fewer
+                for (var i = 1; i <= total; i++) pages.push(i);
+            } else {
+                // Always show first page
+                pages.push(1);
+
+                if (current > 4) {
+                    pages.push('...');
+                }
+
+                // Calculate range around current page
+                var start = Math.max(2, current - 1);
+                var end = Math.min(total - 1, current + 1);
+
+                // Adjust if near the beginning
+                if (current <= 4) {
+                    end = Math.min(5, total - 1);
+                }
+
+                // Adjust if near the end
+                if (current >= total - 3) {
+                    start = Math.max(2, total - 4);
+                }
+
+                for (var j = start; j <= end; j++) {
+                    pages.push(j);
+                }
+
+                if (current < total - 3) {
+                    pages.push('...');
+                }
+
+                // Always show last page
+                pages.push(total);
+            }
+
+            return pages;
+        }
+
+        // Navigate to a specific page
+        function goToPage(page) {
+            var totalPages = Math.ceil(totalRecords / pageSize);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderPage();
+
+            // Scroll to table top smoothly
+            $('.table-wrapper').animate({ scrollTop: 0 }, 300);
+            $('html, body').animate({
+                scrollTop: $('.table-section').offset().top - 80
+            }, 300);
+        }
+
+        // Change page size from dropdown
+        function changePageSize() {
+            pageSize = parseInt($('#ddlPageSize').val()) || 50;
+            currentPage = 1;
+            renderPage();
+        }
+
+        // ═══════════════════════════════════════════════════
+        // PRINT FUNCTIONALITY
+        // ═══════════════════════════════════════════════════
+        function printStudentList() {
+            // Build filter info for print header
+            var session = $('#ddlSession option:selected').text();
+            var year = $('#ddlYear option:selected').text();
+            var cls = $('#ddlClass option:selected').text();
+            var course = $('#ddlCourse option:selected').text();
+            var search = $("#txtSearch").val();
+
+            var filterParts = [];
+            if (session && session !== 'Select') filterParts.push('Session: ' + session);
+            if (year && year !== 'Select') filterParts.push('Year: ' + year);
+            if (cls && cls !== 'Select') filterParts.push('Class: ' + cls);
+            if (course && course !== 'Select') filterParts.push('Course: ' + course);
+            if (search) filterParts.push('Name: ' + search);
+
+            var filterInfo = filterParts.length > 0 ? filterParts.join(' | ') : 'All Students';
+            $('#printFilterInfo').text(filterInfo);
+
+            // Set print date
+            var now = new Date();
+            var dateStr = now.toLocaleDateString('en-IN', {
+                day: '2-digit', month: 'short', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+            $('#printDate').text(dateStr);
+
+            // Temporarily show ALL data for printing (not just current page)
+            var savedHtml = $("#tblStudentList tbody").html();
+            var startIndex = 0;
+
+            $("#tblStudentList tbody").empty();
+
+            if (allStudentData.length === 0) {
+                $("#tblStudentList tbody").append(
+                    '<tr><td colspan="9" style="text-align:center;padding:40px;">No data to print</td></tr>'
+                );
+            } else {
+                $.each(allStudentData, function (index, element) {
+                    var badgeClass = getCourseBadgeClass(element.course);
+                    var rowNum = index + 1;
+
+                    $("#tblStudentList tbody").append(
+                        '<tr>' +
+                        '<td><span class="row-index">' + rowNum + '</span></td>' +
+                        '<td><span class="form-no"><i class="fas fa-hashtag" style="font-size:0.65rem;"></i> ' + (element.admissionFormNo || '-') + '</span></td>' +
+                        '<td><span class="student-name">' + (element.studentName || '-') + '</span></td>' +
+                        '<td><span class="father-name">' + (element.fatherName || '-') + '</span></td>' +
+                        '<td>' + (element.year || '-') + '</td>' +
+                        '<td>' + (element.subject || '-') + '</td>' +
+                        '<td><span class="course-badge ' + badgeClass + '">' + (element.course || '-') + '</span></td>' +
+                        '<td><span class="mobile-no">' + (element.mobileNoOne || '-') + '</span></td>' +
+                        '</tr>'   // No action column in print
+                    );
+                });
+            }
+
+            // Trigger print
+            window.print();
+
+            // Restore the paginated view after printing
+            setTimeout(function () {
+                renderPage();
+            }, 500);
+        }
+
+        // ═══════════════════════════════════════════════════
         // Payment Detail Modal
+        // ═══════════════════════════════════════════════════
         function PaymentDetail(id) {
             $.post(BASE_URL + "/Payment/StudentPaymentDetail", {
                 id: id
-            },
-                function (res) {
-                    var detail = res.data.studentDetail;
-                    $('#imgStudentPhoto').attr('src', detail.photo);
-                    $('#achStudentName').text(detail.studentName + " / " + detail.fatherName);
-                    $('#achYear').text(detail.year);
-                    $('#achClass').text(detail.class);
-                    $('#achCourse').text(detail.course);
-                    $('#achSession').text(detail.session + " / FormNo. " + detail.admissionFormNo);
+            }, function (res) {
+                var detail = res.data.studentDetail;
+                $('#imgStudentPhoto').attr('src', detail.photo);
+                $('#achStudentName').text(detail.studentName + " / " + detail.fatherName);
+                $('#achYear').text(detail.year);
+                $('#achClass').text(detail.class);
+                $('#achCourse').text(detail.course);
+                $('#achSession').text(detail.session + " / FormNo. " + detail.admissionFormNo);
 
-                    var feedetail = res.data.studentFeeDetail;
-                    var totalFee = parseFloat(feedetail.totalFeeAfterDiscount) || 0;
-                    var paidAmount = parseFloat(feedetail.paidAmount) || 0;
-                    var scholarship = parseFloat(feedetail.scholership) || 0;
-                    var balance = totalFee - paidAmount - scholarship;
-                    var percent = totalFee > 0 ? Math.round(((paidAmount + scholarship) / totalFee) * 100) : 0;
-                    if (percent > 100) percent = 100;
+                var feedetail = res.data.studentFeeDetail;
+                var totalFee = parseFloat(feedetail.totalFeeAfterDiscount) || 0;
+                var paidAmount = parseFloat(feedetail.paidAmount) || 0;
+                var scholarship = parseFloat(feedetail.scholership) || 0;
+                var balance = totalFee - paidAmount - scholarship;
+                var percent = totalFee > 0 ? Math.round(((paidAmount + scholarship) / totalFee) * 100) : 0;
+                if (percent > 100) percent = 100;
 
-                    $('#achTotalFee').text(formatCurrency(totalFee));
-                    $('#achPaid').text(formatCurrency(paidAmount));
-                    $('#achScholer').text(formatCurrency(scholarship));
-                    $('#achBalance').text(formatCurrency(balance));
+                $('#achTotalFee').text(formatCurrency(totalFee));
+                $('#achPaid').text(formatCurrency(paidAmount));
+                $('#achScholer').text(formatCurrency(scholarship));
+                $('#achBalance').text(formatCurrency(balance));
 
-                    // Animate progress bar
-                    setTimeout(function () {
-                        $('#feeProgressBar').css('width', percent + '%');
-                        $('#feePercent').text(percent + '%');
-                    }, 200);
+                setTimeout(function () {
+                    $('#feeProgressBar').css('width', percent + '%');
+                    $('#feePercent').text(percent + '%');
+                }, 200);
 
-                    $("#modal-Promod").modal("show");
-                }
-            );
+                $("#modal-Promod").modal("show");
+            });
         }
 
         function formatCurrency(num) {
             return num.toLocaleString('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 });
         }
 
-        // Reset progress bar when modal closes
         $('#modal-Promod').on('hidden.bs.modal', function () {
             $('#feeProgressBar').css('width', '0%');
             $('#feePercent').text('0%');
         });
+
+        function DownloadExcel() {
+            $("#hdnExcelSession").val($('#ddlSession option:selected').text());
+            $("#hdnExcelClass").val($('#ddlClass option:selected').text());
+            $("#hdnExcelCourse").val($('#ddlCourse option:selected').text());
+            $("#hdnExcelYear").val($('#ddlYear option:selected').text());
+            $("#hdnExcelName").val($("#txtSearch").val());
+            $("#frmDownloadExcel").submit();
+        }
     </script>
 }
