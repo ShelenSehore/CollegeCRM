@@ -128,12 +128,18 @@
 
     .stat-row {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 16px;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 14px;
         margin-bottom: 22px;
     }
 
-    @@media (max-width: 1200px) {
+    @@media (max-width: 1400px) {
+        .stat-row {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @@media (max-width: 992px) {
         .stat-row {
             grid-template-columns: repeat(3, 1fr);
         }
@@ -154,12 +160,12 @@
     .stat-card {
         background: var(--clr-card);
         border-radius: var(--radius);
-        padding: 18px 20px;
+        padding: 16px 18px;
         box-shadow: var(--shadow-md);
         border: 1px solid var(--clr-border);
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 12px;
         transition: var(--transition);
         position: relative;
         overflow: hidden;
@@ -245,32 +251,64 @@
             color: #be123c;
         }
 
+        /* ===== EXAM FORM SUBMITTED STAT ===== */
+        .stat-card.exam-submitted::before {
+            background: linear-gradient(180deg, #10b981, #6ee7b7);
+        }
+
+        .stat-card.exam-submitted .stat-icon {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            color: #059669;
+        }
+
+        .stat-card.exam-submitted .stat-value {
+            color: #047857;
+        }
+
+        /* ===== EXAM FORM NOT SUBMITTED STAT ===== */
+        .stat-card.exam-not-submitted::before {
+            background: linear-gradient(180deg, #ef4444, #fca5a5);
+        }
+
+        .stat-card.exam-not-submitted .stat-icon {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            color: #dc2626;
+        }
+
+        .stat-card.exam-not-submitted .stat-value {
+            color: #b91c1c;
+        }
+
     .stat-icon {
-        width: 46px;
-        height: 46px;
+        width: 42px;
+        height: 42px;
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.15rem;
+        font-size: 1.05rem;
         flex-shrink: 0;
     }
 
     .stat-info {
         flex: 1;
+        min-width: 0;
     }
 
     .stat-label {
-        font-size: .7rem;
+        font-size: .66rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: .06em;
         color: var(--clr-text-muted);
         margin-bottom: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .stat-value {
-        font-size: 1.55rem;
+        font-size: 1.4rem;
         font-weight: 800;
         line-height: 1.1;
     }
@@ -468,7 +506,6 @@
             box-shadow: 0 6px 22px rgba(16,185,129,.4);
         }
 
-    /* ===== PRINT BUTTON ===== */
     .btn-print {
         background: linear-gradient(135deg, var(--clr-accent-sky) 0%, #0284c7 100%);
         color: #fff;
@@ -494,7 +531,6 @@
             font-size: .9rem;
         }
 
-    /* ===== PRINT DROPDOWN ===== */
     .print-dropdown-wrapper {
         position: relative;
         display: inline-block;
@@ -568,7 +604,6 @@
             margin-top: 1px;
         }
 
-    /* ===== PRINT PREVIEW OVERLAY ===== */
     .print-preview-overlay {
         display: none;
         position: fixed;
@@ -681,7 +716,6 @@
         overflow-y: auto;
     }
 
-    /* ===== PRINT DOCUMENT STYLES (inside preview & actual print) ===== */
     .print-doc-header {
         text-align: center;
         margin-bottom: 22px;
@@ -1049,6 +1083,35 @@
             box-shadow: 0 0 0 5px rgba(244,63,94,0);
         }
     }
+
+    /* ===== STATUS BADGES ===== */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 12px;
+        border-radius: 8px;
+        font-size: .76rem;
+        font-weight: 700;
+        letter-spacing: .02em;
+        white-space: nowrap;
+    }
+
+        .status-badge i {
+            font-size: .68rem;
+        }
+
+        .status-badge.submitted {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+
+        .status-badge.not-submitted {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
 
     .student-name {
         font-weight: 700;
@@ -1546,18 +1609,26 @@
         }
 
         .stat-card:nth-child(2) {
-            animation-delay: .1s;
+            animation-delay: .08s;
         }
 
         .stat-card:nth-child(3) {
-            animation-delay: .16s;
+            animation-delay: .12s;
         }
 
         .stat-card:nth-child(4) {
-            animation-delay: .22s;
+            animation-delay: .16s;
         }
 
         .stat-card:nth-child(5) {
+            animation-delay: .20s;
+        }
+
+        .stat-card:nth-child(6) {
+            animation-delay: .24s;
+        }
+
+        .stat-card:nth-child(7) {
             animation-delay: .28s;
         }
 
@@ -1625,13 +1696,27 @@
                 <i class="fas fa-user-graduate banner-icon"></i>
             </div>
 
-            <!-- ===== STAT CARDS ===== -->
+            <!-- ===== STAT CARDS (7 cards) ===== -->
             <div class="stat-row">
                 <div class="stat-card total">
                     <div class="stat-icon"><i class="fas fa-users"></i></div>
                     <div class="stat-info">
                         <div class="stat-label">Total Students</div>
                         <div class="stat-value" id="statTotal">0</div>
+                    </div>
+                </div>
+                <div class="stat-card exam-submitted">
+                    <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Exam Form Submitted</div>
+                        <div class="stat-value" id="statExamSubmitted">0</div>
+                    </div>
+                </div>
+                <div class="stat-card exam-not-submitted">
+                    <div class="stat-icon"><i class="fas fa-clipboard-xmark"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Exam Form Not Submitted</div>
+                        <div class="stat-value" id="statExamNotSubmitted">0</div>
                     </div>
                 </div>
                 <div class="stat-card session">
@@ -1731,145 +1816,146 @@
                                     <input id="txtEnrolloSearch" class="form-control" type="number" placeholder="Enter enroll no" aria-label="Enroll No">
                                 </div>
                             </div>
-                        </div>                        
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Student Name</label>
-                                    <div class="search-with-icon">
-                                        <i class="fas fa-search"></i>
-                                        <input id="txtSearch" class="form-control" type="search" placeholder="Type name to search..." aria-label="Search">
-                                    </div>
-                                </div>                            
                         </div>
-                    </div>
-                
-                <div class="filter-actions">
-                    <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn-search">
-                        <i class="fas fa-search"></i> Search
-                    </button>
-                    <button type="reset" class="btn-reset" onclick="Reset()">
-                        <i class="fas fa-rotate-left"></i> Reset
-                    </button>
-
-                    <div class="action-sep"></div>
-
-                    <div style="position:relative;display:inline-block">
-                        <div class="btn-action-group">
-                            <button type="button" class="btn-action-main" onclick="FillExamForm()">
-                                <i class="fas fa-clipboard-list"></i> Action
-                            </button>
-                            <button type="button" class="btn-action-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-chevron-down"></i>
-                            </button>
-                        </div>
-                        <div class="dropdown-menu" role="menu">
-                            <a class="btn btn-default" onclick="FillExamForm()">
-                                <i class="fas fa-file-alt"></i> Fill Exam Form
-                            </a>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Student Name</label>
+                                <div class="search-with-icon">
+                                    <i class="fas fa-search"></i>
+                                    <input id="txtSearch" class="form-control" type="search" placeholder="Type name to search..." aria-label="Search">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="action-sep"></div>
-
-                    <form id="frmDownloadExcel" method="post" action="DownloadExcel" style="display:inline">
-                        <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
-                        <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
-                        <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
-                        <input type="hidden" name="hdnExcelYear" id="hdnExcelYear" />
-                        <input type="hidden" name="hdnExcelName" id="hdnExcelName" />
-                    </form>
-                    <button type="button" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn-excel">
-                        <i class="fas fa-file-excel"></i> Excel
-                    </button>
-
-                    <div class="action-sep"></div>
-
-                    <!-- ===== PRINT BUTTON WITH DROPDOWN ===== -->
-                    <div class="print-dropdown-wrapper" id="printDropdownWrapper">
-                        <button type="button" class="btn-print" onclick="togglePrintDropdown(event)">
-                            <i class="fas fa-print"></i> Print
+                    <div class="filter-actions">
+                        <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn-search">
+                            <i class="fas fa-search"></i> Search
                         </button>
-                        <div class="print-dropdown-menu" id="printDropdownMenu">
-                            <button class="print-option" onclick="openPrintPreview('all')">
-                                <i class="fas fa-list"></i>
-                                <div>
-                                    <div>All Records</div>
-                                    <div class="po-desc">Print all filtered students</div>
-                                </div>
+                        <button type="reset" class="btn-reset" onclick="Reset()">
+                            <i class="fas fa-rotate-left"></i> Reset
+                        </button>
+
+                        <div class="action-sep"></div>
+
+                        <div style="position:relative;display:inline-block">
+                            <div class="btn-action-group">
+                                <button type="button" class="btn-action-main" onclick="FillExamForm()">
+                                    <i class="fas fa-clipboard-list"></i> Action
+                                </button>
+                                <button type="button" class="btn-action-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="btn btn-default" onclick="FillExamForm()">
+                                    <i class="fas fa-file-alt"></i> Fill Exam Form
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="action-sep"></div>
+
+                        <form id="frmDownloadExcel" method="post" action="DownloadExcel" style="display:inline">
+                            <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
+                            <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
+                            <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
+                            <input type="hidden" name="hdnExcelYear" id="hdnExcelYear" />
+                            <input type="hidden" name="hdnExcelName" id="hdnExcelName" />
+                        </form>
+                        <button type="button" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn-excel">
+                            <i class="fas fa-file-excel"></i> Excel
+                        </button>
+
+                        <div class="action-sep"></div>
+
+                        <div class="print-dropdown-wrapper" id="printDropdownWrapper">
+                            <button type="button" class="btn-print" onclick="togglePrintDropdown(event)">
+                                <i class="fas fa-print"></i> Print
                             </button>
-                            <button class="print-option" onclick="openPrintPreview('page')">
-                                <i class="fas fa-file-alt"></i>
-                                <div>
-                                    <div>Current Page</div>
-                                    <div class="po-desc">Print only the visible page</div>
-                                </div>
-                            </button>
-                            <button class="print-option" onclick="openPrintPreview('selected')">
-                                <i class="fas fa-check-square"></i>
-                                <div>
-                                    <div>Selected Only</div>
-                                    <div class="po-desc">Print checked students</div>
-                                </div>
-                            </button>
+                            <div class="print-dropdown-menu" id="printDropdownMenu">
+                                <button class="print-option" onclick="openPrintPreview('all')">
+                                    <i class="fas fa-list"></i>
+                                    <div>
+                                        <div>All Records</div>
+                                        <div class="po-desc">Print all filtered students</div>
+                                    </div>
+                                </button>
+                                <button class="print-option" onclick="openPrintPreview('page')">
+                                    <i class="fas fa-file-alt"></i>
+                                    <div>
+                                        <div>Current Page</div>
+                                        <div class="po-desc">Print only the visible page</div>
+                                    </div>
+                                </button>
+                                <button class="print-option" onclick="openPrintPreview('selected')">
+                                    <i class="fas fa-check-square"></i>
+                                    <div>
+                                        <div>Selected Only</div>
+                                        <div class="po-desc">Print checked students</div>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- ===== TABLE PANEL ===== -->
-            <div class="table-panel">
-                <div class="table-top-strip"></div>
-                <div class="table-header-bar">
-                    <div class="thb-left">
-                        <i class="fas fa-table-list thb-icon"></i>
-                        <h3 class="thb-title">Students</h3>
-                        <span class="thb-count" id="tableCount">0 records</span>
-                        <span class="select-all-page" id="selectAllPage" onclick="ToggleSelectAllOnPage()">
-                            <i class="far fa-check-square"></i> Select all on this page
-                        </span>
+                <!-- ===== TABLE PANEL ===== -->
+                <div class="table-panel">
+                    <div class="table-top-strip"></div>
+                    <div class="table-header-bar">
+                        <div class="thb-left">
+                            <i class="fas fa-table-list thb-icon"></i>
+                            <h3 class="thb-title">Students</h3>
+                            <span class="thb-count" id="tableCount">0 records</span>
+                            <span class="select-all-page" id="selectAllPage" onclick="ToggleSelectAllOnPage()">
+                                <i class="far fa-check-square"></i> Select all on this page
+                            </span>
+                        </div>
+                        <div class="page-size-select">
+                            <span>Per page</span>
+                            <select id="pageSizeSelect" onchange="ChangePageSize(this.value)">
+                                <option value="25">25</option>
+                                <option value="50" selected>50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="page-size-select">
-                        <span>Per page</span>
-                        <select id="pageSizeSelect" onchange="ChangePageSize(this.value)">
-                            <option value="25">25</option>
-                            <option value="50" selected>50</option>
-                            <option value="100">100</option>
-                            <option value="200">200</option>
-                            <option value="500">500</option>
-                        </select>
+
+                    <div class="table-scroll">
+                        <table class="custom-table" id="tblStudentList">
+                            <thead>
+                                <tr>
+                                    <th style="width:50px;text-align:center">#</th>
+                                    <th>Form No</th>
+                                    <th>Roll No</th>
+                                    <th>TC Submit</th>
+                                    <th>Exam Form</th>
+                                    <th>Session</th>
+                                    <th>Student Name</th>
+                                    <th>Father Name</th>
+                                    <th>Year</th>
+                                    <th>Class</th>
+                                    <th>Course</th>
+                                    <th>Mobile</th>
+                                    <th style="width:90px;text-align:center">View</th>
+                                    <th style="width:55px;text-align:center">Select</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-wrapper" id="paginationWrapper" style="display:none;">
+                        <div class="pagination-info" id="paginationInfo"></div>
+                        <div class="pagination-controls" id="paginationControls"></div>
                     </div>
                 </div>
 
-                <div class="table-scroll">
-                    <table class="custom-table" id="tblStudentList">
-                        <thead>
-                            <tr>
-                                <th style="width:50px;text-align:center">#</th>
-                                <th>Form No</th>
-                                <th>Roll No</th>
-                                <th>TC Submit</th>
-                                <th>Exam Form Submit</th>
-                                <th>Session</th>
-                                <th>Student Name</th>
-                                <th>Father Name</th>
-                                <th>Year</th>
-                                <th>Class</th>
-                                <th>Course</th>
-                                <th>Mobile</th>
-                                <th style="width:90px;text-align:center">View</th>
-                                <th style="width:55px;text-align:center">Select</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody"></tbody>
-                    </table>
-                </div>
-                <div class="pagination-wrapper" id="paginationWrapper" style="display:none;">
-                    <div class="pagination-info" id="paginationInfo"></div>
-                    <div class="pagination-controls" id="paginationControls"></div>                    
-                </div>
             </div>
-
-        </div>
     </section>
 </div>
 
@@ -1893,9 +1979,7 @@
                 </button>
             </div>
         </div>
-        <div class="print-preview-body" id="printPreviewBody">
-            <!-- Print content injected by JS -->
-        </div>
+        <div class="print-preview-body" id="printPreviewBody"></div>
     </div>
 </div>
 
@@ -1961,8 +2045,6 @@
         var currentPage = 1;
         var pageSize = 50;
         var selectedIds = new Set();
-
-        /* Track which print mode was chosen */
         var currentPrintMode = 'all';
 
         window.onload = function () {
@@ -1990,14 +2072,12 @@
                 UpdateSelectAllLabel();
             });
 
-            /* Close print dropdown on outside click */
             $(document).on('click', function (e) {
                 if (!$(e.target).closest('#printDropdownWrapper').length) {
                     $('#printDropdownMenu').removeClass('show');
                 }
             });
 
-            /* Close print preview on Escape */
             $(document).on('keydown', function (e) {
                 if (e.key === 'Escape') {
                     closePrintPreview();
@@ -2018,19 +2098,36 @@
             return div.innerHTML;
         }
 
+        /* Helper: determine if exam form is considered "submitted" */
+        function isExamSubmitted(val) {
+            if (!val) return false;
+            var v = String(val).trim().toUpperCase();
+            return v === 'YES' || v === 'TRUE' || v === '1' || v === 'SUBMITTED' || v === 'SUBMIT';
+        }
+
         function updateStats(data) {
             var sessions = new Set();
             var years = new Set();
             var courses = new Set();
+            var examSubmitted = 0;
+            var examNotSubmitted = 0;
 
             $.each(data, function (i, el) {
                 if (el.session) sessions.add(el.session);
                 if (el.year) years.add(el.year);
                 if (el.course) courses.add(el.course);
+
+                if (isExamSubmitted(el.examFormSubmited)) {
+                    examSubmitted++;
+                } else {
+                    examNotSubmitted++;
+                }
             });
 
             $('#statTotal').text(data.length);
             $('#tableCount').text(data.length + ' record' + (data.length !== 1 ? 's' : ''));
+            $('#statExamSubmitted').text(examSubmitted);
+            $('#statExamNotSubmitted').text(examNotSubmitted);
             $('#statSession').text(sessions.size || '—');
             $('#statYear').text(years.size || '—');
             $('#statCourse').text(courses.size || '—');
@@ -2102,7 +2199,7 @@
 
             if (allStudents.length === 0) {
                 $("#tblStudentList tbody").append(
-                    '<tr><td colspan="11">' +
+                    '<tr><td colspan="14">' +
                     '<div class="empty-state">' +
                     '<div class="empty-icon"><i class="fas fa-inbox"></i></div>' +
                     '<div class="empty-title">No students found</div>' +
@@ -2118,10 +2215,29 @@
                 var globalIndex = startIndex + index;
                 var delay = Math.min(index * 0.03, 0.8);
 
+                /* TC badge */
                 var tcHtml = '';
                 if (element.tc === "ISSUE") {
                     tcHtml = '<span class="tc-badge" title="TC Issued"><i class="fas fa-star"></i></span>';
                 }
+
+                /* TC column badge */
+                var tcColHtml = '';
+                var tcVal = String(element.tC || '').trim().toUpperCase();
+                if (tcVal === 'YES' || tcVal === 'TRUE' || tcVal === '1' || tcVal === 'SUBMIT' || tcVal === 'SUBMITTED') {
+                    tcColHtml = '<span class="status-badge submitted"><i class="fas fa-check-circle"></i> Yes</span>';
+                } else {
+                    tcColHtml = '<span class="status-badge not-submitted"><i class="fas fa-times-circle"></i> No</span>';
+                }
+
+                /* Exam Form column badge */
+                var examColHtml = '';
+                if (isExamSubmitted(element.examFormSubmited)) {
+                    examColHtml = '<span class="status-badge submitted"><i class="fas fa-check-circle"></i> Submitted</span>';
+                } else {
+                    examColHtml = '<span class="status-badge not-submitted"><i class="fas fa-times-circle"></i> Pending</span>';
+                }
+
                 var isChecked = selectedIds.has(String(element.id));
                 var checkedAttr = isChecked ? ' checked' : '';
 
@@ -2130,9 +2246,9 @@
                     '<td class="col-num">' + (globalIndex + 1) + '</td>' +
                     '<td><div class="formno-cell">' + tcHtml + '<span class="formno-badge">' + esc(element.admissionFormNo) + '</span></div></td>' +
                     '<td class="col-num">' + esc(element.rollNo) + '</td>' +
-                    '<td class="col-num">' + esc(element.tC) + '</td>' +
-                    '<td class="col-num">' + esc(element.examFormSubmited) + '</td>' +
-                    '<td><span class="info-tag session">' + esc(element.session) + '</span></td>' +                    
+                    '<td>' + tcColHtml + '</td>' +
+                    '<td>' + examColHtml + '</td>' +
+                    '<td><span class="info-tag session">' + esc(element.session) + '</span></td>' +
                     '<td><span class="student-name">' + esc(element.studentName) + '</span></td>' +
                     '<td><span class="father-name">' + esc(element.fatherName) + '</span></td>' +
                     '<td><span class="info-tag year">' + esc(element.year) + '</span></td>' +
@@ -2191,7 +2307,6 @@
 
         function GeneratePageNumbers(current, total) {
             var pages = [];
-
             if (total <= 7) {
                 for (var i = 1; i <= total; i++) pages.push(i);
             } else {
@@ -2205,7 +2320,6 @@
                 if (current < total - 3) pages.push('...');
                 pages.push(total);
             }
-
             return pages;
         }
 
@@ -2307,13 +2421,11 @@
            PRINT FUNCTIONALITY
            ========================================================== */
 
-        /* Toggle the print dropdown menu */
         function togglePrintDropdown(e) {
             e.stopPropagation();
             $('#printDropdownMenu').toggleClass('show');
         }
 
-        /* Open the print preview overlay */
         function openPrintPreview(mode) {
             currentPrintMode = mode;
             $('#printDropdownMenu').removeClass('show');
@@ -2348,13 +2460,11 @@
             document.body.style.overflow = 'hidden';
         }
 
-        /* Build the printable HTML document */
         function buildPrintDocument(data) {
             var now = new Date();
             var dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
             var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
 
-            /* Active filter labels */
             var filterParts = [];
             var sessionVal = $('#ddlSession option:selected').text();
             var yearVal = $('#ddlYear option:selected').text();
@@ -2384,15 +2494,29 @@
                 filterHtml += '</div>';
             }
 
-            /* Table rows */
+            /* Count for print footer */
+            var pExamSubmitted = 0;
+            var pExamNotSubmitted = 0;
+
             var rowsHtml = '';
             $.each(data, function (index, el) {
                 var tcIndicator = el.tc === 'ISSUE' ? ' <span style="color:#f43f5e;font-weight:700;font-size:.65rem">[TC]</span>' : '';
 
+                var examStatusHtml = '';
+                if (isExamSubmitted(el.examFormSubmited)) {
+                    examStatusHtml = '<span style="display:inline-block;padding:1px 7px;border-radius:3px;font-size:8px;font-weight:700;background:#d1fae5;color:#047857">YES</span>';
+                    pExamSubmitted++;
+                } else {
+                    examStatusHtml = '<span style="display:inline-block;padding:1px 7px;border-radius:3px;font-size:8px;font-weight:700;background:#fee2e2;color:#b91c1c">NO</span>';
+                    pExamNotSubmitted++;
+                }
+
                 rowsHtml += '<tr>' +
                     '<td class="pd-num">' + (index + 1) + '</td>' +
                     '<td class="pd-formno">' + esc(el.admissionFormNo) + tcIndicator + '</td>' +
-                    '<td><span class="pd-tag session">' + esc(el.session) + '</span></td>' +                    
+                    '<td style="text-align:center">' + esc(el.rollNo) + '</td>' +
+                    '<td style="text-align:center">' + examStatusHtml + '</td>' +
+                    '<td><span class="pd-tag session">' + esc(el.session) + '</span></td>' +
                     '<td class="pd-name">' + esc(el.studentName) + '</td>' +
                     '<td>' + esc(el.fatherName) + '</td>' +
                     '<td><span class="pd-tag year">' + esc(el.year) + '</span></td>' +
@@ -2414,8 +2538,10 @@
                         '<tr>' +
                             '<th>#</th>' +
                             '<th>Form No</th>' +
+                            '<th>Roll No</th>' +
+                            '<th>TC</th>' +
+                            '<th>Exam Form</th>' +
                             '<th>Session</th>' +
-                            '<th>Roll no</th>' +
                             '<th>Student Name</th>' +
                             '<th>Father Name</th>' +
                             '<th>Year</th>' +
@@ -2427,20 +2553,18 @@
                     '<tbody>' + rowsHtml + '</tbody>' +
                 '</table>' +
                 '<div class="print-doc-footer">' +
-                    '<div class="pdf-total">Total: ' + data.length + ' student' + (data.length !== 1 ? 's' : '') + '</div>' +
+                    '<div class="pdf-total">Total: ' + data.length + ' &nbsp;|&nbsp; <span style="color:#047857">Submitted: ' + pExamSubmitted + '</span> &nbsp;|&nbsp; <span style="color:#b91c1c">Pending: ' + pExamNotSubmitted + '</span></div>' +
                     '<div>Printed from CRM System &bull; ' + dateStr + '</div>' +
                 '</div>';
 
             return html;
         }
 
-        /* Close the print preview overlay */
         function closePrintPreview() {
             $('#printPreviewOverlay').removeClass('active');
             document.body.style.overflow = '';
         }
 
-        /* Execute the actual browser print */
         function executePrint() {
             var printContent = document.getElementById('printPreviewBody').innerHTML;
 
@@ -2464,7 +2588,6 @@
             };
         }
 
-        /* Return the CSS string used for the actual print window */
         function getPrintCSS() {
             return `
                 @@page {

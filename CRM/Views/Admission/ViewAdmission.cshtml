@@ -10,110 +10,178 @@
     /* ========== ROOT VARIABLES ========== */
     :root {
         --clr-primary: #6366f1;
+        --clr-primary-light: #818cf8;
         --clr-primary-dark: #4f46e5;
+        --clr-primary-glow: rgba(99,102,241,.2);
         --clr-accent-teal: #14b8a6;
+        --clr-accent-teal-dark: #0d9488;
+        --clr-accent-teal-glow: rgba(20,184,166,.25);
         --clr-accent-orange: #f97316;
         --clr-accent-pink: #ec4899;
         --clr-accent-sky: #0ea5e9;
         --clr-accent-lime: #84cc16;
+        --clr-accent-emerald: #10b981;
         --clr-bg-start: #f0f4ff;
         --clr-bg-end: #fdf2f8;
         --clr-card: #ffffff;
         --clr-text: #1e293b;
+        --clr-text-secondary: #334155;
         --clr-text-muted: #64748b;
         --clr-border: #e2e8f0;
         --clr-input-bg: #f8fafc;
+        --clr-input-hover: #f1f5f9;
+        --clr-danger: #ef4444;
+        --shadow-xs: 0 1px 2px rgba(0,0,0,.04);
         --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-        --shadow-md: 0 4px 14px rgba(0,0,0,.08);
+        --shadow-md: 0 4px 16px rgba(0,0,0,.07);
         --shadow-lg: 0 10px 30px rgba(0,0,0,.1);
-        --radius: 14px;
+        --shadow-xl: 0 20px 50px rgba(0,0,0,.12);
+        --radius: 16px;
         --radius-sm: 10px;
-        --transition: .25s cubic-bezier(.4,0,.2,1);
+        --radius-xs: 8px;
+        --transition: .28s cubic-bezier(.4,0,.2,1);
+        --transition-fast: .15s cubic-bezier(.4,0,.2,1);
     }
 
     /* ========== PAGE BACKGROUND ========== */
     .content-wrapper {
-        background: linear-gradient(135deg, var(--clr-bg-start) 0%, #ede9fe 30%, #fce7f3 60%, var(--clr-bg-end) 100%);
+        background: linear-gradient(160deg, #f0fdfa 0%, #ccfbf1 20%, #ede9fe 45%, #fce7f3 70%, #fff1f2 100%);
         min-height: 100vh;
-        padding-bottom: 60px;
+        padding-bottom: 80px;
+        position: relative;
     }
+
+        .content-wrapper::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(20,184,166,.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content-wrapper::after {
+            content: '';
+            position: fixed;
+            bottom: -150px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(99,102,241,.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content-wrapper > * {
+            position: relative;
+            z-index: 1;
+        }
 
     /* ========== BREADCRUMB ========== */
     .breadcrumb {
         background: none !important;
         padding: 0 !important;
         margin: 0 !important;
-        font-size: .85rem;
+        font-size: .82rem;
     }
+
     .breadcrumb-item a {
-        color: var(--clr-primary);
+        color: var(--clr-accent-teal);
         text-decoration: none;
         font-weight: 600;
         transition: var(--transition);
     }
-    .breadcrumb-item a:hover { color: var(--clr-accent-pink); }
+
+        .breadcrumb-item a:hover {
+            color: var(--clr-accent-pink);
+        }
+
     .breadcrumb-item.active {
         color: var(--clr-text-muted);
         font-weight: 500;
     }
+
     .breadcrumb-item + .breadcrumb-item::before {
         color: #cbd5e1;
         content: "›";
     }
 
-    /* ========== PAGE TITLE BANNER — EDIT VARIANT (TEAL) ========== */
+    /* ========== PAGE BANNER — EDIT (TEAL) ========== */
     .page-banner {
-        background: linear-gradient(135deg, var(--clr-accent-teal) 0%, #0d9488 40%, #065f46 100%);
+        background: linear-gradient(135deg, #0d9488 0%, #14b8a6 30%, #2dd4bf 60%, #5eead4 85%, #99f6e4 100%);
         border-radius: var(--radius);
-        padding: 28px 32px;
-        margin-bottom: 28px;
+        padding: 32px 36px;
+        margin-bottom: 32px;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 8px 32px rgba(20,184,166,.3);
+        box-shadow: 0 8px 40px rgba(20,184,166,.35), 0 0 0 1px rgba(255,255,255,.1) inset;
     }
-    .page-banner::before {
-        content: '';
-        position: absolute;
-        top: -40%;
-        right: -8%;
-        width: 260px;
-        height: 260px;
-        background: rgba(255,255,255,.1);
-        border-radius: 50%;
+
+        .page-banner::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -5%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,.08);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .page-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -70%;
+            left: 20%;
+            width: 220px;
+            height: 220px;
+            background: rgba(255,255,255,.05);
+            border-radius: 50%;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+    @@keyframes float {
+        0%, 100% {
+            transform: translateY(0) scale(1);
+        }
+
+        50% {
+            transform: translateY(-20px) scale(1.05);
+        }
     }
-    .page-banner::after {
-        content: '';
-        position: absolute;
-        bottom: -50%;
-        left: 15%;
-        width: 180px;
-        height: 180px;
-        background: rgba(255,255,255,.07);
-        border-radius: 50%;
-    }
+
     .page-banner h1 {
         color: #fff;
-        font-size: 1.6rem;
+        font-size: 1.75rem;
         font-weight: 800;
         margin: 0;
         position: relative;
         z-index: 1;
-        letter-spacing: -.02em;
+        letter-spacing: -.03em;
+        text-shadow: 0 2px 12px rgba(0,0,0,.12);
     }
+
     .page-banner p {
-        color: rgba(255,255,255,.8);
-        margin: 6px 0 0;
-        font-size: .9rem;
+        color: rgba(255,255,255,.85);
+        margin: 8px 0 0;
+        font-size: .92rem;
         position: relative;
         z-index: 1;
     }
+
     .page-banner .banner-icon {
         position: absolute;
-        right: 28px;
+        right: 32px;
         top: 50%;
         transform: translateY(-50%);
-        font-size: 3.2rem;
-        color: rgba(255,255,255,.2);
+        font-size: 3.6rem;
+        color: rgba(255,255,255,.15);
         z-index: 1;
     }
 
@@ -123,9 +191,10 @@
         align-items: center;
         gap: 5px;
         background: rgba(255,255,255,.2);
-        backdrop-filter: blur(4px);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,.25);
         color: #fff;
-        padding: 4px 12px;
+        padding: 4px 14px;
         border-radius: 20px;
         font-size: .72rem;
         font-weight: 700;
@@ -133,96 +202,204 @@
         letter-spacing: .06em;
         margin-left: 12px;
         vertical-align: middle;
+        animation: pulse-badge 2s ease-in-out infinite;
     }
+
+    @@keyframes pulse-badge {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(255,255,255,.3);
+        }
+
+        50% {
+            box-shadow: 0 0 0 6px rgba(255,255,255,0);
+        }
+    }
+
+    /* Banner info chips */
+    .banner-info {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+        position: relative;
+        z-index: 1;
+        flex-wrap: wrap;
+    }
+
+    .banner-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,255,255,.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 20px;
+        padding: 4px 14px 4px 10px;
+        font-size: .75rem;
+        font-weight: 600;
+        color: #fff;
+    }
+
+        .banner-chip i {
+            font-size: .7rem;
+            opacity: .8;
+        }
 
     /* ========== SECTION CARDS ========== */
     .section-card {
         background: var(--clr-card);
         border-radius: var(--radius);
         box-shadow: var(--shadow-md);
-        margin-bottom: 24px;
+        margin-bottom: 28px;
         border: 1px solid var(--clr-border);
         overflow: hidden;
         transition: var(--transition);
+        position: relative;
     }
-    .section-card:hover {
-        box-shadow: var(--shadow-lg);
-        transform: translateY(-2px);
-    }
+
+        .section-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
 
     .section-header {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 18px 24px;
+        gap: 14px;
+        padding: 20px 28px;
         position: relative;
         overflow: hidden;
     }
-    .section-header::before {
-        content: '';
-        position: absolute;
-        left: 0; top: 0; bottom: 0;
-        width: 5px;
-    }
 
-    /* Color variants */
-    .section-header.college::before { background: linear-gradient(180deg, var(--clr-primary), var(--clr-accent-sky)); }
-    .section-header.college { background: linear-gradient(90deg, #eef2ff 0%, #f8fafc 100%); }
-    .section-header.college .section-icon { color: var(--clr-primary); }
+        .section-header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+        }
 
-    .section-header.fee::before { background: linear-gradient(180deg, var(--clr-accent-teal), var(--clr-accent-lime)); }
-    .section-header.fee { background: linear-gradient(90deg, #f0fdfa 0%, #f8fafc 100%); }
-    .section-header.fee .section-icon { color: var(--clr-accent-teal); }
+        /* Color variants */
+        .section-header.college::before {
+            background: linear-gradient(180deg, var(--clr-primary), var(--clr-accent-sky));
+        }
 
-    .section-header.personal::before { background: linear-gradient(180deg, var(--clr-accent-orange), var(--clr-accent-pink)); }
-    .section-header.personal { background: linear-gradient(90deg, #fff7ed 0%, #fdf2f8 40%, #f8fafc 100%); }
-    .section-header.personal .section-icon { color: var(--clr-accent-orange); }
+        .section-header.college {
+            background: linear-gradient(90deg, #eef2ff 0%, #f8fafc 100%);
+        }
+
+            .section-header.college .section-icon {
+                color: var(--clr-primary);
+                background: #eef2ff;
+            }
+
+        .section-header.fee::before {
+            background: linear-gradient(180deg, var(--clr-accent-teal), var(--clr-accent-lime));
+        }
+
+        .section-header.fee {
+            background: linear-gradient(90deg, #f0fdfa 0%, #f8fafc 100%);
+        }
+
+            .section-header.fee .section-icon {
+                color: var(--clr-accent-teal);
+                background: #f0fdfa;
+            }
+
+        .section-header.personal::before {
+            background: linear-gradient(180deg, var(--clr-accent-orange), var(--clr-accent-pink));
+        }
+
+        .section-header.personal {
+            background: linear-gradient(90deg, #fff7ed 0%, #fdf2f8 40%, #f8fafc 100%);
+        }
+
+            .section-header.personal .section-icon {
+                color: var(--clr-accent-orange);
+                background: #fff7ed;
+            }
 
     .section-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.1rem;
+        font-size: 1.15rem;
         flex-shrink: 0;
+        transition: var(--transition);
     }
-    .section-header.college .section-icon { background: #eef2ff; }
-    .section-header.fee .section-icon { background: #f0fdfa; }
-    .section-header.personal .section-icon { background: #fff7ed; }
+
+    .section-card:hover .section-icon {
+        transform: scale(1.08) rotate(-3deg);
+    }
 
     .section-title {
-        font-size: 1.05rem;
+        font-size: 1.1rem;
         font-weight: 700;
         color: var(--clr-text);
         margin: 0;
     }
+
     .section-subtitle {
-        font-size: .78rem;
+        font-size: .8rem;
         color: var(--clr-text-muted);
-        margin: 2px 0 0;
+        margin: 3px 0 0;
+    }
+
+    .section-header .step-badge {
+        margin-left: auto;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: .8rem;
+        font-weight: 800;
+        flex-shrink: 0;
+    }
+
+    .section-header.college .step-badge {
+        background: #e0e7ff;
+        color: var(--clr-primary);
+    }
+
+    .section-header.fee .step-badge {
+        background: #ccfbf1;
+        color: var(--clr-accent-teal);
+    }
+
+    .section-header.personal .step-badge {
+        background: #ffedd5;
+        color: var(--clr-accent-orange);
     }
 
     .section-body {
-        padding: 24px;
+        padding: 28px;
     }
 
     /* ========== FORM CONTROLS ========== */
-    .form-group label {
-        font-size: .78rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: .04em;
-        color: var(--clr-text-muted);
-        margin-bottom: 6px;
-        display: block;
+    .form-group {
+        margin-bottom: 20px;
     }
+
+        .form-group label {
+            font-size: .76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--clr-text-muted);
+            margin-bottom: 7px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
     .form-control,
     select.form-control {
         border: 2px solid var(--clr-border);
-        border-radius: var(--radius-sm);
+        border-radius: var(--radius-xs);
         padding: 10px 14px;
         font-size: .9rem;
         color: var(--clr-text);
@@ -230,67 +407,298 @@
         transition: var(--transition);
         height: auto;
         box-shadow: none !important;
-    }
-    .form-control:focus,
-    select.form-control:focus {
-        border-color: var(--clr-primary);
-        background: #fff;
-        box-shadow: 0 0 0 4px rgba(99,102,241,.12) !important;
-        outline: none;
-    }
-    .form-control[readonly] {
-        background: linear-gradient(90deg, #f1f5f9, #e2e8f0);
-        color: var(--clr-text);
-        font-weight: 600;
-        border-color: #cbd5e1;
-        cursor: default;
+        width: 100%;
     }
 
-    /* Fee readonly — teal tint */
-    .fee-readonly.form-control[readonly] {
-        background: linear-gradient(90deg, #f0fdfa, #ccfbf1);
-        border-color: #99f6e4;
-        color: #0f766e;
-        font-weight: 700;
-        font-size: .95rem;
+        .form-control:hover:not([readonly]) {
+            border-color: #cbd5e1;
+            background: var(--clr-input-hover);
+        }
+
+        .form-control:focus,
+        select.form-control:focus {
+            border-color: var(--clr-accent-teal);
+            background: #fff;
+            box-shadow: 0 0 0 4px var(--clr-accent-teal-glow) !important;
+            outline: none;
+        }
+
+        .form-control[readonly] {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            color: var(--clr-text);
+            font-weight: 600;
+            border-color: #cbd5e1;
+            cursor: default;
+        }
+
+    /* Custom select arrow */
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8.825L.35 3.175l.7-.7L6 7.425l4.95-4.95.7.7z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 36px;
     }
 
     /* ========== FIELD BADGES ========== */
     .field-badge {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
         padding: 2px 8px;
         border-radius: 6px;
-        font-size: .68rem;
+        font-size: .65rem;
         font-weight: 700;
-        margin-left: 6px;
-        vertical-align: middle;
         text-transform: uppercase;
-        letter-spacing: .03em;
+        letter-spacing: .04em;
     }
-    .badge-auto { background: #ede9fe; color: #7c3aed; }
-    .badge-req  { background: #fee2e2; color: #dc2626; }
-    .badge-calc { background: #ccfbf1; color: #0d9488; }
-    .badge-edit { background: #fef3c7; color: #b45309; }
+
+    .badge-auto {
+        background: #ede9fe;
+        color: #7c3aed;
+    }
+
+        .badge-auto::before {
+            content: '⚡';
+            font-size: .55rem;
+        }
+
+    .badge-req {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+        .badge-req::before {
+            content: '•';
+            font-size: 1rem;
+            line-height: 0;
+        }
+
+    .badge-calc {
+        background: #ccfbf1;
+        color: #0d9488;
+    }
+
+        .badge-calc::before {
+            content: '⟳';
+            font-size: .7rem;
+        }
+
+    .badge-edit {
+        background: #fef3c7;
+        color: #b45309;
+    }
+
+        .badge-edit::before {
+            content: '✎';
+            font-size: .65rem;
+        }
 
     /* ========== VALIDATION ========== */
     .text-danger {
-        font-size: .78rem;
+        font-size: .76rem;
         font-weight: 600;
-        margin-top: 4px;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
     }
+
+        .text-danger::before {
+            content: '⚠';
+            font-size: .7rem;
+        }
+
     .field-validation-error {
         animation: shake .35s ease;
     }
+
     @@keyframes shake {
-        0%,100% { transform: translateX(0); }
-        25% { transform: translateX(-4px); }
-        75% { transform: translateX(4px); }
+        0%, 100% {
+            transform: translateX(0);
+        }
+
+        25% {
+            transform: translateX(-4px);
+        }
+
+        75% {
+            transform: translateX(4px);
+        }
     }
+
     input.input-validation-error,
     select.input-validation-error {
         border-color: #f87171 !important;
         background: #fef2f2 !important;
         box-shadow: 0 0 0 4px rgba(248,113,113,.12) !important;
+        animation: shake .35s ease;
+    }
+
+    /* ========== FEE MINI CARDS ========== */
+    .fee-mini-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .fee-mini-card {
+        background: var(--clr-input-bg);
+        border: 1.5px solid var(--clr-border);
+        border-radius: var(--radius-xs);
+        padding: 14px;
+        text-align: center;
+        transition: var(--transition);
+        position: relative;
+    }
+
+        .fee-mini-card:hover {
+            border-color: #99f6e4;
+            background: #f0fdfa;
+        }
+
+        .fee-mini-card .mini-label {
+            font-size: .68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            color: var(--clr-text-muted);
+            margin-bottom: 6px;
+        }
+
+        .fee-mini-card .mini-value {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #0f766e;
+        }
+
+        .fee-mini-card .mini-icon {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            font-size: .7rem;
+            color: #99f6e4;
+        }
+
+    /* ========== FEE HIGHLIGHT BOXES ========== */
+    .fee-total-box {
+        border-radius: var(--radius-sm);
+        padding: 16px 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        transition: var(--transition);
+    }
+
+        .fee-total-box:hover {
+            transform: scale(1.02);
+        }
+
+        .fee-total-box::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        .fee-total-box .fee-total-label {
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            margin-bottom: 6px;
+        }
+
+        .fee-total-box .fee-total-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .fee-total-box .fee-total-icon {
+            font-size: .85rem;
+            margin-right: 4px;
+            opacity: .7;
+        }
+
+        /* Green — Total Fee */
+        .fee-total-box.total-fee {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #6ee7b7;
+        }
+
+            .fee-total-box.total-fee .fee-total-label {
+                color: #047857;
+            }
+
+            .fee-total-box.total-fee .fee-total-value {
+                color: #065f46;
+            }
+
+            .fee-total-box.total-fee::before {
+                background: rgba(16,185,129,.08);
+            }
+
+        /* Orange — After Discount */
+        .fee-total-box.after-discount {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fed7aa 100%);
+            border: 2px solid #fdba74;
+        }
+
+            .fee-total-box.after-discount .fee-total-label {
+                color: #c2410c;
+            }
+
+            .fee-total-box.after-discount .fee-total-value {
+                color: #9a3412;
+            }
+
+            .fee-total-box.after-discount::before {
+                background: rgba(249,115,22,.08);
+            }
+
+    /* ========== DISCOUNT ROW ========== */
+    .discount-row {
+        background: linear-gradient(90deg, #fffbeb 0%, #fef3c7 50%, transparent 100%);
+        border-radius: var(--radius-xs);
+        padding: 18px;
+        border: 1px dashed #fcd34d;
+        margin-top: 4px;
+    }
+
+        .discount-row .form-group {
+            margin-bottom: 0;
+        }
+
+    /* ========== NAME HIGHLIGHT ROW ========== */
+    .name-highlight-row {
+        background: linear-gradient(90deg, #fff7ed 0%, #fdf2f8 50%, transparent 100%);
+        border-radius: var(--radius-xs);
+        padding: 16px 16px 0;
+        margin-bottom: 8px;
+        border: 1px dashed #fed7aa;
+    }
+
+    /* ========== ANIMATED TOP STRIP ========== */
+    .top-strip {
+        height: 4px;
+        background: linear-gradient(90deg, var(--clr-accent-teal), var(--clr-accent-sky), var(--clr-primary), var(--clr-accent-pink), var(--clr-accent-orange), var(--clr-accent-lime), var(--clr-accent-teal));
+        background-size: 300% 100%;
+        animation: stripMove 6s linear infinite;
+    }
+
+    @@keyframes stripMove {
+        0% {
+            background-position: 0% 0%;
+        }
+
+        100% {
+            background-position: 300% 0%;
+        }
     }
 
     /* ========== BUTTON BAR ========== */
@@ -298,132 +706,221 @@
         display: flex;
         justify-content: center;
         gap: 16px;
-        padding: 10px 0 20px;
+        padding: 16px 0 30px;
         flex-wrap: wrap;
     }
 
     .btn-update {
-        background: linear-gradient(135deg, var(--clr-accent-teal) 0%, #0d9488 100%);
+        background: linear-gradient(135deg, #0d9488 0%, #14b8a6 50%, #2dd4bf 100%);
+        background-size: 200% auto;
         color: #fff;
         border: none;
         border-radius: var(--radius-sm);
-        padding: 13px 40px;
+        padding: 14px 44px;
         font-size: .95rem;
         font-weight: 700;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        box-shadow: 0 4px 16px rgba(20,184,166,.35);
+        gap: 10px;
+        box-shadow: 0 4px 20px rgba(20,184,166,.4);
         transition: var(--transition);
         letter-spacing: .01em;
+        position: relative;
+        overflow: hidden;
         text-decoration: none;
     }
-    .btn-update:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(20,184,166,.45);
-        color: #fff;
-    }
-    .btn-update:active { transform: translateY(0); }
+
+        .btn-update::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+            transition: .5s;
+        }
+
+        .btn-update:hover::before {
+            left: 100%;
+        }
+
+        .btn-update:hover {
+            background-position: right center;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(20,184,166,.5);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .btn-update:active {
+            transform: translateY(-1px);
+        }
 
     .btn-exit {
-        background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+        background: var(--clr-card);
         color: var(--clr-text-muted);
         border: 2px solid var(--clr-border);
         border-radius: var(--radius-sm);
-        padding: 13px 40px;
+        padding: 14px 36px;
         font-size: .95rem;
         font-weight: 700;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
         transition: var(--transition);
         text-decoration: none;
     }
-    .btn-exit:hover {
-        background: #fee2e2;
-        color: #dc2626;
-        border-color: #fca5a5;
-        transform: translateY(-2px);
-        text-decoration: none;
+
+        .btn-exit:hover {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #fca5a5;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            text-decoration: none;
+        }
+
+    /* ========== NUMBER INPUT — HIDE SPINNERS ========== */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 
-    /* ========== ANIMATED TOP STRIP ========== */
-    .top-strip {
-        height: 4px;
-        background: linear-gradient(90deg,
-            var(--clr-accent-teal),
-            var(--clr-accent-sky),
-            var(--clr-primary),
-            var(--clr-accent-pink),
-            var(--clr-accent-orange),
-            var(--clr-accent-lime),
-            var(--clr-accent-teal));
-        background-size: 300% 100%;
-        animation: stripMove 6s linear infinite;
-        border-radius: var(--radius) var(--radius) 0 0;
-    }
-    @@keyframes stripMove {
-        0% { background-position: 0% 0%; }
-        100% { background-position: 300% 0%; }
+    input[type="number"] {
+        -moz-appearance: textfield;
     }
 
-    /* ========== FEE HIGHLIGHT BOX ========== */
-    .fee-total-box {
-        background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 50%, #d1fae5 100%);
-        border: 2px solid #6ee7b7;
-        border-radius: var(--radius-sm);
-        padding: 14px 18px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
+    /* ========== DATE INPUT ========== */
+    input[type="date"].form-control {
+        cursor: pointer;
     }
-    .fee-total-box::before {
-        content: '';
-        position: absolute;
-        top: -30%;
-        right: -20%;
-        width: 100px;
-        height: 100px;
-        background: rgba(16,185,129,.08);
-        border-radius: 50%;
+
+        input[type="date"].form-control::-webkit-calendar-picker-indicator {
+            opacity: .5;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        input[type="date"].form-control:hover::-webkit-calendar-picker-indicator {
+            opacity: 1;
+        }
+
+    /* ========== LOADING SKELETON ========== */
+    .fee-loading .fee-mini-card .mini-value {
+        color: transparent;
+        background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 4px;
+        min-height: 24px;
     }
-    .fee-total-box .fee-total-label {
-        font-size: .72rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: .06em;
-        color: #047857;
-        margin-bottom: 4px;
+
+    @@keyframes shimmer {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
     }
-    .fee-total-box .fee-total-value {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: #065f46;
-        line-height: 1.1;
+
+    /* ========== RECORD ID CHIP ========== */
+    .record-id-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f0fdfa;
+        border: 1.5px solid #99f6e4;
+        border-radius: var(--radius-xs);
+        padding: 6px 14px;
+        margin-bottom: 20px;
     }
-    .fee-total-box.after-discount {
-        background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fed7aa 100%);
-        border-color: #fdba74;
-    }
-    .fee-total-box.after-discount .fee-total-label { color: #c2410c; }
-    .fee-total-box.after-discount .fee-total-value { color: #9a3412; }
-    .fee-total-box.after-discount::before { background: rgba(249,115,22,.08); }
+
+        .record-id-chip .chip-label {
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: #0d9488;
+        }
+
+        .record-id-chip .chip-value {
+            font-size: .95rem;
+            font-weight: 800;
+            color: #065f46;
+        }
 
     /* ========== RESPONSIVE ========== */
+    @@media (max-width: 992px) {
+        .fee-mini-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
     @@media (max-width: 768px) {
-        .page-banner { padding: 20px; }
-        .page-banner h1 { font-size: 1.2rem; }
-        .page-banner .banner-icon { display: none; }
-        .edit-badge { display: none; }
-        .section-body { padding: 16px; }
-        .section-header { padding: 14px 16px; }
-        .btn-update, .btn-exit { padding: 12px 28px; font-size: .88rem; }
+        .page-banner {
+            padding: 22px 20px;
+        }
+
+            .page-banner h1 {
+                font-size: 1.25rem;
+            }
+
+            .page-banner .banner-icon {
+                display: none;
+            }
+
+        .edit-badge {
+            font-size: .6rem;
+            padding: 3px 10px;
+        }
+
+        .banner-info {
+            flex-wrap: wrap;
+        }
+
+        .section-body {
+            padding: 18px;
+        }
+
+        .section-header {
+            padding: 16px 18px;
+        }
+
+        .btn-update, .btn-exit {
+            padding: 12px 28px;
+            font-size: .88rem;
+        }
+
+        .fee-mini-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .fee-mini-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .btn-bar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .btn-update, .btn-exit {
+            justify-content: center;
+        }
     }
 
     /* ========== CONTENT HEADER OVERRIDE ========== */
-    .content-header { padding: 18px 0 0; }
+    .content-header {
+        padding: 18px 0 0;
+    }
 </style>
 
 <div class="content-wrapper">
@@ -448,16 +945,21 @@
             <!-- ===== PAGE BANNER ===== -->
             <div class="page-banner">
                 <h1>
-                    View & Edit Admission
+                    <i class="fas fa-user-pen mr-2"></i>View & Edit Admission
                     <span class="edit-badge">
                         <i class="fas fa-pen-to-square"></i> Edit Mode
                     </span>
                 </h1>
-                <p>Modify student details and save changes</p>
+                <p>Modify student details below and save changes</p>
+                <div class="banner-info">
+                    <span class="banner-chip"><i class="fas fa-hashtag"></i> Reg: <strong id="bannerRegNo">—</strong></span>
+                    <span class="banner-chip"><i class="fas fa-graduation-cap"></i> <strong id="bannerClass">—</strong></span>
+                    <span class="banner-chip"><i class="fas fa-book"></i> <strong id="bannerCourse">—</strong></span>
+                </div>
                 <i class="fas fa-user-pen banner-icon"></i>
             </div>
 
-            <form asp-action="NewAdmissionUpdatePost" method="post" novalidate>
+            <form id="frmAdmission" asp-action="NewAdmissionUpdatePost" method="post" novalidate>
 
                 <!-- Hidden IDs -->
                 <input type="hidden" name="Id" asp-for="Id" />
@@ -474,10 +976,18 @@
                             <h3 class="section-title">College Detail</h3>
                             <p class="section-subtitle">Academic registration information</p>
                         </div>
+                        <span class="step-badge">1</span>
                     </div>
                     <div class="section-body">
+                        <!-- Record ID Chip -->
+                        <div class="record-id-chip">
+                            <i class="fas fa-fingerprint" style="color:#0d9488; font-size:.85rem;"></i>
+                            <span class="chip-label">Reg No</span>
+                            <span class="chip-value" id="chipRegNo">@Model.RegNo</span>
+                        </div>
+
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                 <div class="form-group">
                                     <label>
                                         Reg No
@@ -486,7 +996,7 @@
                                     <input asp-for="RegNo" type="number" readonly="readonly" class="form-control" placeholder="ID No.">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                 <div class="form-group">
                                     <label>
                                         Session
@@ -498,7 +1008,7 @@
                                     <span asp-validation-for="Session" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                 <div class="form-group">
                                     <label>
                                         Year
@@ -510,7 +1020,7 @@
                                     <span asp-validation-for="Year" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                 <div class="form-group">
                                     <label>
                                         Class
@@ -522,7 +1032,7 @@
                                     <span asp-validation-for="Class" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                 <div class="form-group">
                                     <label>
                                         Course
@@ -534,7 +1044,7 @@
                                     <span asp-validation-for="Course" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                 <div class="form-group">
                                     <label>
                                         Form No
@@ -544,16 +1054,16 @@
                                     <span asp-validation-for="FormNo" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                 <div class="form-group">
                                     <label>
                                         Scholarship No
                                         <span class="field-badge badge-edit">Edit</span>
                                     </label>
-                                    <input asp-for="SchoNo" type="number" class="form-control">
+                                    <input asp-for="SchoNo" type="number" class="form-control" placeholder="0">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                 <div class="form-group">
                                     <label>
                                         Reg / Pvt
@@ -567,7 +1077,7 @@
                                     <span asp-validation-for="RegPvt" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                                 <div class="form-group">
                                     <label>
                                         Status
@@ -595,90 +1105,89 @@
                         </div>
                         <div>
                             <h3 class="section-title">Fee Detail</h3>
-                            <p class="section-subtitle">Auto-calculated from fee master · change session/year/course to refresh</p>
+                            <p class="section-subtitle">Auto-calculated from fee master — change session/year/class/course to refresh</p>
                         </div>
+                        <span class="step-badge">2</span>
                     </div>
                     <div class="section-body">
+                        <!-- Fee Mini Cards Grid -->
+                        <div class="fee-mini-grid" id="feeMiniGrid">
+                            <div class="fee-mini-card">
+                                <span class="mini-icon"><i class="fas fa-user-plus"></i></span>
+                                <div class="mini-label">New Student Fee</div>
+                                <div class="mini-value" id="dispNewStudentFee">₹0</div>
+                                <input id="txtNewStudentFee" asp-for="NewStudentFee" type="hidden" value="0">
+                            </div>
+                            <div class="fee-mini-card">
+                                <span class="mini-icon"><i class="fas fa-coins"></i></span>
+                                <div class="mini-label">C-Money</div>
+                                <div class="mini-value" id="dispCMoney">₹0</div>
+                                <input id="txtCMondy" asp-for="CMoney" type="hidden" value="0">
+                            </div>
+                            <div class="fee-mini-card">
+                                <span class="mini-icon"><i class="fas fa-book-open"></i></span>
+                                <div class="mini-label">Tuition Fee</div>
+                                <div class="mini-value" id="dispTutionFee">₹0</div>
+                                <input id="txtTutionFee" asp-for="TutionFee" type="hidden" value="0">
+                            </div>
+                            <div class="fee-mini-card">
+                                <span class="mini-icon"><i class="fas fa-ellipsis-h"></i></span>
+                                <div class="mini-label">Other Fee</div>
+                                <div class="mini-value" id="dispOtherFee">₹0</div>
+                                <input id="txtOtherFee" asp-for="OtherFee" type="hidden" value="0">
+                            </div>
+                        </div>
+
+                        <!-- Total Fee Display -->
                         <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>
-                                        New Student Fee
-                                        <span class="field-badge badge-calc">Calc</span>
-                                    </label>
-                                    <input id="txtNewStudentFee" asp-for="NewStudentFee" type="number" readonly="readonly" class="form-control fee-readonly">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>
-                                        C-Money
-                                        <span class="field-badge badge-calc">Calc</span>
-                                    </label>
-                                    <input id="txtCMondy" asp-for="CMoney" type="number" readonly="readonly" class="form-control fee-readonly">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>
-                                        Tuition Fee
-                                        <span class="field-badge badge-calc">Calc</span>
-                                    </label>
-                                    <input id="txtTutionFee" asp-for="TutionFee" type="number" readonly="readonly" class="form-control fee-readonly">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>
-                                        Other Fee
-                                        <span class="field-badge badge-calc">Calc</span>
-                                    </label>
-                                    <input id="txtOtherFee" asp-for="OtherFee" type="number" readonly="readonly" class="form-control fee-readonly">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="fee-total-box">
-                                    <div class="fee-total-label">Total Fee</div>
+                            <div class="col-md-6">
+                                <div class="fee-total-box total-fee">
+                                    <div class="fee-total-label"><i class="fas fa-calculator fee-total-icon"></i>Total Fee</div>
                                     <div class="fee-total-value" id="txtTotalFeeDisplay">₹0</div>
                                     <input id="txtTotalFee" asp-for="TotalFee" type="hidden">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="fee-total-box after-discount">
+                                    <div class="fee-total-label"><i class="fas fa-tag fee-total-icon"></i>After Discount</div>
+                                    <div class="fee-total-value" id="txtAfterDisDisplay">₹0</div>
+                                    <input id="txtTotalFeeAfterDiscount" asp-for="TotalFeeAfterDiscount" type="hidden">
                                 </div>
                             </div>
                         </div>
 
                         <!-- Discount Row -->
-                        <div class="row mt-3">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>
-                                        Scholarship
-                                        <span class="field-badge badge-edit">Edit</span>
-                                    </label>
-                                    <input asp-for="Scholership" type="number" class="form-control" placeholder="Enter scholarship">
+                        <div class="discount-row mt-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <i class="fas fa-hand-holding-usd mr-1" style="color:#d97706"></i>
+                                            Scholarship Amount
+                                            <span class="field-badge badge-edit">Edit</span>
+                                        </label>
+                                        <input asp-for="Scholership" type="number" class="form-control" placeholder="Enter scholarship amount">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>
-                                        Discount By
-                                        <span class="field-badge badge-edit">Edit</span>
-                                    </label>
-                                    <input asp-for="DisBy" class="form-control" placeholder="Authorized by">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <i class="fas fa-user-tie mr-1" style="color:#d97706"></i>
+                                            Discount By
+                                            <span class="field-badge badge-edit">Edit</span>
+                                        </label>
+                                        <input asp-for="DisBy" class="form-control" placeholder="Authorized by">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>
-                                        Discount Reason
-                                        <span class="field-badge badge-edit">Edit</span>
-                                    </label>
-                                    <input asp-for="DisResion" class="form-control" placeholder="Reason for discount">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="fee-total-box after-discount">
-                                    <div class="fee-total-label">After Discount</div>
-                                    <div class="fee-total-value" id="txtAfterDisDisplay">₹0</div>
-                                    <input id="txtTotalFeeAfterDiscount" asp-for="TotalFeeAfterDiscount" type="hidden">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <i class="fas fa-comment-dots mr-1" style="color:#d97706"></i>
+                                            Discount Reason
+                                            <span class="field-badge badge-edit">Edit</span>
+                                        </label>
+                                        <input asp-for="DisResion" class="form-control" placeholder="Reason for discount">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -696,50 +1205,57 @@
                             <h3 class="section-title">Student Personal Detail</h3>
                             <p class="section-subtitle">Basic student information</p>
                         </div>
+                        <span class="step-badge">3</span>
                     </div>
                     <div class="section-body">
+                        <!-- Name Row Highlight -->
+                        <div class="name-highlight-row">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            First Name
+                                            <span class="field-badge badge-req">Req</span>
+                                        </label>
+                                        <input asp-for="Name" class="form-control" placeholder="Enter first name">
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            Father Name
+                                            <span class="field-badge badge-req">Req</span>
+                                        </label>
+                                        <input asp-for="FatherName" class="form-control" placeholder="Enter father name">
+                                        <span asp-validation-for="FatherName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            Mother Name
+                                            <span class="field-badge badge-req">Req</span>
+                                        </label>
+                                        <input asp-for="MotherName" class="form-control" placeholder="Enter mother name">
+                                        <span asp-validation-for="MotherName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>
-                                        First Name
-                                        <span class="field-badge badge-req">Req</span>
-                                    </label>
-                                    <input asp-for="Name" class="form-control" placeholder="Enter first name">
-                                    <span asp-validation-for="Name" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>
-                                        Father Name
-                                        <span class="field-badge badge-req">Req</span>
-                                    </label>
-                                    <input asp-for="FatherName" class="form-control" placeholder="Enter father name">
-                                    <span asp-validation-for="FatherName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>
-                                        Mother Name
-                                        <span class="field-badge badge-req">Req</span>
-                                    </label>
-                                    <input asp-for="MotherName" class="form-control" placeholder="Enter mother name">
-                                    <span asp-validation-for="MotherName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-lg-3 col-md-4 col-sm-6">
                                 <div class="form-group">
                                     <label>
                                         Mobile No
                                         <span class="field-badge badge-req">Req</span>
                                     </label>
-                                    <input asp-for="MobileNo" class="form-control" placeholder="10-digit mobile">
+                                    <input asp-for="MobileNo" class="form-control" placeholder="10-digit mobile" maxlength="10">
                                     <span asp-validation-for="MobileNo" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-lg-3 col-md-4 col-sm-6">
                                 <div class="form-group">
                                     <label>
                                         Date of Birth
@@ -749,7 +1265,7 @@
                                     <span asp-validation-for="DOB" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-3 col-md-4 col-sm-6">
                                 <div class="form-group">
                                     <label>
                                         Gender
@@ -763,7 +1279,7 @@
                                     <span asp-validation-for="Gender" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-3 col-md-4 col-sm-6">
                                 <div class="form-group">
                                     <label>
                                         Caste
@@ -784,15 +1300,17 @@
                 </div>
 
                 <!-- ===== ACTION BUTTONS ===== -->
-                <div class="btn-bar">
-                    <button class="btn-update" type="submit">
-                        <i class="fas fa-save"></i>
-                        Change Save
-                    </button>
-                    <a class="btn-exit" href="../Admission/Index">
-                        <i class="fas fa-arrow-left"></i>
-                        Exit
-                    </a>
+                <div class="section-card" style="background: transparent; border: none; box-shadow: none;">
+                    <div class="btn-bar">
+                        <button class="btn-update" type="submit">
+                            <i class="fas fa-save"></i>
+                            Save Changes
+                        </button>
+                        <a class="btn-exit" href="../Admission/Index">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to List
+                        </a>
+                    </div>
                 </div>
 
             </form>
@@ -808,6 +1326,7 @@
 
     <script type="text/javascript">
         var BASE_URL = "@baseUrl";
+        var Toast;
 
         var varSession = "";
         var varYear = "";
@@ -820,18 +1339,62 @@
             return '₹' + n.toLocaleString('en-IN');
         }
 
-        /* ===== Sync display boxes with hidden inputs ===== */
+        /* ===== Sync all fee display elements ===== */
         function syncFeeDisplay() {
+            var newFee  = parseFloat($('#txtNewStudentFee').val()) || 0;
+            var cMoney  = parseFloat($('#txtCMondy').val()) || 0;
+            var tFee    = parseFloat($('#txtTutionFee').val()) || 0;
+            var oFee    = parseFloat($('#txtOtherFee').val()) || 0;
             var totalFee = parseFloat($('#txtTotalFee').val()) || 0;
-            var afterDis  = parseFloat($('#txtTotalFeeAfterDiscount').val()) || 0;
+            var afterDis = parseFloat($('#txtTotalFeeAfterDiscount').val()) || 0;
+
+            /* Mini cards */
+            $('#dispNewStudentFee').text(formatCurrency(newFee));
+            $('#dispCMoney').text(formatCurrency(cMoney));
+            $('#dispTutionFee').text(formatCurrency(tFee));
+            $('#dispOtherFee').text(formatCurrency(oFee));
+
+            /* Total boxes */
             $('#txtTotalFeeDisplay').text(formatCurrency(totalFee));
             $('#txtAfterDisDisplay').text(formatCurrency(afterDis));
         }
 
+        /* ===== Animate fee value change ===== */
+        function animateFeeChange(elementId) {
+            var $el = $(elementId);
+            $el.css({ transform: 'scale(1.15)', transition: '.3s' });
+            setTimeout(function () {
+                $el.css({ transform: 'scale(1)' });
+            }, 300);
+        }
+
+        /* ===== Update banner info chips ===== */
+        function updateBannerChips() {
+            var regNo = $('#RegNo').val() || '—';
+            var cls = $('#ddlClass').val() || '—';
+            var course = $('#ddlSubject').val() || '—';
+            $('#bannerRegNo').text(regNo);
+            $('#bannerClass').text(cls);
+            $('#bannerCourse').text(course);
+        }
+
         window.onload = function () {
 
-            /* Scholarship change → recalculate discount */
-            $("#Scholership").change(function () {
+            /* SweetAlert2 Toast */
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true,
+                didOpen: function (toast) {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+
+            /* Scholarship change → recalculate discount (real-time) */
+            $("#Scholership").on('input change', function () {
                 var varScholership = this.value;
                 if (varScholership !== "" && varScholership !== "0") {
                     var scholershipAmount = parseFloat(varScholership) || 0;
@@ -843,11 +1406,13 @@
                     $('#txtTotalFeeAfterDiscount').val(totalFeeAmount);
                 }
                 syncFeeDisplay();
+                animateFeeChange('#txtAfterDisDisplay');
             });
 
             /* Dropdowns → trigger fee fetch when all 4 are selected */
             $("#ddlSession").change(function () {
                 varSession = this.value;
+                updateBannerChips();
                 if (varSession && varYear && varSubject && varClass) FillFeeeDetail();
             });
             $("#ddlYear").change(function () {
@@ -856,18 +1421,28 @@
             });
             $("#ddlSubject").change(function () {
                 varSubject = this.value;
+                updateBannerChips();
                 if (varSession && varYear && varSubject && varClass) FillFeeeDetail();
             });
             $("#ddlClass").change(function () {
                 varClass = this.value;
+                updateBannerChips();
                 if (varSession && varYear && varSubject && varClass) FillFeeeDetail();
             });
 
-            /* Initial sync on page load to display existing values */
+            /* Initial sync — display existing model values */
             syncFeeDisplay();
+            updateBannerChips();
         };
 
+        function Alert(icon, title) {
+            Toast.fire({ icon: icon, title: title });
+        }
+
         function FillFeeeDetail() {
+            /* Show loading state */
+            $('#feeMiniGrid').addClass('fee-loading');
+
             if (varSession && varYear && varSubject && varClass) {
                 $.post(BASE_URL + "/Admission/StudentPaymentDetail", {
                     classname: varClass,
@@ -875,6 +1450,8 @@
                     session: varSession,
                     year: varYear
                 }, function (res) {
+                    $('#feeMiniGrid').removeClass('fee-loading');
+
                     var Feedetail = res.data.feeMasterDetail;
                     if (Feedetail != null && Feedetail != '') {
                         $('#txtNewStudentFee').val(Feedetail.newStudentFee);
@@ -884,7 +1461,18 @@
                         $('#txtTotalFee').val(Feedetail.totalFee);
                         $('#txtTotalFeeAfterDiscount').val(Feedetail.totalFee);
                         syncFeeDisplay();
+
+                        /* Animate total boxes */
+                        animateFeeChange('#txtTotalFeeDisplay');
+                        animateFeeChange('#txtAfterDisDisplay');
+
+                        Alert('success', 'Fee details refreshed!');
+                    } else {
+                        Alert('warning', 'Fee not found for selected combination.');
                     }
+                }).fail(function () {
+                    $('#feeMiniGrid').removeClass('fee-loading');
+                    Alert('error', 'Error fetching fee details.');
                 });
             }
         }

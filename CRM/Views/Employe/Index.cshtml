@@ -1,0 +1,1241 @@
+﻿@model YourApp.Models.Employee
+@{ ViewData["Title"] = "Employee Registration";
+                Layout = null; // Set to your layout if needed }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        /* ═══════════════════════════════════════════ */
+        /* CSS Variables & Reset                       */
+        /* ═══════════════════════════════════════════ */
+        :root {
+            --bg: #0c0f14;
+            --bg-card: #151922;
+            --bg-card-hover: #1a1f2b;
+            --bg-input: #1c2230;
+            --fg: #e8ecf1;
+            --fg-muted: #7a8599;
+            --accent: #00d68f;
+            --accent-dim: rgba(0, 214, 143, 0.12);
+            --accent-glow: rgba(0, 214, 143, 0.3);
+            --accent-dark: #00a66e;
+            --border: #252d3a;
+            --border-focus: #00d68f;
+            --danger: #ff4d6a;
+            --warning: #ffb547;
+            --info: #3ea8ff;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.3);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /* Animated Background                         */
+        /* ═══════════════════════════════════════════ */
+        .bg-orbs {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+        }
+        .bg-orbs .orb {
+            position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.15;
+            animation: orbFloat 20s ease-in-out infinite alternate;
+        }
+        .bg-orbs .orb:nth-child(1) {
+            width: 600px; height: 600px; background: var(--accent);
+            top: -200px; left: -150px; animation-duration: 25s;
+        }
+        .bg-orbs .orb:nth-child(2) {
+            width: 450px; height: 450px; background: #ff4d6a;
+            bottom: -150px; right: -100px; animation-duration: 22s; animation-delay: -5s;
+        }
+        .bg-orbs .orb:nth-child(3) {
+            width: 350px; height: 350px; background: #3ea8ff;
+            top: 50%; left: 60%; animation-duration: 18s; animation-delay: -10s;
+        }
+        @keyframes orbFloat {
+            0%   { transform: translate(0, 0) scale(1); }
+            33%  { transform: translate(40px, -30px) scale(1.1); }
+            66%  { transform: translate(-30px, 20px) scale(0.95); }
+            100% { transform: translate(20px, -10px) scale(1.05); }
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /* Grid Pattern Overlay                        */
+        /* ═══════════════════════════════════════════ */
+        .grid-overlay {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /* Main Container                              */
+        /* ═══════════════════════════════════════════ */
+        .main-container {
+            position: relative; z-index: 1;
+            max-width: 960px; margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /* Header                                      */
+        /* ═══════════════════════════════════════════ */
+        .form-header {
+            text-align: center; margin-bottom: 48px;
+            animation: fadeInDown 0.7s ease-out;
+        }
+        .form-header .badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--accent-dim); color: var(--accent);
+            padding: 6px 16px; border-radius: 999px; font-size: 13px;
+            font-weight: 600; letter-spacing: 0.5px; margin-bottom: 16px;
+            border: 1px solid rgba(0,214,143,0.2);
+        }
+        .form-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(28px, 5vw, 44px); font-weight: 800;
+            line-height: 1.1; margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .form-header p {
+            color: var(--fg-muted); font-size: 16px; max-width: 500px; margin: 0 auto;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /* Step Indicator                              */
+        /* ═══════════════════════════════════════════ */
+        .step-indicator {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0; margin-bottom: 40px; flex-wrap: wrap;
+            animation: fadeInUp 0.7s ease-out 0.15s both;
+        }
+        .step-item {
+            display: flex; align-items: center; gap: 0;
+        }
+        .step-circle {
+            width: 44px; height: 44px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700;
+            border: 2px solid var(--border); color: var(--fg-muted);
+            background: var(--bg-card); transition: var(--transition);
+            position: relative; flex-shrink: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+        .step-circle i { font-size: 16px; }
+        .step-label {
+            font-size: 11px; color: var(--fg-muted); font-weight: 500;
+            position: absolute; top: 50px; white-space: nowrap;
+            transition: var(--transition);
+        }
+        .step-line {
+            width: 50px; height: 2px; background: var(--border);
+            transition: var(--transition); flex-shrink: 0;
+        }
+        .step-item.active .step-circle {
+            border-color: var(--accent); color: var(--bg);
+            background: var(--accent); box-shadow: 0 0 20px var(--accent-glow);
+        }
+        .step-item.active .step-label { color: var(--accent); }
+        .step-item.completed .step-circle {
+            border-color: var(--accent); color: #fff;
+            background: var(--accent-dark);
+        }
+        .step-item.completed .step-label { color: var(--accent-dark); }
+        .step-line.active { background: var(--accent); }
+        .step-line.completed { background: var(--accent-dark); }
+
+        /* ═══════════════════════════════════════════ */
+        /* Form Card                                   */
+        /* ═══════════════════════════════════════════ */
+        .form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            position: relative; overflow: hidden;
+            animation: fadeInUp 0.7s ease-out 0.3s both;
+        }
+        .form-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-dark), var(--info));
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /* Step Sections                               */
+        /* ═══════════════════════════════════════════ */
+        .step-section {
+            display: none;
+            animation: stepFadeIn 0.4s ease-out;
+        }
+        .step-section.active { display: block; }
+
+        @keyframes stepFadeIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px; font-weight: 700;
+            margin-bottom: 6px; color: var(--fg);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .section-title i { color: var(--accent); font-size: 20px; }
+        .section-subtitle {
+            color: var(--fg-muted); font-size: 14px; margin-bottom: 28px;
+            padding-bottom: 20px; border-bottom: 1px solid var(--border);
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /* Form Fields                                 */
+        /* ═══════════════════════════════════════════ */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .form-grid .full-width { grid-column: 1 / -1; }
+
+        .form-group {
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .form-group label {
+            font-size: 13px; font-weight: 600; color: var(--fg-muted);
+            letter-spacing: 0.3px;
+        }
+        .form-group label .required {
+            color: var(--danger); margin-left: 2px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: var(--bg-input); border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm); padding: 12px 14px;
+            color: var(--fg); font-size: 14px; font-family: 'DM Sans', sans-serif;
+            transition: var(--transition); outline: none;
+            width: 100%;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #4a5568;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px var(--accent-dim);
+            background: #1e2636;
+        }
+        .form-group input.invalid,
+        .form-group select.invalid {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px rgba(255,77,106,0.12);
+        }
+
+        .form-group select { cursor: pointer; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%237a8599' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 14px center;
+            padding-right: 36px;
+        }
+        .form-group select option { background: var(--bg-card); color: var(--fg); }
+
+        .form-group textarea { resize: vertical; min-height: 90px; }
+
+        .error-msg {
+            font-size: 12px; color: var(--danger);
+            display: none; align-items: center; gap: 4px; margin-top: 2px;
+        }
+        .error-msg.show { display: flex; }
+        .error-msg i { font-size: 11px; }
+
+        /* ═══════════════════════════════════════════ */
+        /* Photo Upload                                */
+        /* ═══════════════════════════════════════════ */
+        .photo-upload-area {
+            display: flex; align-items: center; gap: 20px;
+            padding: 20px; border: 2px dashed var(--border);
+            border-radius: var(--radius); background: var(--bg-input);
+            transition: var(--transition); cursor: pointer;
+        }
+        .photo-upload-area:hover {
+            border-color: var(--accent); background: var(--accent-dim);
+        }
+        .photo-preview {
+            width: 90px; height: 90px; border-radius: 50%;
+            background: var(--border); display: flex;
+            align-items: center; justify-content: center;
+            overflow: hidden; flex-shrink: 0;
+            border: 3px solid var(--border);
+            transition: var(--transition);
+        }
+        .photo-preview img {
+            width: 100%; height: 100%; object-fit: cover; display: none;
+        }
+        .photo-preview i { font-size: 30px; color: var(--fg-muted); }
+        .photo-preview.has-image i { display: none; }
+        .photo-preview.has-image img { display: block; }
+        .photo-preview.has-image { border-color: var(--accent); }
+        .photo-text h4 { font-size: 14px; font-weight: 600; color: var(--fg); }
+        .photo-text p { font-size: 12px; color: var(--fg-muted); margin-top: 4px; }
+
+        /* ═══════════════════════════════════════════ */
+        /* Toggle Switch                               */
+        /* ═══════════════════════════════════════════ */
+        .toggle-wrapper {
+            display: flex; align-items: center; gap: 14px; padding: 16px 0;
+        }
+        .toggle {
+            position: relative; width: 52px; height: 28px;
+        }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .toggle .slider {
+            position: absolute; inset: 0; background: var(--border);
+            border-radius: 999px; cursor: pointer; transition: var(--transition);
+        }
+        .toggle .slider::before {
+            content: ''; position: absolute; width: 22px; height: 22px;
+            left: 3px; bottom: 3px; background: #fff;
+            border-radius: 50%; transition: var(--transition);
+        }
+        .toggle input:checked + .slider { background: var(--accent); }
+        .toggle input:checked + .slider::before { transform: translateX(24px); }
+        .toggle-label { font-size: 14px; font-weight: 600; }
+        .toggle-status {
+            font-size: 12px; padding: 3px 10px; border-radius: 999px;
+            font-weight: 600; letter-spacing: 0.5px;
+        }
+        .toggle-status.active { background: var(--accent-dim); color: var(--accent); }
+        .toggle-status.inactive { background: rgba(255,77,106,0.12); color: var(--danger); }
+
+        /* ═══════════════════════════════════════════ */
+        /* Buttons                                     */
+        /* ═══════════════════════════════════════════ */
+        .form-actions {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 36px; padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 28px; border-radius: var(--radius-sm);
+            font-size: 14px; font-weight: 600; border: none;
+            cursor: pointer; transition: var(--transition);
+            font-family: 'DM Sans', sans-serif; outline: none;
+        }
+        .btn-prev {
+            background: var(--bg-input); color: var(--fg-muted);
+            border: 1.5px solid var(--border);
+        }
+        .btn-prev:hover { background: var(--border); color: var(--fg); }
+        .btn-next {
+            background: var(--accent); color: var(--bg);
+        }
+        .btn-next:hover {
+            background: var(--accent-dark);
+            box-shadow: 0 4px 20px var(--accent-glow);
+            transform: translateY(-1px);
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #fff; padding: 14px 36px; font-size: 15px;
+        }
+        .btn-submit:hover {
+            box-shadow: 0 6px 30px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+        .btn:active { transform: scale(0.97); }
+
+        /* ═══════════════════════════════════════════ */
+        /* Review Section                              */
+        /* ═══════════════════════════════════════════ */
+        .review-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+        .review-item {
+            padding: 14px; background: var(--bg-input);
+            border-radius: var(--radius-sm); border: 1px solid var(--border);
+        }
+        .review-item .r-label {
+            font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
+            color: var(--fg-muted); font-weight: 600; margin-bottom: 4px;
+        }
+        .review-item .r-value {
+            font-size: 14px; color: var(--fg); font-weight: 500;
+            word-break: break-all;
+        }
+        .review-item .r-value.empty { color: #4a5568; font-style: italic; }
+        .review-section-title {
+            font-size: 15px; font-weight: 700; color: var(--accent);
+            margin: 20px 0 12px; display: flex; align-items: center; gap: 8px;
+            font-family: 'Outfit', sans-serif;
+        }
+        .review-photo {
+            display: flex; justify-content: center; margin-bottom: 20px;
+        }
+        .review-photo img {
+            width: 100px; height: 100px; border-radius: 50%;
+            object-fit: cover; border: 3px solid var(--accent);
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /* Toast Notification                          */
+        /* ═══════════════════════════════════════════ */
+        .toast {
+            position: fixed; top: 24px; right: 24px; z-index: 9999;
+            padding: 16px 24px; border-radius: var(--radius-sm);
+            font-size: 14px; font-weight: 600;
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .toast.show { transform: translateX(0); }
+        .toast.success { background: var(--accent); color: var(--bg); }
+        .toast.error { background: var(--danger); color: #fff; }
+
+        /* ═══════════════════════════════════════════ */
+        /* Animations                                  */
+        /* ═══════════════════════════════════════════ */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /* Responsive                                  */
+        /* ═══════════════════════════════════════════ */
+        @media (max-width: 640px) {
+            .form-card { padding: 24px 18px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .review-grid { grid-template-columns: 1fr; }
+            .step-line { width: 24px; }
+            .step-label { display: none; }
+            .form-actions { flex-wrap: wrap; gap: 10px; }
+            .btn { flex: 1; justify-content: center; }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animated Background -->
+    <div class="bg-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+    <div class="grid-overlay"></div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg">Success!</span>
+    </div>
+
+    <main class="main-container">
+
+        <!-- Header -->
+        <header class="form-header">
+            <div class="badge">
+                <i class="fa-solid fa-building-columns"></i>
+                Employee Management System
+            </div>
+            <h1>Employee Registration</h1>
+            <p>Fill in the details step by step to complete the employee registration process</p>
+        </header>
+
+        <!-- Step Indicator -->
+        <nav class="step-indicator" aria-label="Form steps">
+            <div class="step-item active" data-step="1">
+                <div class="step-circle"><i class="fa-solid fa-user"></i></div>
+                <span class="step-label">Personal</span>
+            </div>
+            <div class="step-line" data-line="1"></div>
+            <div class="step-item" data-step="2">
+                <div class="step-circle"><i class="fa-solid fa-phone"></i></div>
+                <span class="step-label">Contact</span>
+            </div>
+            <div class="step-line" data-line="2"></div>
+            <div class="step-item" data-step="3">
+                <div class="step-circle"><i class="fa-solid fa-graduation-cap"></i></div>
+                <span class="step-label">Education</span>
+            </div>
+            <div class="step-line" data-line="3"></div>
+            <div class="step-item" data-step="4">
+                <div class="step-circle"><i class="fa-solid fa-briefcase"></i></div>
+                <span class="step-label">Professional</span>
+            </div>
+            <div class="step-line" data-line="4"></div>
+            <div class="step-item" data-step="5">
+                <div class="step-circle"><i class="fa-solid fa-file-signature"></i></div>
+                <span class="step-label">Appointment</span>
+            </div>
+            <div class="step-line" data-line="5"></div>
+            <div class="step-item" data-step="6">
+                <div class="step-circle"><i class="fa-solid fa-building-columns"></i></div>
+                <span class="step-label">Bank & Status</span>
+            </div>
+            <div class="step-line" data-line="6"></div>
+            <div class="step-item" data-step="7">
+                <div class="step-circle"><i class="fa-solid fa-check-double"></i></div>
+                <span class="step-label">Review</span>
+            </div>
+        </nav>
+
+        <!-- Form Card -->
+        <div class="form-card">
+            @* In actual MVC: using (Html.BeginForm("Create", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" })) *@
+            <form id="employeeForm" method="post" action="/Employee/Create" novalidate>
+
+                @Html.AntiForgeryToken()
+
+                <!-- ═══════════ STEP 1: Personal Info ═══════════ -->
+                <section class="step-section active" data-section="1">
+                    <h2 class="section-title">
+                        <i class="fa-solid fa-user"></i> Personal Information
+                    </h2>
+                    <p class="section-subtitle">Enter the employee's basic personal details</p>
+
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Photo</label>
+                            <div class="photo-upload-area" onclick="document.getElementById('PhotoUpload').click()">
+                                <div class="photo-preview" id="photoPreview">
+                                    <i class="fa-solid fa-camera"></i>
+                                    <img id="photoImg" src="" alt="Preview" />
+                                </div>
+                                <div class="photo-text">
+                                    <h4>Upload Photo</h4>
+                                    <p>Click to browse. JPG/PNG, max 2MB</p>
+                                </div>
+                            </div>
+                            <input type="file" id="PhotoUpload" name="PhotoUpload" accept="image/*"
+                                   style="display:none" onchange="previewPhoto(this)" />
+                            <input type="hidden" id="Photo" name="Photo" value="" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Name <span class="required">*</span></label>
+                            <input type="text" name="Name" id="Name" placeholder="Enter full name" required />
+                            <span class="error-msg" id="err-Name"><i class="fa-solid fa-circle-exclamation"></i> Name is required</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Father's Name <span class="required">*</span></label>
+                            <input type="text" name="FatherName" id="FatherName" placeholder="Enter father's name" required />
+                            <span class="error-msg" id="err-FatherName"><i class="fa-solid fa-circle-exclamation"></i> Father's Name is required</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mother's Name <span class="required">*</span></label>
+                            <input type="text" name="MotherName" id="MotherName" placeholder="Enter mother's name" required />
+                            <span class="error-msg" id="err-MotherName"><i class="fa-solid fa-circle-exclamation"></i> Mother's Name is required</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Date of Birth <span class="required">*</span></label>
+                            <input type="date" name="DOB" id="DOB" required />
+                            <span class="error-msg" id="err-DOB"><i class="fa-solid fa-circle-exclamation"></i> Date of Birth is required</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cast</label>
+                            <select name="Cast" id="Cast">
+                                <option value="">-- Select Cast --</option>
+                                <option value="General">General</option>
+                                <option value="OBC">OBC</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                                <option value="EWS">EWS</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Aadhar No <span class="required">*</span></label>
+                            <input type="text" name="AadharNo" id="AadharNo" placeholder="12-digit Aadhar No" maxlength="12" required />
+                            <span class="error-msg" id="err-AadharNo"><i class="fa-solid fa-circle-exclamation"></i> Valid 12-digit Aadhar required</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>PAN No</label>
+                            <input type="text" name="PanNo" id="PanNo" placeholder="e.g. ABCDE1234F" maxlength="10" style="text-transform:uppercase" />
+                            <span class="error-msg" id="err-PanNo"><i class="fa-solid fa-circle-exclamation"></i> Invalid PAN format</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══════════ STEP 2: Contact Details ═══════════ -->
+                <section class="step-section" data-section="2">
+                    <h2 class="section-title">
+                        <i class="fa-solid fa-phone"></i> Contact Details
+                    </h2>
+                    <p class="section-subtitle">How can we reach the employee?</p>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Mobile No <span class="required">*</span></label>
+                            <input type="tel" name="MobileNo" id="MobileNo" placeholder="10-digit Mobile No" maxlength="10" required />
+                            <span class="error-msg" id="err-MobileNo"><i class="fa-solid fa-circle-exclamation"></i> Valid 10-digit Mobile required</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>WhatsApp No</label>
+                            <input type="tel" name="WhatsupNo" id="WhatsupNo" placeholder="WhatsApp No" maxlength="10" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="EmailAddress" id="EmailAddress" placeholder="email@example.com" />
+                            <span class="error-msg" id="err-EmailAddress"><i class="fa-solid fa-circle-exclamation"></i> Invalid email format</span>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Address <span class="required">*</span></label>
+                            <textarea name="Address" id="Address" placeholder="Enter full address" required></textarea>
+                            <span class="error-msg" id="err-Address"><i class="fa-solid fa-circle-exclamation"></i> Address is required</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Pin Code</label>
+                            <input type="text" name="PinCode" id="PinCode" placeholder="6-digit Pin Code" maxlength="6" />
+                            <span class="error-msg" id="err-PinCode"><i class="fa-solid fa-circle-exclamation"></i> Invalid Pin Code</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══════════ STEP 3: Educational Qualifications ═══════════ -->
+                <section class="step-section" data-section="3">
+                    <h2 class="section-title">
+                        <i class="fa-solid fa-graduation-cap"></i> Educational Qualifications
+                    </h2>
+                    <p class="section-subtitle">Enter academic qualifications and specialization details</p>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>UG (Under Graduate)</label>
+                            <input type="text" name="UP" id="UP" placeholder="e.g. B.Sc, B.Com" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>PG (Post Graduate)</label>
+                            <input type="text" name="PG" id="PG" placeholder="e.g. M.Sc, M.A" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>B.Ed</label>
+                            <input type="text" name="BED" id="BED" placeholder="B.Ed details" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>M.Ed</label>
+                            <input type="text" name="MED" id="MED" placeholder="M.Ed details" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Other Qualification 1</label>
+                            <input type="text" name="Other1" id="Other1" placeholder="Any other qualification" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Other Qualification 2</label>
+                            <input type="text" name="Other2" id="Other2" placeholder="Any other qualification" />
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Specialization</label>
+                            <input type="text" name="Specialization" id="Specialization" placeholder="e.g. Mathematics, Physics, English" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══════════ STEP 4: Professional Details ═══════════ -->
+                <section class="step-section" data-section="4">
+                    <h2 class="section-title">
+                        <i class="fa-solid fa-briefcase"></i> Professional Details
+                    </h2>
+                    <p class="section-subtitle">Job role, department, and experience information</p>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Designation <span class="required">*</span></label>
+                            <select name="Designation" id="Designation" required>
+                                <option value="">-- Select Designation --</option>
+                                <option value="Professor">Professor</option>
+                                <option value="Associate Professor">Associate Professor</option>
+                                <option value="Assistant Professor">Assistant Professor</option>
+                                <option value="Lecturer">Lecturer</option>
+                                <option value="Senior Lecturer">Senior Lecturer</option>
+                                <option value="HOD">HOD</option>
+                                <option value="Principal">Principal</option>
+                                <option value="Vice Principal">Vice Principal</option>
+                                <option value="Lab Assistant">Lab Assistant</option>
+                                <option value="Clerk">Clerk</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span class="error-msg" id="err-Designation"><i class="fa-solid fa-circle-exclamation"></i> Designation is required</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Code 28 Designation</label>
+                            <input type="text" name="Code28Designation" id="Code28Designation" placeholder="Code 28 designation" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Department <span class="required">*</span></label>
+                            <select name="Department" id="Department" required>
+                                <option value="">-- Select Department --</option>
+                                <option value="Science">Science</option>
+                                <option value="Arts">Arts</option>
+                                <option value="Commerce">Commerce</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Management">Management</option>
+                                <option value="Education">Education</option>
+                                <option value="Law">Law</option>
+                                <option value="Medicine">Medicine</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Physical Education">Physical Education</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span class="error-msg" id="err-Department"><i class="fa-solid fa-circle-exclamation"></i> Department is required</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" name="Subject" id="Subject" placeholder="Teaching subject" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>College Name <span class="required">*</span></label>
+                            <input type="text" name="CollegeName" id="CollegeName" placeholder="Enter college name" required />
+                            <span class="error-msg" id="err-CollegeName"><i class="fa-solid fa-circle-exclamation"></i> College Name is required</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Teaching Experience</label>
+                            <input type="text" name="TeachingExperience" id="TeachingExperience" placeholder="e.g. 5 Years" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══════════ STEP 5: Appointment Details ═══════════ -->
+                <section class="step-section" data-section="5">
+                    <h2 class="section-title">
+                        <i class="fa-solid fa-file-signature"></i> Appointment Details
+                    </h2>
+                    <p class="section-subtitle">Official appointment and joining information</p>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Notification No</label>
+                            <input type="text" name="NotificationNo" id="NotificationNo" placeholder="Notification number" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Notification Date</label>
+                            <input type="date" name="Date" id="Date" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Appointment Order No</label>
+                            <input type="text" name="AppointmentOrderNo" id="AppointmentOrderNo" placeholder="Order number" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Appointment Date</label>
+                            <input type="date" name="AppointDate" id="AppointDate" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Joining Date</label>
+                            <input type="date" name="JointingDate" id="JointingDate" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Pay Scale</label>
+                            <input type="text" name="PayScale" id="PayScale" placeholder="e.g. 15600-39100+GP 6000" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══════════ STEP 6: Bank & Status ═══════════ -->
+                <section class="step-section" data-section="6">
+                    <h2 class="section-title">
+                        <i class="fa-solid fa-building-columns"></i> Bank Details & Status
+                    </h2>
+                    <p class="section-subtitle">Salary bank account and employment status</p>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            <input type="text" name="BankName" id="BankName" placeholder="Enter bank name" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Account No</label>
+                            <input type="text" name="AcNo" id="AcNo" placeholder="Enter account number" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>IFSC Code</label>
+                            <input type="text" name="IFSC" id="IFSC" placeholder="e.g. SBIN0001234" maxlength="11" style="text-transform:uppercase" />
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Employment Status</label>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" name="ActiveUnactive" id="ActiveUnactive" checked value="true" />
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="toggle-label" id="toggleText">Active</span>
+                                <span class="toggle-status active" id="toggleStatus">ACTIVE</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══════════ STEP 7: Review & Submit ═══════════ -->
+                <section class="step-section" data-section="7">
+                    <h2 class="section-title">
+                        <i class="fa-solid fa-check-double"></i> Review & Submit
+                    </h2>
+                    <p class="section-subtitle">Verify all details before submitting the form</p>
+
+                    <div id="reviewContent"></div>
+                </section>
+
+                <!-- ═══════════ Navigation Buttons ═══════════ -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-prev" id="btnPrev" style="visibility:hidden" onclick="navigateStep(-1)">
+                        <i class="fa-solid fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" class="btn btn-next" id="btnNext" onclick="navigateStep(1)">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button type="submit" class="btn btn-submit" id="btnSubmit" style="display:none">
+                        <i class="fa-solid fa-paper-plane"></i> Submit Registration
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // ═══════════════════════════════════════════════════
+        // Multi-Step Form Logic
+        // ═══════════════════════════════════════════════════
+        let currentStep = 1;
+        const totalSteps = 7;
+
+        // Navigate between steps
+        function navigateStep(direction) {
+            const nextStep = currentStep + direction;
+
+            // Validate current step before going forward
+            if (direction > 0 && !validateStep(currentStep)) {
+                return;
+            }
+
+            // Build review on last step
+            if (nextStep === totalSteps) {
+                buildReview();
+            }
+
+            if (nextStep < 1 || nextStep > totalSteps) return;
+
+            // Hide current, show next
+            document.querySelector(`.step-section[data-section="${currentStep}"]`).classList.remove('active');
+            document.querySelector(`.step-section[data-section="${nextStep}"]`).classList.add('active');
+
+            currentStep = nextStep;
+            updateStepIndicator();
+            updateButtons();
+        }
+
+        // Update the step indicator visual state
+        function updateStepIndicator() {
+            document.querySelectorAll('.step-item').forEach(item => {
+                const step = parseInt(item.dataset.step);
+                item.classList.remove('active', 'completed');
+                if (step === currentStep) item.classList.add('active');
+                else if (step < currentStep) item.classList.add('completed');
+            });
+            document.querySelectorAll('.step-line').forEach(line => {
+                const lineStep = parseInt(line.dataset.line);
+                line.classList.remove('active', 'completed');
+                if (lineStep < currentStep) line.classList.add('completed');
+                else if (lineStep === currentStep) line.classList.add('active');
+            });
+        }
+
+        // Update button visibility
+        function updateButtons() {
+            const btnPrev = document.getElementById('btnPrev');
+            const btnNext = document.getElementById('btnNext');
+            const btnSubmit = document.getElementById('btnSubmit');
+
+            btnPrev.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+            btnNext.style.display = currentStep === totalSteps ? 'none' : 'inline-flex';
+            btnSubmit.style.display = currentStep === totalSteps ? 'inline-flex' : 'none';
+        }
+
+        // ═══════════════════════════════════════════════════
+        // Validation per step
+        // ═══════════════════════════════════════════════════
+        const stepValidations = {
+            1: ['Name', 'FatherName', 'MotherName', 'DOB', 'AadharNo'],
+            2: ['MobileNo', 'Address'],
+            3: [], // All optional
+            4: ['Designation', 'Department', 'CollegeName'],
+            5: [], // All optional
+            6: []  // All optional
+        };
+
+        function validateStep(step) {
+            const fields = stepValidations[step] || [];
+            let valid = true;
+
+            // Clear previous errors
+            document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show'));
+            document.querySelectorAll('.form-group input, .form-group select, .form-group textarea')
+                .forEach(e => e.classList.remove('invalid'));
+
+            fields.forEach(fieldName => {
+                const el = document.getElementById(fieldName);
+                if (!el) return;
+                let fieldValid = true;
+
+                if (!el.value.trim()) {
+                    fieldValid = false;
+                }
+
+                // Aadhar validation: 12 digits
+                if (fieldName === 'AadharNo' && el.value.trim() && !/^\d{12}$/.test(el.value.trim())) {
+                    fieldValid = false;
+                }
+
+                // Mobile validation: 10 digits
+                if (fieldName === 'MobileNo' && el.value.trim() && !/^\d{10}$/.test(el.value.trim())) {
+                    fieldValid = false;
+                }
+
+                // Email validation
+                if (fieldName === 'EmailAddress' && el.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim())) {
+                    fieldValid = false;
+                }
+
+                if (!fieldValid) {
+                    valid = false;
+                    el.classList.add('invalid');
+                    const errEl = document.getElementById('err-' + fieldName);
+                    if (errEl) errEl.classList.add('show');
+                }
+            });
+
+            // Also validate optional fields that have values but are malformed
+            if (step === 1) {
+                const panEl = document.getElementById('PanNo');
+                if (panEl.value.trim() && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i.test(panEl.value.trim())) {
+                    valid = false;
+                    panEl.classList.add('invalid');
+                    document.getElementById('err-PanNo').classList.add('show');
+                }
+            }
+
+            if (step === 2) {
+                const emailEl = document.getElementById('EmailAddress');
+                if (emailEl.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
+                    valid = false;
+                    emailEl.classList.add('invalid');
+                    document.getElementById('err-EmailAddress').classList.add('show');
+                }
+                const pinEl = document.getElementById('PinCode');
+                if (pinEl.value.trim() && !/^\d{6}$/.test(pinEl.value.trim())) {
+                    valid = false;
+                    pinEl.classList.add('invalid');
+                    document.getElementById('err-PinCode').classList.add('show');
+                }
+            }
+
+            if (!valid) {
+                showToast('Please fix the errors before continuing', 'error');
+            }
+
+            return valid;
+        }
+
+        // ═══════════════════════════════════════════════════
+        // Photo Upload Preview
+        // ═══════════════════════════════════════════════════
+        function previewPhoto(input) {
+            const preview = document.getElementById('photoPreview');
+            const img = document.getElementById('photoImg');
+
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                if (file.size > 2 * 1024 * 1024) {
+                    showToast('Photo must be under 2MB', 'error');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                    preview.classList.add('has-image');
+                    // Store base64 for hidden field
+                    document.getElementById('Photo').value = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════
+        // Toggle Switch
+        // ═══════════════════════════════════════════════════
+        document.getElementById('ActiveUnactive').addEventListener('change', function() {
+            const text = document.getElementById('toggleText');
+            const status = document.getElementById('toggleStatus');
+            if (this.checked) {
+                text.textContent = 'Active';
+                status.textContent = 'ACTIVE';
+                status.className = 'toggle-status active';
+                this.value = 'true';
+            } else {
+                text.textContent = 'Inactive';
+                status.textContent = 'INACTIVE';
+                status.className = 'toggle-status inactive';
+                this.value = 'false';
+            }
+        });
+
+        // ═══════════════════════════════════════════════════
+        // Build Review Section
+        // ═══════════════════════════════════════════════════
+        function buildReview() {
+            const container = document.getElementById('reviewContent');
+
+            const getVal = (id) => {
+                const el = document.getElementById(id);
+                return el ? el.value.trim() : '';
+            };
+            const getSelectText = (id) => {
+                const el = document.getElementById(id);
+                return el && el.selectedIndex > 0 ? el.options[el.selectedIndex].text : '';
+            };
+            const formatDate = (id) => {
+                const v = getVal(id);
+                return v ? new Date(v).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
+            };
+
+            const photoSrc = document.getElementById('photoImg').src;
+            const hasPhoto = document.getElementById('photoPreview').classList.contains('has-image');
+
+            let html = '';
+
+            // Photo
+            if (hasPhoto) {
+                html += `<div class="review-photo"><img src="${photoSrc}" alt="Employee Photo" /></div>`;
+            }
+
+            // Personal Info
+            html += `<div class="review-section-title"><i class="fa-solid fa-user"></i> Personal Information</div>`;
+            html += `<div class="review-grid">`;
+            html += reviewItem('Name', getVal('Name'));
+            html += reviewItem('Father\'s Name', getVal('FatherName'));
+            html += reviewItem('Mother\'s Name', getVal('MotherName'));
+            html += reviewItem('Date of Birth', formatDate('DOB'));
+            html += reviewItem('Cast', getSelectText('Cast'));
+            html += reviewItem('Aadhar No', getVal('AadharNo'));
+            html += reviewItem('PAN No', getVal('PanNo'));
+            html += `</div>`;
+
+            // Contact
+            html += `<div class="review-section-title"><i class="fa-solid fa-phone"></i> Contact Details</div>`;
+            html += `<div class="review-grid">`;
+            html += reviewItem('Mobile No', getVal('MobileNo'));
+            html += reviewItem('WhatsApp No', getVal('WhatsupNo'));
+            html += reviewItem('Email', getVal('EmailAddress'));
+            html += reviewItem('Address', getVal('Address'));
+            html += reviewItem('Pin Code', getVal('PinCode'));
+            html += `</div>`;
+
+            // Education
+            html += `<div class="review-section-title"><i class="fa-solid fa-graduation-cap"></i> Educational Qualifications</div>`;
+            html += `<div class="review-grid">`;
+            html += reviewItem('UG', getVal('UP'));
+            html += reviewItem('PG', getVal('PG'));
+            html += reviewItem('B.Ed', getVal('BED'));
+            html += reviewItem('M.Ed', getVal('MED'));
+            html += reviewItem('Other 1', getVal('Other1'));
+            html += reviewItem('Other 2', getVal('Other2'));
+            html += reviewItem('Specialization', getVal('Specialization'));
+            html += `</div>`;
+
+            // Professional
+            html += `<div class="review-section-title"><i class="fa-solid fa-briefcase"></i> Professional Details</div>`;
+            html += `<div class="review-grid">`;
+            html += reviewItem('Designation', getSelectText('Designation'));
+            html += reviewItem('Code 28 Designation', getVal('Code28Designation'));
+            html += reviewItem('Department', getSelectText('Department'));
+            html += reviewItem('Subject', getVal('Subject'));
+            html += reviewItem('College Name', getVal('CollegeName'));
+            html += reviewItem('Teaching Experience', getVal('TeachingExperience'));
+            html += `</div>`;
+
+            // Appointment
+            html += `<div class="review-section-title"><i class="fa-solid fa-file-signature"></i> Appointment Details</div>`;
+            html += `<div class="review-grid">`;
+            html += reviewItem('Notification No', getVal('NotificationNo'));
+            html += reviewItem('Notification Date', formatDate('Date'));
+            html += reviewItem('Appointment Order No', getVal('AppointmentOrderNo'));
+            html += reviewItem('Appointment Date', formatDate('AppointDate'));
+            html += reviewItem('Joining Date', formatDate('JointingDate'));
+            html += reviewItem('Pay Scale', getVal('PayScale'));
+            html += `</div>`;
+
+            // Bank & Status
+            html += `<div class="review-section-title"><i class="fa-solid fa-building-columns"></i> Bank & Status</div>`;
+            html += `<div class="review-grid">`;
+            html += reviewItem('Bank Name', getVal('BankName'));
+            html += reviewItem('Account No', getVal('AcNo'));
+            html += reviewItem('IFSC Code', getVal('IFSC'));
+            html += reviewItem('Status', document.getElementById('ActiveUnactive').checked ? 'Active' : 'Inactive');
+            html += `</div>`;
+
+            container.innerHTML = html;
+        }
+
+        function reviewItem(label, value) {
+            const isEmpty = !value;
+            return `<div class="review-item">
+                <div class="r-label">${label}</div>
+                <div class="r-value ${isEmpty ? 'empty' : ''}">${isEmpty ? 'Not provided' : value}</div>
+            </div>`;
+        }
+
+        // ═══════════════════════════════════════════════════
+        // Toast Notification
+        // ═══════════════════════════════════════════════════
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const icon = toast.querySelector('i');
+            const msg = document.getElementById('toastMsg');
+
+            toast.className = 'toast ' + type;
+            msg.textContent = message;
+            icon.className = type === 'success'
+                ? 'fa-solid fa-circle-check'
+                : 'fa-solid fa-circle-exclamation';
+
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        // ═══════════════════════════════════════════════════
+        // Form Submit Handler
+        // ═══════════════════════════════════════════════════
+        document.getElementById('employeeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Final validation of all required steps
+            let allValid = true;
+            for (let s = 1; s <= 6; s++) {
+                if (!validateStep(s)) {
+                    allValid = false;
+                    break;
+                }
+            }
+
+            if (!allValid) {
+                showToast('Please fix all errors before submitting', 'error');
+                return;
+            }
+
+            // Simulate submission (in real MVC, form posts to controller)
+            const btn = document.getElementById('btnSubmit');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+
+            setTimeout(() => {
+                showToast('Employee registration submitted successfully!', 'success');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Submitted';
+
+                // In real MVC, you would just let the form submit:
+                // this.submit();
+            }, 1500);
+        });
+
+        // ═══════════════════════════════════════════════════
+        // Real-time input clearing errors on type
+        // ═══════════════════════════════════════════════════
+        document.querySelectorAll('.form-group input, .form-group select, .form-group textarea').forEach(el => {
+            el.addEventListener('input', function() {
+                this.classList.remove('invalid');
+                const errEl = document.getElementById('err-' + this.name);
+                if (errEl) errEl.classList.remove('show');
+            });
+            el.addEventListener('change', function() {
+                this.classList.remove('invalid');
+                const errEl = document.getElementById('err-' + this.name);
+                if (errEl) errEl.classList.remove('show');
+            });
+        });
+
+        // ═══════════════════════════════════════════════════
+        // Keyboard: Enter to go next
+        // ═══════════════════════════════════════════════════
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                navigateStep(1);
+            }
+        });
+
+        // Initialize
+        updateStepIndicator();
+        updateButtons();
+    </script>
+
+</body>
+</html>
