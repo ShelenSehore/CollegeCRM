@@ -1052,6 +1052,10 @@
                                         <label>Sub Code</label>
                                         <input asp-for="SubCode" readonly>
                                     </div>
+                                    <div class="detail-field">
+                                        <label>Exam Form Submited</label>
+                                        <input asp-for="ExamFormSubmited" readonly>
+                                    </div>
                                     <div class="detail-field span-4" style="display:flex;justify-content:flex-end;align-items:flex-end;padding-bottom:0.5rem;">
                                         <a data-toggle="modal" data-target="#modal-College" class="btn-edit-float green" href="#" style="text-decoration:none;">
                                             <i class="fas fa-pen"></i> Edit College
@@ -1470,6 +1474,15 @@
                         <label>Sub Code *</label>
                         <input id="txtSubCode" asp-for="SubCode" placeholder="Sub Code">
                     </div>
+                    <div class="mf-group">
+                        <label>Exam Form Submited *</label>
+                        <select id="ddlExamFormSubmited" asp-for="ExamFormSubmited">
+                            <option value="">Select</option>
+                            <option>YES</option>
+                            <option>NO</option>
+                        </select>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer-bar">
@@ -1727,7 +1740,9 @@
                 varRollNo: $('#txtRollNo').val(),
                 varSchoolarNo: $('#txtSchoolarNo').val(),
                 varSubCode: $('#txtSubCode').val(),
-                varRegEx: $('#ddlRegEx option:selected').text()
+                varRegEx: $('#ddlRegEx option:selected').text(),
+                varExamFormSubmited: $('#ddlExamFormSubmited option:selected').text()
+                
             }, function (res) {
                 $("#modal-College").modal("hide");
                 Alert('success', 'College detail saved successfully!');

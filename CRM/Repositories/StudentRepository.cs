@@ -107,6 +107,7 @@ namespace CRM.Repositories
                 student.Course = model.Course;
                 student.Class = model.Class;
                 student.Session = model.Session;
+                student.AdmissionFormNo = model.AdmissionFormNo;
                 student.ExamFormSubmited = model.ExamFormSubmited;
                 student.UpdateDatetime = model.UpdateDatetime;
                 student.UpdatedBy = model.UpdatedBy;
@@ -136,6 +137,7 @@ namespace CRM.Repositories
                 student.SchoolarNo = model.SchoolarNo;
                 student.SubCode = model.SubCode;
                 student.RegEx = model.RegEx;
+                student.ExamFormSubmited = model.ExamFormSubmited;
                 student.UpdateDatetime = model.UpdateDatetime;
                 student.UpdatedBy = model.UpdatedBy;
                

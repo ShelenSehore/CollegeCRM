@@ -2215,15 +2215,9 @@
                 var globalIndex = startIndex + index;
                 var delay = Math.min(index * 0.03, 0.8);
 
-                /* TC badge */
-                var tcHtml = '';
-                if (element.tc === "ISSUE") {
-                    tcHtml = '<span class="tc-badge" title="TC Issued"><i class="fas fa-star"></i></span>';
-                }
-
                 /* TC column badge */
                 var tcColHtml = '';
-                var tcVal = String(element.tC || '').trim().toUpperCase();
+                var tcVal = String(element.tc || '').trim().toUpperCase();
                 if (tcVal === 'YES' || tcVal === 'TRUE' || tcVal === '1' || tcVal === 'SUBMIT' || tcVal === 'SUBMITTED') {
                     tcColHtml = '<span class="status-badge submitted"><i class="fas fa-check-circle"></i> Yes</span>';
                 } else {
@@ -2244,7 +2238,7 @@
                 var row =
                     '<tr style="animation-delay:' + delay + 's">' +
                     '<td class="col-num">' + (globalIndex + 1) + '</td>' +
-                    '<td><div class="formno-cell">' + tcHtml + '<span class="formno-badge">' + esc(element.admissionFormNo) + '</span></div></td>' +
+                    '<td><div class="formno-cell"><span class="formno-badge">' + esc(element.admissionFormNo) + '</span></div></td>' +
                     '<td class="col-num">' + esc(element.rollNo) + '</td>' +
                     '<td>' + tcColHtml + '</td>' +
                     '<td>' + examColHtml + '</td>' +
