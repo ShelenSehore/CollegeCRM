@@ -1645,7 +1645,7 @@
         // ═══════════════════════════════════════════════════
         function ConcessionPopUp(studentId) {
             $.post(BASE_URL + "/Payment/GetFeeDetail", { id: studentId }, function (res) {
-                var photoUrl = "/StudentData/Photo/" + res.studentData.photo + ".jpg";
+                var photoUrl = BASE_URL + "/StudentData/Photo/" + res.studentData.photo + ".jpg";
                 $('#imgPhoto').attr('src', photoUrl);
 
                 $('#hdnStudentFeeId').val(res.concessionDetail.id);

@@ -1048,7 +1048,7 @@ namespace CRM.Controllers
         //--------------------- Save Update Detail--------------
         public IActionResult UpdateCollegeDetail(int id, string varSession, string varNewOld, string varMedium,
             string varClass, string varCourse, string varYear, string varAdmissionFormNo, string varEnRollNo,
-             string varAdmissionDate, string varRollNo, string varSchoolarNo, string varSubCode, string varRegEx)
+             string varAdmissionDate, string varRollNo, string varSchoolarNo, string varSubCode, string varRegEx, string varExamFormSubmited)
 
         {
             Student stuObj = new Student();
@@ -1080,6 +1080,13 @@ namespace CRM.Controllers
 
             if (!string.IsNullOrEmpty(varSubCode))
                 stuObj.SubCode = varSubCode.ToUpper();
+
+            if (!string.IsNullOrEmpty(varExamFormSubmited))
+                stuObj.ExamFormSubmited = varExamFormSubmited.ToUpper();
+            else
+                stuObj.ExamFormSubmited = "NO";
+
+            
 
             stuObj.RegEx = varRegEx;
             stuObj.UpdateDatetime = DateTime.Now;
@@ -1204,6 +1211,7 @@ namespace CRM.Controllers
             stuObj.Course = varPromotCourse;
             stuObj.Class = varPromotClass;
             stuObj.Session = varPromotSession;
+            stuObj.AdmissionFormNo = varPromotFormNo;
             stuObj.ExamFormSubmited = "No";
             stuObj.UpdateDatetime = DateTime.Now;
             stuObj.UpdatedBy = "UPdate Admin";

@@ -129,6 +129,7 @@ namespace CRM.Controllers
 
         public IActionResult View(int? id) 
         {
+            ViewBag.BaseUrl = _baseUrl;
             var model = new StudentViewModel();
 
             model.ClassList = _classRepo.GetAll()
@@ -248,7 +249,7 @@ namespace CRM.Controllers
                     model.SelectedCourse = varStudentDetail.Course;
                     model.SelectedYear = varStudentDetail.Year;
                     model.Session = varStudentDetail.Session;
-                    model.Photo = varStudentDetail.Photo;
+                    model.Photo =  varStudentDetail.Photo;
                     model.TC = varStudentDetail.TCIssue;
                 }
             }
@@ -263,15 +264,15 @@ namespace CRM.Controllers
             //-------------Document List-------------------
             var PhotoBaseUrl = _mySettings.DocumentUrl;
 
-            var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + model.Photo + ".jpg";
-            if (System.IO.File.Exists(StudentPhoto))
-            {
-                model.Photo = "/StudentData/Photo/" + model.Photo + ".jpg";
-            }
-            else
-            {
-                model.Photo = "/StudentData/ProfileLogo.jpg";
-            }
+            //var StudentPhoto = PhotoBaseUrl + "\\Photo\\" + model.Photo + ".jpg";
+            //if (System.IO.File.Exists(StudentPhoto))
+            //{
+                model.Photo = _baseUrl + "/StudentData/Photo/" + model.Photo + ".jpg";
+            //}
+            //else
+            //{
+                model.Photo = _baseUrl + "/StudentData/ProfileLogo.jpg";
+            //}
 
             var TCPhoto = PhotoBaseUrl + "\\TC\\" + model.Photo + ".jpg";
             if (System.IO.File.Exists(TCPhoto))
