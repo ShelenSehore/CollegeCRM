@@ -2318,6 +2318,8 @@
                             <th style="width:50px">#</th>
                             <th>Form No</th>
                             <th>Session</th>
+                            <th>Cast</th>
+                            <th>Gender</th>
                             <th>Student</th>
                             <th>Father</th>
                             <th>Year</th>
@@ -2602,6 +2604,7 @@
             else { $("#emptyState").hide(); $("#paginationFooter").show(); }
 
             $.each(pageData, function (i, e) {
+                
                 var globalIdx = startIdx + i + 1;
                 var isChecked = checkedIds[e.studentHistoryId] ? 'checked' : '';
                 var rcls = resultRowClass(e.result);
@@ -2610,6 +2613,8 @@
                     '<td class="c-idx">' + globalIdx + '</td>' +
                     '<td class="c-form">' + (e.admissionForm || '-') + '</td>' +
                     '<td><span class="c-session">' + (e.session || '-') + '</span></td>' +
+                    '<td class="c-name">' + (e.cast || '-') + '</td>' +
+                    '<td class="c-name">' + (e.gender || '-') + '</td>' +
                     '<td class="c-name">' + (e.studentName || '-') + '</td>' +
                     '<td class="c-father">' + (e.fatherName || '-') + '</td>' +
                     '<td>' + yearBadge(e.year) + '</td>' +
