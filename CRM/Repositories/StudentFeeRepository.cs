@@ -58,7 +58,12 @@ namespace CRM.Repositories
             if (studentFee != null) 
             {
                 studentFee.PaidAmount = studentFee.PaidAmount + model.PaidAmount;
-                studentFee.CMoneyPaidOrNot = model.CMoneyPaidOrNot;
+
+                if (!string.IsNullOrEmpty(model.CMoneyPaidOrNot))
+                    studentFee.CMoneyPaidOrNot = model.CMoneyPaidOrNot;
+                else
+                    studentFee.CMoneyPaidOrNot = "NO";
+
                 var status = _context.SaveChanges();
                 return true;
             }

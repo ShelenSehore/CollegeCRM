@@ -400,18 +400,20 @@ namespace CRM.Controllers
 
 
                 //-------------If Coussion alreaddy apaid we skip--------
-                if (getFeeID.CMoneyPaidOrNot.ToUpper() != "YES")
-                {
-                    if (varHead1 == "Caution money" || varHead2 == "Caution money" || varHead3 == "Caution money" || varHead4 == "Caution money")
-                        studentFee.CMoneyPaidOrNot = "YES";
-                    //else
-                    //    studentFee.CMoneyPaidOrNot = "NO";
+                if (!string.IsNullOrEmpty(getFeeID.CMoneyPaidOrNot))
+                { 
+                    if (getFeeID.CMoneyPaidOrNot.ToUpper() != "YES")
+                    {
+                        if (varHead1 == "Caution money" || varHead2 == "Caution money" || varHead3 == "Caution money" || varHead4 == "Caution money")
+                            studentFee.CMoneyPaidOrNot = "YES";
+                        //else
+                        //    studentFee.CMoneyPaidOrNot = "NO";
+                    }
+                    else
+                    {
+                        studentFee.CMoneyPaidOrNot = getFeeID.CMoneyPaidOrNot;
+                    }
                 }
-                else
-                {
-                    studentFee.CMoneyPaidOrNot = getFeeID.CMoneyPaidOrNot;
-                }
-
                 studentFee.PaidAmount = 0;
 
                 if (varHead1 == "Admission fees" || varHead1 == "Tuition fees")

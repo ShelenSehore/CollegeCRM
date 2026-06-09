@@ -274,11 +274,11 @@ namespace CRM.Controllers
                 model.Photo = _baseUrl + "/StudentData/ProfileLogo.jpg";
             //}
 
-            var TCPhoto = PhotoBaseUrl + "\\TC\\" + model.Photo + ".jpg";
-            if (System.IO.File.Exists(TCPhoto))
-            {
-                model.TCPhoto = "/StudentData/TC/" + model.AdmissionFormNo + ".jpg";
-            }
+            //var TCPhoto = PhotoBaseUrl + "\\TC\\" + model.Photo + ".jpg";
+            //if (System.IO.File.Exists(TCPhoto))
+            //{
+            //    model.TCPhoto = "/StudentData/TC/" + model.AdmissionFormNo + ".jpg";
+            //}
 
             //-----------------Student History-----------------
 
