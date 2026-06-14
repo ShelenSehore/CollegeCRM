@@ -1205,7 +1205,7 @@
                                     </div>
                                     <div class="promo-form-field">
                                         <label>New Admission Date</label>
-                                        <input id="txtPromoAdmiDate" type="date"> 
+                                        <input id="txtPromoAdmiDate" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")"> 
                                     </div>
                                 </div>
                                 <div style="max-width:280px;margin:0 auto;">
@@ -1336,7 +1336,7 @@
                     </div>
                     <div class="mf-group">
                         <label>Date of Birth *</label>
-                        <input id="txtDOB" asp-for="DOB" type="date">
+                        <input id="txtDOB" asp-for="DOB" type="date" >
                     </div>
                     <div class="mf-group">
                         <label>Father Mobile *</label>
@@ -1460,7 +1460,7 @@
                     </div>
                     <div class="mf-group">
                         <label>Admission Date *</label>
-                        <input id="txtAdmissionDate" asp-for="AdmissionDate" type="date">
+                        <input id="txtAdmissionDate" asp-for="AdmissionDate" type="date" value="@(Model.AdmissionDate.HasValue ? Model.AdmissionDate.Value.ToString("dd/MM/yyyy") : DateTime.Today.ToString("dd/MM/yyyy"))">
                     </div>
                     <div class="mf-group">
                         <label>Roll No *</label>

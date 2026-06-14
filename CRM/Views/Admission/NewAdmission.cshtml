@@ -1214,7 +1214,7 @@
                                         Date of Birth
                                         <span class="field-badge badge-req">Req</span>
                                     </label>
-                                    <input asp-for="DOB" type="date" class="form-control">
+                                    <input asp-for="DOB" type="date" class="form-control"  value="@DateTime.Today.ToString("yyyy-MM-dd")">
                                     <span asp-validation-for="DOB" class="text-danger"></span>
                                 </div>
                             </div>
