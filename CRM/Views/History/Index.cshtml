@@ -2730,13 +2730,22 @@
                 </div>
             </div>
             <div class="row" style="margin-top:16px;">
-                <div class="col-md-6 col-sm-8">
+                <div class="col-md-2 col-sm-4 col-6">
                     <label>Search</label>
                     <input id="txtSearch" class="form-control" type="search" placeholder="Type student name to search...">
                 </div>
+                <div class="col-md-2 col-sm-4 col-6">
+                    <label>Form No.</label>
+                    <input id="txtFormNo" class="form-control" type="search" placeholder="Type Form No...">
+                </div>
+                <div class="col-md-2 col-sm-4 col-6">
+                    <label>Enroll No.</label>
+                    <input id="txtEnrollmentNo" class="form-control" type="search" placeholder="Type Enrollment No...">
+                </div>
+
                 <div class="col-md-3 col-sm-4" style="display:flex;align-items:flex-end;gap:8px;">
                     <button type="button" onclick="SearchStudent()" class="btn-emerald" style="flex:1;"><i class="fas fa-search"></i> Search</button>
-                    <button type="reset" class="btn-ghost" onclick="Reset()"><i class="fas fa-arrow-rotate-left"></i></button>
+                    <button type="reset" class="btn-ghost" onclick="Reset()"><i class="fas fa-arrow-rotate-left"></i>Reset</button>
                 </div>
             </div>
         </div>
@@ -2989,7 +2998,8 @@
         }
 
         function Reset() {
-            $("#txtSearch").val(''); $("#txtRollNumberSearch").val('');
+            $("#txtSearch").val(''); $("#txtFormNo").val(''); $("#txtEnrollmentNo").val('');
+            $("#txtRollNumberSearch").val('');
             $('#ddlSession').val(''); $('#ddlClass').val(''); $('#ddlCourse').val('');
             $('#ddlYear').val(''); $('#ddlSearchResult').val('');
             checkedIds = {}; currentPage = 1;
@@ -3009,7 +3019,9 @@
                 year: $('#ddlYear option:selected').text(),
                 session: $('#ddlSession option:selected').text(),
                 rollNum: $("#txtRollNumberSearch").val(),
-                result: $('#ddlSearchResult option:selected').text()
+                result: $('#ddlSearchResult option:selected').text(),
+                formNo: $("#txtFormNo").val(),
+                enrollmentNo: $("#txtEnrollmentNo").val()
             }).done(function (res) {
                 currentData = res.data || [];
                 currentPage = 1;

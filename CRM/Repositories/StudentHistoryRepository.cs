@@ -208,7 +208,7 @@ namespace CRM.Repositories
                           string @class,
                           string course,
                           string year,
-                          string studentName, string rollNum, string result)
+                          string studentName, string rollNum, string result, string formNo, string enrollmentNo)
         {
             IQueryable<StudentHistory> query = _context.StudentHistory;
 
@@ -216,6 +216,15 @@ namespace CRM.Repositories
             {
                 query = query.Where(x => x.StudentName.ToLower().Contains(studentName.ToLower()));
             }
+            if (!string.IsNullOrWhiteSpace(formNo))
+            {
+                query = query.Where(x => x.AdmissionForm== Convert.ToInt32(formNo));
+            }
+            if (!string.IsNullOrWhiteSpace(enrollmentNo))
+            {
+                query = query.Where(x => x.EnrolNo.ToLower().Contains(enrollmentNo.ToLower()));
+            }
+
             if (!string.IsNullOrWhiteSpace(rollNum))
             {
                 query = query.Where(x => x.RollNo.ToLower().Contains(rollNum.ToLower()));
