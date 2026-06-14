@@ -51,6 +51,60 @@ namespace CRM.Controllers
             ViewBag.BaseUrl = _baseUrl;
             var model = new FeeViewModel();
 
+            //----------Drop down------------
+            model.ClassList = _classRepo.GetAll()
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name.ToString(),
+                    Text = x.Name
+                })
+                .ToList();
+
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+
+
+            //------Course  -- Subject---
+            //var varAllSubject = _subjecctRepo.GetAll().Select(x => new SelectListItem
+            //{
+            //    Value = x.Class.ToString(),
+            //    Text = x.Name
+            //})
+            //           .ToList();
+
+            //model.SubjectList = varAllSubject;
+            var varAllSubject = _subjecctRepo.GetAll();
+
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
 
 
             var varSubject = _subjecctRepo.GetAll();
@@ -62,21 +116,6 @@ namespace CRM.Controllers
                 foreach (var row in varFee)
                 {
                     FeeListModel obj = new FeeListModel();
-
-                    //var temName = varSubject
-                    //                .Where(x => x.Id == Convert.ToInt32(row.Course))
-                    //                .Select(x => x.Name)
-                    //                .FirstOrDefault();
-                    //var temCourse = varSubject
-                    //                .Where(x => x.Id == Convert.ToInt32(row.Course))
-                    //                .Select(x => x.Course)
-                    //                .FirstOrDefault();
-                    //var temClass = varSubject
-                    //                .Where(x => x.Id == Convert.ToInt32(row.Course))
-                    //                .Select(x => x.Class)
-                    //                .FirstOrDefault();
-
-                    //obj.SubjectName = temName+" / "+ temCourse + " / " + temClass + " / " ;
 
                     obj.Id = row.Id;
                     obj.NewOld = row.NewOld;
@@ -166,6 +205,13 @@ namespace CRM.Controllers
             return View(model);
         }
 
+
+        public IActionResult SearchFee(string classes, string course, string year, string session, string newOld) 
+        {
+            var data = _feeRepo.GetFeeWithFilters(session, classes, course, year, newOld);
+
+            return Json(new { success = true, data = data });
+        }
 
 
         [HttpPost]

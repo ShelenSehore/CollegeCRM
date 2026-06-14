@@ -381,6 +381,306 @@
             font-weight: 700;
         }
 
+    /* ═══════════════════════════════════════════════════════ */
+    /* ── Demographic Breakdown Cards (Gender & Cast) ────── */
+    /* ═══════════════════════════════════════════════════════ */
+    .demographic-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 24px;
+    }
+
+    .demo-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-xl);
+        padding: 24px 28px;
+        box-shadow: var(--shadow-md);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-start;
+        gap: 22px;
+        animation: slideDown 0.5s ease 0.08s both;
+    }
+
+        .demo-card::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .demo-card.gender-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 5px;
+            background: linear-gradient(180deg, var(--sky), var(--rose));
+            border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+        }
+
+        .demo-card.gender-card::after {
+            background: radial-gradient(circle, rgba(2,132,199,0.05), transparent);
+        }
+
+        .demo-card.cast-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 5px;
+            background: linear-gradient(180deg, var(--emerald), var(--amber), var(--violet), var(--teal));
+            border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+        }
+
+        .demo-card.cast-card::after {
+            background: radial-gradient(circle, rgba(124,58,237,0.04), transparent);
+        }
+
+    .demo-icon-wrap {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+        position: relative;
+    }
+
+        .demo-icon-wrap.gender-icon {
+            background: linear-gradient(135deg, var(--sky-light), var(--rose-light));
+            color: var(--sky);
+        }
+
+        .demo-icon-wrap.cast-icon {
+            background: linear-gradient(135deg, var(--emerald-light), var(--violet-light));
+            color: var(--violet);
+        }
+
+        .demo-icon-wrap::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 18px;
+            border: 2px dashed rgba(5,150,105,0.15);
+        }
+
+    .demo-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .demo-label {
+        font-size: 0.68rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+        margin-bottom: 2px;
+    }
+
+    .demo-total-row {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .demo-total-num {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        line-height: 1;
+    }
+
+    .demo-total-sub {
+        font-size: 0.72rem;
+        color: var(--text-faint);
+        font-weight: 500;
+    }
+
+    .demo-bar-wrap {
+        margin-bottom: 8px;
+    }
+
+    .demo-bar {
+        width: 100%;
+        height: 8px;
+        background: var(--bg-page);
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+    }
+
+    .demo-bar-seg {
+        height: 100%;
+        transition: width 0.8s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+        .demo-bar-seg.male {
+            background: linear-gradient(90deg, #0284c7, #38bdf8);
+        }
+
+        .demo-bar-seg.female {
+            background: linear-gradient(90deg, #e11d48, #fb7185);
+        }
+
+        .demo-bar-seg.sc {
+            background: linear-gradient(90deg, #059669, #34d399);
+        }
+
+        .demo-bar-seg.st {
+            background: linear-gradient(90deg, #d97706, #fbbf24);
+        }
+
+        .demo-bar-seg.obc {
+            background: linear-gradient(90deg, #7c3aed, #a78bfa);
+        }
+
+        .demo-bar-seg.gen {
+            background: linear-gradient(90deg, #0d9488, #2dd4bf);
+        }
+
+        .demo-bar-seg.other-cast {
+            background: linear-gradient(90deg, #8c8279, #b5ada5);
+        }
+
+    .demo-bar-legend {
+        display: flex;
+        gap: 12px;
+        margin-top: 6px;
+        flex-wrap: wrap;
+    }
+
+    .demo-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: var(--text-muted);
+    }
+
+    .demo-legend-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 3px;
+        flex-shrink: 0;
+    }
+
+        .demo-legend-dot.male {
+            background: var(--sky);
+        }
+
+        .demo-legend-dot.female {
+            background: var(--rose);
+        }
+
+        .demo-legend-dot.sc {
+            background: var(--emerald);
+        }
+
+        .demo-legend-dot.st {
+            background: var(--amber);
+        }
+
+        .demo-legend-dot.obc {
+            background: var(--violet);
+        }
+
+        .demo-legend-dot.gen {
+            background: var(--teal);
+        }
+
+        .demo-legend-dot.other-cast {
+            background: var(--text-muted);
+        }
+
+    .demo-stats {
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+        flex-wrap: wrap;
+    }
+
+    .demo-stat-mini {
+        text-align: center;
+        padding: 10px 12px;
+        border-radius: var(--radius-md);
+        background: var(--bg-page);
+        min-width: 68px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        cursor: default;
+    }
+
+        .demo-stat-mini:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .demo-stat-mini .dsm-val {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+
+            .demo-stat-mini .dsm-val.c-male {
+                color: var(--sky);
+            }
+
+            .demo-stat-mini .dsm-val.c-female {
+                color: var(--rose);
+            }
+
+            .demo-stat-mini .dsm-val.c-sc {
+                color: var(--emerald);
+            }
+
+            .demo-stat-mini .dsm-val.c-st {
+                color: var(--amber);
+            }
+
+            .demo-stat-mini .dsm-val.c-obc {
+                color: var(--violet);
+            }
+
+            .demo-stat-mini .dsm-val.c-gen {
+                color: var(--teal);
+            }
+
+            .demo-stat-mini .dsm-val.c-other-cast {
+                color: var(--text-muted);
+            }
+
+        .demo-stat-mini .dsm-pct {
+            font-size: 0.58rem;
+            font-weight: 700;
+            color: var(--text-faint);
+            margin-bottom: 2px;
+        }
+
+        .demo-stat-mini .dsm-label {
+            font-size: 0.58rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
     /* ── Filter Card ── */
     .filter-card {
         background: var(--bg-card);
@@ -900,6 +1200,34 @@
                 background: var(--indigo);
             }
 
+            .pd-stat-chip .psc-dot.male {
+                background: var(--sky);
+            }
+
+            .pd-stat-chip .psc-dot.female {
+                background: var(--rose);
+            }
+
+            .pd-stat-chip .psc-dot.sc {
+                background: var(--emerald);
+            }
+
+            .pd-stat-chip .psc-dot.st {
+                background: var(--amber);
+            }
+
+            .pd-stat-chip .psc-dot.obc {
+                background: var(--violet);
+            }
+
+            .pd-stat-chip .psc-dot.gen {
+                background: var(--teal);
+            }
+
+            .pd-stat-chip .psc-dot.other-cast {
+                background: var(--text-muted);
+            }
+
         .pd-stat-chip .psc-num {
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
@@ -914,6 +1242,14 @@
             letter-spacing: 0.8px;
             color: var(--text-muted);
         }
+
+    .pd-stats-divider {
+        width: 1px;
+        height: 28px;
+        background: var(--border-light);
+        align-self: center;
+        flex-shrink: 0;
+    }
 
     .pd-table {
         width: 100%;
@@ -2072,6 +2408,10 @@
             flex-direction: column;
             align-items: center;
         }
+
+        .demographic-cards {
+            grid-template-columns: 1fr;
+        }
     }
 
     @@media (max-width: 768px) {
@@ -2124,6 +2464,21 @@
         .total-bar-legend {
             gap: 8px;
         }
+
+        .demo-card {
+            flex-direction: column;
+            gap: 16px;
+            padding: 20px 18px;
+        }
+
+        .demo-stats {
+            width: 100%;
+        }
+
+        .demo-stat-mini {
+            flex: 1;
+            min-width: 60px;
+        }
     }
 
     @@media (max-width: 480px) {
@@ -2147,6 +2502,10 @@
                 flex: 1;
                 justify-content: center;
             }
+
+        .demo-total-num {
+            font-size: 1.4rem;
+        }
     }
 </style>
 
@@ -2239,6 +2598,98 @@
                 <div class="total-stat-mini"><div class="tsm-val c-supple" id="statSupple">0</div><div class="tsm-label">Supple</div></div>
                 <div class="total-stat-mini"><div class="tsm-val c-awaited" id="statAwaited">0</div><div class="tsm-label">Awaited</div></div>
                 <div class="total-stat-mini"><div class="tsm-val c-nores" id="statNull">0</div><div class="tsm-label">No Result</div></div>
+            </div>
+        </div>
+
+        <!-- ═══ Demographic Breakdown Cards — Gender & Cast ═══ -->
+        <div class="demographic-cards">
+            <!-- Gender Card -->
+            <div class="demo-card gender-card">
+                <div class="demo-icon-wrap gender-icon"><i class="fas fa-venus-mars"></i></div>
+                <div class="demo-info">
+                    <div class="demo-label">Gender Breakdown</div>
+                    <div class="demo-total-row">
+                        <span class="demo-total-num" id="demoGenderTotal">0</span>
+                        <span class="demo-total-sub">students</span>
+                    </div>
+                    <div class="demo-bar-wrap">
+                        <div class="demo-bar">
+                            <div class="demo-bar-seg male" id="barMale" style="width:0%"></div>
+                            <div class="demo-bar-seg female" id="barFemale" style="width:0%"></div>
+                        </div>
+                        <div class="demo-bar-legend">
+                            <div class="demo-legend-item"><span class="demo-legend-dot male"></span> Male</div>
+                            <div class="demo-legend-item"><span class="demo-legend-dot female"></span> Female</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-stats">
+                    <div class="demo-stat-mini">
+                        <div class="dsm-val c-male" id="statMale">0</div>
+                        <div class="dsm-pct" id="statMalePct">0%</div>
+                        <div class="dsm-label">Male</div>
+                    </div>
+                    <div class="demo-stat-mini">
+                        <div class="dsm-val c-female" id="statFemale">0</div>
+                        <div class="dsm-pct" id="statFemalePct">0%</div>
+                        <div class="dsm-label">Female</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cast Card -->
+            <div class="demo-card cast-card">
+                <div class="demo-icon-wrap cast-icon"><i class="fas fa-id-card-clip"></i></div>
+                <div class="demo-info">
+                    <div class="demo-label">Cast Breakdown</div>
+                    <div class="demo-total-row">
+                        <span class="demo-total-num" id="demoCastTotal">0</span>
+                        <span class="demo-total-sub">students</span>
+                    </div>
+                    <div class="demo-bar-wrap">
+                        <div class="demo-bar">
+                            <div class="demo-bar-seg sc" id="barSC" style="width:0%"></div>
+                            <div class="demo-bar-seg st" id="barST" style="width:0%"></div>
+                            <div class="demo-bar-seg obc" id="barOBC" style="width:0%"></div>
+                            <div class="demo-bar-seg gen" id="barGEN" style="width:0%"></div>
+                            <div class="demo-bar-seg other-cast" id="barOtherCast" style="width:0%"></div>
+                        </div>
+                        <div class="demo-bar-legend">
+                            <div class="demo-legend-item"><span class="demo-legend-dot sc"></span> SC</div>
+                            <div class="demo-legend-item"><span class="demo-legend-dot st"></span> ST</div>
+                            <div class="demo-legend-item"><span class="demo-legend-dot obc"></span> OBC</div>
+                            <div class="demo-legend-item"><span class="demo-legend-dot gen"></span> GEN</div>
+                            <div class="demo-legend-item"><span class="demo-legend-dot other-cast"></span> Other</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-stats">
+                    <div class="demo-stat-mini">
+                        <div class="dsm-val c-sc" id="statSC">0</div>
+                        <div class="dsm-pct" id="statSCPct">0%</div>
+                        <div class="dsm-label">SC</div>
+                    </div>
+                    <div class="demo-stat-mini">
+                        <div class="dsm-val c-st" id="statST">0</div>
+                        <div class="dsm-pct" id="statSTPct">0%</div>
+                        <div class="dsm-label">ST</div>
+                    </div>
+                    <div class="demo-stat-mini">
+                        <div class="dsm-val c-obc" id="statOBC">0</div>
+                        <div class="dsm-pct" id="statOBCPct">0%</div>
+                        <div class="dsm-label">OBC</div>
+                    </div>
+                    <div class="demo-stat-mini">
+                        <div class="dsm-val c-gen" id="statGEN">0</div>
+                        <div class="dsm-pct" id="statGENPct">0%</div>
+                        <div class="dsm-label">GEN</div>
+                    </div>
+                    <div class="demo-stat-mini">
+                        <div class="dsm-val c-other-cast" id="statOtherCast">0</div>
+                        <div class="dsm-pct" id="statOtherCastPct">0%</div>
+                        <div class="dsm-label">Other</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -2431,6 +2882,26 @@
             return 'nores';
         }
 
+        /* ═══ Gender classification helper ═══ */
+        function classifyGender(val) {
+            var g = (val || '').toUpperCase().trim();
+            if (g === 'M' || g === 'MALE') return 'male';
+            if (g === 'F' || g === 'FEMALE') return 'female';
+            return 'male'; // default fallback
+        }
+
+        /* ═══ Cast classification helper ═══ */
+        function classifyCast(val) {
+            var c = (val || '').toUpperCase().trim();
+            // Remove dots and spaces for matching
+            var clean = c.replace(/[\.\s]/g, '');
+            if (clean === 'SC' || clean === 'SCHEDULEDCASTE' || clean === 'SCHEDULEDCAST') return 'sc';
+            if (clean === 'ST' || clean === 'SCHEDULEDTRIBE') return 'st';
+            if (clean === 'OBC' || clean === 'OTHERBACKWARDCLASS' || clean === 'OBCA' || clean === 'OBCB' || clean === 'OTHERBACKWARD') return 'obc';
+            if (clean === 'GEN' || clean === 'GENERAL' || clean === 'OPEN' || clean === 'UR' || clean === 'UNRESERVED') return 'gen';
+            return 'other';
+        }
+
         window.onload = function () {
             $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession, #ddlSearchResult").change(function () {
                 currentPage = 1;
@@ -2562,11 +3033,35 @@
             return counts;
         }
 
+        /* ═══ Compute gender stats ═══ */
+        function computeGenderStats(data) {
+            var counts = { male: 0, female: 0 };
+            $.each(data, function (i, e) {
+                var g = classifyGender(e.gender);
+                counts[g]++;
+            });
+            return counts;
+        }
+
+        /* ═══ Compute cast stats ═══ */
+        function computeCastStats(data) {
+            var counts = { sc: 0, st: 0, obc: 0, gen: 0, other: 0 };
+            $.each(data, function (i, e) {
+                // Handle both e.cast and e.Cast (inconsistent casing from API)
+                var castVal = e.cast || e.Cast || '';
+                var c = classifyCast(castVal);
+                counts[c]++;
+            });
+            return counts;
+        }
+
         function renderPage() {
             var total = currentData.length;
             var stats = computeStats(currentData);
+            var genderStats = computeGenderStats(currentData);
+            var castStats = computeCastStats(currentData);
 
-            /* Animate stat numbers */
+            /* Animate result stat numbers */
             animateNum(document.getElementById('statTotal'), total, 400);
             animateNum(document.getElementById('statPass'), stats.pass, 400);
             animateNum(document.getElementById('statFail'), stats.fail, 400);
@@ -2575,7 +3070,7 @@
             animateNum(document.getElementById('statAwaited'), stats.awaited, 400);
             animateNum(document.getElementById('statNull'), stats.nores, 400);
 
-            /* Update bar segments */
+            /* Update result bar segments */
             if (total > 0) {
                 document.getElementById('barPass').style.width    = (stats.pass    / total * 100) + '%';
                 document.getElementById('barFail').style.width    = (stats.fail    / total * 100) + '%';
@@ -2585,6 +3080,57 @@
                 document.getElementById('barNores').style.width   = (stats.nores   / total * 100) + '%';
             } else {
                 ['barPass','barFail','barAtkt','barSupple','barAwaited','barNores'].forEach(function(id) {
+                    document.getElementById(id).style.width = '0%';
+                });
+            }
+
+            /* ═══ Animate gender stat numbers ═══ */
+            animateNum(document.getElementById('demoGenderTotal'), total, 400);
+            animateNum(document.getElementById('statMale'), genderStats.male, 400);
+            animateNum(document.getElementById('statFemale'), genderStats.female, 400);
+
+            var malePct = total > 0 ? (genderStats.male / total * 100).toFixed(1) : '0.0';
+            var femalePct = total > 0 ? (genderStats.female / total * 100).toFixed(1) : '0.0';
+            document.getElementById('statMalePct').textContent = malePct + '%';
+            document.getElementById('statFemalePct').textContent = femalePct + '%';
+
+            /* Update gender bar segments */
+            if (total > 0) {
+                document.getElementById('barMale').style.width   = (genderStats.male   / total * 100) + '%';
+                document.getElementById('barFemale').style.width = (genderStats.female / total * 100) + '%';
+            } else {
+                document.getElementById('barMale').style.width   = '0%';
+                document.getElementById('barFemale').style.width = '0%';
+            }
+
+            /* ═══ Animate cast stat numbers ═══ */
+            animateNum(document.getElementById('demoCastTotal'), total, 400);
+            animateNum(document.getElementById('statSC'), castStats.sc, 400);
+            animateNum(document.getElementById('statST'), castStats.st, 400);
+            animateNum(document.getElementById('statOBC'), castStats.obc, 400);
+            animateNum(document.getElementById('statGEN'), castStats.gen, 400);
+            animateNum(document.getElementById('statOtherCast'), castStats.other, 400);
+
+            var scPct = total > 0 ? (castStats.sc / total * 100).toFixed(1) : '0.0';
+            var stPct = total > 0 ? (castStats.st / total * 100).toFixed(1) : '0.0';
+            var obcPct = total > 0 ? (castStats.obc / total * 100).toFixed(1) : '0.0';
+            var genPct = total > 0 ? (castStats.gen / total * 100).toFixed(1) : '0.0';
+            var otherCastPct = total > 0 ? (castStats.other / total * 100).toFixed(1) : '0.0';
+            document.getElementById('statSCPct').textContent = scPct + '%';
+            document.getElementById('statSTPct').textContent = stPct + '%';
+            document.getElementById('statOBCPct').textContent = obcPct + '%';
+            document.getElementById('statGENPct').textContent = genPct + '%';
+            document.getElementById('statOtherCastPct').textContent = otherCastPct + '%';
+
+            /* Update cast bar segments */
+            if (total > 0) {
+                document.getElementById('barSC').style.width        = (castStats.sc    / total * 100) + '%';
+                document.getElementById('barST').style.width        = (castStats.st    / total * 100) + '%';
+                document.getElementById('barOBC').style.width       = (castStats.obc   / total * 100) + '%';
+                document.getElementById('barGEN').style.width       = (castStats.gen   / total * 100) + '%';
+                document.getElementById('barOtherCast').style.width = (castStats.other / total * 100) + '%';
+            } else {
+                ['barSC','barST','barOBC','barGEN','barOtherCast'].forEach(function(id) {
                     document.getElementById(id).style.width = '0%';
                 });
             }
@@ -2604,17 +3150,17 @@
             else { $("#emptyState").hide(); $("#paginationFooter").show(); }
 
             $.each(pageData, function (i, e) {
-                
                 var globalIdx = startIdx + i + 1;
                 var isChecked = checkedIds[e.studentHistoryId] ? 'checked' : '';
                 var rcls = resultRowClass(e.result);
+                var castVal = e.cast || e.Cast || '-';
                 tbody.append(
                     '<tr class="' + rcls + '">' +
                     '<td class="c-idx">' + globalIdx + '</td>' +
                     '<td class="c-form">' + (e.admissionForm || '-') + '</td>' +
                     '<td><span class="c-session">' + (e.session || '-') + '</span></td>' +
-                    '<td class="c-name">' + (e.cast || '-') + '</td>' +
-                    '<td class="c-name">' + (e.gender || '-') + '</td>' +
+                    '<td class="c-meta">' + esc(castVal) + '</td>' +
+                    '<td class="c-meta">' + (e.gender || '-') + '</td>' +
                     '<td class="c-name">' + (e.studentName || '-') + '</td>' +
                     '<td class="c-father">' + (e.fatherName || '-') + '</td>' +
                     '<td>' + yearBadge(e.year) + '</td>' +
@@ -2732,9 +3278,9 @@
             });
         }
 
-        /* ═══════════════════════════════════════════════════ */
+        /* ═════════════════════════════════════════════════════ */
         /* PRINT FUNCTIONALITY                                 */
-        /* ═══════════════════════════════════════════════════ */
+        /* ═════════════════════════════════════════════════════ */
 
         function togglePrintDd(e) { e.stopPropagation(); $('#printDdMenu').toggleClass('show'); }
 
@@ -2766,6 +3312,9 @@
             var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
 
             var stats = computeStats(data);
+            var genderStats = computeGenderStats(data);
+            var castStats = computeCastStats(data);
+            var total = data.length;
 
             var filterParts = [];
             var sv = $('#ddlSession option:selected').text(), yv = $('#ddlYear option:selected').text();
@@ -2773,7 +3322,7 @@
             var rv = $('#ddlSearchResult option:selected').text(), nv = $('#txtSearch').val();
             var rollv = $('#txtRollNumberSearch').val();
             if (sv && sv !== 'Select') filterParts.push({ key: 'Session', val: sv });
-            if (yv && yv !== 'Select') filterParts.push({ key: 'Year', val: yv });
+            if (yv && y !== 'Select') filterParts.push({ key: 'Year', val: yv });
             if (cv && cv !== 'Select') filterParts.push({ key: 'Class', val: cv });
             if (cov && cov !== 'Select') filterParts.push({ key: 'Course', val: cov });
             if (rv && rv !== 'Select') filterParts.push({ key: 'Result', val: rv });
@@ -2787,25 +3336,40 @@
                 filterHtml += '</div>';
             }
 
-            /* Stats row — 6 types */
+            /* Result stats row — 6 types */
             var statsHtml = '<div class="pd-stats-row">' +
                 '<div class="pd-stat-chip"><span class="psc-dot pass"></span><span class="psc-num">' + stats.pass + '</span><span class="psc-lbl">Pass</span></div>' +
                 '<div class="pd-stat-chip"><span class="psc-dot fail"></span><span class="psc-num">' + stats.fail + '</span><span class="psc-lbl">Fail</span></div>' +
                 '<div class="pd-stat-chip"><span class="psc-dot atkt"></span><span class="psc-num">' + stats.atkt + '</span><span class="psc-lbl">ATKT</span></div>' +
                 '<div class="pd-stat-chip"><span class="psc-dot supple"></span><span class="psc-num">' + stats.supple + '</span><span class="psc-lbl">Supple</span></div>' +
                 '<div class="pd-stat-chip"><span class="psc-dot awaited"></span><span class="psc-num">' + stats.awaited + '</span><span class="psc-lbl">Awaited</span></div>' +
-                '<div class="pd-stat-chip"><span class="psc-dot nores"></span><span class="psc-num">' + stats.nores + '</span><span class="psc-lbl">No Result</span></div></div>';
+                '<div class="pd-stat-chip"><span class="psc-dot nores"></span><span class="psc-num">' + stats.nores + '</span><span class="psc-lbl">No Result</span></div>' +
+                '<div class="pd-stats-divider"></div>' +
+                /* Gender stats in print */
+                '<div class="pd-stat-chip"><span class="psc-dot male"></span><span class="psc-num">' + genderStats.male + '</span><span class="psc-lbl">Male</span></div>' +
+                '<div class="pd-stat-chip"><span class="psc-dot female"></span><span class="psc-num">' + genderStats.female + '</span><span class="psc-lbl">Female</span></div>' +
+                '<div class="pd-stats-divider"></div>' +
+                /* Cast stats in print */
+                '<div class="pd-stat-chip"><span class="psc-dot sc"></span><span class="psc-num">' + castStats.sc + '</span><span class="psc-lbl">SC</span></div>' +
+                '<div class="pd-stat-chip"><span class="psc-dot st"></span><span class="psc-num">' + castStats.st + '</span><span class="psc-lbl">ST</span></div>' +
+                '<div class="pd-stat-chip"><span class="psc-dot obc"></span><span class="psc-num">' + castStats.obc + '</span><span class="psc-lbl">OBC</span></div>' +
+                '<div class="pd-stat-chip"><span class="psc-dot gen"></span><span class="psc-num">' + castStats.gen + '</span><span class="psc-lbl">GEN</span></div>' +
+                (castStats.other > 0 ? '<div class="pd-stat-chip"><span class="psc-dot other-cast"></span><span class="psc-num">' + castStats.other + '</span><span class="psc-lbl">Other</span></div>' : '') +
+                '</div>';
 
             var rowsHtml = '';
             $.each(data, function (index, el) {
                 var cls = classifyResult(el.result);
                 var rLabel = (el.result || '').toUpperCase().trim() || 'N/A';
+                var castVal = el.cast || el.Cast || '-';
                 rowsHtml += '<tr>' +
                     '<td class="pd-idx">' + (index + 1) + '</td>' +
                     '<td class="pd-form">' + esc(el.admissionForm || '-') + '</td>' +
                     '<td><span class="pd-tag session">' + esc(el.session || '-') + '</span></td>' +
+                    '<td class="pd-muted">' + esc(castVal) + '</td>' +
+                    '<td class="pd-muted">' + esc(el.gender || '-') + '</td>' +
                     '<td class="pd-name">' + esc(el.studentName || '-') + '</td>' +
-                    '<td>' + esc(el.fatherName || '-') + '</td>' +
+                    '<td class="pd-name">' + esc(el.fatherName || '-') + '</td>' +
                     '<td><span class="pd-tag year">' + esc(el.year || '-') + '</span></td>' +
                     '<td><span class="pd-tag class">' + esc(el.classs || '-') + '</span></td>' +
                     '<td><span class="pd-tag course">' + esc(el.course || '-') + '</span></td>' +
@@ -2818,8 +3382,8 @@
                 '<h2 class="pdh-title">Student History Report</h2>' +
                 '<p class="pdh-sub">Generated on ' + dateStr + ' at ' + timeStr + '</p></div>' +
                 filterHtml + statsHtml +
-                '<table class="pd-table"><thead><tr><th>#</th><th>Form No</th><th>Session</th><th>Student</th><th>Father</th><th>Year</th><th>Subject</th><th>Course</th><th>Mobile</th><th>Result</th></tr></thead><tbody>' + rowsHtml + '</tbody></table>' +
-                '<div class="pd-footer"><div class="pf-total">Total: ' + data.length + ' student' + (data.length !== 1 ? 's' : '') + '</div><div>Printed from CRM System &bull; ' + dateStr + '</div></div>';
+                '<table class="pd-table"><thead><tr><th>#</th><th>Form No</th><th>Session</th><th>Cast</th><th>Gender</th><th>Student</th><th>Father</th><th>Year</th><th>Subject</th><th>Course</th><th>Mobile</th><th>Result</th></tr></thead><tbody>' + rowsHtml + '</tbody></table>' +
+                '<div class="pd-footer"><div class="pf-total">Total: ' + total + ' student' + (total !== 1 ? 's' : '') + '</div><div>Printed from CRM System &bull; ' + dateStr + '</div></div>';
         }
 
         function closePrintPreview() {
@@ -2853,14 +3417,19 @@
                 .pf-label { font-weight: 700; color: #0d9488; font-size: 10px; margin-right: 6px; }
                 .pf-item .pf-key { font-weight: 700; text-transform: uppercase; letter-spacing: .3px; color: #b5ada5; font-size: 8px; }
                 .pf-item .pf-val { font-weight: 600; color: #1a1612; font-size: 10px; }
-                .pd-stats-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+                .pd-stats-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
                 .pd-stat-chip { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 6px; border: 1px solid #e8e2da; background: #faf8f5; }
                 .psc-dot { width: 7px; height: 7px; border-radius: 2px; }
                 .psc-dot.pass { background: #059669; } .psc-dot.fail { background: #e85d4a; }
                 .psc-dot.atkt { background: #d97706; } .psc-dot.supple { background: #0d9488; }
                 .psc-dot.awaited { background: #e11d48; } .psc-dot.nores { background: #4f46e5; }
+                .psc-dot.male { background: #0284c7; } .psc-dot.female { background: #e11d48; }
+                .psc-dot.sc { background: #059669; } .psc-dot.st { background: #d97706; }
+                .psc-dot.obc { background: #7c3aed; } .psc-dot.gen { background: #0d9488; }
+                .psc-dot.other-cast { background: #8c8279; }
                 .psc-num { font-family: 'Space Grotesk',sans-serif; font-weight: 700; font-size: 11px; color: #1a1612; }
                 .psc-lbl { font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #8c8279; }
+                .pd-stats-divider { width: 1px; height: 24px; background: #e8e2da; }
                 .pd-table { width: 100%; border-collapse: collapse; font-size: 10px; }
                 .pd-table thead th { background: #059669 !important; color: #fff !important; font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; padding: 7px 6px; border: 1px solid #047857; white-space: nowrap; }
                 .pd-table tbody td { padding: 5px 6px; border: 1px solid #e8e2da; color: #3d3530; vertical-align: middle; }

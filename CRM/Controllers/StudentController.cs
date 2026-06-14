@@ -1180,7 +1180,7 @@ namespace CRM.Controllers
             studentFee.Class = varPromotClass;
             studentFee.Session = varPromotSession;
             studentFee.NewOld = "PROMOTE";
-            studentFee.NewStudentFee = 0;
+            studentFee.NewStudentFee = FeeMasterDetail.NewStudentFee;
             studentFee.CMoney = FeeMasterDetail.CMoney;
             studentFee.TutionFee = FeeMasterDetail.TutionFee;
             studentFee.OtherFee = FeeMasterDetail.OtherFee;
