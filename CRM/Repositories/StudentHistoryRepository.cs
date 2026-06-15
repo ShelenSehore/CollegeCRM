@@ -208,7 +208,8 @@ namespace CRM.Repositories
                           string @class,
                           string course,
                           string year,
-                          string studentName, string rollNum, string result, string formNo, string enrollmentNo)
+                          string studentName, string rollNum, string result, string formNo, 
+                          string enrollmentNo, string regulerprivate, string newoldex)
         {
             IQueryable<StudentHistory> query = _context.StudentHistory;
 
@@ -248,6 +249,14 @@ namespace CRM.Repositories
             if (!string.IsNullOrWhiteSpace(result) && (result != "Select"))
             {
                 query = query.Where(x => x.Result.ToLower().Contains(result.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(regulerprivate) && (regulerprivate != "Select"))
+            {
+                query = query.Where(x => x.RegPvt.ToLower().Contains(regulerprivate.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(newoldex) && (newoldex != "Select"))
+            {
+                query = query.Where(x => x.NewOld.ToLower().Contains(newoldex.ToLower()));
             }
 
             return query.ToList();

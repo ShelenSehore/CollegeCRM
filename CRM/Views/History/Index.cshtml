@@ -2743,6 +2743,25 @@
                     <input id="txtEnrollmentNo" class="form-control" type="search" placeholder="Type Enrollment No...">
                 </div>
 
+                <div class="col-md-2 col-sm-4 col-6">
+                    <label>Reguler/Private</label>
+                    <select id="ddlRegulerPrivate" class="form-control">
+                        <option value="">Select</option>
+                        <option>REGULER</option>
+                        <option>PRIVATE</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 col-sm-4 col-6">
+                    <label>New/Old/Ex</label>
+                    <select id="ddlNewOldEx" class="form-control">
+                        <option value="">Select</option>
+                        <option selected="selected">NEW</option>
+                        <option>OLD</option>
+                        <option>EX</option>
+                    </select>
+                </div>
+
                 <div class="col-md-3 col-sm-4" style="display:flex;align-items:flex-end;gap:8px;">
                     <button type="button" onclick="SearchStudent()" class="btn-emerald" style="flex:1;"><i class="fas fa-search"></i> Search</button>
                     <button type="reset" class="btn-ghost" onclick="Reset()"><i class="fas fa-arrow-rotate-left"></i>Reset</button>
@@ -2786,6 +2805,8 @@
                             <th>Subject</th>
                             <th>Course</th>
                             <th>Mobile</th>
+                            <th>Medium</th>
+                            <th>Exam Form</th>
                             <th>Result</th>
                             <th style="width:85px">View</th>
                             <th style="width:50px">
@@ -3021,7 +3042,9 @@
                 rollNum: $("#txtRollNumberSearch").val(),
                 result: $('#ddlSearchResult option:selected').text(),
                 formNo: $("#txtFormNo").val(),
-                enrollmentNo: $("#txtEnrollmentNo").val()
+                enrollmentNo: $("#txtEnrollmentNo").val(),
+                regulerprivate: $('#ddlRegulerPrivate option:selected').text(),
+                newoldex: $('#ddlNewOldEx option:selected').text(),
             }).done(function (res) {
                 currentData = res.data || [];
                 currentPage = 1;
@@ -3160,7 +3183,7 @@
 
             if (total === 0) { $("#emptyState").show(); $("#paginationFooter").hide(); }
             else { $("#emptyState").hide(); $("#paginationFooter").show(); }
-
+            debugger;
             $.each(pageData, function (i, e) {
                 var globalIdx = startIdx + i + 1;
                 var isChecked = checkedIds[e.studentHistoryId] ? 'checked' : '';
@@ -3179,6 +3202,8 @@
                     '<td class="c-meta">' + (e.classs || '-') + '</td>' +
                     '<td>' + courseBadge(e.course) + '</td>' +
                     '<td class="c-mobile">' + (e.mobileNo || '-') + '</td>' +
+                    '<td class="c-mobile">' + (e.medium || '-') + '</td>' +
+                    '<td class="c-mobile">' + (e.examFormSubmited || '-') + '</td>' +
                     '<td>' + resTag(e.result) + '</td>' +
                     '<td><a class="btn-table-view" href="../History/View?id=' + e.studentHistoryId + '"><i class="fas fa-eye"></i> View</a></td>' +
                     '<td><label class="chk-wrap"><input type="checkbox" id="' + e.studentHistoryId + '" name="chkStudent" ' + isChecked + ' onchange="toggleCheck(\'' + e.studentHistoryId + '\', this.checked)"><span class="chk-box"></span></label></td>' +
