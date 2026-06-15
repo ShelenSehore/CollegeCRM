@@ -972,6 +972,7 @@ namespace CRM.Controllers
                 historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
                 historyObj.AbcId = SavedStudentTable.AbcNo; //----
                 historyObj.SubCode = SavedStudentTable.SubCode;
+                historyObj.PassoutTC = SavedStudentTable.PassoutTC;
 
                 historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited;
 
@@ -1045,7 +1046,7 @@ namespace CRM.Controllers
         }
 
 
-        //--------------------- Save Update Detail--------------
+        //--------------------- Save Update Detail-----------------
         public IActionResult UpdateCollegeDetail(int id, string varSession, string varNewOld, string varMedium,
             string varClass, string varCourse, string varYear, string varAdmissionFormNo, string varEnRollNo,
              string varAdmissionDate, string varRollNo, string varSchoolarNo, string varSubCode, string varRegEx, string varExamFormSubmited)
@@ -1155,7 +1156,7 @@ namespace CRM.Controllers
         }
 
 
-        //--------------------- Promoted Detail--------------
+        //--------------------- Promoted Detail------------------
         public IActionResult PromotStudent(int id, string varPromotSession, string varPromotClass,
             string varPromotCourse, string varPromoYear, string varCurrentYear, string varCurrentSession,
             long varPromotFormNo, string varPromotDate, string varBeforePromotResult, string varBeforePromotExamForm)
@@ -1261,6 +1262,7 @@ namespace CRM.Controllers
             historyObj.ExamFormSubmited = varBeforePromotExamForm;
             historyObj.Result = varBeforePromotResult;
             historyObj.Photo = SavedStudentTable.Photo;
+            historyObj.PassoutTC = SavedStudentTable.PassoutTC;
 
             historyObj.CreateBy = "Admin";
             historyObj.CreateDate = DateTime.Now;
@@ -1274,7 +1276,6 @@ namespace CRM.Controllers
         }
 
 
-       
 
         //----------Fill Exam Form--------------
 

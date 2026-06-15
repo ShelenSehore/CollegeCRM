@@ -46,6 +46,7 @@ namespace CRM.Models
         public DateTime? UpdateDatetime { get; set; }
         public string AbcNo { get; set; }
         public string ExamFormSubmited { get; set; }
-        
+
+        public string PassoutTC { get; set; }
     }
 }

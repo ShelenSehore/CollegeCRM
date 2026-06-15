@@ -507,6 +507,8 @@ namespace CRM.Controllers
                             if(student.SchoNo.HasValue)
                             stuObj.SchoolarNo = student.SchoNo.Value.ToString();
 
+                            stuObj.PassoutTC = "NO";
+
                             stuObj.NewOld = "NEW";
                             stuObj.CreateBy = "Admin";
                             stuObj.CreateDatetime = DateTime.Now;
@@ -566,8 +568,8 @@ namespace CRM.Controllers
                             historyObj.MotherName = SavedStudentTable.MotherName;
                             historyObj.PH = SavedStudentTable.PH; //--
                             historyObj.Cast = SavedStudentTable.Caste;
-
-                            if(SavedStudentTable.DOB.HasValue)
+                            historyObj.PassoutTC = "NO";
+                            if (SavedStudentTable.DOB.HasValue)
                             historyObj.DOB = SavedStudentTable.DOB.Value;
 
                             historyObj.Address = SavedStudentTable.Address; //----

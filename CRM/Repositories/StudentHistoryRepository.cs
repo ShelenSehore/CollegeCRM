@@ -47,6 +47,8 @@ namespace CRM.Repositories
 
             if (student != null)
             {
+                try { 
+                
                 student.AdmissionForm = model.AdmissionForm;
                 student.AdmissionDate = model.AdmissionDate;
                 student.ScholerNo = model.ScholerNo;
@@ -54,12 +56,6 @@ namespace CRM.Repositories
                 student.NewOld = model.NewOld;
                 student.EnrolNo = model.Session;
                 student.Session = model.Session;
-                student.Session = model.Session;
-                student.Session = model.Session;
-                student.Session = model.Session;
-                student.Session = model.Session;
-                student.Session = model.Session;
-
                 student.StudentName = model.StudentName;
                 student.FatherName = model.FatherName;
                 student.FatherMobileNo = model.FatherMobileNo;
@@ -81,11 +77,19 @@ namespace CRM.Repositories
                 student.PH = model.PH;
                 student.ExamFormSubmited = model.ExamFormSubmited;
                 student.SubCode = model.SubCode;
+                student.PassoutTC = model.PassoutTC;
 
                 student.UpdateDate = DateTime.Now;
                 student.UpdateBy = "Admin";
                 var status = _context.SaveChanges();
                 return true;
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
             }
             return false;
         }

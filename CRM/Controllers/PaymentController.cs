@@ -489,6 +489,7 @@ namespace CRM.Controllers
                 historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
                 historyObj.AbcId = SavedStudentTable.AbcNo; //----
                 historyObj.ExamFormSubmited = SavedStudentTable.ExamFormSubmited;
+                historyObj.PassoutTC = SavedStudentTable.PassoutTC;//---
 
                 historyObj.CreateBy = "Admin";
                 historyObj.CreateDate = DateTime.Now;

@@ -581,7 +581,7 @@ namespace CRM.Repositories
 
             if (student != null)
             {
-                student.TC = "ISSUE";
+                student.PassoutTC = "ISSUE";
                 student.UpdateDatetime = DateTime.Now;
                 student.UpdatedBy = "Admin";
                 var status = _context.SaveChanges();

@@ -49,12 +49,12 @@ namespace CRM.Models
         public string CreateBy { get; set; }
         public DateTime UpdateDate { get; set; }
         public string UpdateBy { get; set; }
-
-
-
-
-
+        public string PassoutTC { get; set; }
         
+
+
+
+
 
 
 
