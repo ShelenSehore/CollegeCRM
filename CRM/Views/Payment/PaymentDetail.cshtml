@@ -1500,17 +1500,21 @@
                                         </div>
                                         <div>
                                             <div style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">Transfer Certificate</div>
-                                            @if (Model.studentDetail.TC.ToUpper() == "YES")
+                                            @if (string.IsNullOrEmpty(Model.studentDetail.PassoutTC))
                                             {
-                                                <span class="badge-tc badge-tc-submitted"><i class="fas fa-check-circle mr-1"></i> Submitted</span>
+                                               <span class="badge-tc badge-tc-not-submitted"><i class="fas fa-times-circle mr-1"></i> Not Issued</span>
                                             }
-                                            else if (Model.studentDetail.TC.ToUpper() == "ISSUE")
+                                            else if (Model.studentDetail.PassoutTC.ToUpper() == "YES")
+                                            {
+                                                <span class="badge-tc badge-tc-issued"><i class="fas fa-stamp mr-1"></i> Issued</span>
+                                            }
+                                            else if (Model.studentDetail.PassoutTC.ToUpper() == "ISSUE")
                                             {
                                                 <span class="badge-tc badge-tc-issued"><i class="fas fa-stamp mr-1"></i> Issued</span>
                                             }
                                             else
                                             {
-                                                <span class="badge-tc badge-tc-not-submitted"><i class="fas fa-times-circle mr-1"></i> Not Submitted</span>
+                                        <span class="badge-tc badge-tc-not-submitted"><i class="fas fa-times-circle mr-1"></i> Not Issued</span>
                                             }
                                         </div>
                                     </div>

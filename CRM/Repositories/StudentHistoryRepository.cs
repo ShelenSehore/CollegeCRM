@@ -50,7 +50,7 @@ namespace CRM.Repositories
                 try { 
                 
                 student.AdmissionForm = model.AdmissionForm;
-                student.AdmissionDate = model.AdmissionDate;
+               // student.AdmissionDate = model.AdmissionDate;
                 student.ScholerNo = model.ScholerNo;
                 student.RegPvt = model.RegPvt;
                 student.NewOld = model.NewOld;
@@ -61,7 +61,7 @@ namespace CRM.Repositories
                 student.FatherMobileNo = model.FatherMobileNo;
                 student.MotherName = model.MotherName;
                 student.MobileNo = model.MobileNo;
-                student.DOB = model.DOB;
+              //  student.DOB = model.DOB;
                 student.Gender = model.Gender;
                 student.Minority = model.Minority;
                 student.Cast = model.Cast;

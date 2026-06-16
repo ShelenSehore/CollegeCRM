@@ -343,6 +343,8 @@ namespace CRM.Repositories
             try { 
             
             IQueryable<Student> query = _context.Student;
+                //-----TC issue Skip
+                query = query.Where(x => x.PassoutTC != "ISSUE");
 
             if (!string.IsNullOrWhiteSpace(name))
             {
