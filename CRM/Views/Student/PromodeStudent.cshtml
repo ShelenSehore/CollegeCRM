@@ -1460,7 +1460,8 @@
                     </div>
                     <div class="mf-group">
                         <label>Admission Date *</label>
-                        <input id="txtAdmissionDate" asp-for="AdmissionDate" type="date" value="@(Model.AdmissionDate.HasValue ? Model.AdmissionDate.Value.ToString("dd/MM/yyyy") : DateTime.Today.ToString("dd/MM/yyyy"))">
+                        <input id="txtAdmissionDate" asp-for="AdmissionDate" type="date">
+                        @*<input id="txtAdmissionDate" asp-for="AdmissionDate" type="date" value="@(Model.AdmissionDate.HasValue ? Model.AdmissionDate.Value.ToString("dd/MM/yyyy") : DateTime.Today.ToString("dd/MM/yyyy"))">*@
                     </div>
                     <div class="mf-group">
                         <label>Roll No *</label>

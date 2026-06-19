@@ -5,445 +5,699 @@
     var baseUrl = ViewBag.BaseUrl;
 }
 
-<!-- Custom Modern Styles -->
 <style>
-    .modern-card {
-        border: none;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    /* ───────── Design Tokens ───────── */
+    :root {
+        --accent: #0d9488;
+        --accent-hover: #0f766e;
+        --accent-light: rgba(13,148,136,0.08);
+        --accent-glow: rgba(13,148,136,0.25);
+        --bg-page: #f0f2f5;
+        --bg-card: #ffffff;
+        --bg-elevated: #f8fafb;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --text-muted: #94a3b8;
+        --border: #e2e8f0;
+        --border-light: #f1f5f9;
+        --danger: #ef4444;
+        --danger-hover: #dc2626;
+        --danger-light: rgba(239,68,68,0.08);
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+        --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
+        --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 20px;
     }
 
-        .modern-card .card-header {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-            padding: 1rem 1.5rem;
-            border-bottom: none;
-        }
+    /* ───────── Page Shell ───────── */
+    .content-wrapper {
+        background: var(--bg-page);
+        min-height: 100vh;
+    }
 
-            .modern-card .card-header h5 {
-                font-weight: 600;
-                letter-spacing: 0.5px;
-            }
+    .content-header {
+        padding: 1.75rem 0 0.5rem;
+        background: transparent;
+    }
 
-    .modern-table thead th {
-        background-color: #f8f9fa;
-        border-bottom: 2px solid #dee2e6;
-        color: #495057;
+    .fee-page-title {
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        letter-spacing: -0.3px;
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+    }
+
+    .fee-page-title .title-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--accent) 0%, #14b8a6 100%);
+        border-radius: var(--radius-sm);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1rem;
+        box-shadow: 0 3px 10px var(--accent-glow);
+    }
+
+    .btn-add-fee {
+        background: linear-gradient(135deg, var(--accent) 0%, #14b8a6 100%);
+        color: #fff;
+        border: none;
+        padding: 0.6rem 1.5rem;
+        border-radius: 50rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.2px;
+        box-shadow: 0 4px 14px var(--accent-glow);
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .btn-add-fee:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(13,148,136,0.35);
+        color: #fff;
+    }
+
+    .btn-add-fee:active {
+        transform: translateY(0);
+    }
+
+    /* ───────── Filter Card ───────── */
+    .filter-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .filter-card:hover {
+        box-shadow: var(--shadow-md);
+    }
+
+    .filter-card-header {
+        background: var(--bg-elevated);
+        padding: 0.85rem 1.5rem;
+        border-bottom: 1px solid var(--border-light);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .filter-card-header .header-icon {
+        width: 28px;
+        height: 28px;
+        background: var(--accent-light);
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+        font-size: 0.75rem;
+    }
+
+    .filter-card-header h6 {
         font-weight: 700;
         font-size: 0.85rem;
+        color: var(--text-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin: 0;
+    }
+
+    .filter-card-body {
+        padding: 1.25rem 1.5rem 1rem;
+    }
+
+    .filter-group {
+        margin-bottom: 0.5rem;
+    }
+
+    .filter-group label {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-secondary);
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        padding: 1rem 0.75rem;
+        margin-bottom: 0.35rem;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
     }
 
-    .modern-table tbody tr {
-        transition: all 0.2s ease;
+    .filter-group label i {
+        font-size: 0.7rem;
+        color: var(--accent);
     }
 
-        .modern-table tbody tr:hover {
-            background-color: #f1f3f5;
-            transform: translateY(-1px);
-        }
-
-    .modern-table td {
-        vertical-align: middle;
-        padding: 0.85rem 0.75rem;
-        border-color: #f1f1f1;
-    }
-
-    .badge-pill-custom {
-        padding: 0.5em 0.9em;
-        border-radius: 50rem;
-        font-weight: 600;
-        font-size: 0.8rem;
-    }
-
-    .fee-detail-box {
-        background: #f8f9fa;
-        padding: 8px 12px;
-        border-radius: 8px;
-        line-height: 1.6;
-    }
-
-        .fee-detail-box div {
-            font-size: 0.85rem;
-        }
-
-    /* Pagination Styles */
-    .pagination-footer {
-        background: #ffffff;
-        border-top: 1px solid #e9ecef;
-        padding: 1rem 1.5rem;
-        border-radius: 0 0 12px 12px;
-    }
-
-    .page-btn {
-        border: 1px solid #dee2e6;
+    .filter-group .form-control {
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 0.55rem 0.85rem;
+        font-size: 0.88rem;
+        color: var(--text-primary);
         background: #fff;
-        color: #007bff;
-        padding: 6px 14px;
-        margin: 0 3px;
-        border-radius: 6px;
-        cursor: pointer;
         transition: all 0.2s ease;
+    }
+
+    .filter-group .form-control:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-light);
+        outline: none;
+    }
+
+    /* ───────── Table Card ───────── */
+    .table-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+    }
+
+    .table-card-header {
+        background: linear-gradient(135deg, #0f766e 0%, var(--accent) 50%, #14b8a6 100%);
+        padding: 1rem 1.5rem;
+        border-bottom: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .table-card-header h5 {
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: #fff;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .record-badge {
+        background: rgba(255,255,255,0.18);
+        backdrop-filter: blur(6px);
+        color: #fff;
+        padding: 0.3em 0.85em;
+        border-radius: 50rem;
+        font-weight: 700;
+        font-size: 0.78rem;
+        letter-spacing: 0.3px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* ───────── Table ───────── */
+    .fee-table {
+        margin-bottom: 0;
+    }
+
+    .fee-table thead th {
+        background: var(--bg-elevated);
+        border-bottom: 2px solid var(--border);
+        color: var(--text-secondary);
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        padding: 0.85rem 1rem;
+        white-space: nowrap;
+    }
+
+    .fee-table tbody tr {
+        transition: background 0.15s ease;
+    }
+
+    .fee-table tbody tr:hover {
+        background: var(--accent-light);
+    }
+
+    .fee-table tbody td {
+        vertical-align: middle;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border-light);
+        color: var(--text-primary);
+        font-size: 0.88rem;
+    }
+
+    .fee-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Row number */
+    .row-num {
+        font-weight: 700;
+        color: var(--text-muted);
+        font-size: 0.82rem;
+    }
+
+    /* Type badge */
+    .type-badge {
+        display: inline-block;
+        padding: 0.25em 0.75em;
+        border-radius: 50rem;
+        font-weight: 700;
+        font-size: 0.75rem;
+        letter-spacing: 0.3px;
+    }
+
+    .type-badge.new {
+        background: rgba(13,148,136,0.1);
+        color: var(--accent);
+    }
+
+    .type-badge.old {
+        background: rgba(99,102,241,0.1);
+        color: #6366f1;
+    }
+
+    /* Fee detail mini-card */
+    .fee-detail-card {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-sm);
+        padding: 0.6rem 0.85rem;
+        min-width: 180px;
+    }
+
+    .fee-detail-card .fee-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.82rem;
+        padding: 0.15rem 0;
+    }
+
+    .fee-detail-card .fee-line .fee-label {
+        color: var(--text-secondary);
         font-weight: 500;
     }
 
-        .page-btn:hover:not(.disabled) {
-            background: #e9ecef;
-            border-color: #ced4da;
-        }
+    .fee-detail-card .fee-line .fee-value {
+        font-weight: 700;
+        color: var(--text-primary);
+        font-variant-numeric: tabular-nums;
+    }
 
-        .page-btn.active {
-            background: #007bff;
-            color: #fff;
-            border-color: #007bff;
-            box-shadow: 0 2px 5px rgba(0,123,255,0.3);
-        }
+    .fee-detail-card .fee-line + .fee-line {
+        border-top: 1px dashed var(--border);
+        margin-top: 0.2rem;
+        padding-top: 0.3rem;
+    }
 
-        .page-btn.disabled {
-            color: #ced4da;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
+    /* Total amount */
+    .total-amount {
+        font-weight: 800;
+        font-size: 0.95rem;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+    }
 
-    .btn-action-delete {
-        border-radius: 50%;
-        width: 32px;
-        height: 32px;
+    /* Delete button */
+    .btn-delete {
+        width: 34px;
+        height: 34px;
+        border-radius: var(--radius-sm);
         display: inline-flex;
         align-items: center;
         justify-content: center;
         padding: 0;
-        transition: all 0.2s;
+        background: var(--danger-light);
+        color: var(--danger);
+        border: 1px solid transparent;
+        font-size: 0.82rem;
+        transition: all 0.2s ease;
     }
 
-        .btn-action-delete:hover {
-            transform: scale(1.1);
-        }
+    .btn-delete:hover {
+        background: var(--danger);
+        color: #fff;
+        border-color: var(--danger);
+        transform: scale(1.08);
+        box-shadow: 0 3px 10px rgba(239,68,68,0.25);
+    }
+
+    /* ───────── Empty State ───────── */
+    .empty-state {
+        text-align: center;
+        padding: 3.5rem 1rem;
+    }
+
+    .empty-icon-wrap {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 1.25rem;
+        background: var(--accent-light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .empty-icon-wrap i {
+        font-size: 1.75rem;
+        color: var(--accent);
+    }
+
+    .empty-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.35rem;
+    }
+
+    .empty-desc {
+        font-size: 0.88rem;
+        color: var(--text-muted);
+    }
+
+    /* ───────── Pagination Footer ───────── */
+    .pagination-footer {
+        background: var(--bg-elevated);
+        border-top: 1px solid var(--border-light);
+        padding: 0.85rem 1.5rem;
+    }
+
+    .paging-info {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    .page-size-select {
+        border: 1.5px solid var(--border);
+        border-radius: 6px;
+        padding: 3px 6px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        outline: none;
+        margin: 0 4px;
+        transition: all 0.2s ease;
+    }
+
+    .page-size-select:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    /* Page buttons */
+    .page-btn {
+        border: 1.5px solid var(--border);
+        background: #fff;
+        color: var(--text-secondary);
+        padding: 5px 13px;
+        margin: 0 2px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.82rem;
+        transition: all 0.2s ease;
+    }
+
+    .page-btn:hover:not(.disabled):not(.active) {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-light);
+    }
+
+    .page-btn.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+        box-shadow: 0 2px 8px var(--accent-glow);
+    }
+
+    .page-btn.disabled {
+        color: var(--text-muted);
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    .page-dots {
+        color: var(--text-muted);
+        font-weight: 600;
+        padding: 0 4px;
+        font-size: 0.85rem;
+        user-select: none;
+    }
+
+    /* ───────── Stat Chips in Header (optional) ───────── */
+    .header-stat {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        background: rgba(255,255,255,0.12);
+        padding: 0.3em 0.75em;
+        border-radius: 50rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: rgba(255,255,255,0.9);
+        border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    /* ───────── Subtle row entrance ───────── */
+    .fee-table tbody tr {
+        animation: rowFadeIn 0.25s ease both;
+    }
+
+    @@keyframes rowFadeIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stagger animation delay by row index (set inline) */
+    .fee-table tbody tr:nth-child(1)  { animation-delay: 0.00s; }
+    .fee-table tbody tr:nth-child(2)  { animation-delay: 0.02s; }
+    .fee-table tbody tr:nth-child(3)  { animation-delay: 0.04s; }
+    .fee-table tbody tr:nth-child(4)  { animation-delay: 0.06s; }
+    .fee-table tbody tr:nth-child(5)  { animation-delay: 0.08s; }
+    .fee-table tbody tr:nth-child(6)  { animation-delay: 0.10s; }
+    .fee-table tbody tr:nth-child(7)  { animation-delay: 0.12s; }
+    .fee-table tbody tr:nth-child(8)  { animation-delay: 0.14s; }
+    .fee-table tbody tr:nth-child(9)  { animation-delay: 0.16s; }
+    .fee-table tbody tr:nth-child(10) { animation-delay: 0.18s; }
+
+    /* ───────── Responsive ───────── */
+    @@media (max-width: 768px) {
+        .fee-page-title { font-size: 1.25rem; }
+        .filter-card-body { padding: 1rem; }
+        .table-card-header { padding: 0.85rem 1rem; }
+        .fee-table thead th,
+        .fee-table tbody td { padding: 0.6rem 0.65rem; font-size: 0.82rem; }
+        .fee-detail-card { min-width: unset; }
+        .pagination-footer { padding: 0.75rem 1rem; }
+    }
+
+    /* Override content-wrapper default padding if any */
+    .content-header > .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+    }
 </style>
 
 <div class="content-wrapper">
 
-    <!-- Header -->
+    <!-- ═══ Header ═══ -->
     <section class="content-header">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <h4 class="mb-0 font-weight-bold">Fee Management</h4>
-            <a class="btn btn-primary btn-lg rounded-pill shadow-sm" href="@Url.Action("AddFee", "Fee")">
-                <i class="fas fa-plus mr-1"></i> Add Fee
+            <div class="fee-page-title">
+                <span class="title-icon"><i class="fas fa-rupee-sign"></i></span>
+                Fee Management
+            </div>
+            <a class="btn btn-add-fee" href="@Url.Action("AddFee", "Fee")">
+                <i class="fas fa-plus"></i> Add Fee
             </a>
         </div>
     </section>
 
-    <!-- Content -->
+    <!-- ═══ Filters ═══ -->
     <section class="content">
-
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label><i class="fas fa-calendar-alt"></i> Session</label>
-                    <select id="ddlSession" class="form-control modern-input" asp-items="Model.SessionList" asp-for="Session">
-                        <option value="">Select Session</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label><i class="fas fa-user-tag"></i> New / Old</label>
-                    <select id="ddlNewOld" class="form-control modern-input" asp-for="NewOld">
-                        <option value="">Select Type</option>
-                        <option>New</option>
-                        <option>Old</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label><i class="fas fa-calendar-day"></i> Year</label>
-                    <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control modern-input">
-                        <option value="">Select Year</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label><i class="fas fa-chalkboard"></i> Class</label>
-                    <select id="ddlClass" asp-for="Subject" asp-items="Model.ClassList" class="form-control modern-input">
-                        <option value="">Select Class</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label><i class="fas fa-book-open"></i> Course</label>
-                    <select id="ddlCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control modern-input">
-                        <option value="">Select Course</option>
-                    </select>
-                </div>
-            </div>
-
-        </div>
-
         <div class="container-fluid">
+            <div class="filter-card mb-4">
+                <div class="filter-card-header">
+                    <span class="header-icon"><i class="fas fa-filter"></i></span>
+                    <h6>Filters</h6>
+                </div>
+                <div class="filter-card-body">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="filter-group">
+                                <label><i class="fas fa-calendar-alt"></i> Session</label>
+                                <select id="ddlSession" class="form-control" asp-items="Model.SessionList" asp-for="Session">
+                                    <option value="">Select Session</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="filter-group">
+                                <label><i class="fas fa-user-tag"></i> New / Old</label>
+                                <select id="ddlNewOld" class="form-control" asp-for="NewOld">
+                                    <option value="">Select Type</option>
+                                    <option>New</option>
+                                    <option>Old</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="filter-group">
+                                <label><i class="fas fa-calendar-day"></i> Year</label>
+                                <select id="ddlYear" asp-for="Year" asp-items="Model.YearList" class="form-control">
+                                    <option value="">Select Year</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="filter-group">
+                                <label><i class="fas fa-chalkboard"></i> Class</label>
+                                <select id="ddlClass" asp-for="Subject" asp-items="Model.ClassList" class="form-control">
+                                    <option value="">Select Class</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="filter-group">
+                                <label><i class="fas fa-book-open"></i> Course</label>
+                                <select id="ddlCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
+                                    <option value="">Select Course</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <div class="card modern-card">
+    <!-- ═══ Table ═══ -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="table-card" id="feeTableCard">
 
-
-                <div class="card-header text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="fas fa-list-ul mr-2"></i>Fee Structure List</h5>                    
+                <div class="table-card-header">
+                    <h5><i class="fas fa-th-list"></i> Fee Structure List</h5>
+                    <span id="totalRecordBadge" class="record-badge">0 Records</span>
                 </div>
 
                 <div class="card-body p-0">
                     <div class="table-responsive">
-
-                        <table class="table table-hover mb-0 modern-table" id="feeTable">
+                        <table class="table table-hover mb-0 fee-table" id="feeTable">
                             <thead>
                                 <tr>
-                                    <th width="60">#</th>
+                                    <th width="55">#</th>
                                     <th>Type</th>
                                     <th>Session</th>
                                     <th>Year</th>
                                     <th>Class</th>
                                     <th>Course</th>
-                                    <th class="text-center">Fee Details</th>
+                                    <th class="text-center" style="min-width:200px">Fee Details</th>
                                     <th class="text-center">Total</th>
-                                    <th class="text-center" width="80">Action</th>
+                                    <th class="text-center" width="70">Action</th>
                                 </tr>
                             </thead>
-
-                            <tbody >
-                                
-                            </tbody>
-
+                            <tbody id="feeTableBody"></tbody>
                         </table>
-
                     </div>
                 </div>
 
                 <!-- Pagination Footer -->
-                @if (Model.FeeClassList != null && Model.FeeClassList.Count() > 50)
-                {
-                    <div class="pagination-footer d-flex justify-content-between align-items-center">
-                        <div id="pagingInfo" class="text-muted small font-weight-bold"></div>
+                <div id="paginationFooter" class="pagination-footer d-none">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div class="d-flex align-items-center flex-wrap gap-2">
+                            <span id="pagingInfo" class="paging-info"></span>
+                            <span class="text-muted" style="font-size:0.75rem">|</span>
+                            <label class="paging-info mb-0 d-flex align-items-center">
+                                Show
+                                <select id="pageSizeSelect" class="page-size-select" onchange="ChangePageSize(this.value)">
+                                    <option value="25">25</option>
+                                    <option value="50" selected>50</option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                </select>
+                                entries
+                            </label>
+                        </div>
                         <div id="paginationControls" class="d-flex align-items-center"></div>
                     </div>
-                }
-            </div>
+                </div>
 
+            </div>
         </div>
     </section>
 </div>
 
 @section Scripts {
-    <script src="~/plugins/jquery/jquery.js"></script>
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <script>
-    var BASE_URL = "@baseUrl";
+        var BASE_URL = "@baseUrl";
         var Toast;
-        var allStudents = [];
+        var allFees = [];
         var currentPage = 1;
-        var pageSize = 50;
-        var selectedIds = new Set();
-        var currentPrintMode = 'all';
+        var pageSize = 25;
 
-    $(document).ready(function () {
-        Toast = Swal.mixin({
-            toast: true,
-            position: 'top-right',
-            timer: 1500,
-            showConfirmButton: false
-        });
+        $(document).ready(function () {
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-right',
+                timer: 1800,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
 
-        // Set total record count
-        var totalRecords = $('.fee-row').length;
-        $('#totalRecordBadge').text(totalRecords + ' Records');
+            // Bind filter dropdowns
+            $("#ddlSession, #ddlNewOld, #ddlYear, #ddlClass, #ddlCourse").change(function () {
+                SearchFee();
+            });
 
-        // Initialize Pagination if more than 50 records
-        if (totalRecords > 50) {
-            setupPagination();
-        }
-
-        //----------Dropdown change for Filters--------
-        $("#ddlSession, #ddlNewOld, #ddlYear, #ddlClass, #ddlCourse").change(function () {
+            // Initial load
             SearchFee();
         });
-        //----------Fill Table----
-        SearchFee();
-    });
 
-
+        /* ── Fetch fees from server ── */
         function SearchFee() {
-            var varClass = $('#ddlClass option:selected').text();
-            var varYear = $('#ddlYear option:selected').text();
-            var varCourse = $('#ddlCourse option:selected').text();
+            var varClass   = $('#ddlClass option:selected').text();
+            var varYear    = $('#ddlYear option:selected').text();
+            var varCourse  = $('#ddlCourse option:selected').text();
             var varSession = $('#ddlSession option:selected').text();
-            var varNewOld = $("#ddlNewOld option:selected").text();
+            var varNewOld  = $("#ddlNewOld option:selected").text();
 
             $.post(BASE_URL + "/Fee/SearchFee", {
                 classes: varClass,
-                course: varCourse,
-                year: varYear,
+                course:  varCourse,
+                year:    varYear,
                 session: varSession,
-                newOld: varNewOld
+                newOld:  varNewOld
             }, function (res) {
-
-                var tableData = res.data || [];
-                allStudents = tableData;
+                allFees = res.data || [];
                 currentPage = 1;
-               // selectedIds.clear();
-                $('#statSelected').text(0);
-               // updateStats(allStudents);
+                $('#totalRecordBadge').text(allFees.length + ' Records');
                 RenderPage();
             });
         }
 
-
-    function Alert(icon, title) {
-        Toast.fire({ icon: icon, title: title });
-    }
-
-    // ── Pagination Logic (50 per page) ──
-    function setupPagination() {
-        var pageSize = 50;
-        var $rows = $('#feeTableBody .fee-row');
-        var totalRows = $rows.length;
-        var totalPages = Math.ceil(totalRows / pageSize);
-        var currentPage = 1;
-
-        function displayPage(page) {
-            currentPage = page;
-            var start = (page - 1) * pageSize;
-            var end = start + pageSize;
-
-            $rows.hide().slice(start, end).show();
-
-            var endIdx = Math.min(end, totalRows);
-            $('#pagingInfo').text('Showing ' + (start + 1) + ' to ' + endIdx + ' of ' + totalRows + ' entries');
-
-            renderPaginationButtons(page);
+        /* ── Toast helper ── */
+        function Alert(icon, title) {
+            Toast.fire({ icon: icon, title: title });
         }
 
-        function renderPaginationButtons(page) {
-            var $controls = $('#paginationControls');
-            $controls.empty();
-
-            // Previous Button
-            $controls.append('<button class="page-btn ' + (page === 1 ? 'disabled' : '') + '" data-page="' + (page - 1) + '">« Prev</button>');
-
-            // Page Numbers Logic (Show max 3 pages around current, with first/last always visible)
-            var startPage = Math.max(1, page - 1);
-            var endPage = Math.min(totalPages, page + 1);
-
-            if (page === 1) endPage = Math.min(3, totalPages);
-            if (page === totalPages) startPage = Math.max(1, totalPages - 2);
-
-            if (startPage > 1) {
-                $controls.append('<button class="page-btn" data-page="1">1</button>');
-                if (startPage > 2) $controls.append('<span class="px-1 text-muted">...</span>');
-            }
-
-            for (var i = startPage; i <= endPage; i++) {
-                $controls.append('<button class="page-btn ' + (i === page ? 'active' : '') + '" data-page="' + i + '">' + i + '</button>');
-            }
-
-            if (endPage < totalPages) {
-                if (endPage < totalPages - 1) $controls.append('<span class="px-1 text-muted">...</span>');
-                $controls.append('<button class="page-btn" data-page="' + totalPages + '">' + totalPages + '</button>');
-            }
-
-            // Next Button
-            $controls.append('<button class="page-btn ' + (page === totalPages ? 'disabled' : '') + '" data-page="' + (page + 1) + '">Next »</button>');
-        }
-
-        // Event Delegation for Pagination Clicks
-        $('#paginationControls').on('click', '.page-btn:not(.disabled)', function() {
-            var targetPage = $(this).data('page');
-            if (targetPage >= 1 && targetPage <= totalPages) {
-                displayPage(targetPage);
-                // Scroll to top of table smoothly
-                $('html, body').animate({ scrollTop: $('#feeTable').offset().top - 100 }, 300);
-            }
-        });
-
-        // Initialize first page
-        displayPage(1);
-    }
-
-    // DELETE
-    function deleteFee(id) {
-        Swal.fire({
-            title: "Delete Fee?",
-            text: "This action cannot be undone",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!",
-            customClass: {
-                confirmButton: 'btn btn-danger',
-                cancelButton: 'btn btn-default'
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.post(BASE_URL + "/Fee/DeleteFee", { id: id }, function () {
-                    Alert('success', 'Deleted successfully');
-                    location.reload();
-                });
-            }
-        });
-    }
-
-
-        function RenderTable(pageData) {
-
-            debugger;
-            $("#feeTable tbody").empty();
-
-            if (allStudents.length === 0) {
-                $("#feeTable tbody").append(
-                    '<tr><td colspan="14">' +
-                    '<div class="empty-state">' +
-                    '<div class="empty-icon"><i class="fas fa-inbox"></i></div>' +
-                    '<div class="empty-title">No students found</div>' +
-                    '<div class="empty-desc">Try adjusting your filters or search term</div>' +
-                    '</div></td></tr>'
-                );
-                return;
-            }
-
-            var startIndex = (currentPage - 1) * pageSize;
-            debugger;
-            $.each(pageData, function (index, element) {
-                var globalIndex = startIndex + index;
-                var delay = Math.min(index * 0.03, 0.8);
-
-
-
-                var row =
-                    '<tr>'+
-                    '<td> ' + globalIndex + '</td><td>' + element.newOld + '</td><td>' + element.session + '</td>' +
-                    '<td> ' + element.year + '</td><td>' + element.subject + '</td><td>' + element.course + '</td>' +
-                    '<td> <div class="fee-detail-box"><div><strong>Admission:</strong> ₹ ' + element.newStudentFee + ' </div><div><strong>CMoney:</strong> ₹' + element.cMoney + '</div> <div><strong>Tution:</strong> ₹' + element.totalFee + '</div><div><strong>Other:</strong> ₹' + element.otherFee+'</div></div></td>' +
-                    '<td>' + element.totalFeeCM + '</td>' +
-                    '<td><button class="btn btn-danger btn-action-delete" onclick="deleteFee(' + element.id + ')" title="Delete"><i class="fas fa-trash-alt"></i></button> </td>' +
-                    '</tr>';
-
-                $("#feeTable").append(row);
-            });
-
-
-        }
-
-
+        /* ── Pagination helpers ── */
         function GetTotalPages() {
-            if (allStudents.length === 0) return 1;
-            return Math.ceil(allStudents.length / pageSize);
+            return allFees.length === 0 ? 1 : Math.ceil(allFees.length / pageSize);
         }
 
         function GetPageData() {
             var start = (currentPage - 1) * pageSize;
-            var end = start + pageSize;
-            return allStudents.slice(start, end);
+            return allFees.slice(start, start + pageSize);
         }
 
         function GoToPage(page) {
@@ -451,7 +705,7 @@
             if (page < 1 || page > total) return;
             currentPage = page;
             RenderPage();
-            document.querySelector('.table-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('feeTableCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function ChangePageSize(size) {
@@ -460,13 +714,165 @@
             RenderPage();
         }
 
+        /* ── Master render ── */
         function RenderPage() {
-            debugger;
             var pageData = GetPageData();
             RenderTable(pageData);
             RenderPagination();
         }
 
+        /* ── Render table rows ── */
+        function RenderTable(pageData) {
+            var $tbody = $("#feeTableBody");
+            $tbody.empty();
 
+            if (allFees.length === 0) {
+                $tbody.append(
+                    '<tr><td colspan="9">' +
+                    '<div class="empty-state">' +
+                        '<div class="empty-icon-wrap"><i class="fas fa-inbox"></i></div>' +
+                        '<div class="empty-title">No fees found</div>' +
+                        '<div class="empty-desc">Try adjusting your filters or add a new fee structure</div>' +
+                    '</div></td></tr>'
+                );
+                return;
+            }
+
+            var startIndex = (currentPage - 1) * pageSize;
+
+            $.each(pageData, function (index, el) {
+                var rowNum = startIndex + index + 1;
+                
+                // Type badge
+                var typeText = escapeHtml(el.newOld || '');
+                var typeClass = (typeText.toLowerCase() === 'new') ? 'new' : 'old';
+                var typeBadge = '<span class="type-badge ' + typeClass + '">' + typeText + '</span>';
+
+                // Fee detail mini-card
+                var feeDetail =
+                    '<div class="fee-detail-card">' +
+                        '<div class="fee-line"><span class="fee-label">Admission</span><span class="fee-value">₹' + formatNumber(el.newStudentFee) + '</span></div>' +
+                        '<div class="fee-line"><span class="fee-label">C-Money</span><span class="fee-value">₹' + formatNumber(el.cMoney) + '</span></div>' +
+                    '<div class="fee-line"><span class="fee-label">Tution</span><span class="fee-value">₹' + formatNumber(el.tutionFee) + '</span></div>' +
+                        '<div class="fee-line"><span class="fee-label">Other</span><span class="fee-value">₹' + formatNumber(el.otherFee) + '</span></div>' +
+                    '</div>';
+
+                var row =
+                    '<tr>' +
+                    '<td><span class="row-num">' + rowNum + '</span></td>' +
+                    '<td>' + typeBadge + '</td>' +
+                    '<td>' + escapeHtml(el.session || '') + '</td>' +
+                    '<td>' + escapeHtml(el.year || '') + '</td>' +
+                    '<td>' + escapeHtml(el.subject || '') + '</td>' +
+                    '<td>' + escapeHtml(el.course || '') + '</td>' +
+                    '<td class="text-center">' + feeDetail + '</td>' +
+                    '<td class="text-center"><span class="total-amount">₹' + formatNumber(el.totalFee) + '</span></td>' +
+                    '<td class="text-center">' +
+                        '<button class="btn-delete" onclick="deleteFee(' + el.id + ')" title="Delete">' +
+                            '<i class="fas fa-trash-alt"></i>' +
+                        '</button>' +
+                    '</td>' +
+                    '</tr>';
+
+                $tbody.append(row);
+            });
+        }
+
+        /* ── Render pagination controls ── */
+        function RenderPagination() {
+            var totalPages = GetTotalPages();
+            var $footer   = $('#paginationFooter');
+            var $controls = $('#paginationControls');
+            var $info     = $('#pagingInfo');
+
+            if (allFees.length === 0) {
+                $footer.addClass('d-none');
+                return;
+            }
+            $footer.removeClass('d-none');
+
+            // Info text
+            var start = (currentPage - 1) * pageSize + 1;
+            var end   = Math.min(currentPage * pageSize, allFees.length);
+            $info.text('Showing ' + start + ' – ' + end + ' of ' + allFees.length);
+
+            // Sync page size dropdown
+            $('#pageSizeSelect').val(pageSize);
+
+            $controls.empty();
+
+            // Previous
+            $controls.append(
+                '<button class="page-btn' + (currentPage === 1 ? ' disabled' : '') + '" onclick="GoToPage(' + (currentPage - 1) + ')"><i class="fas fa-chevron-left" style="font-size:0.65rem"></i></button>'
+            );
+
+            // Page numbers — compact window
+            var startPage = Math.max(1, currentPage - 1);
+            var endPage   = Math.min(totalPages, currentPage + 1);
+
+            if (currentPage === 1) endPage = Math.min(3, totalPages);
+            if (currentPage === totalPages) startPage = Math.max(1, totalPages - 2);
+
+            if (startPage > 1) {
+                $controls.append('<button class="page-btn" onclick="GoToPage(1)">1</button>');
+                if (startPage > 2) $controls.append('<span class="page-dots">…</span>');
+            }
+
+            for (var i = startPage; i <= endPage; i++) {
+                $controls.append(
+                    '<button class="page-btn' + (i === currentPage ? ' active' : '') + '" onclick="GoToPage(' + i + ')">' + i + '</button>'
+                );
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) $controls.append('<span class="page-dots">…</span>');
+                $controls.append('<button class="page-btn" onclick="GoToPage(' + totalPages + ')">' + totalPages + '</button>');
+            }
+
+            // Next
+            $controls.append(
+                '<button class="page-btn' + (currentPage === totalPages ? ' disabled' : '') + '" onclick="GoToPage(' + (currentPage + 1) + ')"><i class="fas fa-chevron-right" style="font-size:0.65rem"></i></button>'
+            );
+        }
+
+        /* ── Delete fee ── */
+        function deleteFee(id) {
+            Swal.fire({
+                title: "Delete Fee?",
+                text: "This action cannot be undone.",
+                icon: "warning",
+                iconColor: "#ef4444",
+                showCancelButton: true,
+                confirmButtonColor: "#ef4444",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "Cancel",
+                customClass: {
+                    confirmButton: 'btn btn-danger px-4',
+                    cancelButton: 'btn btn-default px-4'
+                }
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    $.post(BASE_URL + "/Fee/DeleteFee", { id: id }, function () {
+                        Alert('success', 'Deleted successfully');
+                        SearchFee();
+                    });
+                }
+            });
+        }
+
+        /* ── Utility: escape HTML ── */
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;')
+                      .replace(/</g, '&lt;')
+                      .replace(/>/g, '&gt;')
+                      .replace(/"/g, '&quot;');
+        }
+
+        /* ── Utility: format number with commas ── */
+        function formatNumber(num) {
+            if (num === null || num === undefined) return '0';
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
     </script>
 }
