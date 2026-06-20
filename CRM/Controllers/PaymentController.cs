@@ -582,6 +582,7 @@ namespace CRM.Controllers
             updateFee.DisBy = discountBy;
             updateFee.DisResion = discountRession;
             updateFee.TotalFeeAfterDiscount = afterDiscountTotalFee;
+
             var tee =_studentFeeRepo.FeeConsessionAfterAdmission(updateFee);
 
             return Json(new { success = true, data = "" });

@@ -1271,6 +1271,32 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
+                                        <label>New Student Fee</label>
+                                        <input type="text" class="form-control" id="txtDisNewStudentFee" name="DiscountBy" value="">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>C-Money</label>
+                                        <input type="text" class="form-control" id="txtDisCMoney" name="DiscountBy" value="">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Tuition Fee</label>
+                                        <input type="text" class="form-control" id="txtDisTutionFee" name="DiscountBy" value="">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Other Fee</label>
+                                        <input type="number" class="form-control" id="txtDisOtherFee" name="DiscountBy" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
                                         <label>Scholarship</label>
                                         <input type="hidden" id="hdnStudentFeeId" />
                                         <input type="hidden" id="hdnTotalFeeCurrently" />
@@ -1648,28 +1674,40 @@
         // Concession Modal
         // ═══════════════════════════════════════════════════
         function ConcessionPopUp(studentId) {
-            $.post(BASE_URL + "/Payment/GetFeeDetail", { id: studentId }, function (res) {
-                var photoUrl = BASE_URL + "/StudentData/Photo/" + res.studentData.photo + ".jpg";
-                $('#imgPhoto').attr('src', photoUrl);
+            $.post(BASE_URL + "/Payment/GetFeeDetail",
+                { id: studentId },
+                function (res)
+                {
+                    debugger;
+                    var photoUrl = BASE_URL + "/StudentData/Photo/" + res.studentData.photo + ".jpg";
+                    $('#imgPhoto').attr('src', photoUrl);
 
-                $('#hdnStudentFeeId').val(res.concessionDetail.id);
-                $('#hdnTotalFeeCurrently').val(res.concessionDetail.totalFeeAfterDiscount);
-                $('#hdnCurrentlyDiscount').val(res.concessionDetail.scholership);
+                    $('#hdnStudentFeeId').val(res.concessionDetail.id);
+                    $('#hdnTotalFeeCurrently').val(res.concessionDetail.totalFeeAfterDiscount);
+                    $('#hdnCurrentlyDiscount').val(res.concessionDetail.scholership);
 
-                $('#spnName').text(res.studentData.studentName + " / " + res.studentData.fatherName);
-                $('#spnClass').text(res.studentData.class + " / " + res.studentData.course + " / " + res.studentData.year + " / " + res.studentData.session);
-                $('#spnTotalFee').text('\u20B9' + Number(res.concessionDetail.totalFee).toLocaleString('en-IN'));
-                $('#spnDiscount').text('\u20B9' + Number(res.concessionDetail.scholership).toLocaleString('en-IN'));
-                $('#spnDiscountBy').text(res.concessionDetail.disBy + (res.concessionDetail.disResion ? " / " + res.concessionDetail.disResion : ""));
-                $('#spnFeeAfterDiscount').text('\u20B9' + Number(res.concessionDetail.totalFeeAfterDiscount).toLocaleString('en-IN'));
+                    $('#spnName').text(res.studentData.studentName + " / " + res.studentData.fatherName);
+                    $('#spnClass').text(res.studentData.class + " / " + res.studentData.course + " / " + res.studentData.year + " / " + res.studentData.session);
+                    $('#spnTotalFee').text('\u20B9' + Number(res.concessionDetail.totalFee).toLocaleString('en-IN'));
+                    $('#spnDiscount').text('\u20B9' + Number(res.concessionDetail.scholership).toLocaleString('en-IN'));
+                    $('#spnDiscountBy').text(res.concessionDetail.disBy + (res.concessionDetail.disResion ? " / " + res.concessionDetail.disResion : ""));
+                    $('#spnFeeAfterDiscount').text('\u20B9' + Number(res.concessionDetail.totalFeeAfterDiscount).toLocaleString('en-IN'));
 
-                // Pre-fill form
-                $('#txtScholership').val(0);
-                $('#txtDiscountBy').val('');
-                $('#txtDiscountReasion').val('');
-                $('#txtAfterDiscountTotalFee').val(res.concessionDetail.totalFeeAfterDiscount);
+                    //--------Display Fee----
 
-                $("#modal-ConcessionPopUp").modal("show");
+                    $('#txtDisNewStudentFee').val(res.concessionDetail.newStudentFee);
+                    $('#txtDisTutionFee').val(res.concessionDetail.tutionFee);
+                    $('#txtDisCMoney').val(res.concessionDetail.cMoney);
+                    $('#txtDisOtherFee').val(res.concessionDetail.otherFee);
+               
+
+                    // Pre-fill form
+                    $('#txtScholership').val(0);
+                    $('#txtDiscountBy').val('');
+                    $('#txtDiscountReasion').val('');
+                    $('#txtAfterDiscountTotalFee').val(res.concessionDetail.totalFeeAfterDiscount);
+
+                    $("#modal-ConcessionPopUp").modal("show");
             });
         }
 

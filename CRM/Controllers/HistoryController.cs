@@ -243,7 +243,7 @@ namespace CRM.Controllers
 
                     model.Minority = varStudentDetail.Minority;
                     model.ExamFormSubmited = varStudentDetail.ExamFormSubmited;
-
+                    model.Result = varStudentDetail.Result;
                     //---Dropdown--
                     model.SelectedClass = varStudentDetail.Classs;
                     model.SelectedSubject = model.Subject;
@@ -346,7 +346,8 @@ namespace CRM.Controllers
         //--------------------- Save Update Detail--------------
         public IActionResult UpdateCollegeDetail(int id, string varSession, string varNewOld, string varMedium,
             string varClass, string varCourse, string varYear, string varAdmissionFormNo, string varEnRollNo,
-             string varAdmissionDate, string varRollNo, string varSchoolarNo, string varSubCode, string varRegEx)
+             string varAdmissionDate, string varRollNo, string varSchoolarNo, string varSubCode, string varRegEx,
+             string varExamFormSubmited, string varResult)
 
         {
             StudentHistory stuObj = new StudentHistory();
@@ -371,6 +372,10 @@ namespace CRM.Controllers
 
             if (!string.IsNullOrEmpty(varRollNo))
                 stuObj.RollNo = varRollNo.ToUpper();
+
+                stuObj.ExamFormSubmited = varExamFormSubmited;
+
+                stuObj.Result = varResult;
 
 
             if (!string.IsNullOrEmpty(varSchoolarNo))

@@ -1116,6 +1116,24 @@
                         <label>Sub Code</label>
                         <input id="txtSubCode" asp-for="SubCode" class="form-control" placeholder="Sub Code">
                     </div>
+                    <div class="col-md-4">
+                        <label>Exam Form Submited </label>
+                        <select id="ddlExamFormSubmited" asp-for="ExamFormSubmited" class="form-control">
+                            <option value="">Select</option>
+                            <option>YES</option>
+                            <option>NO</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Result </label>
+                        <select id="ddlResult" asp-for="Result" class="form-control">
+                            <option value="">Select</option>
+                            <option>PASS</option>
+                            <option>FAIL</option>
+                            <option>NC</option>
+                        </select>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -1342,6 +1360,8 @@
             if (!validateField("#ddlNewOld", "Select NewOld", "dropdown")) IsValidate = false;
             if (!validateField("#ddlMedium", "Select Medium", "dropdown")) IsValidate = false;
             if (!validateField("#ddlRegEx", "Select RegEx", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlExamFormSubmited", "Select Exam Form Submited", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlResult", "Select Result", "dropdown")) IsValidate = false;
 
             if (!IsValidate) return;
 
@@ -1355,6 +1375,8 @@
             var varSchoolarNo = $('#txtSchoolarNo').val();
             var varSubCode = $('#txtSubCode').val();
             var varRegEx = $('#ddlRegEx option:selected').text();
+            var varExamFormSubmited = $('#ddlExamFormSubmited option:selected').text();
+            var varResult = $('#ddlResult option:selected').text();
 
             if (IsValidate) {
                 $.post(BASE_URL + "/History/UpdateCollegeDetail", {
@@ -1371,7 +1393,9 @@
                     varRollNo: varRollNo,
                     varSchoolarNo: varSchoolarNo,
                     varSubCode: varSubCode,
-                    varRegEx: varRegEx
+                    varRegEx: varRegEx,
+                    varExamFormSubmited: varExamFormSubmited,
+                    varResult: varResult
                 },
                 function (res) {
                     $("#modal-College").modal("hide");

@@ -148,6 +148,8 @@ namespace CRM.Repositories
                 student.ScholerNo = model.ScholerNo;
                 student.SubCode = model.SubCode;
                 student.RegPvt = model.RegPvt;
+                student.ExamFormSubmited = model.ExamFormSubmited;
+                student.Result = model.Result;
                 student.UpdateDate = model.UpdateDate;
                 student.UpdateBy = model.UpdateBy;
 
