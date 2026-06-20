@@ -1,5 +1,6 @@
 ﻿using CRM.Data;
 using CRM.Models;
+using CRM.ModelsForView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,11 +93,7 @@ namespace CRM.Repositories
             return _context.StudentFee.Find(id);
         }
 
-        //public StudentFee GetStudentFeeDetailB(int studentId, string classes, string course, string year, string session, string newOld )
-        //{
-
-        //    return _context.StudentFee.Where(x => x.StudentId == studentId && x.Class == classes).FirstOrDefault();
-        //}
+       
         public StudentFee GetFeeByClasssCouseSessionYearNewOld(int studentId, string classes, string course,  string session, string year, string newOld)
         {
             return _context.StudentFee.FirstOrDefault(x => x.StudentId == studentId && x.Class == classes && x.Course == course && x.Year == year && x.Session == session);
@@ -122,6 +119,66 @@ namespace CRM.Repositories
             }
             return false;
         }
+
+
+        //----------------Recipt List-----------------
+
+        public List<ReceiptListViewModel> GetReceiptList(string session, string classes, string course, string year, string name)
+        {
+            List<ReceiptListViewModel> returnList = new List<ReceiptListViewModel>();
+            try { 
+
+            
+
+           
+            returnList = _context.StudentTransaction
+                                   .Join(
+                                       _context.Student,
+                                       st => st.StudentId,
+                                       s => s.Id,
+                                       (st, s) => new { st, s }
+                                   )
+                                   .GroupBy(x => new
+                                   {
+                                       x.st.StudentId,
+                                       x.s.StudentName,
+                                       x.s.FatherName,
+                                       x.s.Class,
+                                       x.s.Course,
+                                       x.s.Year,
+                                       x.st.StudentFeeId,
+                                       x.st.RecBookNo,
+                                       x.st.RecNumber,
+                                       x.st.PaymentMode,
+                                       x.st.CreateDateTime
+                                   })
+                                   .Select(g => new ReceiptListViewModel
+                                   {
+                                       StudentId = g.Key.StudentId,
+                                       StudentName = g.Key.StudentName,
+                                       FatherName = g.Key.FatherName,
+                                       Class = g.Key.Class,
+                                       Course = g.Key.Course,
+                                       Year = g.Key.Year,
+                                       StudentFeeId = g.Key.StudentFeeId,
+                                       RecBookNo = g.Key.RecBookNo,
+                                       RecNumber = g.Key.RecNumber,
+                                       PaymentMode = g.Key.PaymentMode,
+                                       Count = g.Count(),
+                                       TotalAmount = g.Sum(x => x.st.Amount),
+                                       CreateDateTime = g.Key.CreateDateTime
+                                   })
+                                   .OrderBy(x => x.RecBookNo)
+                                   .ThenBy(x => x.RecNumber)
+                                   .ToList();
+            }
+            catch (Exception ex)
+            { 
+            }
+            return returnList;
+        }
+
+
 
 
     }

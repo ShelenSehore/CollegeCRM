@@ -588,6 +588,68 @@ namespace CRM.Controllers
             return Json(new { success = true, data = "" });
         }
 
+        //----------------Recipt List-----------------
+        public IActionResult ReciptList()
+        {
+            ViewBag.BaseUrl = _baseUrl;
+            ViewBag.BaseUrl = _baseUrl;
+            var model = new StudentListView();
+
+            model.ClassList = _classRepo.GetAll()
+                      .Select(x => new SelectListItem
+                      {
+                          Value = x.Name.ToString(),
+                          Text = x.Name
+                      })
+                      .ToList();
+
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+
+
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
+
+
+
+            return View(model);
+        }
+
+        public IActionResult ReceiptSearchList(string name, string classes, string course, string year, string session)
+        {
+            var data = _studentFeeRepo.GetReceiptList(session, classes, course, year, name);
+            return Json(new { success = true, data = data });
+        }
 
 
     }
