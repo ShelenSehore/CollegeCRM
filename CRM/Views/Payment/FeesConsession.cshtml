@@ -1033,6 +1033,13 @@
         .pagination-info {
             text-align: center;
         }
+
+        /* ========== SWEETALERT TOAST OVERRIDE ========== */
+        .swal2-popup.swal2-toast {
+            border-radius: var(--radius-sm) !important;
+            box-shadow: var(--shadow-lg) !important;
+        }
+
     }
 </style>
 
@@ -1387,6 +1394,21 @@
                     $("#txtAfterDiscountTotalFee").val(varTotalFeeAmount - varScholershipAmount);
                 }
             });
+
+            /* SweetAlert2 Toast */
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true,
+                didOpen: function (toast) {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+
+
         };
 
         function Alert(icon, title, className) {
@@ -1719,6 +1741,7 @@
                 discountRession: $('#txtDiscountReasion').val(),
                 afterDiscountTotalFee: $('#txtAfterDiscountTotalFee').val()
             }, function (res) {
+               debugger;
                 Alert('success', 'Successfully Saved', 'bg-success');
                 $("#modal-ConcessionPopUp").modal("hide");
                 SearchStudent();
