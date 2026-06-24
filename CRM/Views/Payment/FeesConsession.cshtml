@@ -1251,9 +1251,7 @@
                             <h3><span id="spnName"></span></h3>
                             <h5><span id="spnClass"></span></h5>
                         </div>
-                        <div>
-                            <button id="btnGetFee" onclick="GetFeeFromMaster()" value="GetFeeFromMaster"> Get Fee From Master</button>
-                        </div>
+                        
                         <ul class="fee-list">
                             <li class="fee-total">
                                 <span class="fee-label"><i class="fas fa-receipt"></i> Total Fee</span>
@@ -1326,7 +1324,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Net Fee After Dis.</label>
-                                        <input type="number" class="form-control" id="txtAfterDiscountTotalFee" name="txtAfterDiscountTotalFee" value="0" style="background:#d1fae5; font-weight:700; color:#065f46;">
+                                        <input type="number" class="form-control" id="txtAfterDiscountTotalFee" name="txtAfterDiscountTotalFee" readonly="readonly" value="0" style="background:#d1fae5; font-weight:700; color:#065f46;">
                                     </div>
                                 </div>
                             </div>
@@ -1364,6 +1362,15 @@
             $("#ddlClass, #ddlCourse, #ddlYear, #ddlSession").change(function () {
                 currentPage = 1;
                 SearchStudent();
+            });
+
+            $("#txtDisNewStudentFee, #txtDisTutionFee, #txtDisOtherFee, #txtScholership").change(function () {
+                var varDisNewStudentFee = parseFloat($('#txtDisNewStudentFee').val()) || 0;
+                var varDisTutionFee = parseFloat($('#txtDisTutionFee').val()) || 0;
+                var varDisOtherFee = parseFloat($('#txtDisOtherFee').val()) || 0;
+                var varScholership = parseFloat($('#txtScholership').val()) || 0;
+                var afterDiscount = Math.max(0, varDisNewStudentFee + varDisTutionFee + varDisOtherFee - varScholership);
+                $('#txtAfterDiscountTotalFee').val(afterDiscount);
             });
 
             // Quick search filters visible rows on current page

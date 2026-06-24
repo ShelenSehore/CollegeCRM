@@ -1361,13 +1361,7 @@ namespace CRM.Controllers
             return View(model);
         }
 
-        //public IActionResult SearchOldStudentList(string name, string classes, string year, string course, string session)
-        //{
-        //    //--------Get List
-        //    var data = _repoStudent.GetByStudentHistoryPage(session, classes, course, year, name);
-
-        //    return Json(new { success = true, data = data });
-        //}
+       
 
         //--------------Delete Acadmic Detail-------------------
         
@@ -1375,6 +1369,65 @@ namespace CRM.Controllers
         {
             _repoAcademic.Delete(id);
             return Json(new { success = true, data = "Success" });
+        }
+
+        //--------------Report---------------
+
+        public IActionResult Report()
+        {
+            ViewBag.BaseUrl = _baseUrl;
+            var model = new StudentListView();
+
+            var varSession = HttpContext.Session.GetString("Session");
+
+            model.ClassList = _classRepo.GetAll()
+                      .Select(x => new SelectListItem
+                      {
+                          Value = x.Name.ToString(),
+                          Text = x.Name
+                      })
+                      .ToList();
+
+
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name,
+                           Selected = x.Name == varSession
+                       })
+                       .ToList();
+
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+
+
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
+
+
+            return View(model);
         }
 
     }

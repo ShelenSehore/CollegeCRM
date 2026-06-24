@@ -1,0 +1,2764 @@
+﻿@model CRM.ModelsForView.StudentListView
+@{ Layout = "~/Views/Shared/_MasterLayout.cshtml";
+                ViewData["Title"] = "Student List";
+                var baseUrl = ViewBag.BaseUrl; }
+
+<style>
+    :root {
+        --clr-primary: #3b82f6;
+        --clr-primary-dark: #2563eb;
+        --clr-accent-teal: #14b8a6;
+        --clr-accent-emerald: #10b981;
+        --clr-accent-orange: #f97316;
+        --clr-accent-rose: #f43f5e;
+        --clr-accent-amber: #f59e0b;
+        --clr-accent-violet: #8b5cf6;
+        --clr-accent-sky: #0ea5e9;
+        --clr-bg-start: #eff6ff;
+        --clr-bg-mid: #f0fdfa;
+        --clr-bg-end: #fdf4ff;
+        --clr-card: #ffffff;
+        --clr-text: #0f172a;
+        --clr-text-muted: #64748b;
+        --clr-border: #e2e8f0;
+        --clr-input-bg: #f8fafc;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,.05);
+        --shadow-md: 0 4px 16px rgba(0,0,0,.07);
+        --shadow-lg: 0 12px 36px rgba(0,0,0,.1);
+        --radius: 16px;
+        --radius-sm: 10px;
+        --transition: .25s cubic-bezier(.4,0,.2,1);
+    }
+
+    .content-wrapper {
+        background: linear-gradient(155deg, var(--clr-bg-start) 0%, var(--clr-bg-mid) 35%, #ede9fe 65%, var(--clr-bg-end) 100%);
+        min-height: 100vh;
+        padding-bottom: 60px;
+    }
+
+    .breadcrumb {
+        background: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: .85rem;
+    }
+
+    .breadcrumb-item a {
+        color: var(--clr-primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+
+        .breadcrumb-item a:hover {
+            color: var(--clr-accent-rose);
+        }
+
+    .breadcrumb-item.active {
+        color: var(--clr-text-muted);
+        font-weight: 500;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: #cbd5e1;
+        content: "›";
+    }
+
+    .page-banner {
+        background: linear-gradient(135deg, #1e40af 0%, var(--clr-primary) 35%, var(--clr-accent-teal) 100%);
+        border-radius: var(--radius);
+        padding: 28px 32px;
+        margin-bottom: 24px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 36px rgba(59,130,246,.3);
+    }
+
+        .page-banner::before {
+            content: '';
+            position: absolute;
+            top: -45%;
+            right: -5%;
+            width: 280px;
+            height: 280px;
+            background: rgba(255,255,255,.08);
+            border-radius: 50%;
+        }
+
+        .page-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -55%;
+            left: 8%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,.06);
+            border-radius: 50%;
+        }
+
+        .page-banner h1 {
+            color: #fff;
+            font-size: 1.55rem;
+            font-weight: 800;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -.02em;
+        }
+
+        .page-banner p {
+            color: rgba(255,255,255,.75);
+            margin: 5px 0 0;
+            font-size: .88rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-banner .banner-icon {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3.4rem;
+            color: rgba(255,255,255,.14);
+            z-index: 1;
+        }
+
+    .stat-row {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 14px;
+        margin-bottom: 22px;
+    }
+
+    @@media (max-width: 1400px) {
+        .stat-row {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @@media (max-width: 992px) {
+        .stat-row {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .stat-row {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .stat-row {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .stat-card {
+        background: var(--clr-card);
+        border-radius: var(--radius);
+        padding: 16px 18px;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--clr-border);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 4px;
+            border-radius: var(--radius) 0 0 var(--radius);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card.total::before {
+            background: linear-gradient(180deg, var(--clr-primary), var(--clr-accent-sky));
+        }
+
+        .stat-card.total .stat-icon {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            color: var(--clr-primary);
+        }
+
+        .stat-card.total .stat-value {
+            color: var(--clr-primary-dark);
+        }
+
+        .stat-card.session::before {
+            background: linear-gradient(180deg, var(--clr-accent-amber), #fbbf24);
+        }
+
+        .stat-card.session .stat-icon {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            color: #b45309;
+        }
+
+        .stat-card.session .stat-value {
+            color: #92400e;
+        }
+
+        .stat-card.year::before {
+            background: linear-gradient(180deg, var(--clr-accent-violet), #a78bfa);
+        }
+
+        .stat-card.year .stat-icon {
+            background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+            color: var(--clr-accent-violet);
+        }
+
+        .stat-card.year .stat-value {
+            color: #6d28d9;
+        }
+
+        .stat-card.course::before {
+            background: linear-gradient(180deg, var(--clr-accent-emerald), #34d399);
+        }
+
+        .stat-card.course .stat-icon {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            color: var(--clr-accent-emerald);
+        }
+
+        .stat-card.course .stat-value {
+            color: #047857;
+        }
+
+        .stat-card.selected::before {
+            background: linear-gradient(180deg, var(--clr-accent-rose), #fb7185);
+        }
+
+        .stat-card.selected .stat-icon {
+            background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+            color: var(--clr-accent-rose);
+        }
+
+        .stat-card.selected .stat-value {
+            color: #be123c;
+        }
+
+        /* ===== EXAM FORM SUBMITTED STAT ===== */
+        .stat-card.exam-submitted::before {
+            background: linear-gradient(180deg, #10b981, #6ee7b7);
+        }
+
+        .stat-card.exam-submitted .stat-icon {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            color: #059669;
+        }
+
+        .stat-card.exam-submitted .stat-value {
+            color: #047857;
+        }
+
+        /* ===== EXAM FORM NOT SUBMITTED STAT ===== */
+        .stat-card.exam-not-submitted::before {
+            background: linear-gradient(180deg, #ef4444, #fca5a5);
+        }
+
+        .stat-card.exam-not-submitted .stat-icon {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            color: #dc2626;
+        }
+
+        .stat-card.exam-not-submitted .stat-value {
+            color: #b91c1c;
+        }
+
+    .stat-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.05rem;
+        flex-shrink: 0;
+    }
+
+    .stat-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .stat-label {
+        font-size: .66rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        color: var(--clr-text-muted);
+        margin-bottom: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .stat-value {
+        font-size: 1.4rem;
+        font-weight: 800;
+        line-height: 1.1;
+    }
+
+    .filter-panel {
+        background: var(--clr-card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--clr-border);
+        margin-bottom: 22px;
+        overflow: hidden;
+        transition: var(--transition);
+    }
+
+        .filter-panel:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+    .filter-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 22px;
+        background: linear-gradient(90deg, #f8fafc, #f1f5f9);
+        border-bottom: 1px solid var(--clr-border);
+    }
+
+        .filter-header .fh-icon {
+            color: var(--clr-accent-sky);
+            font-size: .9rem;
+        }
+
+        .filter-header .fh-title {
+            font-size: .88rem;
+            font-weight: 700;
+            color: var(--clr-text);
+            margin: 0;
+        }
+
+        .filter-header .fh-badge {
+            font-size: .66rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            background: #dbeafe;
+            color: var(--clr-primary-dark);
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+    .filter-body {
+        padding: 18px 22px 12px;
+    }
+
+        .filter-body label {
+            font-size: .72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            color: var(--clr-text-muted);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .filter-body .form-control,
+        .filter-body select.form-control {
+            border: 2px solid var(--clr-border);
+            border-radius: var(--radius-sm);
+            padding: 9px 12px;
+            font-size: .87rem;
+            color: var(--clr-text);
+            background: var(--clr-input-bg);
+            transition: var(--transition);
+            height: auto;
+            box-shadow: none !important;
+        }
+
+            .filter-body .form-control:focus,
+            .filter-body select.form-control:focus {
+                border-color: var(--clr-primary);
+                background: #fff;
+                box-shadow: 0 0 0 4px rgba(59,130,246,.1) !important;
+                outline: none;
+            }
+
+    .filter-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 22px 18px;
+        flex-wrap: wrap;
+    }
+
+    .btn-search {
+        background: linear-gradient(135deg, var(--clr-primary) 0%, var(--clr-primary-dark) 100%);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius-sm);
+        padding: 9px 22px;
+        font-size: .84rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 3px 14px rgba(59,130,246,.3);
+        transition: var(--transition);
+    }
+
+        .btn-search:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(59,130,246,.4);
+        }
+
+    .btn-reset {
+        background: #f1f5f9;
+        color: var(--clr-text-muted);
+        border: 2px solid var(--clr-border);
+        border-radius: var(--radius-sm);
+        padding: 9px 16px;
+        font-size: .84rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: var(--transition);
+    }
+
+        .btn-reset:hover {
+            background: #fee2e2;
+            color: var(--clr-accent-rose);
+            border-color: #fda4af;
+        }
+
+    .btn-action-group {
+        display: inline-flex;
+        align-items: center;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        border: 2px solid var(--clr-accent-violet);
+    }
+
+    .btn-action-main {
+        background: var(--clr-accent-violet);
+        color: #fff;
+        border: none;
+        padding: 9px 16px;
+        font-size: .84rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: var(--transition);
+    }
+
+        .btn-action-main:hover {
+            background: #7c3aed;
+        }
+
+    .btn-action-toggle {
+        background: var(--clr-accent-violet);
+        color: #fff;
+        border: none;
+        border-left: 1px solid rgba(255,255,255,.3);
+        padding: 9px 11px;
+        font-size: .82rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+        .btn-action-toggle:hover {
+            background: #7c3aed;
+        }
+
+    .btn-excel {
+        background: linear-gradient(135deg, var(--clr-accent-emerald) 0%, #059669 100%);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius-sm);
+        padding: 9px 16px;
+        font-size: .84rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 3px 14px rgba(16,185,129,.3);
+        transition: var(--transition);
+    }
+
+        .btn-excel:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(16,185,129,.4);
+        }
+
+    .btn-print {
+        background: linear-gradient(135deg, var(--clr-accent-sky) 0%, #0284c7 100%);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius-sm);
+        padding: 9px 16px;
+        font-size: .84rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 3px 14px rgba(14,165,233,.3);
+        transition: var(--transition);
+    }
+
+        .btn-print:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(14,165,233,.4);
+        }
+
+        .btn-print i {
+            font-size: .9rem;
+        }
+
+    .print-dropdown-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .print-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        background: #fff;
+        border: 1px solid var(--clr-border);
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow-lg);
+        padding: 6px;
+        z-index: 1050;
+        min-width: 220px;
+        display: none;
+        animation: printDropIn .2s ease;
+    }
+
+        .print-dropdown-menu.show {
+            display: block;
+        }
+
+    @@keyframes printDropIn {
+        from {
+            opacity: 0;
+            transform: translateY(-6px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .print-option {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        padding: 11px 14px;
+        border-radius: 8px;
+        font-size: .84rem;
+        font-weight: 600;
+        color: var(--clr-text);
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: var(--transition);
+        text-align: left;
+    }
+
+        .print-option:hover {
+            background: #eff6ff;
+            color: var(--clr-primary);
+        }
+
+        .print-option i {
+            color: var(--clr-accent-sky);
+            font-size: .95rem;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .print-option .po-desc {
+            font-size: .72rem;
+            color: var(--clr-text-muted);
+            font-weight: 500;
+            margin-top: 1px;
+        }
+
+    .print-preview-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15,23,42,.55);
+        backdrop-filter: blur(4px);
+        z-index: 9999;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 30px 20px;
+        overflow-y: auto;
+    }
+
+        .print-preview-overlay.active {
+            display: flex;
+        }
+
+    .print-preview-container {
+        background: #fff;
+        width: 100%;
+        max-width: 960px;
+        border-radius: var(--radius);
+        box-shadow: 0 25px 60px rgba(0,0,0,.25);
+        overflow: hidden;
+        animation: slideUp .3s ease;
+    }
+
+    @@keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .print-preview-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #1e40af 0%, var(--clr-primary) 50%, var(--clr-accent-teal) 100%);
+        color: #fff;
+    }
+
+        .print-preview-toolbar .ppt-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .print-preview-toolbar .ppt-icon {
+            font-size: 1.15rem;
+        }
+
+        .print-preview-toolbar .ppt-title {
+            font-size: .95rem;
+            font-weight: 700;
+        }
+
+        .print-preview-toolbar .ppt-subtitle {
+            font-size: .75rem;
+            opacity: .75;
+        }
+
+        .print-preview-toolbar .ppt-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+    .ppt-btn {
+        border: none;
+        border-radius: 8px;
+        padding: 8px 20px;
+        font-size: .82rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: var(--transition);
+    }
+
+    .ppt-btn-print {
+        background: #fff;
+        color: var(--clr-primary-dark);
+    }
+
+        .ppt-btn-print:hover {
+            background: #eff6ff;
+            transform: translateY(-1px);
+        }
+
+    .ppt-btn-close {
+        background: rgba(255,255,255,.15);
+        color: #fff;
+    }
+
+        .ppt-btn-close:hover {
+            background: rgba(255,255,255,.25);
+        }
+
+    .print-preview-body {
+        padding: 32px 40px;
+        max-height: 72vh;
+        overflow-y: auto;
+    }
+
+    .print-doc-header {
+        text-align: center;
+        margin-bottom: 22px;
+        padding-bottom: 16px;
+        border-bottom: 3px double #e2e8f0;
+    }
+
+        .print-doc-header .pdh-icon {
+            font-size: 2rem;
+            color: var(--clr-primary);
+            margin-bottom: 6px;
+        }
+
+        .print-doc-header .pdh-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--clr-text);
+            margin: 0 0 3px;
+            letter-spacing: -.01em;
+        }
+
+        .print-doc-header .pdh-subtitle {
+            font-size: .82rem;
+            color: var(--clr-text-muted);
+            font-weight: 500;
+        }
+
+    .print-doc-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 18px;
+        margin-bottom: 16px;
+        padding: 10px 16px;
+        background: #f8fafc;
+        border-radius: 8px;
+        border: 1px solid var(--clr-border);
+        align-items: center;
+    }
+
+        .print-doc-filters .pdf-label-text {
+            font-weight: 700;
+            color: var(--clr-primary);
+            font-size: .82rem;
+            margin-right: 8px;
+        }
+
+        .print-doc-filters .pdf-item .pdf-key {
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+            color: #94a3b8;
+        }
+
+        .print-doc-filters .pdf-item .pdf-val {
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--clr-text);
+        }
+
+    .print-doc-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: .82rem;
+    }
+
+        .print-doc-table thead th {
+            background: var(--clr-primary);
+            color: #fff;
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            padding: 10px 8px;
+            border: 1px solid var(--clr-primary-dark);
+            white-space: nowrap;
+        }
+
+        .print-doc-table tbody td {
+            padding: 7px 8px;
+            border: 1px solid var(--clr-border);
+            color: var(--clr-text);
+            vertical-align: middle;
+        }
+
+        .print-doc-table tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .print-doc-table tbody tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        .print-doc-table .pd-num {
+            text-align: center;
+            font-weight: 700;
+            color: var(--clr-text-muted);
+        }
+
+        .print-doc-table .pd-formno {
+            font-weight: 700;
+            color: var(--clr-primary-dark);
+        }
+
+        .print-doc-table .pd-name {
+            font-weight: 700;
+        }
+
+        .print-doc-table .pd-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: .72rem;
+            font-weight: 600;
+        }
+
+            .print-doc-table .pd-tag.session {
+                background: #fffbeb;
+                color: #92400e;
+            }
+
+            .print-doc-table .pd-tag.year {
+                background: #f5f3ff;
+                color: #6d28d9;
+            }
+
+            .print-doc-table .pd-tag.class {
+                background: #fce7f3;
+                color: #be185d;
+            }
+
+            .print-doc-table .pd-tag.course {
+                background: #ecfdf5;
+                color: #047857;
+            }
+
+    .print-doc-footer {
+        margin-top: 18px;
+        padding-top: 12px;
+        border-top: 1px solid var(--clr-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: .78rem;
+        color: #94a3b8;
+    }
+
+        .print-doc-footer .pdf-total {
+            font-weight: 700;
+            color: var(--clr-primary-dark);
+            font-size: .88rem;
+        }
+
+    .action-sep {
+        width: 1px;
+        height: 28px;
+        background: var(--clr-border);
+        margin: 0 2px;
+    }
+
+    .dropdown-menu {
+        border-radius: var(--radius-sm) !important;
+        box-shadow: var(--shadow-lg) !important;
+        border: 1px solid var(--clr-border) !important;
+        padding: 5px !important;
+    }
+
+        .dropdown-menu .btn-default {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: .84rem;
+            font-weight: 600;
+            color: var(--clr-text);
+            transition: var(--transition);
+            border: none;
+            background: none;
+        }
+
+            .dropdown-menu .btn-default:hover {
+                background: #f5f3ff;
+                color: var(--clr-accent-violet);
+            }
+
+            .dropdown-menu .btn-default i {
+                color: var(--clr-accent-violet);
+            }
+
+    .search-with-icon {
+        position: relative;
+    }
+
+        .search-with-icon i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: .82rem;
+        }
+
+        .search-with-icon .form-control {
+            padding-left: 34px !important;
+        }
+
+    .table-panel {
+        background: var(--clr-card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--clr-border);
+        overflow: hidden;
+    }
+
+    .table-top-strip {
+        height: 4px;
+        background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent-sky), var(--clr-accent-teal), var(--clr-accent-emerald), var(--clr-accent-amber), var(--clr-accent-violet), var(--clr-primary));
+        background-size: 300% 100%;
+        animation: stripMove 6s linear infinite;
+    }
+
+    @@keyframes stripMove {
+        0% {
+            background-position: 0% 0%;
+        }
+
+        100% {
+            background-position: 300% 0%;
+        }
+    }
+
+    .table-header-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 22px;
+        border-bottom: 1px solid var(--clr-border);
+        background: linear-gradient(90deg, #f8fafc, #fff);
+    }
+
+        .table-header-bar .thb-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-header-bar .thb-icon {
+            color: var(--clr-primary);
+        }
+
+        .table-header-bar .thb-title {
+            font-size: .93rem;
+            font-weight: 700;
+            color: var(--clr-text);
+            margin: 0;
+        }
+
+        .table-header-bar .thb-count {
+            font-size: .7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            background: #dbeafe;
+            color: var(--clr-primary-dark);
+            border-radius: 20px;
+        }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    .custom-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: .87rem;
+    }
+
+        .custom-table thead th {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            color: var(--clr-text-muted);
+            font-size: .71rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            padding: 13px 14px;
+            border-bottom: 2px solid var(--clr-border);
+            white-space: nowrap;
+        }
+
+        .custom-table tbody tr {
+            transition: var(--transition);
+        }
+
+            .custom-table tbody tr:hover {
+                background: #eff6ff !important;
+            }
+
+            .custom-table tbody tr:nth-child(even) {
+                background: #fafbfc;
+            }
+
+            .custom-table tbody tr:nth-child(odd) {
+                background: #fff;
+            }
+
+            .custom-table tbody tr:nth-child(even):hover {
+                background: #eff6ff !important;
+            }
+
+        .custom-table tbody td {
+            padding: 11px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            color: var(--clr-text);
+            vertical-align: middle;
+        }
+
+    .col-num {
+        font-weight: 800;
+        color: var(--clr-text-muted);
+        font-size: .78rem;
+        text-align: center;
+        width: 45px;
+    }
+
+    .formno-cell {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .formno-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        color: var(--clr-primary-dark);
+        font-weight: 700;
+        font-size: .82rem;
+        padding: 4px 12px;
+        border-radius: 8px;
+    }
+
+    .tc-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #fee2e2, #fecaca);
+        color: var(--clr-accent-rose);
+        font-size: .65rem;
+        animation: tcPulse 2s ease-in-out infinite;
+        flex-shrink: 0;
+    }
+
+    @@keyframes tcPulse {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(244,63,94,.3);
+        }
+
+        50% {
+            box-shadow: 0 0 0 5px rgba(244,63,94,0);
+        }
+    }
+
+    /* ===== STATUS BADGES ===== */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 12px;
+        border-radius: 8px;
+        font-size: .76rem;
+        font-weight: 700;
+        letter-spacing: .02em;
+        white-space: nowrap;
+    }
+
+        .status-badge i {
+            font-size: .68rem;
+        }
+
+        .status-badge.submitted {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+
+        .status-badge.not-submitted {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+    .student-name {
+        font-weight: 700;
+        color: var(--clr-text);
+    }
+
+    .father-name {
+        color: var(--clr-text-muted);
+        font-size: .83rem;
+    }
+
+    .mobile-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #f0fdfa;
+        color: #0f766e;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: .81rem;
+    }
+
+        .mobile-pill i {
+            font-size: .68rem;
+        }
+
+    .info-tag {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 6px;
+        font-size: .76rem;
+        font-weight: 600;
+    }
+
+        .info-tag.session {
+            background: #fffbeb;
+            color: #92400e;
+        }
+
+        .info-tag.year {
+            background: #f5f3ff;
+            color: #6d28d9;
+        }
+
+        .info-tag.subject {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        .info-tag.course {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+    .btn-view {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #f5f3ff;
+        color: var(--clr-accent-violet);
+        font-size: .78rem;
+        font-weight: 700;
+        border: 2px solid #ede9fe;
+        border-radius: 8px;
+        padding: 6px 14px;
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+
+        .btn-view:hover {
+            background: var(--clr-accent-violet);
+            color: #fff;
+            border-color: var(--clr-accent-violet);
+            transform: scale(1.04);
+            box-shadow: 0 4px 14px rgba(139,92,246,.3);
+            text-decoration: none;
+        }
+
+    .custom-check {
+        position: relative;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+        .custom-check input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+            margin: 0;
+        }
+
+        .custom-check .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            background: #fff;
+            transition: var(--transition);
+        }
+
+        .custom-check input:checked ~ .checkmark {
+            background: var(--clr-primary);
+            border-color: var(--clr-primary);
+        }
+
+        .custom-check .checkmark::after {
+            content: '';
+            position: absolute;
+            display: none;
+            left: 5px;
+            top: 1px;
+            width: 6px;
+            height: 11px;
+            border: solid #fff;
+            border-width: 0 2.5px 2.5px 0;
+            transform: rotate(45deg);
+        }
+
+        .custom-check input:checked ~ .checkmark::after {
+            display: block;
+        }
+
+        .custom-check input:hover ~ .checkmark {
+            border-color: var(--clr-primary);
+            box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 56px 20px;
+    }
+
+        .empty-state .empty-icon {
+            font-size: 3.5rem;
+            color: #e2e8f0;
+            margin-bottom: 14px;
+        }
+
+        .empty-state .empty-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--clr-text-muted);
+            margin-bottom: 5px;
+        }
+
+        .empty-state .empty-desc {
+            font-size: .86rem;
+            color: #94a3b8;
+        }
+
+    .pagination-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 22px;
+        border-top: 1px solid var(--clr-border);
+        background: linear-gradient(90deg, #f8fafc, #fff);
+        flex-wrap: wrap;
+        gap: 12px;
+        animation: pageFadeIn .35s ease both;
+    }
+
+    @@keyframes pageFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .pagination-info {
+        font-size: .82rem;
+        color: var(--clr-text-muted);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+        .pagination-info strong {
+            color: var(--clr-text);
+            font-weight: 800;
+        }
+
+    .pagination-controls {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .page-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        font-size: .82rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: 2px solid var(--clr-border);
+        background: var(--clr-card);
+        color: var(--clr-text-muted);
+        transition: var(--transition);
+        padding: 0 6px;
+        text-decoration: none;
+    }
+
+        .page-btn:hover:not(.disabled):not(.active) {
+            border-color: var(--clr-primary);
+            color: var(--clr-primary);
+            background: #eff6ff;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(59,130,246,.15);
+            text-decoration: none;
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, var(--clr-primary), var(--clr-primary-dark));
+            color: #fff;
+            border-color: var(--clr-primary);
+            box-shadow: 0 3px 12px rgba(59,130,246,.3);
+            cursor: default;
+        }
+
+        .page-btn.disabled {
+            opacity: .35;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .page-btn.nav-btn {
+            padding: 0 14px;
+            gap: 5px;
+            font-weight: 700;
+        }
+
+            .page-btn.nav-btn i {
+                font-size: .7rem;
+            }
+
+    .page-ellipsis {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
+        font-size: .85rem;
+        font-weight: 700;
+        color: var(--clr-text-muted);
+        letter-spacing: .04em;
+    }
+
+    .page-size-select {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: .82rem;
+        color: var(--clr-text-muted);
+        font-weight: 600;
+    }
+
+        .page-size-select select {
+            border: 2px solid var(--clr-border);
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--clr-text);
+            background: var(--clr-input-bg);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: none !important;
+            height: auto;
+        }
+
+            .page-size-select select:focus {
+                border-color: var(--clr-primary);
+                box-shadow: 0 0 0 3px rgba(59,130,246,.1) !important;
+                outline: none;
+            }
+
+    .select-all-page {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: .78rem;
+        font-weight: 700;
+        color: var(--clr-primary);
+        cursor: pointer;
+        transition: var(--transition);
+        padding: 4px 10px;
+        border-radius: 6px;
+    }
+
+        .select-all-page:hover {
+            background: #eff6ff;
+        }
+
+    .modal-content {
+        border-radius: var(--radius) !important;
+        box-shadow: var(--shadow-lg) !important;
+        border: none !important;
+        overflow: hidden;
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, var(--clr-accent-violet), #7c3aed);
+        color: #fff;
+        border: none !important;
+        padding: 18px 24px;
+    }
+
+        .modal-header .modal-title {
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-header .close {
+            color: rgba(255,255,255,.8);
+            text-shadow: none;
+            opacity: 1;
+            font-size: 1.4rem;
+        }
+
+            .modal-header .close:hover {
+                color: #fff;
+            }
+
+    .modal-body {
+        padding: 24px;
+    }
+
+    .modal-footer {
+        border-top: 1px solid var(--clr-border);
+        padding: 14px 24px;
+    }
+
+        .modal-footer .btn-default {
+            border: 2px solid var(--clr-border);
+            border-radius: var(--radius-sm);
+            padding: 9px 20px;
+            font-weight: 600;
+            font-size: .87rem;
+            transition: var(--transition);
+        }
+
+            .modal-footer .btn-default:hover {
+                background: #fee2e2;
+                color: var(--clr-accent-rose);
+                border-color: #fda4af;
+            }
+
+        .modal-footer .btn-primary {
+            background: linear-gradient(135deg, var(--clr-accent-violet), #7c3aed);
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 9px 24px;
+            font-weight: 700;
+            font-size: .87rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 3px 14px rgba(139,92,246,.3);
+            transition: var(--transition);
+        }
+
+            .modal-footer .btn-primary:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 22px rgba(139,92,246,.4);
+            }
+
+    .modal-info-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+    }
+
+    @@media (max-width: 576px) {
+        .modal-info-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .modal-info-card {
+        background: var(--clr-input-bg);
+        border: 2px solid var(--clr-border);
+        border-radius: var(--radius-sm);
+        padding: 16px 14px;
+        text-align: center;
+        transition: var(--transition);
+    }
+
+        .modal-info-card:hover {
+            border-color: var(--clr-accent-violet);
+            box-shadow: 0 4px 16px rgba(139,92,246,.1);
+        }
+
+        .modal-info-card .mic-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem;
+        }
+
+        .modal-info-card.students .mic-icon {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            color: var(--clr-primary);
+        }
+
+        .modal-info-card.session .mic-icon {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            color: #b45309;
+        }
+
+        .modal-info-card.year .mic-icon {
+            background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+            color: var(--clr-accent-violet);
+        }
+
+        .modal-info-card.class .mic-icon {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            color: var(--clr-accent-emerald);
+        }
+
+        .modal-info-card .mic-label {
+            font-size: .68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--clr-text-muted);
+            margin-bottom: 3px;
+        }
+
+        .modal-info-card .mic-value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--clr-text);
+        }
+
+        .modal-info-card.students .mic-value {
+            color: var(--clr-primary-dark);
+        }
+
+        .modal-info-card.session .mic-value {
+            color: #92400e;
+        }
+
+        .modal-info-card.year .mic-value {
+            color: #6d28d9;
+        }
+
+        .modal-info-card.class .mic-value {
+            color: #047857;
+        }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .stat-card {
+        animation: fadeInUp .5s ease both;
+    }
+
+        .stat-card:nth-child(1) {
+            animation-delay: .04s;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: .08s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: .12s;
+        }
+
+        .stat-card:nth-child(4) {
+            animation-delay: .16s;
+        }
+
+        .stat-card:nth-child(5) {
+            animation-delay: .20s;
+        }
+
+        .stat-card:nth-child(6) {
+            animation-delay: .24s;
+        }
+
+        .stat-card:nth-child(7) {
+            animation-delay: .28s;
+        }
+
+    .filter-panel {
+        animation: fadeInUp .5s ease .32s both;
+    }
+
+    .table-panel {
+        animation: fadeInUp .5s ease .42s both;
+    }
+
+    @@keyframes rowFade {
+        from {
+            opacity: 0;
+            transform: translateX(-6px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .custom-table tbody tr {
+        animation: rowFade .25s ease both;
+    }
+
+    .swal2-popup.swal2-toast {
+        border-radius: var(--radius-sm) !important;
+        box-shadow: var(--shadow-lg) !important;
+    }
+
+    .content-header {
+        padding: 18px 0 0;
+    }
+
+    @@media (max-width: 768px) {
+        .print-preview-body {
+            padding: 20px 16px;
+        }
+    }
+</style>
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="#">Student</a></li>
+                        <li class="breadcrumb-item active">List</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+
+            <!-- ===== PAGE BANNER ===== -->
+            <div class="page-banner">
+                <h1>Student Directory</h1>
+                <p>Browse, search and manage all enrolled students</p>
+                <i class="fas fa-user-graduate banner-icon"></i>
+            </div>
+
+            <!-- ===== STAT CARDS (7 cards) ===== -->
+            <div class="stat-row">
+                <div class="stat-card total">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Students</div>
+                        <div class="stat-value" id="statTotal">0</div>
+                    </div>
+                </div>
+                <div class="stat-card exam-submitted">
+                    <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Exam Form Submitted</div>
+                        <div class="stat-value" id="statExamSubmitted">0</div>
+                    </div>
+                </div>
+                <div class="stat-card exam-not-submitted">
+                    <div class="stat-icon"><i class="fas fa-clipboard-xmark"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Exam Form Not Submitted</div>
+                        <div class="stat-value" id="statExamNotSubmitted">0</div>
+                    </div>
+                </div>
+                <div class="stat-card session">
+                    <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Sessions</div>
+                        <div class="stat-value" id="statSession">—</div>
+                    </div>
+                </div>
+                <div class="stat-card year">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Years</div>
+                        <div class="stat-value" id="statYear">—</div>
+                    </div>
+                </div>
+                <div class="stat-card course">
+                    <div class="stat-icon"><i class="fas fa-book-open"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Courses</div>
+                        <div class="stat-value" id="statCourse">—</div>
+                    </div>
+                </div>
+                <div class="stat-card selected">
+                    <div class="stat-icon"><i class="fas fa-check-double"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Selected</div>
+                        <div class="stat-value" id="statSelected">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FILTER PANEL ===== -->
+            <div class="filter-panel">
+                <div class="filter-header">
+                    <i class="fas fa-sliders-h fh-icon"></i>
+                    <h3 class="fh-title">Filters</h3>
+                    <span class="fh-badge">Narrow Results</span>
+                </div>
+                <div class="filter-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Session</label>
+                                <select id="ddlSession" asp-items="Model.SessionList" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Year</label>
+                                <select id="ddlYear" asp-items="Model.YearList" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Class</label>
+                                <select id="ddlClass" asp-items="Model.ClassList" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Course</label>
+                                <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Roll No</label>
+                                <div class="search-with-icon">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input id="txtRollNumberSearch" class="form-control" type="number" placeholder="Enter roll no" aria-label="Roll No">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Form No</label>
+                                <div class="search-with-icon">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input id="txtFormNumberSearch" class="form-control" type="number" placeholder="Enter form no" aria-label="Form No">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Enroll No</label>
+                                <div class="search-with-icon">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input id="txtEnrolloSearch" class="form-control" type="number" placeholder="Enter enroll no" aria-label="Enroll No">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Exam Form Submit </label>
+                                <div class="search-with-icon">
+                                    <select id="ddlExamFormSubmited" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="YES">YES</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>TC Submit </label>
+                                <div class="search-with-icon">
+                                    <select id="ddlTCSubmited" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="YES">YES</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Student Name</label>
+                                <div class="search-with-icon">
+                                    <i class="fas fa-search"></i>
+                                    <input id="txtSearch" class="form-control" type="search" placeholder="Type name to search..." aria-label="Search">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-actions">
+                        <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn-search">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                        <button type="reset" class="btn-reset" onclick="Reset()">
+                            <i class="fas fa-rotate-left"></i> Reset
+                        </button>
+
+                        <div class="action-sep"></div>
+
+                        <div style="position:relative;display:inline-block">
+                            <div class="btn-action-group">
+                                <button type="button" class="btn-action-main" onclick="FillExamForm()">
+                                    <i class="fas fa-clipboard-list"></i> Action
+                                </button>
+                                <button type="button" class="btn-action-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="btn btn-default" onclick="FillExamForm()">
+                                    <i class="fas fa-file-alt"></i> Fill Exam Form
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="action-sep"></div>
+
+                        <form id="frmDownloadExcel" method="post" action="DownloadExcel" style="display:inline">
+                            <input type="hidden" name="hdnExcelSession" id="hdnExcelSession" />
+                            <input type="hidden" name="hdnExcelClass" id="hdnExcelClass" />
+                            <input type="hidden" name="hdnExcelCourse" id="hdnExcelCourse" />
+                            <input type="hidden" name="hdnExcelYear" id="hdnExcelYear" />
+                            <input type="hidden" name="hdnExcelName" id="hdnExcelName" />
+                        </form>
+                        <button type="button" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn-excel">
+                            <i class="fas fa-file-excel"></i> Excel
+                        </button>
+
+                        <div class="action-sep"></div>
+
+                        <div class="print-dropdown-wrapper" id="printDropdownWrapper">
+                            <button type="button" class="btn-print" onclick="togglePrintDropdown(event)">
+                                <i class="fas fa-print"></i> Print
+                            </button>
+                            <div class="print-dropdown-menu" id="printDropdownMenu">
+                                <button class="print-option" onclick="openPrintPreview('all')">
+                                    <i class="fas fa-list"></i>
+                                    <div>
+                                        <div>All Records</div>
+                                        <div class="po-desc">Print all filtered students</div>
+                                    </div>
+                                </button>
+                                <button class="print-option" onclick="openPrintPreview('page')">
+                                    <i class="fas fa-file-alt"></i>
+                                    <div>
+                                        <div>Current Page</div>
+                                        <div class="po-desc">Print only the visible page</div>
+                                    </div>
+                                </button>
+                                <button class="print-option" onclick="openPrintPreview('selected')">
+                                    <i class="fas fa-check-square"></i>
+                                    <div>
+                                        <div>Selected Only</div>
+                                        <div class="po-desc">Print checked students</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== TABLE PANEL ===== -->
+                <div class="table-panel">
+                    <div class="table-top-strip"></div>
+                    <div class="table-header-bar">
+                        <div class="thb-left">
+                            <i class="fas fa-table-list thb-icon"></i>
+                            <h3 class="thb-title">Students</h3>
+                            <span class="thb-count" id="tableCount">0 records</span>
+                            <span class="select-all-page" id="selectAllPage" onclick="ToggleSelectAllOnPage()">
+                                <i class="far fa-check-square"></i> Select all on this page
+                            </span>
+                        </div>
+                        <div class="page-size-select">
+                            <span>Per page</span>
+                            <select id="pageSizeSelect" onchange="ChangePageSize(this.value)">
+                                <option value="25">25</option>
+                                <option value="50" selected>50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-scroll">
+                        <table class="custom-table" id="tblStudentList">
+                            <thead>
+                                <tr>
+                                    <th style="width:50px;text-align:center">#</th>
+                                    <th>Student Name</th>
+                                    <th>Father Name</th>
+                                    <th>Year</th>
+                                    <th>Class</th>
+                                    <th>Course</th>
+                                    <th>Mobile</th>
+                                  
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-wrapper" id="paginationWrapper" style="display:none;">
+                        <div class="pagination-info" id="paginationInfo"></div>
+                        <div class="pagination-controls" id="paginationControls"></div>
+                    </div>
+                </div>
+
+            </div>
+    </section>
+</div>
+
+<!-- ===== PRINT PREVIEW OVERLAY ===== -->
+<div class="print-preview-overlay" id="printPreviewOverlay">
+    <div class="print-preview-container">
+        <div class="print-preview-toolbar">
+            <div class="ppt-left">
+                <i class="fas fa-print ppt-icon"></i>
+                <div>
+                    <div class="ppt-title">Print Preview</div>
+                    <div class="ppt-subtitle" id="pptSubtitle">All Records</div>
+                </div>
+            </div>
+            <div class="ppt-actions">
+                <button type="button" class="ppt-btn ppt-btn-print" onclick="executePrint()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button type="button" class="ppt-btn ppt-btn-close" onclick="closePrintPreview()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+        <div class="print-preview-body" id="printPreviewBody"></div>
+    </div>
+</div>
+
+<!-- ===== EXAM FORM MODAL ===== -->
+<div class="modal fade" id="modal-FillExamForm">
+    <div class="modal-dialog" style="max-width:680px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-file-signature"></i> Fill Exam Form
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:.85rem;color:var(--clr-text-muted);margin-bottom:16px">
+                    Confirm the details below before submitting the exam form for selected students.
+                </p>
+                <div class="modal-info-grid">
+                    <div class="modal-info-card students">
+                        <div class="mic-icon"><i class="fas fa-user-check"></i></div>
+                        <div class="mic-label">Selected</div>
+                        <div class="mic-value" id="spnSelectedStudent">0</div>
+                        <input type="hidden" id="hdnSelected" />
+                    </div>
+                    <div class="modal-info-card session">
+                        <div class="mic-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <div class="mic-label">Session</div>
+                        <div class="mic-value" id="spnExamSession">—</div>
+                    </div>
+                    <div class="modal-info-card year">
+                        <div class="mic-icon"><i class="fas fa-clock"></i></div>
+                        <div class="mic-label">Year</div>
+                        <div class="mic-value" id="spnExamYear">—</div>
+                    </div>
+                    <div class="modal-info-card class">
+                        <div class="mic-icon"><i class="fas fa-chalkboard"></i></div>
+                        <div class="mic-label">Class</div>
+                        <div class="mic-value" id="spnExamClass">—</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <i class="fas fa-times"></i> Close
+                </button>
+                <button type="button" onclick="SaveExamForm();" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Exam Form
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        var BASE_URL = "@baseUrl";
+        var Toast;
+
+        var allStudents = [];
+        var currentPage = 1;
+        var pageSize = 50;
+        var selectedIds = new Set();
+        var currentPrintMode = 'all';
+
+        window.onload = function () {
+
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+            });
+
+            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
+                SearchStudent();
+            });
+
+            $(document).on('change', 'input[name="chkStudent"]', function () {
+                var id = this.id;
+                if (this.checked) {
+                    selectedIds.add(id);
+                } else {
+                    selectedIds.delete(id);
+                }
+                $('#statSelected').text(selectedIds.size);
+                UpdateSelectAllLabel();
+            });
+
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('#printDropdownWrapper').length) {
+                    $('#printDropdownMenu').removeClass('show');
+                }
+            });
+
+            $(document).on('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closePrintPreview();
+                }
+            });
+
+            SearchStudent();
+        };
+
+        function Alert(icon, title) {
+            Toast.fire({ icon: icon, title: title });
+        }
+
+        function esc(str) {
+            if (!str) return '';
+            var div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        /* Helper: determine if exam form is considered "submitted" */
+        function isExamSubmitted(val) {
+            if (!val) return false;
+            var v = String(val).trim().toUpperCase();
+            return v === 'YES' || v === 'TRUE' || v === '1' || v === 'SUBMITTED' || v === 'SUBMIT';
+        }
+
+        function updateStats(data) {
+            var sessions = new Set();
+            var years = new Set();
+            var courses = new Set();
+            var examSubmitted = 0;
+            var examNotSubmitted = 0;
+
+            $.each(data, function (i, el) {
+                if (el.session) sessions.add(el.session);
+                if (el.year) years.add(el.year);
+                if (el.course) courses.add(el.course);
+
+                if (isExamSubmitted(el.examFormSubmited)) {
+                    examSubmitted++;
+                } else {
+                    examNotSubmitted++;
+                }
+            });
+
+            $('#statTotal').text(data.length);
+            $('#tableCount').text(data.length + ' record' + (data.length !== 1 ? 's' : ''));
+            $('#statExamSubmitted').text(examSubmitted);
+            $('#statExamNotSubmitted').text(examNotSubmitted);
+            $('#statSession').text(sessions.size || '—');
+            $('#statYear').text(years.size || '—');
+            $('#statCourse').text(courses.size || '—');
+        }
+
+        function SearchStudent() {
+            var name = $("#txtSearch").val();
+            var varClass = $('#ddlClass option:selected').text();
+            var varYear = $('#ddlYear option:selected').text();
+            var varCourse = $('#ddlCourse option:selected').text();
+            var varSession = $('#ddlSession option:selected').text();
+            var varRollNum = $("#txtRollNumberSearch").val();
+            var varFormNum = $("#txtFormNumberSearch").val();
+            var varEnrolNum = $("#txtEnrolloSearch").val();
+            var varExamFormSubmited = $('#ddlExamFormSubmited option:selected').text();
+            var varTcSubmited = $('#ddlTCSubmited option:selected').text();
+
+            $.post(BASE_URL + "/Student/SearchList", {
+                name: name,
+                classes: varClass,
+                course: varCourse,
+                year: varYear,
+                session: varSession,
+                rollNum: varRollNum,
+                formNum: varFormNum,
+                enrolNum: varEnrolNum,
+                examFormSubmited:varExamFormSubmited,
+                tcSubmited: varTcSubmited
+
+            }, function (res) {
+                var tableData = res.data || [];
+                allStudents = tableData;
+                currentPage = 1;
+                selectedIds.clear();
+                $('#statSelected').text(0);
+                updateStats(allStudents);
+                RenderPage();
+            });
+        }
+
+        function GetTotalPages() {
+            if (allStudents.length === 0) return 1;
+            return Math.ceil(allStudents.length / pageSize);
+        }
+
+        function GetPageData() {
+            var start = (currentPage - 1) * pageSize;
+            var end = start + pageSize;
+            return allStudents.slice(start, end);
+        }
+
+        function GoToPage(page) {
+            var total = GetTotalPages();
+            if (page < 1 || page > total) return;
+            currentPage = page;
+            RenderPage();
+            document.querySelector('.table-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function ChangePageSize(size) {
+            pageSize = parseInt(size) || 50;
+            currentPage = 1;
+            RenderPage();
+        }
+
+        function RenderPage() {
+            var pageData = GetPageData();
+            RenderTable(pageData);
+            RenderPagination();
+        }
+
+        function RenderTable(pageData) {
+            $("#tblStudentList tbody").empty();
+
+            if (allStudents.length === 0) {
+                $("#tblStudentList tbody").append(
+                    '<tr><td colspan="14">' +
+                    '<div class="empty-state">' +
+                    '<div class="empty-icon"><i class="fas fa-inbox"></i></div>' +
+                    '<div class="empty-title">No students found</div>' +
+                    '<div class="empty-desc">Try adjusting your filters or search term</div>' +
+                    '</div></td></tr>'
+                );
+                return;
+            }
+
+            var startIndex = (currentPage - 1) * pageSize;
+
+            $.each(pageData, function (index, element) {
+                var globalIndex = startIndex + index;
+                var delay = Math.min(index * 0.03, 0.8);
+
+                /* TC column badge */
+                var tcColHtml = '';
+                var tcVal = String(element.tc || '').trim().toUpperCase();
+                if (tcVal === 'YES' || tcVal === 'TRUE' || tcVal === '1' || tcVal === 'SUBMIT' || tcVal === 'SUBMITTED') {
+                    tcColHtml = '<span class="status-badge submitted"><i class="fas fa-check-circle"></i> Yes</span>';
+                } else {
+                    tcColHtml = '<span class="status-badge not-submitted"><i class="fas fa-times-circle"></i> No</span>';
+                }
+
+                /* Exam Form column badge */
+                var examColHtml = '';
+                if (isExamSubmitted(element.examFormSubmited)) {
+                    examColHtml = '<span class="status-badge submitted"><i class="fas fa-check-circle"></i> Submitted</span>';
+                } else {
+                    examColHtml = '<span class="status-badge not-submitted"><i class="fas fa-times-circle"></i> Pending</span>';
+                }
+
+                var isChecked = selectedIds.has(String(element.id));
+                var checkedAttr = isChecked ? ' checked' : '';
+
+                var row =
+                    '<tr style="animation-delay:' + delay + 's">' +
+                    '<td class="col-num">' + (globalIndex + 1) + '</td>' +
+                    '<td><span class="student-name">' + esc(element.studentName) + '</span></td>' +
+                    '<td><span class="father-name">' + esc(element.fatherName) + '</span></td>' +
+                    '<td><span class="info-tag year">' + esc(element.year) + '</span></td>' +
+                    '<td><span class="info-tag subject">' + esc(element.class) + '</span></td>' +
+                    '<td><span class="info-tag course">' + esc(element.course) + '</span></td>' +
+                    '<td><span class="mobile-pill"><i class="fas fa-phone"></i> ' + esc(element.mobileNoOne) + '</span></td>' +
+                    '</tr>';
+
+                $("#tblStudentList").append(row);
+            });
+
+            UpdateSelectAllLabel();
+        }
+
+        function RenderPagination() {
+            var totalRecords = allStudents.length;
+            var totalPages = GetTotalPages();
+
+            if (totalRecords === 0) {
+                $('#paginationWrapper').hide();
+                return;
+            }
+
+            $('#paginationWrapper').show();
+
+            var startRecord = (currentPage - 1) * pageSize + 1;
+            var endRecord = Math.min(currentPage * pageSize, totalRecords);
+
+            $('#paginationInfo').html(
+                'Showing <strong>' + startRecord + '–' + endRecord + '</strong> of <strong>' + totalRecords + '</strong> records'
+            );
+
+            var html = '';
+
+            html += '<button class="page-btn nav-btn' + (currentPage === 1 ? ' disabled' : '') + '" onclick="GoToPage(' + (currentPage - 1) + ')">' +
+                    '<i class="fas fa-chevron-left"></i> Prev</button>';
+
+            var pages = GeneratePageNumbers(currentPage, totalPages);
+
+            for (var i = 0; i < pages.length; i++) {
+                if (pages[i] === '...') {
+                    html += '<span class="page-ellipsis">…</span>';
+                } else {
+                    html += '<button class="page-btn' + (pages[i] === currentPage ? ' active' : '') + '" onclick="GoToPage(' + pages[i] + ')">' + pages[i] + '</button>';
+                }
+            }
+
+            html += '<button class="page-btn nav-btn' + (currentPage === totalPages ? ' disabled' : '') + '" onclick="GoToPage(' + (currentPage + 1) + ')">' +
+                    'Next <i class="fas fa-chevron-right"></i></button>';
+
+            $('#paginationControls').html(html);
+            $('#pageSizeSelect').val(pageSize);
+        }
+
+        function GeneratePageNumbers(current, total) {
+            var pages = [];
+            if (total <= 7) {
+                for (var i = 1; i <= total; i++) pages.push(i);
+            } else {
+                pages.push(1);
+                if (current > 4) pages.push('...');
+                var rangeStart = Math.max(2, current - 1);
+                var rangeEnd = Math.min(total - 1, current + 1);
+                if (current <= 4) { rangeStart = 2; rangeEnd = 5; }
+                if (current >= total - 3) { rangeStart = total - 4; rangeEnd = total - 1; }
+                for (var j = rangeStart; j <= rangeEnd; j++) pages.push(j);
+                if (current < total - 3) pages.push('...');
+                pages.push(total);
+            }
+            return pages;
+        }
+
+        function ToggleSelectAllOnPage() {
+            var pageData = GetPageData();
+            var allCheckedOnPage = true;
+
+            for (var i = 0; i < pageData.length; i++) {
+                if (!selectedIds.has(String(pageData[i].id))) {
+                    allCheckedOnPage = false;
+                    break;
+                }
+            }
+
+            for (var j = 0; j < pageData.length; j++) {
+                var id = String(pageData[j].id);
+                if (allCheckedOnPage) {
+                    selectedIds.delete(id);
+                } else {
+                    selectedIds.add(id);
+                }
+            }
+
+            $('input[name="chkStudent"]').each(function () {
+                this.checked = selectedIds.has(this.id);
+            });
+
+            $('#statSelected').text(selectedIds.size);
+            UpdateSelectAllLabel();
+        }
+
+        function UpdateSelectAllLabel() {
+            var pageData = GetPageData();
+            if (pageData.length === 0) {
+                $('#selectAllPage').html('<i class="far fa-check-square"></i> Select all on this page');
+                return;
+            }
+            var allChecked = true;
+            for (var i = 0; i < pageData.length; i++) {
+                if (!selectedIds.has(String(pageData[i].id))) {
+                    allChecked = false;
+                    break;
+                }
+            }
+            if (allChecked) {
+                $('#selectAllPage').html('<i class="fas fa-check-square"></i> Deselect all on this page');
+            } else {
+                $('#selectAllPage').html('<i class="far fa-check-square"></i> Select all on this page');
+            }
+        }
+
+        function Reset() {
+            $("#txtSearch").val('');
+            $("#txtRollNumberSearch").val('');
+            $('#ddlSession').val('');
+            $('#ddlClass').val('');
+            $('#ddlCourse').val('');
+            $('#ddlYear').val('');
+            $("#txtFormNumberSearch").val('');
+            $("#txtEnrolloSearch").val('');
+            $('#ddlExamFormSubmited').val('');
+            $('#ddlTCSubmited').val('');
+            SearchStudent();
+        }
+
+        function DownloadExcel() {
+            $("#hdnExcelName").val($("#txtSearch").val());
+            $("#hdnExcelClass").val($('#ddlClass option:selected').text());
+            $("#hdnExcelYear").val($('#ddlYear option:selected').text());
+            $("#hdnExcelCourse").val($('#ddlCourse option:selected').text());
+            $("#hdnExcelSession").val($('#ddlSession option:selected').text());
+            $("#hdnExcelSession").val($('#ddlExamFormSubmited option:selected').text());
+            $("#hdnExcelSession").val($('#ddlTCSubmited option:selected').text());
+            $('#frmDownloadExcel').submit();
+        }
+
+        function FillExamForm() {
+            var idsArray = Array.from(selectedIds);
+
+            if (idsArray.length > 0) {
+                $("#spnExamSession").text($('#ddlSession option:selected').text() || '—');
+                $("#spnExamYear").text($('#ddlYear option:selected').text() || '—');
+                $("#spnExamClass").text($('#ddlClass option:selected').text() || '—');
+                $("#spnSelectedStudent").text(idsArray.length);
+                $('#hdnSelected').val(idsArray.join(','));
+                $("#modal-FillExamForm").modal("show");
+            } else {
+                Alert('warning', 'Please select at least one student.');
+            }
+        }
+
+        function SaveExamForm() {
+            $.post(BASE_URL + "/Student/SaveExamFormFilled", {
+                ids: $("#hdnSelected").val()
+            }, function (res) {
+                $("#modal-FillExamForm").modal("hide");
+                Alert('success', 'Exam form saved successfully!');
+                SearchStudent();
+            });
+        }
+
+        /* ==========================================================
+           PRINT FUNCTIONALITY
+           ========================================================== */
+
+        function togglePrintDropdown(e) {
+            e.stopPropagation();
+            $('#printDropdownMenu').toggleClass('show');
+        }
+
+        function openPrintPreview(mode) {
+            currentPrintMode = mode;
+            $('#printDropdownMenu').removeClass('show');
+
+            var printData = [];
+
+            if (mode === 'all') {
+                printData = allStudents;
+                $('#pptSubtitle').text('All Records (' + printData.length + ')');
+            } else if (mode === 'page') {
+                printData = GetPageData();
+                $('#pptSubtitle').text('Current Page (' + printData.length + ')');
+            } else if (mode === 'selected') {
+                if (selectedIds.size === 0) {
+                    Alert('warning', 'No students selected. Please select at least one.');
+                    return;
+                }
+                printData = allStudents.filter(function (el) {
+                    return selectedIds.has(String(el.id));
+                });
+                $('#pptSubtitle').text('Selected (' + printData.length + ')');
+            }
+
+            if (printData.length === 0) {
+                Alert('warning', 'No data available to print.');
+                return;
+            }
+
+            var html = buildPrintDocument(printData);
+            $('#printPreviewBody').html(html);
+            $('#printPreviewOverlay').addClass('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function buildPrintDocument(data) {
+            var now = new Date();
+            var dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+            var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+            var filterParts = [];
+            var sessionVal = $('#ddlSession option:selected').text();
+            var yearVal = $('#ddlYear option:selected').text();
+            var classVal = $('#ddlClass option:selected').text();
+            var courseVal = $('#ddlCourse option:selected').text();
+            var nameVal = $('#txtSearch').val();
+            var rollVal = $('#txtRollNumberSearch').val();
+            var formVal = $('#txtFormNumberSearch').val();
+            var enrolVal = $('#txtEnrolloSearch').val();
+
+            if (sessionVal && sessionVal !== 'Select') filterParts.push({ key: 'Session', val: sessionVal });
+            if (yearVal && yearVal !== 'Select') filterParts.push({ key: 'Year', val: yearVal });
+            if (classVal && classVal !== 'Select') filterParts.push({ key: 'Class', val: classVal });
+            if (courseVal && courseVal !== 'Select') filterParts.push({ key: 'Course', val: courseVal });
+            if (nameVal) filterParts.push({ key: 'Name', val: nameVal });
+            if (rollVal) filterParts.push({ key: 'Roll No', val: rollVal });
+            if (formVal) filterParts.push({ key: 'Form No', val: formVal });
+            if (enrolVal) filterParts.push({ key: 'Enroll No', val: enrolVal });
+
+            var filterHtml = '';
+            if (filterParts.length > 0) {
+                filterHtml += '<div class="print-doc-filters">';
+                filterHtml += '<span class="pdf-label-text"><i class="fas fa-filter" style="margin-right:4px"></i>Filters:</span>';
+                $.each(filterParts, function (i, f) {
+                    filterHtml += '<div class="pdf-item"><span class="pdf-key">' + f.key + ':</span> <span class="pdf-val">' + esc(f.val) + '</span></div>';
+                });
+                filterHtml += '</div>';
+            }
+
+            /* Count for print footer */
+            var pExamSubmitted = 0;
+            var pExamNotSubmitted = 0;
+
+            var rowsHtml = '';
+            $.each(data, function (index, el) {
+                var tcIndicator = el.tc === 'ISSUE' ? ' <span style="color:#f43f5e;font-weight:700;font-size:.65rem">[TC]</span>' : '';
+
+                var examStatusHtml = '';
+                if (isExamSubmitted(el.examFormSubmited)) {
+                    examStatusHtml = '<span style="display:inline-block;padding:1px 7px;border-radius:3px;font-size:8px;font-weight:700;background:#d1fae5;color:#047857">YES</span>';
+                    pExamSubmitted++;
+                } else {
+                    examStatusHtml = '<span style="display:inline-block;padding:1px 7px;border-radius:3px;font-size:8px;font-weight:700;background:#fee2e2;color:#b91c1c">NO</span>';
+                    pExamNotSubmitted++;
+                }
+
+                rowsHtml += '<tr>' +
+                    '<td class="pd-num">' + (index + 1) + '</td>' +
+                    '<td class="pd-formno">' + esc(el.admissionFormNo) + tcIndicator + '</td>' +
+                    '<td style="text-align:center">' + esc(el.rollNo) + '</td>' +
+                    '<td style="text-align:center">' + examStatusHtml + '</td>' +
+                    '<td><span class="pd-tag session">' + esc(el.session) + '</span></td>' +
+                    '<td class="pd-name">' + esc(el.studentName) + '</td>' +
+                    '<td>' + esc(el.fatherName) + '</td>' +
+                    '<td><span class="pd-tag year">' + esc(el.year) + '</span></td>' +
+                    '<td><span class="pd-tag class">' + esc(el.class) + '</span></td>' +
+                    '<td><span class="pd-tag course">' + esc(el.course) + '</span></td>' +
+                    '<td>' + esc(el.mobileNoOne) + '</td>' +
+                    '</tr>';
+            });
+
+            var html =
+                '<div class="print-doc-header">' +
+                    '<div class="pdh-icon"><i class="fas fa-user-graduate"></i></div>' +
+                    '<h2 class="pdh-title">Student Directory</h2>' +
+                    '<p class="pdh-subtitle">Generated on ' + dateStr + ' at ' + timeStr + '</p>' +
+                '</div>' +
+                filterHtml +
+                '<table class="print-doc-table">' +
+                    '<thead>' +
+                        '<tr>' +
+                            '<th>#</th>' +
+                            '<th>Form No</th>' +
+                            '<th>Roll No</th>' +
+                            '<th>TC</th>' +
+                            '<th>Exam Form</th>' +
+                            '<th>Session</th>' +
+                            '<th>Student Name</th>' +
+                            '<th>Father Name</th>' +
+                            '<th>Year</th>' +
+                            '<th>Class</th>' +
+                            '<th>Course</th>' +
+                            '<th>Mobile</th>' +
+                        '</tr>' +
+                    '</thead>' +
+                    '<tbody>' + rowsHtml + '</tbody>' +
+                '</table>' +
+                '<div class="print-doc-footer">' +
+                    '<div class="pdf-total">Total: ' + data.length + ' &nbsp;|&nbsp; <span style="color:#047857">Submitted: ' + pExamSubmitted + '</span> &nbsp;|&nbsp; <span style="color:#b91c1c">Pending: ' + pExamNotSubmitted + '</span></div>' +
+                    '<div>Printed from CRM System &bull; ' + dateStr + '</div>' +
+                '</div>';
+
+            return html;
+        }
+
+        function closePrintPreview() {
+            $('#printPreviewOverlay').removeClass('active');
+            document.body.style.overflow = '';
+        }
+
+        function executePrint() {
+            var printContent = document.getElementById('printPreviewBody').innerHTML;
+
+            var printWindow = window.open('', '_blank', 'width=1000,height=700');
+
+            printWindow.document.write('<!DOCTYPE html><html><head><title>Print — Student Directory</title>');
+            printWindow.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">');
+            printWindow.document.write('<style>');
+            printWindow.document.write(getPrintCSS());
+            printWindow.document.write('</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(printContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+
+            printWindow.onload = function () {
+                setTimeout(function () {
+                    printWindow.focus();
+                    printWindow.print();
+                }, 400);
+            };
+        }
+
+        function getPrintCSS() {
+            return `
+                @@page {
+                    size: A4 landscape;
+                    margin: 12mm 10mm;
+                }
+
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    color: #0f172a;
+                    font-size: 11px;
+                    line-height: 1.4;
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
+                .print-doc-header {
+                    text-align: center;
+                    margin-bottom: 16px;
+                    padding-bottom: 12px;
+                    border-bottom: 3px double #e2e8f0;
+                }
+
+                .pdh-icon {
+                    font-size: 1.6rem;
+                    color: #3b82f6;
+                    margin-bottom: 4px;
+                }
+
+                .pdh-title {
+                    font-size: 16px;
+                    font-weight: 800;
+                    color: #0f172a;
+                    margin: 0 0 2px;
+                }
+
+                .pdh-subtitle {
+                    font-size: 10px;
+                    color: #64748b;
+                }
+
+                .print-doc-filters {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 6px 16px;
+                    margin-bottom: 12px;
+                    padding: 8px 12px;
+                    background: #f8fafc;
+                    border-radius: 6px;
+                    border: 1px solid #e2e8f0;
+                    font-size: 10px;
+                    align-items: center;
+                }
+
+                .pdf-label-text {
+                    font-weight: 700;
+                    color: #3b82f6;
+                    font-size: 10px;
+                    margin-right: 6px;
+                }
+
+                .pdf-item .pdf-key {
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: .03em;
+                    color: #94a3b8;
+                    font-size: 8px;
+                }
+
+                .pdf-item .pdf-val {
+                    font-weight: 600;
+                    color: #0f172a;
+                    font-size: 10px;
+                }
+
+                .print-doc-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 10px;
+                }
+
+                .print-doc-table thead th {
+                    background: #3b82f6 !important;
+                    color: #fff !important;
+                    font-size: 8.5px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: .04em;
+                    padding: 7px 6px;
+                    border: 1px solid #2563eb;
+                    white-space: nowrap;
+                }
+
+                .print-doc-table tbody td {
+                    padding: 5px 6px;
+                    border: 1px solid #e2e8f0;
+                    color: #0f172a;
+                    vertical-align: middle;
+                }
+
+                .print-doc-table tbody tr:nth-child(even) {
+                    background: #f8fafc;
+                }
+
+                .print-doc-table tbody tr:nth-child(odd) {
+                    background: #fff;
+                }
+
+                .pd-num {
+                    text-align: center;
+                    font-weight: 700;
+                    color: #64748b;
+                }
+
+                .pd-formno {
+                    font-weight: 700;
+                    color: #2563eb;
+                }
+
+                .pd-name {
+                    font-weight: 700;
+                }
+
+                .pd-tag {
+                    display: inline-block;
+                    padding: 1px 6px;
+                    border-radius: 3px;
+                    font-size: 8px;
+                    font-weight: 600;
+                }
+
+                .pd-tag.session { background: #fffbeb; color: #92400e; }
+                .pd-tag.year { background: #f5f3ff; color: #6d28d9; }
+                .pd-tag.class { background: #fce7f3; color: #be185d; }
+                .pd-tag.course { background: #ecfdf5; color: #047857; }
+
+                .print-doc-footer {
+                    margin-top: 14px;
+                    padding-top: 10px;
+                    border-top: 1px solid #e2e8f0;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 9px;
+                    color: #94a3b8;
+                }
+
+                .pdf-total {
+                    font-weight: 700;
+                    color: #2563eb;
+                    font-size: 11px;
+                }
+            `;
+        }
+    </script>
+}
