@@ -2750,7 +2750,7 @@
                     <input id="txtRollNumberSearch" class="form-control" type="number" placeholder="Enter roll">
                 </div>
 
-                
+
                 <div class="col-md-2 col-sm-4 col-6">
                     <label>Form No.</label>
                     <input id="txtFormNo" class="form-control" type="search" placeholder="Type Form No...">
@@ -2763,6 +2763,23 @@
                 <div class="col-md-2 col-sm-4 col-6">
                     <label>Student Search</label>
                     <input id="txtSearch" class="form-control" type="search" placeholder="Type student name to search...">
+                </div>
+                <div class="col-md-2 col-sm-4 col-6">
+                    <label>Exam Form Submit</label>
+                    <select id="ddlExamFormSubmited" class="form-control">
+                        <option value="">Select</option>
+                        <option>YES</option>
+                        <option>NO</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 col-sm-4 col-6">
+                    <label>TC Submit</label>
+                    <select id="ddlTcSubmited" class="form-control">
+                        <option value="">Select</option>
+                        <option>YES</option>
+                        <option>NO</option>
+                    </select>
                 </div>
 
                 <div class="col-md-2 col-sm-6" style="display:flex;align-items:flex-end;gap:8px;">
@@ -3026,6 +3043,8 @@
             $("#txtRollNumberSearch").val('');
             $('#ddlSession').val(''); $('#ddlClass').val(''); $('#ddlCourse').val('');
             $('#ddlYear').val(''); $('#ddlSearchResult').val('');
+            $('#ddlExamFormSubmited').val('');
+            $('#ddlTcSubmited').val('');
             checkedIds = {}; currentPage = 1;
             SearchStudent();
         }
@@ -3048,6 +3067,8 @@
                 enrollmentNo: $("#txtEnrollmentNo").val(),
                 regulerprivate: $('#ddlRegulerPrivate option:selected').text(),
                 newoldex: $('#ddlNewOldEx option:selected').text(),
+                examFormSubmited: $('#ddlExamFormSubmited option:selected').text(),
+                tcSubmited: $('#ddlTcSubmited option:selected').text(),
             }).done(function (res) {
                 currentData = res.data || [];
                 currentPage = 1;
