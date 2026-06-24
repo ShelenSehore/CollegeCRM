@@ -1230,103 +1230,85 @@
 <div class="modal fade" id="modal-ConcessionPopUp">
     <div class="modal-dialog" style="max-width:680px !important;">
         <div class="modal-content">
-            <div class="modal-header modal-header-concession">
-                <h4 class="modal-title"><i class='fas fa-university'></i> Concession Detail</h4>
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-receipt mr-2"></i> Payment Receipt</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" style="padding: 24px 28px;">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="widget-user-header-custom">
-                            <div class="widget-user-image">
-                                <img id="imgPhoto" class="img-circle elevation-2" alt="Student Photo">
-                            </div>
-                            <h3><span id="spnName"></span></h3>
-                            <h5><span id="spnClass"></span></h5>
-                        </div>
-                        <div>
-                            <button id="btnGetFee" onclick="GetFeeFromMaster()" value="GetFeeFromMaster"> Get Fee From Master</button>
-                        </div>
-                        <ul class="fee-list">
-                            <li class="fee-total">
-                                <span class="fee-label"><i class="fas fa-receipt"></i> Total Fee</span>
-                                <span class="fee-value" id="spnTotalFee"></span>
-                            </li>
-                            <li class="fee-discount">
-                                <span class="fee-label"><i class="fas fa-tag"></i> Discount</span>
-                                <span class="fee-value" id="spnDiscount"></span>
-                            </li>
-                            <li class="fee-discount-by">
-                                <span class="fee-label"><i class="fas fa-user-tag"></i> Discount By</span>
-                                <span class="fee-value" id="spnDiscountBy"></span>
-                            </li>
-                            <li class="fee-after">
-                                <span class="fee-label"><i class="fas fa-check-circle"></i> Fee After Discount</span>
-                                <span class="fee-value" id="spnFeeAfterDiscount"></span>
-                            </li>
-                        </ul>
+            <div id="divPaymentRecipt" class="receipt-wrapper">
+                <!-- Header -->
+                <div class="receipt-header">
+                    <h2>Swami Vivekanand College Of Professional Studies, Sehore</h2>
+                    <h4>Fee Payment Receipt</h4>
+                </div>
+
+                <hr class="receipt-divider" />
+
+                <!-- Top Info -->
+                <table class="receipt-info-table">
+                    <tr>
+                        <td>Receipt No: <strong id="lblReciptNo"></strong></td>
+                        <td style="text-align: center;">Book No: <strong id="lblReciptBookNo"></strong></td>
+                        <td style="text-align: right;">Date: <strong id="lblPayDate"></strong></td>
+                    </tr>
+                </table>
+
+                <!-- Student Info -->
+                <div class="receipt-student-info">
+                    <table>
+                        <tr>
+                            <td style="width: 50%; padding-bottom: 6px;">Name: <strong id="lblName"></strong></td>
+                            <td>Father: <strong id="lblFatherName"></strong></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Academic Info -->
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 100px; background: #f8f9ff; padding: 8px 14px; border-radius: 8px; font-size: 12px;">
+                        <span style="color: var(--text-muted); font-weight: 600;">CLASS</span><br>
+                        <strong id="lblClass"></strong>
                     </div>
-                    <div class="col-md-12">
-                        <div class="concession-form">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>New Student Fee</label>
-                                        <input type="text" class="form-control" id="txtDisNewStudentFee" name="DiscountBy" value="">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>C-Money</label>
-                                        <input type="text" class="form-control" id="txtDisCMoney" name="DiscountBy" value="">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Tuition Fee</label>
-                                        <input type="text" class="form-control" id="txtDisTutionFee" name="DiscountBy" value="">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Other Fee</label>
-                                        <input type="number" class="form-control" id="txtDisOtherFee" name="DiscountBy" value="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Scholarship</label>
-                                        <input type="hidden" id="hdnStudentFeeId" />
-                                        <input type="hidden" id="hdnTotalFeeCurrently" />
-                                        <input type="hidden" id="hdnCurrentlyDiscount" />
-                                        <input type="number" class="form-control" id="txtScholership" name="Scholership" value="0">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Discount By</label>
-                                        <input type="text" class="form-control" id="txtDiscountBy" name="DiscountBy" value="">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Disc Reason</label>
-                                        <input type="text" class="form-control" id="txtDiscountReasion" name="DiscountReasion" value="">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Net Fee After Dis.</label>
-                                        <input type="number" class="form-control" id="txtAfterDiscountTotalFee" name="txtAfterDiscountTotalFee" value="0" style="background:#d1fae5; font-weight:700; color:#065f46;">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div style="flex: 1; min-width: 100px; background: #f8f9ff; padding: 8px 14px; border-radius: 8px; font-size: 12px;">
+                        <span style="color: var(--text-muted); font-weight: 600;">COURSE</span><br>
+                        <strong id="lblCourse"></strong>
                     </div>
+                    <div style="flex: 1; min-width: 100px; background: #f8f9ff; padding: 8px 14px; border-radius: 8px; font-size: 12px;">
+                        <span style="color: var(--text-muted); font-weight: 600;">YEAR</span><br>
+                        <strong id="lblYear"></strong>
+                    </div>
+                    <div style="flex: 1; min-width: 100px; background: #f8f9ff; padding: 8px 14px; border-radius: 8px; font-size: 12px;">
+                        <span style="color: var(--text-muted); font-weight: 600;">SESSION</span><br>
+                        <strong id="lblSession"></strong>
+                    </div>
+                </div>
+
+                <hr class="receipt-divider" />
+
+                <!-- Fee Details -->
+                <table class="receipt-fee-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px; text-align: center;">Sr.</th>
+                            <th>Fee Head</th>
+                            <th style="width: 120px; text-align: right;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lblHead">
+                        <!-- dynamic rows -->
+                    </tbody>
+                </table>
+
+                <!-- Total -->
+                <div class="receipt-total">
+                    Total: <strong id="lblTotalPay"></strong>
+                </div>
+
+                <!-- Signatures -->
+                <div class="receipt-signatures">
+                    <div>Student Signature</div>
+                    <div>Authorized Signature</div>
                 </div>
             </div>
             <div class="modal-footer modal-footer-concession">
@@ -1520,7 +1502,7 @@
                                 "<span class='sr-only'>Toggle</span>" +
                             "</button>" +
                             "<div class='dropdown-menu' role='menu'>" +
-                                "<a class='dropdown-item' onclick='ConcessionPopUp(" + element.id + ")'><i class='fas fa-university'></i> Concession</a>" +
+                                "<a class='dropdown-item' onclick='ConcessionPopUp(" + element.studentFeeId + "," + element.studentId + "," + element.recBookNo + "," + element.recNumber + ")'><i class='fas fa-university'></i> Concession</a>" +
                             "</div>" +
                         "</div>" +
                     "</td>" +
@@ -1679,57 +1661,23 @@
         // ═══════════════════════════════════════════════════
         // Concession Modal
         // ═══════════════════════════════════════════════════
-        function ConcessionPopUp(studentId) {
+        function ConcessionPopUp(studentFeeId,studentId,ReceptBookNo,ReceptNumber) {
             $.post(BASE_URL + "/Payment/GetFeeDetail",
-                { id: studentId },
+                { studentFeeId: studentFeeId,
+                  studentId: studentId,
+                  ReceptBookNo: ReceptBookNo,
+                  ReceptNumber: ReceptNumber,
+                 },
                 function (res)
                 {
-                    debugger;
-                    var photoUrl = BASE_URL + "/StudentData/Photo/" + res.studentData.photo + ".jpg";
-                    $('#imgPhoto').attr('src', photoUrl);
-
-                    $('#hdnStudentFeeId').val(res.concessionDetail.id);
-                    $('#hdnTotalFeeCurrently').val(res.concessionDetail.totalFeeAfterDiscount);
-                    $('#hdnCurrentlyDiscount').val(res.concessionDetail.scholership);
-
-                    $('#spnName').text(res.studentData.studentName + " / " + res.studentData.fatherName);
-                    $('#spnClass').text(res.studentData.class + " / " + res.studentData.course + " / " + res.studentData.year + " / " + res.studentData.session);
-                    $('#spnTotalFee').text('\u20B9' + Number(res.concessionDetail.totalFee).toLocaleString('en-IN'));
-                    $('#spnDiscount').text('\u20B9' + Number(res.concessionDetail.scholership).toLocaleString('en-IN'));
-                    $('#spnDiscountBy').text(res.concessionDetail.disBy + (res.concessionDetail.disResion ? " / " + res.concessionDetail.disResion : ""));
-                    $('#spnFeeAfterDiscount').text('\u20B9' + Number(res.concessionDetail.totalFeeAfterDiscount).toLocaleString('en-IN'));
-
-                    //--------Display Fee----
-
-                    $('#txtDisNewStudentFee').val(res.concessionDetail.newStudentFee);
-                    $('#txtDisTutionFee').val(res.concessionDetail.tutionFee);
-                    $('#txtDisCMoney').val(res.concessionDetail.cMoney);
-                    $('#txtDisOtherFee').val(res.concessionDetail.otherFee);
-
-
-                    // Pre-fill form
-                    $('#txtScholership').val(0);
-                    $('#txtDiscountBy').val('');
-                    $('#txtDiscountReasion').val('');
-                    $('#txtAfterDiscountTotalFee').val(res.concessionDetail.totalFeeAfterDiscount);
+                   
+                   
 
                     $("#modal-ConcessionPopUp").modal("show");
             });
         }
 
-        function SaveConcession() {
-            $.post(BASE_URL + "/Payment/SaveConcession", {
-                studentFeeId: $('#hdnStudentFeeId').val(),
-                scholership: $('#txtScholership').val(),
-                discountBy: $('#txtDiscountBy').val(),
-                discountRession: $('#txtDiscountReasion').val(),
-                afterDiscountTotalFee: $('#txtAfterDiscountTotalFee').val()
-            }, function (res) {
-                Alert('success', 'Successfully Saved', 'bg-success');
-                $("#modal-ConcessionPopUp").modal("hide");
-                SearchStudent();
-            });
-        }
+       
 
         function DownloadExcel() {
             $("#hdnExcelSession").val($('#ddlSession option:selected').text());

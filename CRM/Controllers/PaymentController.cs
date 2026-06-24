@@ -566,13 +566,13 @@ namespace CRM.Controllers
         }
 
 
-        public IActionResult GetFeeDetail(string id)
+        public IActionResult GetFeeDetail(int studentFeeId, int studentId, int ReceptBookNo, int ReceptNumber)
         {
 
-            var data = _repoStudent.GetById(Convert.ToInt32(id));
-            var FeeDetail = _studentFeeRepo.GetFeeByStudentID(Convert.ToInt32(id));
-            var ConcessionDetail = FeeDetail.OrderByDescending(x => x.Id).FirstOrDefault();
-            return Json(new { success = true, studentData = data, concessionDetail = ConcessionDetail });
+     
+            var FeeDetail = _transactionRepo.GetReceiptDetail(studentFeeId, studentId, ReceptBookNo, ReceptNumber);
+           
+            return Json(new { success = true, FeeDetail = FeeDetail });
         }
 
 

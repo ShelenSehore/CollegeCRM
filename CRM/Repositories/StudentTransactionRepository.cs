@@ -80,6 +80,12 @@ namespace CRM.Repositories
             return _context.StudentTransaction.Where(x => x.StudentId == studentID).OrderByDescending(x => x.Id).ToList();
         }
 
+
+        public List<StudentTransaction> GetReceiptDetail(int studentFeeId, int studentId, int ReceptBookNo, int ReceptNumber)
+        {
+            return _context.StudentTransaction.Where(x => x.StudentFeeId == studentFeeId && x.StudentId == studentId && x.RecBookNo == ReceptBookNo.ToString() && x.RecNumber == ReceptNumber.ToString()).OrderByDescending(x => x.Id).ToList();
+        }
+
         public List<ReportTransactionViewModel> FilterList(string had, string paymentMode, string reciptNo, 
                                                           string fromDate, string toDate, string name, string session,
                                                           string year, string classes, string course)
