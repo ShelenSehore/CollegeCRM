@@ -3,6 +3,7 @@ using CRM.Data;
 using CRM.Models;
 using CRM.ModelsForView;
 using CRM.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
@@ -297,6 +298,8 @@ namespace CRM.Controllers
             ViewBag.BaseUrl = _baseUrl;
             var model = new StudentListView();
 
+            var varSession = HttpContext.Session.GetString("Session");
+
             model.ClassList = _classRepo.GetAll()
                       .Select(x => new SelectListItem
                       {
@@ -311,7 +314,8 @@ namespace CRM.Controllers
                        .Select(x => new SelectListItem
                        {
                            Value = x.Name.ToString(),
-                           Text = x.Name
+                           Text = x.Name,
+                           Selected = x.Name == varSession
                        })
                        .ToList();
 
@@ -342,10 +346,6 @@ namespace CRM.Controllers
                 .ToList();
 
 
-            ////--------Get List
-            //var data = _repoStudent.GetAll();
-
-            //model.StudentList = data;
 
             return View(model);
         }

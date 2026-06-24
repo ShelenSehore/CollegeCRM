@@ -1,6 +1,5 @@
-﻿@{
-    Layout = null;
-}
+﻿@model CRM.ModelsForView.LoginViewModel
+@{ Layout = null; }
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +16,10 @@
     <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
@@ -28,32 +31,39 @@
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                <form asp-controller="Dashboard" asp-action="Index" method="post">
+
+
+
+                <form asp-controller="Home" asp-action="IndexPost" method="post">
+
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="UserName">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
+                        <select asp-for="Session"
+                                asp-items="ViewBag.Session"
+                                class="form-control">
+                            <option value="">Select Session</option>
+                        </select>
+                        <span asp-validation-for="Session" class="text-danger"></span>
                     </div>
+
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
+                        <input asp-for="Email"
+                               class="form-control"
+                               placeholder="UserName">
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                    <div class="row">
-                        <div class="col-8">
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                        </div>
-                        <!-- /.col -->
+
+                    <div class="input-group mb-3">
+                        <input asp-for="Password"
+                               type="password"
+                               class="form-control"
+                               placeholder="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Sign In
+                    </button>
+
                 </form>
 
 

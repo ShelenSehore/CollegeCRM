@@ -1,6 +1,7 @@
 ﻿using CRM.Data;
 using CRM.ModelsForView;
 using CRM.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -74,13 +75,14 @@ namespace CRM.Controllers
                       })
                       .ToList();
 
-
+            var varSession = HttpContext.Session.GetString("Session");
             //----Session----
             model.SessionList = _sessionRepo.GetAll()
                        .Select(x => new SelectListItem
                        {
                            Value = x.Name.ToString(),
-                           Text = x.Name
+                           Text = x.Name,
+                           Selected = x.Name == varSession
                        })
                        .ToList();
 
@@ -181,13 +183,14 @@ namespace CRM.Controllers
                       })
                       .ToList();
 
-
+            var varSession = HttpContext.Session.GetString("Session");
             //----Session----
             model.SessionList = _sessionRepo.GetAll()
                        .Select(x => new SelectListItem
                        {
                            Value = x.Name.ToString(),
-                           Text = x.Name
+                           Text = x.Name,
+                           Selected = x.Name == varSession
                        })
                        .ToList();
 
@@ -234,14 +237,15 @@ namespace CRM.Controllers
                           Text = x.Name
                       })
                       .ToList();
-
-
+             
+            var varSession = HttpContext.Session.GetString("Session");
             //----Session----
             model.SessionList = _sessionRepo.GetAll()
                        .Select(x => new SelectListItem
                        {
                            Value = x.Name.ToString(),
-                           Text = x.Name
+                           Text = x.Name,
+                           Selected = x.Name == varSession
                        })
                        .ToList();
 

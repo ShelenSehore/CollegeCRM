@@ -31,7 +31,18 @@ namespace CRM
             services.AddDbContext<CollegeContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            services.AddControllersWithViews().AddRazorRuntimeCompilation(); 
+           
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddScoped<MstClassRepository>();
             services.AddScoped<MstCourseRepository>();
             services.AddScoped<StudentRepository>();
@@ -64,6 +75,8 @@ namespace CRM
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();      
 
             app.UseAuthorization();
 

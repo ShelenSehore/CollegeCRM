@@ -1,6 +1,9 @@
 ﻿using CRM.Models;
+using CRM.ModelsForView;
 using CRM.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,19 +17,68 @@ namespace CRM.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly MstClassRepository _repo;
-        public HomeController(ILogger<HomeController> logger, 
+        private readonly MstSessionRepository _sessionRepo;
+        public HomeController(ILogger<HomeController> logger,
+            MstSessionRepository sessionRepo,
             MstClassRepository repo)
         {
             _repo = repo;
             _logger = logger;
+            _sessionRepo = sessionRepo;
         }
 
         public IActionResult Index()
         {
-           
-            return View();
+            //----Session----
+            ViewBag.Session = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+            LoginViewModel model = new LoginViewModel();
+
+            return View(model);
         }
 
+        [HttpPost]
+        public IActionResult IndexPost(LoginViewModel model)
+        {
+            try { 
+            //----Session----
+            ViewBag.Session = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+            if (!ModelState.IsValid)
+            {
+                return View("Index");
+            }
+            HttpContext.Session.Clear();
+            HttpContext.Session.SetString("Session", model.Session);
+            //HttpContext.Session.SetString("UserName", model.Email);
+            //HttpContext.Session.SetString("UserId", user.Id.ToString());
+            //HttpContext.Session.SetString("Role", user.Role);
+
+            return RedirectToAction("index","Dashboard");
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Index");
+        }
         public IActionResult Privacy()
         {
             return View();
