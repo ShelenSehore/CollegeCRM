@@ -1817,6 +1817,30 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Exam Form Submit </label>
+                                <div class="search-with-icon">
+                                    <select id="ddlExamFormSubmited" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="YES">YES</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>TC Submit </label>
+                                <div class="search-with-icon">
+                                    <select id="ddlTCSubmited" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="YES">YES</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Student Name</label>
@@ -2142,6 +2166,8 @@
             var varRollNum = $("#txtRollNumberSearch").val();
             var varFormNum = $("#txtFormNumberSearch").val();
             var varEnrolNum = $("#txtEnrolloSearch").val();
+            var varExamFormSubmited = $('#ddlExamFormSubmited option:selected').text();
+            var varTcSubmited = $('#ddlTCSubmited option:selected').text();
 
             $.post(BASE_URL + "/Student/SearchList", {
                 name: name,
@@ -2151,7 +2177,10 @@
                 session: varSession,
                 rollNum: varRollNum,
                 formNum: varFormNum,
-                enrolNum: varEnrolNum
+                enrolNum: varEnrolNum,
+                examFormSubmited:varExamFormSubmited,
+                tcSubmited: varTcSubmited
+
             }, function (res) {
                 var tableData = res.data || [];
                 allStudents = tableData;
@@ -2374,6 +2403,8 @@
             $('#ddlYear').val('');
             $("#txtFormNumberSearch").val('');
             $("#txtEnrolloSearch").val('');
+            $('#ddlExamFormSubmited').val('');
+            $('#ddlTCSubmited').val('');
             SearchStudent();
         }
 
@@ -2383,6 +2414,8 @@
             $("#hdnExcelYear").val($('#ddlYear option:selected').text());
             $("#hdnExcelCourse").val($('#ddlCourse option:selected').text());
             $("#hdnExcelSession").val($('#ddlSession option:selected').text());
+            $("#hdnExcelSession").val($('#ddlExamFormSubmited option:selected').text());
+            $("#hdnExcelSession").val($('#ddlTCSubmited option:selected').text());
             $('#frmDownloadExcel').submit();
         }
 

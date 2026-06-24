@@ -350,14 +350,15 @@ namespace CRM.Controllers
             return View(model);
         }
 
-        public IActionResult SearchList(string name, string classes, string year, string course, string session,string rollNum, string formNum, string enrolNum)
+        public IActionResult SearchList(string name, string classes, string year, string course, string session,
+            string rollNum, string formNum, string enrolNum, string examFormSubmited, string tcSubmited)
         {
-            long formNumber = 0;
+             long formNumber = 0;
             if (!string.IsNullOrEmpty(formNum))
                 formNumber = Convert.ToInt64(formNum);
 
             //--------Get List
-            var data = _repoStudent.FilterList(name, classes, course, year,  session, rollNum, formNumber, enrolNum);
+            var data = _repoStudent.FilterList(name, classes, course, year,  session, rollNum, formNumber, enrolNum, examFormSubmited, tcSubmited);
 
            
 

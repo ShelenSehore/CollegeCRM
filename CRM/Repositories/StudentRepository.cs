@@ -338,7 +338,8 @@ namespace CRM.Repositories
             return resultList;
         }
 
-        public List<Student> FilterList(string name, string classes, string course, string year, string session, string rollNum, long formNum, string enrolNum)
+        public List<Student> FilterList(string name, string classes, string course, string year, string session, 
+            string rollNum, long formNum, string enrolNum, string examFormSubmited, string tcSubmited)
         {
             try { 
             
@@ -378,7 +379,15 @@ namespace CRM.Repositories
             {
                 query = query.Where(x => x.Session.ToLower().Contains(session.ToLower()));
             }
-            return query.ToList();
+            if (!string.IsNullOrWhiteSpace(examFormSubmited) && (examFormSubmited != "Select"))
+            {
+                query = query.Where(x => x.ExamFormSubmited.ToLower().Contains(examFormSubmited.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(tcSubmited) && (tcSubmited != "Select"))
+            {
+                query = query.Where(x => x.ExamFormSubmited.ToLower().Contains(tcSubmited.ToLower()));
+            }
+                return query.ToList();
                 //return _context.StudentRegistration.ToList(); 
             }
             catch (Exception ex)
