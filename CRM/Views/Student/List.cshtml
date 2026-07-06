@@ -1,9 +1,7 @@
 ﻿@model CRM.ModelsForView.StudentListView
-@{
-    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+@{ Layout = "~/Views/Shared/_MasterLayout.cshtml";
     ViewData["Title"] = "Student List";
-    var baseUrl = ViewBag.BaseUrl;
-}
+    var baseUrl = ViewBag.BaseUrl; }
 
 <style>
     :root {
@@ -128,14 +126,14 @@
 
     .stat-row {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: repeat(9, 1fr);
         gap: 14px;
         margin-bottom: 22px;
     }
 
     @@media (max-width: 1400px) {
         .stat-row {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
         }
     }
 
@@ -277,6 +275,34 @@
 
         .stat-card.exam-not-submitted .stat-value {
             color: #b91c1c;
+        }
+
+        /* ===== TC SUBMITTED STAT ===== */
+        .stat-card.tc-submitted::before {
+            background: linear-gradient(180deg, var(--clr-accent-teal), #5eead4);
+        }
+
+        .stat-card.tc-submitted .stat-icon {
+            background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+            color: #0d9488;
+        }
+
+        .stat-card.tc-submitted .stat-value {
+            color: #0f766e;
+        }
+
+        /* ===== TC NOT SUBMITTED STAT ===== */
+        .stat-card.tc-not-submitted::before {
+            background: linear-gradient(180deg, var(--clr-accent-orange), #fdba74);
+        }
+
+        .stat-card.tc-not-submitted .stat-icon {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            color: #ea580c;
+        }
+
+        .stat-card.tc-not-submitted .stat-value {
+            color: #c2410c;
         }
 
     .stat-icon {
@@ -1632,6 +1658,14 @@
             animation-delay: .28s;
         }
 
+        .stat-card:nth-child(8) {
+            animation-delay: .32s;
+        }
+
+        .stat-card:nth-child(9) {
+            animation-delay: .36s;
+        }
+
     .filter-panel {
         animation: fadeInUp .5s ease .32s both;
     }
@@ -1696,7 +1730,7 @@
                 <i class="fas fa-user-graduate banner-icon"></i>
             </div>
 
-            <!-- ===== STAT CARDS (7 cards) ===== -->
+            <!-- ===== STAT CARDS (9 cards) ===== -->
             <div class="stat-row">
                 <div class="stat-card total">
                     <div class="stat-icon"><i class="fas fa-users"></i></div>
@@ -1719,6 +1753,21 @@
                         <div class="stat-value" id="statExamNotSubmitted">0</div>
                     </div>
                 </div>
+                <div class="stat-card tc-submitted">
+                    <div class="stat-icon"><i class="fas fa-certificate"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">TC Submitted</div>
+                        <div class="stat-value" id="statTcSubmitted">0</div>
+                    </div>
+                </div>
+                <div class="stat-card tc-not-submitted">
+                    <div class="stat-icon"><i class="fas fa-file-circle-xmark"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">TC Not Submitted</div>
+                        <div class="stat-value" id="statTcNotSubmitted">0</div>
+                    </div>
+                </div>
+
                 <div class="stat-card session">
                     <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
                     <div class="stat-info">
@@ -1841,7 +1890,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Admisison Type</label>
+                                <div class="search-with-icon">
+                                    <select id="ddlAdmisisonType" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="REGULER">REGULER</option>
+                                        <option value="PRIVATE">PRIVATE</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Student Name</label>
                                 <div class="search-with-icon">
@@ -2081,7 +2142,7 @@
                 timerProgressBar: true,
             });
 
-            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession").change(function () {
+            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession, #ddlExamFormSubmited, #ddlTCSubmited, #ddlAdmisisonType").change(function () {
                 SearchStudent();
             });
 
@@ -2128,14 +2189,22 @@
             var v = String(val).trim().toUpperCase();
             return v === 'YES' || v === 'TRUE' || v === '1' || v === 'SUBMITTED' || v === 'SUBMIT';
         }
-
+        /* Helper: determine if TC is considered "submitted" */
+        function isTcSubmitted(val) {
+            if (!val) return false;
+            var v = String(val).trim().toUpperCase();
+            return v === 'YES' || v === 'TRUE' || v === '1' || v === 'SUBMIT' || v === 'SUBMITTED';
+        }
         function updateStats(data) {
             var sessions = new Set();
             var years = new Set();
             var courses = new Set();
             var examSubmitted = 0;
             var examNotSubmitted = 0;
+            var tcSubmitted = 0;
+            var tcNotSubmitted = 0;
 
+            
             $.each(data, function (i, el) {
                 if (el.session) sessions.add(el.session);
                 if (el.year) years.add(el.year);
@@ -2146,12 +2215,19 @@
                 } else {
                     examNotSubmitted++;
                 }
+                if (isTcSubmitted(el.tc)) {
+                    tcSubmitted++;
+                } else {
+                    tcNotSubmitted++;
+                }
             });
 
             $('#statTotal').text(data.length);
             $('#tableCount').text(data.length + ' record' + (data.length !== 1 ? 's' : ''));
             $('#statExamSubmitted').text(examSubmitted);
             $('#statExamNotSubmitted').text(examNotSubmitted);
+            $('#statTcSubmitted').text(tcSubmitted);
+            $('#statTcNotSubmitted').text(tcNotSubmitted);
             $('#statSession').text(sessions.size || '—');
             $('#statYear').text(years.size || '—');
             $('#statCourse').text(courses.size || '—');
@@ -2168,6 +2244,8 @@
             var varEnrolNum = $("#txtEnrolloSearch").val();
             var varExamFormSubmited = $('#ddlExamFormSubmited option:selected').text();
             var varTcSubmited = $('#ddlTCSubmited option:selected').text();
+            var varAdmisisonType = $('#ddlAdmisisonType option:selected').text();
+            
 
             $.post(BASE_URL + "/Student/SearchList", {
                 name: name,
@@ -2179,7 +2257,8 @@
                 formNum: varFormNum,
                 enrolNum: varEnrolNum,
                 examFormSubmited:varExamFormSubmited,
-                tcSubmited: varTcSubmited
+                tcSubmited: varTcSubmited,
+                admissionType: varAdmisisonType
 
             }, function (res) {
                 var tableData = res.data || [];
@@ -2405,6 +2484,7 @@
             $("#txtEnrolloSearch").val('');
             $('#ddlExamFormSubmited').val('');
             $('#ddlTCSubmited').val('');
+            $('#ddlAdmisisonType').val('');
             SearchStudent();
         }
 
@@ -2524,6 +2604,8 @@
             /* Count for print footer */
             var pExamSubmitted = 0;
             var pExamNotSubmitted = 0;
+            var pTcSubmitted = 0;
+            var pTcNotSubmitted = 0;
 
             var rowsHtml = '';
             $.each(data, function (index, el) {
@@ -2537,7 +2619,11 @@
                     examStatusHtml = '<span style="display:inline-block;padding:1px 7px;border-radius:3px;font-size:8px;font-weight:700;background:#fee2e2;color:#b91c1c">NO</span>';
                     pExamNotSubmitted++;
                 }
-
+                if (isTcSubmitted(el.tc)) {
+                    pTcSubmitted++;
+                } else {
+                    pTcNotSubmitted++;
+                }
                 rowsHtml += '<tr>' +
                     '<td class="pd-num">' + (index + 1) + '</td>' +
                     '<td class="pd-formno">' + esc(el.admissionFormNo) + tcIndicator + '</td>' +
@@ -2580,8 +2666,13 @@
                     '<tbody>' + rowsHtml + '</tbody>' +
                 '</table>' +
                 '<div class="print-doc-footer">' +
-                    '<div class="pdf-total">Total: ' + data.length + ' &nbsp;|&nbsp; <span style="color:#047857">Submitted: ' + pExamSubmitted + '</span> &nbsp;|&nbsp; <span style="color:#b91c1c">Pending: ' + pExamNotSubmitted + '</span></div>' +
-                    '<div>Printed from CRM System &bull; ' + dateStr + '</div>' +
+
+                '<div class="pdf-total">Total: ' + data.length +
+                ' &nbsp;|&nbsp; <span style="color:#047857">Exam Submitted: ' + pExamSubmitted + '</span>' +
+                ' &nbsp;|&nbsp; <span style="color:#b91c1c">Exam Pending: ' + pExamNotSubmitted + '</span>' +
+                ' &nbsp;|&nbsp; <span style="color:#0f766e">TC Submitted: ' + pTcSubmitted + '</span>' +
+                ' &nbsp;|&nbsp; <span style="color:#c2410c">TC Pending: ' + pTcNotSubmitted + '</span></div>' +
+                '<div>Printed from CRM System &bull; ' + dateStr + '</div>' +
                 '</div>';
 
             return html;
@@ -2776,4 +2867,4 @@
             `;
         }
     </script>
-}
+}}

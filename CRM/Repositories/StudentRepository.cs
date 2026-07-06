@@ -339,11 +339,11 @@ namespace CRM.Repositories
         }
 
         public List<Student> FilterList(string name, string classes, string course, string year, string session, 
-            string rollNum, long formNum, string enrolNum, string examFormSubmited, string tcSubmited)
+            string rollNum, long formNum, string enrolNum, string examFormSubmited, string tcSubmited, string admissionType)
         {
             try { 
             
-            IQueryable<Student> query = _context.Student;
+            IQueryable<Student> query = _context.Student.OrderBy(x=>x.StudentName);
                 //-----TC issue Skip
                 query = query.Where(x => x.PassoutTC != "ISSUE");
 
@@ -387,6 +387,10 @@ namespace CRM.Repositories
             {
                 query = query.Where(x => x.ExamFormSubmited.ToLower().Contains(tcSubmited.ToLower()));
             }
+                if (!string.IsNullOrWhiteSpace(admissionType) && (admissionType != "Select"))
+                {
+                    query = query.Where(x => x.RegEx.ToLower().Contains(admissionType.ToLower()));
+                }
                 return query.ToList();
                 //return _context.StudentRegistration.ToList(); 
             }
