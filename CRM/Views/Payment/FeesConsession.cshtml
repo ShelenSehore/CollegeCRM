@@ -1525,7 +1525,7 @@
 
             $.each(data, function (index, element) {
                 var rowNum = startIndex + index + 1;
-
+                debugger;
                 $("#tblStudentList tbody").append(
                     "<tr>" +
                     "<td><span class='row-index'>" + rowNum + "</span></td>" +
@@ -1703,7 +1703,7 @@
         // Concession Modal
         // ═══════════════════════════════════════════════════
         function ConcessionPopUp(studentId) {
-            $.post(BASE_URL + "/Payment/GetFeeDetail",
+            $.post(BASE_URL + "/Payment/GetFeeDetailForConsession",
                 { id: studentId },
                 function (res)
                 {
@@ -1711,30 +1711,30 @@
                     var photoUrl = BASE_URL + "/StudentData/Photo/" + res.studentData.photo + ".jpg";
                     $('#imgPhoto').attr('src', photoUrl);
 
-                    $('#hdnStudentFeeId').val(res.concessionDetail.id);
-                    $('#hdnTotalFeeCurrently').val(res.concessionDetail.totalFeeAfterDiscount);
-                    $('#hdnCurrentlyDiscount').val(res.concessionDetail.scholership);
+                    $('#hdnStudentFeeId').val(res.concessionDetail[0].id);
+                    $('#hdnTotalFeeCurrently').val(res.concessionDetail[0].totalFeeAfterDiscount);
+                    $('#hdnCurrentlyDiscount').val(res.concessionDetail[0].scholership);
 
                     $('#spnName').text(res.studentData.studentName + " / " + res.studentData.fatherName);
                     $('#spnClass').text(res.studentData.class + " / " + res.studentData.course + " / " + res.studentData.year + " / " + res.studentData.session);
-                    $('#spnTotalFee').text('\u20B9' + Number(res.concessionDetail.totalFee).toLocaleString('en-IN'));
-                    $('#spnDiscount').text('\u20B9' + Number(res.concessionDetail.scholership).toLocaleString('en-IN'));
-                    $('#spnDiscountBy').text(res.concessionDetail.disBy + (res.concessionDetail.disResion ? " / " + res.concessionDetail.disResion : ""));
-                    $('#spnFeeAfterDiscount').text('\u20B9' + Number(res.concessionDetail.totalFeeAfterDiscount).toLocaleString('en-IN'));
+                    $('#spnTotalFee').text('\u20B9' + Number(res.concessionDetail[0].totalFee).toLocaleString('en-IN'));
+                    $('#spnDiscount').text('\u20B9' + Number(res.concessionDetail[0].scholership).toLocaleString('en-IN'));
+                    $('#spnDiscountBy').text(res.concessionDetail.disBy + (res.concessionDetail[0].disResion ? " / " + res.concessionDetail[0].disResion : ""));
+                    $('#spnFeeAfterDiscount').text('\u20B9' + Number(res.concessionDetail[0].totalFeeAfterDiscount).toLocaleString('en-IN'));
 
                     //--------Display Fee----
 
-                    $('#txtDisNewStudentFee').val(res.concessionDetail.newStudentFee);
-                    $('#txtDisTutionFee').val(res.concessionDetail.tutionFee);
-                    $('#txtDisCMoney').val(res.concessionDetail.cMoney);
-                    $('#txtDisOtherFee').val(res.concessionDetail.otherFee);
+                    $('#txtDisNewStudentFee').val(res.concessionDetail[0].newStudentFee);
+                    $('#txtDisTutionFee').val(res.concessionDetail[0].tutionFee);
+                    $('#txtDisCMoney').val(res.concessionDetail[0].cMoney);
+                    $('#txtDisOtherFee').val(res.concessionDetail[0].otherFee);
                
 
                     // Pre-fill form
                     $('#txtScholership').val(0);
                     $('#txtDiscountBy').val('');
                     $('#txtDiscountReasion').val('');
-                    $('#txtAfterDiscountTotalFee').val(res.concessionDetail.totalFeeAfterDiscount);
+                    $('#txtAfterDiscountTotalFee').val(res.concessionDetail[0].totalFeeAfterDiscount);
 
                     $("#modal-ConcessionPopUp").modal("show");
             });

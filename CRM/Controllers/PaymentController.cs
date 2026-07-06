@@ -569,10 +569,17 @@ namespace CRM.Controllers
         public IActionResult GetFeeDetail(int studentFeeId, int studentId, int ReceptBookNo, int ReceptNumber)
         {
 
-     
             var FeeDetail = _transactionRepo.GetReceiptDetail(studentFeeId, studentId, ReceptBookNo, ReceptNumber);
            
             return Json(new { success = true, FeeDetail = FeeDetail });
+        }
+
+        public IActionResult GetFeeDetailForConsession(int id)
+        {
+            var studentData = _repoStudent.GetById(id);
+            var concessionDetail = _studentFeeRepo.GetFeeByStudentID(id);
+
+            return Json(new { success = true, concessionDetail = concessionDetail, studentData = studentData });
         }
 
 
