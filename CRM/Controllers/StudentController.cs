@@ -1046,6 +1046,80 @@ namespace CRM.Controllers
             return Json(new { success = true, data = true });
         }
 
+        //--------------------------Save Update Class---------------
+        //--------------------- Save Personal Detail--------------
+        public IActionResult UpdateClass(int id, string varChangeSesison, string varChangeClass, string varChangeCourse, string varChangeYear)
+        {
+
+
+
+            //-------Get Fee from  Master-------------
+            var FeeMasterDetail = _feeRepo.GetFeeByClasssCouseSessionYearNewOld(varChangeClass, varChangeCourse, varChangeSesison, varChangeYear, "New");
+            if (FeeMasterDetail == null)
+            {
+                return Json(new { success = false, data = true });
+            }
+
+            var GetCurrentStudentDetail = _repoStudent.GetById(id);
+            var GetCurrentFeeDetail = _studentFeeRepo.GetFeeIdByClassSessionYear(GetCurrentStudentDetail.Id,GetCurrentStudentDetail.Class, GetCurrentStudentDetail.Course, GetCurrentStudentDetail.Year, GetCurrentStudentDetail.Session);
+            if (GetCurrentFeeDetail == null)
+            {
+                return Json(new { success = false, data = true });
+            }
+            //-------------Update Student Fee---------------
+            StudentFee studentFee = new StudentFee();
+            studentFee.Id = GetCurrentFeeDetail.Id;
+            studentFee.StudentId = id;
+            studentFee.Year = FeeMasterDetail.Year.ToUpper();
+            studentFee.Course = varChangeCourse;
+            studentFee.Class = varChangeClass;
+            studentFee.Session = varChangeSesison;
+            studentFee.NewStudentFee = FeeMasterDetail.NewStudentFee;
+            studentFee.CMoney = FeeMasterDetail.CMoney;
+            studentFee.TutionFee = FeeMasterDetail.TutionFee;
+            studentFee.OtherFee = FeeMasterDetail.OtherFee;
+            studentFee.TotalFee = 0 + FeeMasterDetail.TutionFee + FeeMasterDetail.OtherFee;
+            
+            studentFee.Scholership = GetCurrentFeeDetail.Scholership;
+            studentFee.TotalFeeAfterDiscount = studentFee.TotalFee - studentFee.Scholership;
+            studentFee.CMoneyPaidOrNot = GetCurrentFeeDetail.CMoneyPaidOrNot;
+            studentFee.DisBy = GetCurrentFeeDetail.DisBy;
+            studentFee.DisResion = GetCurrentFeeDetail.DisResion;
+            studentFee.CreatedBy = "Admin";
+            studentFee.CreatedDateTime = DateTime.Now;
+
+            studentFee.UpdateDateTime = DateTime.Now;
+            studentFee.UpdateBy = "";
+            _studentFeeRepo.Update(studentFee);
+
+            //-----------Update Student Table-------------
+            Student stuObj = new Student();
+            stuObj.Id = id;
+
+            if (!string.IsNullOrEmpty(varChangeSesison))
+                stuObj.Session = varChangeSesison.ToUpper();
+
+            if (!string.IsNullOrEmpty(varChangeClass))
+                stuObj.Class = varChangeClass.ToUpper();
+
+            if (!string.IsNullOrEmpty(varChangeCourse))
+                stuObj.Course = varChangeCourse.ToUpper();
+
+            if (!string.IsNullOrEmpty(varChangeYear))
+                stuObj.Year = varChangeYear.ToUpper();
+            
+
+            stuObj.UpdateDatetime = DateTime.Now;
+            stuObj.UpdatedBy = "Update Admin";
+
+            var checkStatus = _repoStudent.UpdateClassDetail(stuObj);
+            
+            var check = UpdateStudentHistory(stuObj.Id);
+
+
+            return Json(new { success = true, data = true });
+        }
+
 
         //--------------------- Save Update Detail-----------------
         public IActionResult UpdateCollegeDetail(int id, string varSession, string varNewOld, string varMedium,
@@ -1181,7 +1255,7 @@ namespace CRM.Controllers
             studentFee.Course = varPromotCourse;
             studentFee.Class = varPromotClass;
             studentFee.Session = varPromotSession;
-            studentFee.NewOld = "PROMOTE";
+            studentFee.NewOld = "OLD";
             studentFee.NewStudentFee = FeeMasterDetail.NewStudentFee;
             studentFee.CMoney = FeeMasterDetail.CMoney;
             studentFee.TutionFee = FeeMasterDetail.TutionFee;
@@ -1201,11 +1275,6 @@ namespace CRM.Controllers
             _studentFeeRepo.Add(studentFee);
 
 
-            //---------Update Student Detail----------------
-            studentFee.Year = FeeMasterDetail.Year.ToUpper();
-            studentFee.Course = varPromotCourse;
-            studentFee.Class = varPromotClass;
-            studentFee.Session = varPromotSession;
 
             Student stuObj = new Student();
             stuObj.Id = id;
@@ -1241,7 +1310,7 @@ namespace CRM.Controllers
             historyObj.EnrolNo = SavedStudentTable.EnRollNo; //--------
             historyObj.RollNo = SavedStudentTable.RollNo; //---
             historyObj.Gender = SavedStudentTable.Gender;
-            // historyObj.Status = SavedStudentTable.Status; //-----
+             historyObj.Result = "AWAIT"; //-----
             historyObj.StudentName = SavedStudentTable.StudentName;
             historyObj.FatherName = SavedStudentTable.FatherName;
             historyObj.FatherMobileNo = SavedStudentTable.FatherMobileNo;

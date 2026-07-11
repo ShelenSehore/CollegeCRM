@@ -47,10 +47,37 @@ namespace CRM.Repositories
             return 0;
         }
 
-        public void Update(StudentFee model)
+        public int Update(StudentFee model)
         {
-            _context.StudentFee.Update(model);
-            _context.SaveChanges();
+            var studentFee = _context.StudentFee.FirstOrDefault(x => x.Id == model.Id);
+
+            if (studentFee != null)
+            {
+                studentFee.Year = model.Year;
+                studentFee.Course = model.Course;
+                studentFee.Course = model.Course;
+                studentFee.Class = model.Class;
+                studentFee.Session = model.Session;
+                studentFee.NewStudentFee = model.NewStudentFee;
+                studentFee.CMoney = model.CMoney;
+                studentFee.TutionFee = model.TutionFee;
+                studentFee.OtherFee = model.OtherFee;
+                studentFee.TotalFee = model.TotalFee;
+                studentFee.Scholership = model.Scholership;
+                studentFee.TotalFeeAfterDiscount = model.TotalFeeAfterDiscount;
+                studentFee.CMoneyPaidOrNot = model.CMoneyPaidOrNot;
+                studentFee.DisBy = model.DisBy;
+                studentFee.DisResion = model.DisResion;
+                studentFee.CreatedBy = model.CreatedBy;
+                studentFee.CreatedDateTime = model.CreatedDateTime;
+
+                studentFee.UpdateBy = model.UpdateBy;
+                studentFee.UpdateDateTime = model.UpdateDateTime;
+                var status = _context.SaveChanges();
+                return status;
+            }
+            return 0;
+
         }
 
         public bool UpdateOnlyFeeAmount(StudentFee model)

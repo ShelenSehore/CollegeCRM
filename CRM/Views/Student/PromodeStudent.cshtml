@@ -1,10 +1,8 @@
 ﻿@model CRM.ModelsForView.StudentViewModel
 
-@{
-    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+@{ Layout = "~/Views/Shared/_MasterLayout.cshtml";
     ViewData["Title"] = "Registration";
-    var baseUrl = ViewBag.BaseUrl;
-}
+    var baseUrl = ViewBag.BaseUrl; }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -63,6 +61,9 @@
                             <div class="edu-header">
                                 <i class="fas fa-graduation-cap"></i>
                                 <span>Education</span>
+                                <a data-toggle="modal" data-target="#modal-ChangeClass" class="btn-edit-float-right" href="#" style="text-decoration:none;">
+                                    <i class="fas fa-pen"></i> Edit
+                                </a>
                             </div>
                             <div class="edu-body">
                                 <div class="edu-item">
@@ -269,39 +270,39 @@
                                             int seNo = 1;
                                             foreach (var AcadmicRow in Model.AcadmicList)
                                             {
-                                                <tr>
-                                                    <td><span class="row-num">@seNo</span></td>
-                                                    <td><span class="tag tag-violet">@AcadmicRow.Session</span></td>
-                                                    <td>@AcadmicRow.SchoolName</td>
-                                                    <td>@AcadmicRow.Board</td>
-                                                    <td>@AcadmicRow.PassingYear</td>
-                                                    <td>
-                                                        <span class="tag @(AcadmicRow.Result == "PASS" ? "tag-emerald" : AcadmicRow.Result == "FAIL" ? "tag-rose" : "tag-amber")">
-                                                            @AcadmicRow.Result
-                                                        </span>
-                                                    </td>
-                                                    <td><span class="marks-highlight">@AcadmicRow.ObtMark</span> / @AcadmicRow.MaxMark</td>
-                                                    <td>
-                                                        <button class="btn-icon-sm delete" title="Delete" onclick="deleteAcadmicDetail(@AcadmicRow.Id)">
-                                                            <i class="fas fa-trash-alt"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                seNo++;
-                                            }
-                                        }
+                            <tr>
+                                <td><span class="row-num">@seNo</span></td>
+                                <td><span class="tag tag-violet">@AcadmicRow.Session</span></td>
+                                <td>@AcadmicRow.SchoolName</td>
+                                <td>@AcadmicRow.Board</td>
+                                <td>@AcadmicRow.PassingYear</td>
+                                <td>
+                                    <span class="tag @(AcadmicRow.Result == "PASS" ? "tag-emerald" : AcadmicRow.Result == "FAIL" ? "tag-rose" : "tag-amber")">
+                                        @AcadmicRow.Result
+                                    </span>
+                                </td>
+                                <td><span class="marks-highlight">@AcadmicRow.ObtMark</span> / @AcadmicRow.MaxMark</td>
+                                <td>
+                                    <button class="btn-icon-sm delete" title="Delete" onclick="deleteAcadmicDetail(@AcadmicRow.Id)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+seNo++;
+                        }
+                    }
                                         @if (Model.AcadmicList == null || !Model.AcadmicList.Any())
                                         {
-                                            <tr>
-                                                <td colspan="8">
-                                                    <div class="empty-state">
-                                                        <i class="fas fa-book-open"></i>
-                                                        <h4>No academic records</h4>
-                                                        <p>Add the first academic detail below.</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
+                            <tr>
+                                <td colspan="8">
+                                    <div class="empty-state">
+                                        <i class="fas fa-book-open"></i>
+                                        <h4>No academic records</h4>
+                                        <p>Add the first academic detail below.</p>
+                                    </div>
+                                </td>
+                            </tr>
+}
                                     </tbody>
                                 </table>
                                 <div style="margin-top:1rem;">
@@ -350,20 +351,20 @@
                                             foreach (var row in Model.DocumentList)
                                             {
                                                 var cIdx = (docIdx - 3) % docColors.Length;
-                                                <tr>
-                                                    <td><span class="row-num" style="background:@docColors[cIdx];color:#fff;">@docIdx</span></td>
-                                                    <td>
-                                                        <span class="doc-name">@row.Key</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="tag tag-rose" style="font-size:0.75rem;">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                docIdx++;
-                                            }
-                                        }
+                            <tr>
+                                <td><span class="row-num" style="background:@docColors[cIdx];color:#fff;">@docIdx</span></td>
+                                <td>
+                                    <span class="doc-name">@row.Key</span>
+                                </td>
+                                <td>
+                                    <span class="tag tag-rose" style="font-size:0.75rem;">
+                                        <i class="fas fa-eye"></i> View
+                                    </span>
+                                </td>
+                            </tr>
+docIdx++;
+                        }
+                    }
                                     </tbody>
                                 </table>
                             </div>
@@ -389,7 +390,7 @@
                                     </div>
                                     <div class="promo-form-field">
                                         <label>New Admission Date</label>
-                                        <input id="txtPromoAdmiDate" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")"> 
+                                        <input id="txtPromoAdmiDate" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")">
                                     </div>
                                 </div>
                                 <div style="max-width:280px;margin:0 auto;">
@@ -447,35 +448,35 @@
                                             int hi = 1;
                                             foreach (var hisRow in Model.StudentHistoryList)
                                             {
-                                                <tr>
-                                                    <td><span class="row-num" style="background:#fdf2f8;color:var(--pink-500);">@hi</span></td>
-                                                    <td class="marks-highlight">@hisRow.AdmissionForm</td>
-                                                    <td>@hisRow.StudentName</td>
-                                                    <td><span class="tag tag-violet">@hisRow.Session</span></td>
-                                                    <td><span class="tag tag-emerald">@hisRow.Year</span></td>
-                                                    <td>@hisRow.Classs</td>
-                                                    <td>@hisRow.MobileNo</td>
-                                                    <td>
-                                                        <button class="btn-icon-sm view" title="View">
-                                                            <i class="fas fa-eye"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                hi++;
-                                            }
-                                        }
+                            <tr>
+                                <td><span class="row-num" style="background:#fdf2f8;color:var(--pink-500);">@hi</span></td>
+                                <td class="marks-highlight">@hisRow.AdmissionForm</td>
+                                <td>@hisRow.StudentName</td>
+                                <td><span class="tag tag-violet">@hisRow.Session</span></td>
+                                <td><span class="tag tag-emerald">@hisRow.Year</span></td>
+                                <td>@hisRow.Classs</td>
+                                <td>@hisRow.MobileNo</td>
+                                <td>
+                                    <button class="btn-icon-sm view" title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+hi++;
+                        }
+                    }
                                         @if (Model.StudentHistoryList == null || !Model.StudentHistoryList.Any())
                                         {
-                                            <tr>
-                                                <td colspan="8">
-                                                    <div class="empty-state">
-                                                        <i class="fas fa-history"></i>
-                                                        <h4>No history yet</h4>
-                                                        <p>History will appear after promotions.</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
+                            <tr>
+                                <td colspan="8">
+                                    <div class="empty-state">
+                                        <i class="fas fa-history"></i>
+                                        <h4>No history yet</h4>
+                                        <p>History will appear after promotions.</p>
+                                    </div>
+                                </td>
+                            </tr>
+}
                                     </tbody>
                                 </table>
                             </div>
@@ -520,7 +521,7 @@
                     </div>
                     <div class="mf-group">
                         <label>Date of Birth *</label>
-                        <input id="txtDOB" asp-for="DOB" type="date" >
+                        <input id="txtDOB" asp-for="DOB" type="date">
                     </div>
                     <div class="mf-group">
                         <label>Father Mobile *</label>
@@ -782,6 +783,55 @@
 </div>
 
 
+<!-- ═══════ MODAL: Change Class ═══════ -->
+<div class="modal fade" id="modal-ChangeClass" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="max-width:850px;" role="document">
+        <div class="modal-content">
+            <div class="modal-header-bar violet">
+                <h4><span class="icon-circle"><i class="fas fa-user"></i></span> Change Class</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-form-grid">
+                    <div class="mf-group">
+                        <label>Session</label>
+                        <select id="ddlChangeSession" asp-for="Session" asp-items="Model.SessionList" class="form-control">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                    <div class="mf-group">
+                        <label>Class</label>
+                        <select id="ddlChangeClass" asp-for="Class" asp-items="Model.ClassList" class="form-control">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                    <div class="mf-group">
+                        <label>Course</label>
+                        <select id="ddlChangeCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                    <div class="mf-group">
+                        <label>Course</label>
+                        <select id="ddlChangeYear" asp-for="Year" asp-items="Model.YearList" class="form-control">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer-bar">
+                <button type="button" class="btn-modal-cancel" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn-modal-save" onclick="SaveClassDetail()">
+                    <i class="fas fa-check"></i> Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
@@ -897,6 +947,32 @@
             });
         }
 
+        // ── Change Class ──
+        function SaveClassDetail() {
+            var ok = true;
+           
+            if (!validateField("#ddlChangeSession", "Select Session", "dropdown")) ok = false;
+            if (!validateField("#ddlChangeClass", "Select Session", "dropdown")) ok = false;
+            if (!validateField("#ddlChangeCourse", "Select Session", "dropdown")) ok = false;
+            if (!validateField("#ddlChangeYear", "Select Session", "dropdown")) ok = false;
+           
+            if (!ok) return;
+
+            $.post(BASE_URL + "/Student/UpdateClass", {
+                id: $("#hdnStudentID").val(),
+                varChangeSesison: $('#ddlChangeSession option:selected').text(),
+                varChangeClass: $('#ddlChangeClass option:selected').text(),
+                varChangeCourse: $('#ddlChangeCourse option:selected').text(),
+                varChangeYear: $('#ddlChangeYear option:selected').text()
+               
+            }, function (res) {
+                $("#modal-Personal").modal("hide");
+                Alert('success', 'Class changed successfully!');
+                setTimeout(function () { location.reload(true); }, 600);
+            });
+        }
+
+
         // ── Save College ──
         function SaveCollegeDetail() {
             var ok = true;
@@ -927,7 +1003,7 @@
                 varSubCode: $('#txtSubCode').val(),
                 varRegEx: $('#ddlRegEx option:selected').text(),
                 varExamFormSubmited: $('#ddlExamFormSubmited option:selected').text()
-                
+
             }, function (res) {
                 $("#modal-College").modal("hide");
                 Alert('success', 'College detail saved successfully!');
@@ -1020,11 +1096,12 @@
 
         // ── View Document ──
         function ViewDocument(element) {
+            debugger;
             var imgSrc = $(element).attr("src");
-            $("#imgViewDocument").attr("src", imgSrc);
+            $("#imgViewDocument").attr("src", "~"+imgSrc);
             $("#modal-ViewDocument").modal("show");
         }
-
+        s
         // ── Clear modal fields on close ──
         $('#modal-Personal, #modal-College, #modal-Academic').on('hidden.bs.modal', function () {
             $(this).find('.is-invalid').removeClass('is-invalid');

@@ -2691,6 +2691,8 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
 
         <div class="filter-card">
@@ -2953,7 +2955,7 @@
         }
 
         window.onload = function () {
-            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession, #ddlSearchResult").change(function () {
+            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession, #ddlSearchResult, #ddlRegulerPrivate, #ddlNewOldEx").change(function () {
                 currentPage = 1;
                 SearchStudent();
             });
@@ -3044,7 +3046,10 @@
             $('#ddlSession').val(''); $('#ddlClass').val(''); $('#ddlCourse').val('');
             $('#ddlYear').val(''); $('#ddlSearchResult').val('');
             $('#ddlExamFormSubmited').val('');
-            $('#ddlTcSubmited').val('');                     
+            $('#ddlTcSubmited').val('');
+            $('#ddlRegulerPrivate').val('');
+            $('#ddlNewOldEx').val('');
+            
             checkedIds = {}; currentPage = 1;
             SearchStudent();
         }
@@ -3346,6 +3351,7 @@
         function togglePrintDd(e) { e.stopPropagation(); $('#printDdMenu').toggleClass('show'); }
 
         function openPrintPreview(mode) {
+            debugger;
             currentPrintMode = mode; $('#printDdMenu').removeClass('show');
             var printData = [];
             if (mode === 'all') {
@@ -3368,6 +3374,8 @@
         }
 
         function buildPrintDoc(data) {
+
+            debugger;
             var now = new Date();
             var dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
             var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
@@ -3383,7 +3391,7 @@
             var rv = $('#ddlSearchResult option:selected').text(), nv = $('#txtSearch').val();
             var rollv = $('#txtRollNumberSearch').val();
             if (sv && sv !== 'Select') filterParts.push({ key: 'Session', val: sv });
-            if (yv && y !== 'Select') filterParts.push({ key: 'Year', val: yv });
+           // if (yv && y !== 'Select') filterParts.push({ key: 'Year', val: yv });
             if (cv && cv !== 'Select') filterParts.push({ key: 'Class', val: cv });
             if (cov && cov !== 'Select') filterParts.push({ key: 'Course', val: cov });
             if (rv && rv !== 'Select') filterParts.push({ key: 'Result', val: rv });

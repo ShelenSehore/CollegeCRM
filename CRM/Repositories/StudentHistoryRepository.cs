@@ -230,12 +230,12 @@ namespace CRM.Repositories
             }
             if (!string.IsNullOrWhiteSpace(enrollmentNo))
             {
-                query = query.Where(x => x.EnrolNo.ToLower().Contains(enrollmentNo.ToLower()));
+                query = query.Where(x => x.EnrolNo.ToLower() == enrollmentNo.ToLower());
             }
 
             if (!string.IsNullOrWhiteSpace(rollNum))
             {
-                query = query.Where(x => x.RollNo.ToLower().Contains(rollNum.ToLower()));
+                query = query.Where(x => x.RollNo.ToLower() == rollNum.ToLower());
             }
             if (!string.IsNullOrWhiteSpace(session) && (session != "Select"))
             {
@@ -243,11 +243,11 @@ namespace CRM.Repositories
             }
             if (!string.IsNullOrWhiteSpace(@class) && (@class != "Select"))
             {
-                query = query.Where(x => x.Classs.ToLower().Contains(@class.ToLower()));
+                query = query.Where(x => x.Classs.ToLower() == @class.ToLower());
             }
             if (!string.IsNullOrWhiteSpace(course) && (course != "Select"))
             {
-                query = query.Where(x => x.Course.ToLower().Contains(course.ToLower()));
+                query = query.Where(x => x.Course.ToLower() ==course.ToLower());
             }
             if (!string.IsNullOrWhiteSpace(year) && (year != "Select"))
             {

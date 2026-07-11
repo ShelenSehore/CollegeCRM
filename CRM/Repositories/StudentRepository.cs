@@ -96,6 +96,24 @@ namespace CRM.Repositories
             return false;
         }
 
+        public bool UpdateClassDetail(Student model)
+        {
+            var student = _context.Student.FirstOrDefault(x => x.Id == model.Id);
+
+            if (student != null)
+            {
+                student.Session = model.Session;
+                student.Class = model.Class;
+                student.Course = model.Course;
+                student.Year = model.Year;
+                student.UpdateDatetime = model.UpdateDatetime;
+                student.UpdatedBy = model.UpdatedBy;
+                var status = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public bool PromoteStudentDetail(Student model)
         {
             var student = _context.Student.FirstOrDefault(x => x.Id == model.Id);
@@ -361,15 +379,15 @@ namespace CRM.Repositories
             }
             if (!string.IsNullOrWhiteSpace(rollNum))
             {
-                query = query.Where(x => x.RollNo.ToLower().Contains(rollNum.ToLower()));
+                query = query.Where(x => x.RollNo.ToLower() == rollNum.ToLower());
             }
                 if (!string.IsNullOrWhiteSpace(classes) && (classes != "Select"))
             {
-                query = query.Where(x => x.Class.ToLower().Contains(classes.ToLower()));
+                query = query.Where(x => x.Class.ToLower() == classes.ToLower());
             }
             if (!string.IsNullOrWhiteSpace(course) && (course != "Select"))
             {
-                query = query.Where(x => x.Course.ToLower().Contains(course.ToLower()));
+                query = query.Where(x => x.Course.ToLower() == course.ToLower());
             }
             if (!string.IsNullOrWhiteSpace(year) && (year != "Select"))
             {
@@ -385,7 +403,7 @@ namespace CRM.Repositories
             }
             if (!string.IsNullOrWhiteSpace(tcSubmited) && (tcSubmited != "Select"))
             {
-                query = query.Where(x => x.ExamFormSubmited.ToLower().Contains(tcSubmited.ToLower()));
+                query = query.Where(x => x.TC.ToLower() == tcSubmited.ToLower());
             }
                 if (!string.IsNullOrWhiteSpace(admissionType) && (admissionType != "Select"))
                 {
