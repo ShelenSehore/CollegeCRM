@@ -56,6 +56,8 @@ namespace CRM
             services.AddScoped<StudentRegitrationFeeRepository>(); 
             services.AddScoped<StudentTransactionRepository>();
             services.AddScoped<StudentHistoryRepository>();
+            services.AddScoped<IssueAdmissionFormRepository>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

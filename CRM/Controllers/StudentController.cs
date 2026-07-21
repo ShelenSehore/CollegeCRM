@@ -34,6 +34,7 @@ namespace CRM.Controllers
         private readonly StudentFeeRepository _studentFeeRepo;
         private readonly MstFeeRepository _feeRepo;
         private readonly StudentHistoryRepository _historyStudentRepo;
+        private readonly IssueAdmissionFormRepository _repoIssueAdmissionForm;
         public StudentController(ILogger<StudentController> logger,
             
             IOptions<AppSettings> settings,
@@ -48,7 +49,8 @@ namespace CRM.Controllers
              StudentFeeRepository studentFeeRepo,
              MstFeeRepository feeRepo,
              StudentRegistrationRepository repoStudentRegi,
-             StudentHistoryRepository historyStudentRepo
+             StudentHistoryRepository historyStudentRepo,
+             IssueAdmissionFormRepository repoIssueAdmissionForm
              )
         {
             
@@ -66,6 +68,7 @@ namespace CRM.Controllers
             _studentFeeRepo = studentFeeRepo;
             _feeRepo = feeRepo;
             _historyStudentRepo = historyStudentRepo;
+            _repoIssueAdmissionForm = repoIssueAdmissionForm;
         }
         public IActionResult Index(int? id)
         {
@@ -1564,7 +1567,7 @@ namespace CRM.Controllers
             return Json(new { success = true, data = data });
         }
 
-        //-------------Get Payment Detail-----------
+        //-------------Show Student Detail-----------
         public IActionResult StudentFormDetail(int id)
         {
             ViewBag.BaseUrl = _baseUrl;
@@ -1579,13 +1582,29 @@ namespace CRM.Controllers
 
             data.Photo = PhotURL;
             returnObj.studentDetail = data;
-            //-----------Fee Detail--------
-            var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
-            returnObj.studentFeeDetail = FeeDetail;
-
+            
             return Json(new { success = true, data = returnObj });
         }
 
+
+        //-------------Save Form Detail-----------
+        public IActionResult SaveFormDetail(int id, int varFormNo, string varSession, string varClass, string varCourse, string varYear)
+        {
+            if (varFormNo == null)
+                return Json(new { success = false });
+
+            IssueAdmissionForm obj = new IssueAdmissionForm();
+            obj.StudentId = 8044;
+            obj.FormNo = Convert.ToInt64(varFormNo);
+            obj.Session = varSession;
+            obj.Class = varClass;
+            obj.Course = varCourse;
+            obj.Year = varYear;
+            obj.Status = "ISSUE";
+            var check =   _repoIssueAdmissionForm.Add(obj);
+
+            return Json(new { success = true});
+        }
 
 
     }

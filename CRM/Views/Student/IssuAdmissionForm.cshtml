@@ -1514,7 +1514,7 @@
     </section>
 </div>
 
-<!-- Payment Detail Modal -->
+<!-- Student Detail Modal -->
 <div class="modal fade" id="modal-Promod">
     <div class="modal-dialog" style="max-width:620px !important;">
         <div class="modal-content">
@@ -1534,32 +1534,39 @@
                             </div>
                             <div class="student-profile-image">
                                 <img id="imgStudentPhoto" src="~/dist/img/user7-128x128.jpg" alt="Student Photo">
+                                <input type="hidden"  value="0" id="hdnStudentId" />
+                               
                             </div>
                             <div style="padding:8px 16px 16px;">
                                 <div class="student-detail-grid">
                                     <div class="student-detail-item">
                                         <div class="detail-label">Session</div>
-                                        <select id="ddlSession" asp-items="Model.SessionList" class="form-control">
+                                        <select id="ddlFormSession" asp-items="Model.SessionList" class="form-control">
                                             <option>Select</option>
                                         </select>
                                     </div>
                                     <div class="student-detail-item">
                                         <div class="detail-label">Class</div>
-                                        <select id="ddlClass" asp-items="Model.ClassList" class="form-control">
+                                        <select id="ddlFormClass" asp-items="Model.ClassList" disabled="true" class="form-control">
                                             <option>Select</option>
                                         </select>
                                     </div>
                                     <div class="student-detail-item">
                                         <div class="detail-label">Course</div>
-                                        <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control">
+                                        <select id="ddlFormCourse" asp-items="Model.SubjectList" disabled="true" class="form-control">
                                             <option>Select</option>
                                         </select>
                                     </div>
                                     <div class="student-detail-item">
                                         <div class="detail-label">Year</div>
-                                        <select id="ddlYear" asp-items="Model.YearList" class="form-control">
+                                        <select id="ddlFormYear" asp-items="Model.YearList" class="form-control">
                                             <option>Select</option>
                                         </select>
+                                    </div>
+
+                                    <div class="student-detail-item">
+                                        <div class="detail-label">Form No</div>
+                                        <input type="number" id="txtFormNumber" class="form-control"/>
                                     </div>
 
                                 </div>
@@ -1571,7 +1578,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" onclick="SavePromosionDetail();" class="btn btn-primary">
+                <button type="button" onclick="SaveFormDetail();" class="btn btn-primary">
                     <i class="fas fa-save"></i> Save
                 </button>
             </div>
@@ -1581,9 +1588,10 @@
 
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
         var BASE_URL = "@baseUrl";
-
+        var Toast;
         // ═══════════════════════════════════════════════════
         // Pagination State
         // ═══════════════════════════════════════════════════
@@ -1596,6 +1604,19 @@
         // Initialization
         // ═══════════════════════════════════════════════════
         window.onload = function () {
+
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                }
+            });
+
             $("#ddlClass, #ddlCourse, #ddlYear, #ddlSession").change(function () {
                 currentPage = 1;
                 SearchStudent();
@@ -1611,6 +1632,16 @@
 
             SearchStudent();
         };
+
+        function Alert(icon, title) {
+            Toast.fire({
+                icon: icon,
+                title: title,
+                background: icon === 'success' ? '#ecfdf5' : icon === 'warning' ? '#fffbeb' : icon === 'error' ? '#fef2f2' : '#fff',
+                color: icon === 'success' ? '#065f46' : icon === 'warning' ? '#92400e' : icon === 'error' ? '#991b1b' : '#0f172a'
+            });
+        }
+
 
         // ═══════════════════════════════════════════════════
         // Reset Filters
@@ -1746,7 +1777,7 @@
                     '<td><span class="mobile-no"><i class="fas fa-phone" style="font-size:0.65rem;margin-right:4px;color:var(--text-muted);"></i>' + (element.mobileNoOne || '-') + '</span></td>' +
                     '<td class="no-print">' +
                         '<div class="action-group">' +
-                            '<a class="action-btn issue" data-toggle="modal" data-target="#modal-View" onclick="PaymentDetail(' + element.id + ')" title="View"><i class="fas fa-eye"></i></a>' +
+                            '<a class="action-btn issue" data-toggle="modal" data-target="#modal-View" onclick="StudentDetail(' + element.id + ')" title="View"><i class="fas fa-eye"></i></a>' +
                         '</div>' +
                     '</td></tr>'
                 );
@@ -1932,33 +1963,106 @@
             }, 500);
         }
 
+
+       
         // ═══════════════════════════════════════════════════
-        // Payment Detail Modal
+        // Student Detail Modal
         // ═══════════════════════════════════════════════════
-        function PaymentDetail(id) {
+        function StudentDetail(id) {
+            alert(id);
+            
+            $('#hdnStudentId').val(id);
+
             $.post(BASE_URL + "/Student/StudentFormDetail", {
                 id: id
             }, function (res) {
                 var detail = res.data.studentDetail;
+                
+                
                 $('#imgStudentPhoto').attr('src', detail.photo);
                 $('#achStudentName').text(detail.studentName + " / " + detail.fatherName);
-                $('#achYear').text(detail.year);
-                $('#achClass').text(detail.class);
-                $('#achCourse').text(detail.course);
+                $('#ddlFormYear').val(detail.year);
+                $('#ddlFormClass').val(detail.class);
+                $('#ddlFormCourse').val(detail.course);
+                $('#ddlFormSession').val(detail.session);
                 $('#achSession').text(detail.session + " / FormNo. " + detail.admissionFormNo);
 
                 $("#modal-Promod").modal("show");
             });
         }
 
+        // ── Validation ──
+        function validateField(selector, message, type) {
+            var value = $(selector).val();
+            var errorId = selector.replace('#', '') + "Error";
+
+            if (type === "dropdown") {
+                if (value === "" || value === "0" || value === null || value === "Select") {
+                    $(selector).addClass("is-invalid");
+                    if ($("#" + errorId).length === 0) {
+                        $(selector).after('<span id="' + errorId + '" class="invalid-feedback"><i class="fas fa-exclamation-circle"></i> ' + message + '</span>');
+                    }
+                    return false;
+                }
+            } else {
+                if (value === "" || value === undefined || value === null) {
+                    $(selector).addClass("is-invalid");
+                    if ($("#" + errorId).length === 0) {
+                        $(selector).after('<span id="' + errorId + '" class="invalid-feedback"><i class="fas fa-exclamation-circle"></i> ' + message + '</span>');
+                    }
+                    return false;
+                }
+                if (type === "mobile") {
+                    if (!/^[0-9]{10}$/.test(value)) {
+                        $(selector).addClass("is-invalid");
+                        if ($("#" + errorId).length === 0) {
+                            $(selector).after('<span id="' + errorId + '" class="invalid-feedback"><i class="fas fa-exclamation-circle"></i> Enter valid 10 digit number</span>');
+                        }
+                        return false;
+                    }
+                }
+            }
+            $(selector).removeClass("is-invalid");
+            $("#" + errorId).remove();
+            return true;
+        }
+
+
+        // ═══════════════════════════════════════════════════
+        // Save Form Detail Modal
+        // ═══════════════════════════════════════════════════
+        function SaveFormDetail() {
+           
+            var ok = true;
+            if (!validateField("#txtFormNumber", "Student name required")) ok = false;
+            if (!validateField("#ddlFormSession", "Select gender", "dropdown")) ok = false;
+            if (!validateField("#ddlFormClass", "Select minority", "dropdown")) ok = false;
+            if (!validateField("#ddlFormCourse", "Select caste", "dropdown")) ok = false;
+            if (!validateField("#ddlFormYear", "Select TC", "dropdown")) ok = false;
+            
+            if (!ok) return;
+
+            $.post(BASE_URL + "/Student/SaveFormDetail", {
+                id: $("#hdnStudentID").val(),
+                varFormNo: $("#txtFormNumber").val(),
+                varSession: $("#ddlFormSession").val(),
+                varClass: $("#ddlFormClass").val(),
+                varCourse: $("#ddlFormCourse").val(),
+                varYear: $("#ddlFormYear").val()
+                
+            }, function (res) {
+                $("#modal-Promod").modal("hide");
+                Alert('success', 'Personal detail saved successfully!');
+               
+            });
+        }
+
+
         function formatCurrency(num) {
             return num.toLocaleString('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 });
         }
 
-        $('#modal-Promod').on('hidden.bs.modal', function () {
-            $('#feeProgressBar').css('width', '0%');
-            $('#feePercent').text('0%');
-        });
+       
 
         function DownloadExcel() {
             $("#hdnExcelSession").val($('#ddlSession option:selected').text());
