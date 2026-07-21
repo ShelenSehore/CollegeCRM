@@ -1046,7 +1046,7 @@ namespace CRM.Controllers
             return Json(new { success = true, data = true });
         }
 
-        //--------------------------Save Update Class---------------
+        
         //--------------------- Save Personal Detail--------------
         public IActionResult UpdateClass(int id, string varChangeSesison, string varChangeClass, string varChangeCourse, string varChangeYear)
         {
@@ -1498,6 +1498,95 @@ namespace CRM.Controllers
 
             return View(model);
         }
+
+
+        //----------------------Issue New Admission Form---------
+        public IActionResult IssuAdmissionForm()
+        {
+            ViewBag.BaseUrl = _baseUrl;
+            var model = new StudentListView();
+
+            model.ClassList = _classRepo.GetAll()
+                      .Select(x => new SelectListItem
+                      {
+                          Value = x.Name.ToString(),
+                          Text = x.Name
+                      })
+                      .ToList();
+
+            var varSession = HttpContext.Session.GetString("Session");
+            //----Session----
+            model.SessionList = _sessionRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name,
+                           Selected = x.Name == varSession
+                       })
+                       .ToList();
+
+
+            //----Year----
+            model.YearList = _yearRepo.GetAll()
+                       .Select(x => new SelectListItem
+                       {
+                           Value = x.Name.ToString(),
+                           Text = x.Name
+                       })
+                       .ToList();
+
+
+
+
+            //------Course  -- Subject---
+            var varAllSubject = _subjecctRepo.GetAll();
+
+            model.SubjectList = varAllSubject
+                .GroupBy(x => x.Name)
+                .Select(g => g.First())
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Name,
+                    Text = x.Name
+                })
+                .ToList();
+
+
+
+
+            return View(model);
+        }
+
+
+        public IActionResult IssueAdmissionFormList(string name, string classes, string course, string year, string session)
+        {
+            var data = _repoStudent.GetByStudentRegistrationPage(session, classes, course, year, name);
+            return Json(new { success = true, data = data });
+        }
+
+        //-------------Get Payment Detail-----------
+        public IActionResult StudentFormDetail(int id)
+        {
+            ViewBag.BaseUrl = _baseUrl;
+
+            StudentPaymentDetailView returnObj = new StudentPaymentDetailView();
+
+            var data = _repoStudent.GetById(id);
+            if (data.AdmissionDate != null)
+                data.FatherName = data.AdmissionDate.Value.ToString("dd/MM/yyyy");
+
+            var PhotURL = _baseUrl + "/StudentData/Photo/" + data.Photo + ".jpg";
+
+            data.Photo = PhotURL;
+            returnObj.studentDetail = data;
+            //-----------Fee Detail--------
+            var FeeDetail = _studentFeeRepo.GetFeeByClasssCouseSessionYearNewOld(id, data.Class, data.Course, data.Session, data.Year, data.NewOld);
+            returnObj.studentFeeDetail = FeeDetail;
+
+            return Json(new { success = true, data = returnObj });
+        }
+
+
 
     }
 }

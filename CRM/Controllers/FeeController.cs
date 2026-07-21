@@ -176,29 +176,24 @@ namespace CRM.Controllers
                        .ToList();
 
 
-
-
-            //------Course  -- Subject---
-            //var varAllSubject = _subjecctRepo.GetAll().Select(x => new SelectListItem
-            //{
-            //    Value = x.Class.ToString(),
-            //    Text = x.Name
-            //})
-            //           .ToList();
-
-            //model.SubjectList = varAllSubject;
             var varAllSubject = _subjecctRepo.GetAll();
 
-
             model.SubjectList = varAllSubject
-                .GroupBy(x => x.Name)
-                .Select(g => g.First())
-                .Select(x => new SelectListItem
-                {
-                    Value = x.Name,
-                    Text = x.Name
-                })
-                .ToList();
+               .Select(x => new SelectListItem
+               {
+                   Value = x.Class,
+                   Text = x.Name
+               })
+               .ToList();
+            //model.SubjectList = varAllSubject
+            //    .GroupBy(x => x.Name)
+            //    .Select(g => g.First())
+            //    .Select(x => new SelectListItem
+            //    {
+            //        Value = x.Name,
+            //        Text = x.Name
+            //    })
+            //    .ToList();
 
 
 

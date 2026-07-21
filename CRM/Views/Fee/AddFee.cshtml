@@ -1,5 +1,5 @@
 ﻿@model CRM.ModelsForView.FeeViewModel
-
+@using System.Text.Json
 @{ ViewData["Title"] = "Add Fee";
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 
@@ -202,12 +202,13 @@
                                             <select id="ddlClass" asp-for="Subject" asp-items="Model.ClassList" class="form-control modern-input">
                                                 <option value="">Select Class</option>
                                             </select>
+                                            
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label><i class="fas fa-book-open"></i> Course</label>
-                                            <select id="ddlCourse" asp-for="Course" asp-items="Model.SubjectList" class="form-control modern-input">
+                                            <select id="ddlCourse"  class="form-control modern-input">
                                                 <option value="">Select Course</option>
                                             </select>
                                         </div>
@@ -283,15 +284,18 @@
     <script type="text/javascript">
         // INSERT
         var BASE_URL = "@baseUrl";
-
+       
+        var CourseList = @Html.Raw(JsonSerializer.Serialize(@Model.SubjectList));
 
         var varNewStudent = "";
         var varTutionFee = "";
         var varOtherFee = "";
         var Toast;
         var allOptions;
+
         window.onload = function () {
           //  allOptions = $("#ddlCourse option").clone();
+
 
             Toast = Swal.mixin({
                 toast: true,
@@ -301,18 +305,35 @@
             });
 
 
-            //$("#ddlClass").change(function () {
-            //    var selectedClass = $(this).val();
-            //    var varYear = $('#ddlYear option:selected').text()
-            //    $("#ddlCourse").empty();
-            //    $("#ddlCourse").append('<option value="">Select</option>');
-            //    allOptions.each(function () {
-            //        if ($(this).val() == selectedClass + "/" + varYear) {
-            //            $("#ddlCourse").append($(this).clone());
-            //        }
+            $("#ddlClass").change(function () {
+                debugger;
+                var selectedClass = $(this).val();
+                var varClass = $('#ddlClass option:selected').text();
 
-            //    });
-            //});
+               
+                var result = CourseList.filter(function (item) {
+                    return item.Value === varClass;
+                });
+                var uniqueResult = [];
+                var texts = [];
+
+                $.each(result, function (i, item) {
+                    if ($.inArray(item.Text, texts) === -1) {
+                        texts.push(item.Text);
+                        uniqueResult.push(item);
+                    }
+                });
+
+                $("#ddlCourse").empty();
+                $("#ddlCourse").append('<option value="">Select</option>');
+                $.each(uniqueResult, function (index, item) {
+                    $("#ddlCourse").append(
+                        $('<option></option>')
+                            .val(item.Value)
+                            .text(item.Text)
+                    );
+                });
+            });
 
 
 
