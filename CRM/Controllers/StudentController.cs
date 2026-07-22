@@ -1561,9 +1561,9 @@ namespace CRM.Controllers
         }
 
 
-        public IActionResult IssueAdmissionFormList(string name, string classes, string course, string year, string session)
+        public IActionResult IssueAdmissionFormList(string name, string classes, string course, string year, string session, string status)
         {
-            var data = _repoStudent.GetByStudentRegistrationPage(session, classes, course, year, name);
+            var data = _repoIssueAdmissionForm.ListForIssueAdmissionForm(session, classes, course, year, name, status);
             return Json(new { success = true, data = data });
         }
 
@@ -1594,7 +1594,7 @@ namespace CRM.Controllers
                 return Json(new { success = false });
 
             IssueAdmissionForm obj = new IssueAdmissionForm();
-            obj.StudentId = 8044;
+            obj.StudentId = id;
             obj.FormNo = Convert.ToInt64(varFormNo);
             obj.Session = varSession;
             obj.Class = varClass;

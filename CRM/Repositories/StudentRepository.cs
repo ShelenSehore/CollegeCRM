@@ -227,6 +227,8 @@ namespace CRM.Repositories
 
 
 
+        
+
         public List<StudentFeeAcademiExcelDownload> GetStudentAllDetailById(
                             string session,
                             string @class,

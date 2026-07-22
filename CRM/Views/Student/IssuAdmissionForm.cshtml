@@ -1355,6 +1355,7 @@
                 <div>
                     <h1>Student <span>Admisison Form</span></h1>
                     <div class="subtitle">List of all student who took Admission Form</div>
+                   
                 </div>
                 <div class="total-badge">
                     <i class="fas fa-users" style="font-size:0.8rem;"></i>
@@ -1397,6 +1398,14 @@
                         <h3>Filter Students</h3>
                     </div>
                     <div class="filter-grid">
+                        <div class="filter-group">
+                            <label>Status</label>
+                            <select id="ddlStatus" class="form-control">
+                                <option>Select</option>
+                                <option>ISSUE</option>
+                                <option>NOT ISSUE</option>
+                            </select>
+                        </div>
                         <div class="filter-group">
                             <label>Session</label>
                             <select id="ddlSession" asp-items="Model.SessionList" class="form-control">
@@ -1482,7 +1491,10 @@
                             <thead>
                                 <tr>
                                     <th style="width:50px">#</th>
+                                    <th>Session</th>
+                                    <th>Year</th>
                                     <th>Form No</th>
+                                    <th>Status</th>
                                     <th>Student</th>
                                     <th>Father</th>
                                     <th>Year</th>
@@ -1534,7 +1546,7 @@
                             </div>
                             <div class="student-profile-image">
                                 <img id="imgStudentPhoto" src="~/dist/img/user7-128x128.jpg" alt="Student Photo">
-                                <input type="hidden"  value="0" id="hdnStudentId" />
+                                <input type="text" id="txtStudentId" style="display:none"/>
                                
                             </div>
                             <div style="padding:8px 16px 16px;">
@@ -1617,7 +1629,7 @@
                 }
             });
 
-            $("#ddlClass, #ddlCourse, #ddlYear, #ddlSession").change(function () {
+            $("#ddlClass, #ddlCourse, #ddlYear, #ddlSession, #ddlStatus").change(function () {
                 currentPage = 1;
                 SearchStudent();
             });
@@ -1652,6 +1664,8 @@
             $('#ddlClass option:first').prop("selected", true);
             $('#ddlCourse option:first').prop("selected", true);
             $('#ddlYear option:first').prop("selected", true);
+            $('#ddlStatus option:first').prop("selected", true);
+            
             currentPage = 1;
             SearchStudent();
         }
@@ -1665,14 +1679,17 @@
             var varCourse = $('#ddlCourse option:selected').text();
             var varYear = $('#ddlYear option:selected').text();
             var varSession = $('#ddlSession option:selected').text();
+            var varStatus = $('#ddlStatus option:selected').text();
 
             $.post(BASE_URL + "/Student/IssueAdmissionFormList", {
                 name: name,
                 classes: varClass,
                 course: varCourse,
                 year: varYear,
-                session: varSession
+                session: varSession,
+                status: varStatus
             }, function (res) {
+                
                 allStudentData = res.data || [];
                 totalRecords = allStudentData.length;
 
@@ -1762,22 +1779,27 @@
             }
 
             $.each(data, function (index, element) {
+                debugger;
                 var badgeClass = getCourseBadgeClass(element.course);
                 var rowNum = startIndex + index + 1;  // Global row number across pages
 
                 $("#tblStudentList tbody").append(
                     '<tr style="animation:fadeInUp 0.3s ease forwards;animation-delay:' + (index * 0.02) + 's;opacity:0;">' +
                     '<td><span class="row-index">' + rowNum + '</span></td>' +
-                    '<td><span class="form-no"><i class="fas fa-hashtag" style="font-size:0.65rem;"></i> ' + (element.admissionFormNo || '-') + '</span></td>' +
+                    '<td><span class="form-no"> ' + (element.formSession || '-') + '</span></td>' +
+                    '<td><span class="form-no">' + (element.formYear || '-') + '</span></td>' +
+                    '<td><span class="form-no"><i class="fas fa-hashtag" style="font-size:0.65rem;"></i> ' + (element.formNo || '-') + '</span></td>' +
+                    '<td><span class="form-no">' + (element.formStatus || '-') + '</span></td>' +
+                    
                     '<td><span class="student-name">' + (element.studentName || '-') + '</span></td>' +
                     '<td><span class="father-name">' + (element.fatherName || '-') + '</span></td>' +
                     '<td>' + (element.year || '-') + '</td>' +
                     '<td>' + (element.class || '-') + '</td>' +
                     '<td><span class="course-badge ' + badgeClass + '">' + (element.course || '-') + '</span></td>' +
-                    '<td><span class="mobile-no"><i class="fas fa-phone" style="font-size:0.65rem;margin-right:4px;color:var(--text-muted);"></i>' + (element.mobileNoOne || '-') + '</span></td>' +
+                    '<td><span class="mobile-no"><i class="fas fa-phone" style="font-size:0.65rem;margin-right:4px;color:var(--text-muted);"></i>' + (element.mobileNo || '-') + '</span></td>' +
                     '<td class="no-print">' +
                         '<div class="action-group">' +
-                            '<a class="action-btn issue" data-toggle="modal" data-target="#modal-View" onclick="StudentDetail(' + element.id + ')" title="View"><i class="fas fa-eye"></i></a>' +
+                    '<a class="action-btn issue" data-toggle="modal" data-target="#modal-View" onclick="StudentDetail(' + element.studentId + ')" title="View"><i class="fas fa-eye"></i></a>' +
                         '</div>' +
                     '</td></tr>'
                 );
@@ -1969,16 +1991,19 @@
         // Student Detail Modal
         // ═══════════════════════════════════════════════════
         function StudentDetail(id) {
-            alert(id);
-            
-            $('#hdnStudentId').val(id);
+            $('#txtStudentId').val('');
+            $('#txtFormNumber').val('');
+            $('#ddlFormYear option:first').prop("selected", true);
+            $('#ddlFormClass option:first').prop("selected", true);
+            $('#ddlFormCourse option:first').prop("selected", true);
+            $('#ddlFormSession option:first').prop("selected", true);
 
             $.post(BASE_URL + "/Student/StudentFormDetail", {
                 id: id
             }, function (res) {
                 var detail = res.data.studentDetail;
                 
-                
+                $('#txtStudentId').val(id);
                 $('#imgStudentPhoto').attr('src', detail.photo);
                 $('#achStudentName').text(detail.studentName + " / " + detail.fatherName);
                 $('#ddlFormYear').val(detail.year);
@@ -2041,16 +2066,18 @@
             if (!validateField("#ddlFormYear", "Select TC", "dropdown")) ok = false;
             
             if (!ok) return;
-
+           
             $.post(BASE_URL + "/Student/SaveFormDetail", {
-                id: $("#hdnStudentID").val(),
+                id: $("#txtStudentId").val(),
                 varFormNo: $("#txtFormNumber").val(),
-                varSession: $("#ddlFormSession").val(),
-                varClass: $("#ddlFormClass").val(),
-                varCourse: $("#ddlFormCourse").val(),
-                varYear: $("#ddlFormYear").val()
+                varSession: $("#ddlFormSession option:selected").text(),
+                varClass: $("#ddlFormClass option:selected").text(),
+                varCourse: $("#ddlFormCourse option:selected").text(),
+                varYear: $("#ddlFormYear option:selected").text()
                 
             }, function (res) {
+
+                SearchStudent();
                 $("#modal-Promod").modal("hide");
                 Alert('success', 'Personal detail saved successfully!');
                
