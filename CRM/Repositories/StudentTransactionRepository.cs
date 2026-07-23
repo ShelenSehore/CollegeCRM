@@ -257,6 +257,64 @@ namespace CRM.Repositories
         }
 
 
+        public List<ReportTransactionViewModel> DFCListNew(string had, string paymentMode, string reciptNo,
+                                                        string fromDate, string toDate)
+        {
+            try
+            {
+
+                var RowData = (
+                            from st in _context.StudentTransaction
+                            join sf in _context.StudentFee
+                                on st.StudentFeeId equals sf.Id into sfJoin
+                            from sf in sfJoin.DefaultIfEmpty()
+
+                            join s in _context.Student
+                                on st.StudentId equals s.Id into sJoin
+                            from s in sJoin.DefaultIfEmpty()
+
+                            orderby st.CreateDateTime
+                            select new ReportTransactionViewModel
+                            {
+                               
+                                CreateDateTime = st.CreateDateTime.ToString("dd/MMM/yyyy"),
+                                Head = st.Head,
+                                Class = sf.Class,
+                                Course = sf.Course,
+                                Year = sf.Year,
+                                StudentName = s.StudentName,
+                                FatherName = s.FatherName,
+                                Amount = st.Amount
+                            }).ToList();
+
+                var result = new List<ReportTransactionViewModel>();
+                foreach (var group in RowData.GroupBy(x => x.CreateDateTime))
+                {
+                    result.AddRange(group);
+
+                    result.Add(new ReportTransactionViewModel
+                    {
+                        Head = "Total",
+                        Amount = group.Sum(x => x.Amount),
+                        CreateDateTime = null,
+                        StudentName = "",
+                        FatherName = "",
+                        Class = "",
+                        Course = "",
+                        Year = ""
+                    });
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return null;
+        }
+
+
         public List<ReportStudentFeeView> FilterStudentList(string name, string session,
                                                         string year, string classes, string course)
         {

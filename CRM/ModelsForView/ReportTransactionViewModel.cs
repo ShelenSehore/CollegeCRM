@@ -17,8 +17,8 @@ namespace CRM.ModelsForView
         public string PaymentMode { get; set; }
         public string TransactionNo { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime CreateDateTime { get; set; }
-
+        public string CreateDateTime { get; set; }
+       
         //--------------------
 
         public long? AdmissionFormNo { get; set; }

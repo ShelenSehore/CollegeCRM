@@ -298,7 +298,7 @@ namespace CRM.Controllers
             string session, string year, string classes, string course)
         {
 
-            var data = _repoStudTransaction.DFCList(had, paymentMode, reciptNo, fromDate, toDate);
+            var data = _repoStudTransaction.DFCListNew(had, paymentMode, reciptNo, fromDate, toDate);
 
 
             return Json(new { success = true, data = data });
