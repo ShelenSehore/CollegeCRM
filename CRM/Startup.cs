@@ -1,4 +1,5 @@
 using CRM.Data;
+using CRM.Interface;
 using CRM.Models;
 using CRM.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -57,6 +58,7 @@ namespace CRM
             services.AddScoped<StudentTransactionRepository>();
             services.AddScoped<StudentHistoryRepository>();
             services.AddScoped<IssueAdmissionFormRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             
         }
 

@@ -32,5 +32,7 @@ namespace CRM.Data
 
         public DbSet<StudentHistory> StudentHistory { get; set; }
         public DbSet<IssueAdmissionForm> IssueAdmissionForm { get; set; }
+        public DbSet<Employee> Employee { get; set; }
+        
     }
 }

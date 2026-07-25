@@ -1,1 +1,435 @@
-﻿employee
+﻿@model IEnumerable<CRM.Models.MstClass>
+
+@{ Layout = "~/Views/Shared/_MasterLayout.cshtml";
+                var baseUrl = ViewBag.BaseUrl; }
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item active"><a href="#">Employee</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+
+                    
+                    <a href="@ViewBag.BaseUrl/Employe/Add" class="btn btn-success">
+                        <i class="far fa-circle nav-icon"></i>
+                        Add new Employee
+                    </a>
+
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <table class="table table-striped projects">
+                            <thead>
+                                <tr>
+                                    <th style="width: 1%">
+                                        #
+                                    </th>
+                                    <th style="width:8%">
+                                        Name
+                                    </th>
+                                    <th style="width: 8%" class="text-center">
+                                        Mobile NO
+                                    </th>
+                                    <th style="width: 8%" class="text-center">
+                                        Department
+                                    </th>
+                                    <th style="width: 8%" class="text-center">
+                                        Designation
+                                    </th>
+                                    <th style="width: 8%" class="text-center">
+                                        Subject
+                                    </th>
+                                    <th style="width: 8%" class="text-center">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        #
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar.png">
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td class="project-actions text-right">
+                                        <a class="btn btn-primary btn-sm" href="#">
+                                            <i class="fas fa-folder">
+                                            </i>
+                                            View
+                                        </a>
+                                        <a class="btn btn-info btn-sm" href="#">
+                                            <i class="fas fa-pencil-alt">
+                                            </i>
+                                            Edit
+                                        </a>
+                                        <a class="btn btn-danger btn-sm" href="#">
+                                            <i class="fas fa-trash">
+                                            </i>
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        #
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar.png">
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td class="project-actions text-right">
+                                        <a class="btn btn-primary btn-sm" href="#">
+                                            <i class="fas fa-folder">
+                                            </i>
+                                            View
+                                        </a>
+                                        <a class="btn btn-info btn-sm" href="#">
+                                            <i class="fas fa-pencil-alt">
+                                            </i>
+                                            Edit
+                                        </a>
+                                        <a class="btn btn-danger btn-sm" href="#">
+                                            <i class="fas fa-trash">
+                                            </i>
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        #
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar.png">
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td class="project-actions text-right">
+                                        <a class="btn btn-primary btn-sm" href="#">
+                                            <i class="fas fa-folder">
+                                            </i>
+                                            View
+                                        </a>
+                                        <a class="btn btn-info btn-sm" href="#">
+                                            <i class="fas fa-pencil-alt">
+                                            </i>
+                                            Edit
+                                        </a>
+                                        <a class="btn btn-danger btn-sm" href="#">
+                                            <i class="fas fa-trash">
+                                            </i>
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        #
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            AdminLTE v3
+                                        </a>
+                                        <br>
+                                        <small>
+                                            Created 01.01.2019
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar.png">
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td class="project-actions text-right">
+                                        <a class="btn btn-primary btn-sm" href="#">
+                                            <i class="fas fa-folder">
+                                            </i>
+                                            View
+                                        </a>
+                                        <a class="btn btn-info btn-sm" href="#">
+                                            <i class="fas fa-pencil-alt">
+                                            </i>
+                                            Edit
+                                        </a>
+                                        <a class="btn btn-danger btn-sm" href="#">
+                                            <i class="fas fa-trash">
+                                            </i>
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+        // INSERT
+        var BASE_URL = "@baseUrl";
+        var Toast;
+
+        //--info--error-warning-question
+        window.onload = function () {
+
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1000
+            });
+
+
+        };
+
+        function Alert(icon, title, className) {
+            Toast.fire({
+                icon: icon,
+                title: title,
+                class: className,
+            })
+        }
+
+        function saveClass() {
+
+            var name = $("#className").val().trim();
+
+            if (name === "") {
+                $("#className").addClass("is-invalid");
+                if ($("#classError").length == 0) {
+                    $("#className").after('<span id="classError" class="error invalid-feedback">Please enter class name</span>');
+                }
+                return;
+            }
+
+            $("#className").removeClass("is-invalid");
+            $("#classError").remove();
+
+
+            $.post(BASE_URL +"/Class/Create", { className: name }, function (res) {
+                if (res.success) {
+                    var saveStatus = res.data;
+                    if (saveStatus == "Success") {
+                        Alert('success', 'Class save succeefully.', 'bg-success');
+                        location.reload();
+                    }
+                    if (saveStatus == "Already")
+                        Alert('warning', 'Already Exist.', 'bg-success');
+
+
+
+
+                }
+                else alert(res.message);
+            });
+        }
+
+        // OPEN EDIT POPUP
+        function editClass(id) {
+            $.get(BASE_URL +"/Class/Get?id=" + id, function (data) {
+                $("#editId").val(data.id);
+                $("#editName").val(data.name);
+                $("#editModal").show();
+            });
+        }
+
+        // UPDATE
+        function updateClass() {
+            $.post(BASE_URL +"/Class/Update",
+                {
+                    id: $("#editId").val(),
+                    className: $("#editName").val()
+                },
+                function (res) {
+                    if (res.success) location.reload();
+                    else alert(res.message);
+                });
+        }
+
+        function closeModal() {
+            $("#editModal").hide();
+        }
+
+        // DELETE
+        function deleteClass(id) {
+            if (confirm("Are you sure?")) {
+                $.post(BASE_URL +"/Class/Delete", { id: id }, function () {
+                    location.reload();
+                });
+            }
+        }
+    </script>
+}
