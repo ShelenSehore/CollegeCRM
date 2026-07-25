@@ -3,6 +3,7 @@ using CRM.Models;
 using CRM.ModelsForView;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -262,6 +263,9 @@ namespace CRM.Repositories
         {
             try
             {
+             
+
+               
 
                 var RowData = (
                             from st in _context.StudentTransaction
@@ -276,8 +280,8 @@ namespace CRM.Repositories
                             orderby st.CreateDateTime
                             select new ReportTransactionViewModel
                             {
-                               
-                                CreateDateTime = st.CreateDateTime.ToString("dd/MMM/yyyy"),
+                                CreateDateTime = st.CreateDateTime,
+                                CreateDateTimeDisplay = st.CreateDateTime.ToString("dd/MMM/yyyy"),
                                 Head = st.Head,
                                 Class = sf.Class,
                                 Course = sf.Course,
@@ -285,7 +289,22 @@ namespace CRM.Repositories
                                 StudentName = s.StudentName,
                                 FatherName = s.FatherName,
                                 Amount = st.Amount
-                            }).ToList();
+                            }).OrderBy(x=>x.Head).ToList();
+
+
+                if (!string.IsNullOrEmpty(fromDate))
+                {
+                    DateTime fromDatedt = DateTime.ParseExact(fromDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    RowData = RowData.Where(x => Convert.ToDateTime(x.CreateDateTime).Date >= fromDatedt.Date).ToList();
+                }
+                if (!string.IsNullOrEmpty(toDate))
+                {
+                    DateTime toDatedt = DateTime.ParseExact(toDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    RowData = RowData.Where(x => Convert.ToDateTime(x.CreateDateTime).Date <= toDatedt.Date).ToList();
+                }
+
+
 
                 var result = new List<ReportTransactionViewModel>();
                 foreach (var group in RowData.GroupBy(x => x.CreateDateTime))
@@ -296,7 +315,7 @@ namespace CRM.Repositories
                     {
                         Head = "Total",
                         Amount = group.Sum(x => x.Amount),
-                        CreateDateTime = null,
+                        CreateDateTimeDisplay = null,
                         StudentName = "",
                         FatherName = "",
                         Class = "",

@@ -21,5 +21,7 @@ namespace CRM.ModelsForView
         public string FormStatus { get; set; }
         public string FormYear { get; set; }
         public string FormSession { get; set; }
+        public string CreatedDate { get; set; }
+        
     }
 }

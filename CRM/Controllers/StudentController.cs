@@ -1601,6 +1601,7 @@ namespace CRM.Controllers
             obj.Course = varCourse;
             obj.Year = varYear;
             obj.Status = "ISSUE";
+            obj.CreatedDate = System.DateTime.Now;
             var check =   _repoIssueAdmissionForm.Add(obj);
 
             return Json(new { success = true});

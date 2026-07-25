@@ -1495,6 +1495,7 @@
                                     <th>Year</th>
                                     <th>Form No</th>
                                     <th>Status</th>
+                                    <th>Date</th>
                                     <th>Student</th>
                                     <th>Father</th>
                                     <th>Year</th>
@@ -1779,7 +1780,7 @@
             }
 
             $.each(data, function (index, element) {
-                debugger;
+                
                 var badgeClass = getCourseBadgeClass(element.course);
                 var rowNum = startIndex + index + 1;  // Global row number across pages
 
@@ -1790,6 +1791,7 @@
                     '<td><span class="form-no">' + (element.formYear || '-') + '</span></td>' +
                     '<td><span class="form-no"><i class="fas fa-hashtag" style="font-size:0.65rem;"></i> ' + (element.formNo || '-') + '</span></td>' +
                     '<td><span class="form-no">' + (element.formStatus || '-') + '</span></td>' +
+                    '<td><span class="form-no">' + element.createDateTimeDisplay + '</span></td>' +
                     
                     '<td><span class="student-name">' + (element.studentName || '-') + '</span></td>' +
                     '<td><span class="father-name">' + (element.fatherName || '-') + '</span></td>' +

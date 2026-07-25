@@ -51,6 +51,7 @@ namespace CRM.Repositories
                              FormStatus = iaf != null ? iaf.Status : null,
                              FormYear = iaf != null ? iaf.Year : null,
                              FormSession = iaf != null ? iaf.Session : null,
+                             CreatedDate = iaf.CreatedDate,
                          };
 
             if (!string.IsNullOrWhiteSpace(studentName))
@@ -102,7 +103,9 @@ namespace CRM.Repositories
                         FormNo = row.FormNo,
                         FormStatus = row.FormStatus,
                         FormYear = row.FormYear,
-                        FormSession = row.FormSession
+                        FormSession = row.FormSession,
+                        CreatedDate = row.CreatedDate.ToString("dd/MMM/yyyy"),
+                         
                     });
                 }
             }
