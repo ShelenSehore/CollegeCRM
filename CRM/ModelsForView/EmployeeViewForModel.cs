@@ -11,7 +11,7 @@ namespace CRM.ModelsForView
     {
         
         
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [StringLength(100)]
         public string Name { get; set; }

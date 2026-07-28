@@ -28,6 +28,16 @@ namespace CRM.Repositories
             return chekc;
         }
 
+        public void Delete(int id)
+        {
+            var item = _context.Employee.Find(id);
+            if (item != null)
+            {
+                _context.Employee.Remove(item);
+                _context.SaveChanges();
+            }
+        }
+
 
     }
 }

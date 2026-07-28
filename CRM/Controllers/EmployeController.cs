@@ -33,9 +33,27 @@ namespace CRM.Controllers
         public IActionResult Index()
         {
             ViewBag.BaseUrl = _baseUrl;
-            var tee = _employeeRepository.GetAll();
+           List<EmployeeViewForModel>  employeeList = new List<EmployeeViewForModel>();
+            var getData = _employeeRepository.GetAll();
+            if (getData != null) 
+            {
+                EmployeeViewForModel obj = new EmployeeViewForModel();
+                foreach (var row in getData) 
+                {
+                    obj.Id = row.Id;
+                    obj.Name = row.Name;
+                    obj.MobileNo = row.MobileNo;
+                    obj.Department = row.Department;
+                    obj.Designation = row.Designation;
+                    obj.Subject = row.Subject;
+                    obj.Photo = row.Photo;
 
-            return View();
+                    employeeList.Add(obj);
+                }
+                
+            }
+
+            return View(employeeList);
         }
 
         public IActionResult Add()
@@ -53,42 +71,42 @@ namespace CRM.Controllers
             
             Employee employee = new Employee
             {
-                Name = vm.Name,
-                FatherName = vm.FatherName,
-                MotherName = vm.MotherName,
-                Designation = vm.Designation,
-                Subject = vm.Subject,
-                MobileNo = vm.MobileNo,
-                WhatsupNo = vm.WhatsupNo,
-                //Cast = vm.Cast,
-               
-                //EmailAddress = vm.EmailAddress,
-                //PanNo = vm.PanNo,
-                //BankName = vm.BankName,
-                //AccountNo = vm.AccountNo,
-                //IFSC = vm.IFSC,
-                //Address = vm.Address,
-                //PinCode = vm.PinCode,
-                //DOB = vm.DOB,
-                //Department = vm.Department,
-                //UP = vm.UP,
-                //PG = vm.PG,
-                //BED = vm.BED,
-                //MED = vm.MED,
-                //Other1 = vm.Other1,
-                //Other2 = vm.Other2,
-                //Specialization = vm.Specialization,
-                //TeachingExperience = vm.TeachingExperience,
-                //Code28Designation = vm.Code28Designation,
-                //NotificationNo = vm.NotificationNo,
-                //Date = vm.Date,
-                //AppointmentorderNo = vm.AppointmentorderNo,
-                //AppointDate = vm.AppointDate,
-                //JointingDate = vm.JointingDate,
-                //PayScale = vm.PayScale,
-                //Photo = vm.Photo,
-                //ActiveUnactive = vm.ActiveUnactive,
-                //CollegeName = vm.CollegeName
+                
+                Name = string.IsNullOrEmpty(vm.Name) ? null : vm.Name.ToUpper() ,
+                FatherName = string.IsNullOrEmpty(vm.FatherName) ? null : vm.FatherName.ToUpper(),
+                MotherName = string.IsNullOrEmpty(vm.MotherName) ? null : vm.MotherName.ToUpper(),
+                Designation = string.IsNullOrEmpty(vm.Designation) ? null : vm.Designation.ToUpper(),
+                Subject = string.IsNullOrEmpty(vm.Subject) ? null : vm.Subject.ToUpper(),
+                MobileNo = string.IsNullOrEmpty(vm.MobileNo) ? null : vm.MobileNo.ToUpper(),
+                WhatsupNo = string.IsNullOrEmpty(vm.WhatsupNo) ? null : vm.WhatsupNo.ToUpper(),
+                Cast = string.IsNullOrEmpty(vm.Cast) ? null : vm.Cast.ToUpper(),
+                EmailAddress = string.IsNullOrEmpty(vm.EmailAddress) ? null : vm.EmailAddress.ToUpper(),
+                PanNo = string.IsNullOrEmpty(vm.PanNo) ? null : vm.PanNo.ToUpper(),
+                BankName = string.IsNullOrEmpty(vm.BankName) ? null : vm.BankName.ToUpper(),
+                AccountNo = string.IsNullOrEmpty(vm.AccountNo) ? null : vm.AccountNo.ToUpper(),
+                IFSC = string.IsNullOrEmpty(vm.IFSC) ? null : vm.IFSC.ToUpper(),
+                Address = string.IsNullOrEmpty(vm.Address) ? null : vm.Address.ToUpper(),
+                PinCode = string.IsNullOrEmpty(vm.PinCode) ? null : vm.PinCode.ToUpper(),
+                DOB = vm.DOB,
+                Department = string.IsNullOrEmpty(vm.Department) ? null : vm.Department.ToUpper(),
+                UP = string.IsNullOrEmpty(vm.UP) ? null : vm.UP.ToUpper(),
+                PG = string.IsNullOrEmpty(vm.PG) ? null : vm.PG.ToUpper(),
+                BED = string.IsNullOrEmpty(vm.BED) ? null : vm.BED.ToUpper(),
+                MED = string.IsNullOrEmpty(vm.MED) ? null : vm.MED.ToUpper(),
+                Other1 = string.IsNullOrEmpty(vm.Other1) ? null : vm.Other1.ToUpper(),
+                Other2 = string.IsNullOrEmpty(vm.Other2) ? null : vm.Other2.ToUpper(),
+                Specialization = string.IsNullOrEmpty(vm.Specialization) ? null : vm.Specialization.ToUpper(),
+                TeachingExperience = string.IsNullOrEmpty(vm.TeachingExperience) ? null : vm.TeachingExperience.ToUpper(),
+                Code28Designation = string.IsNullOrEmpty(vm.Code28Designation) ? null : vm.Code28Designation.ToUpper(),
+                NotificationNo = string.IsNullOrEmpty(vm.NotificationNo) ? null : vm.NotificationNo.ToUpper(),
+                Date = vm.Date,
+                AppointmentorderNo = string.IsNullOrEmpty(vm.AppointmentorderNo) ? null : vm.AppointmentorderNo.ToUpper(),
+                AppointDate = vm.AppointDate,
+                JointingDate = vm.JointingDate,
+                PayScale = string.IsNullOrEmpty(vm.PayScale) ? null : vm.PayScale.ToUpper(),
+                Photo = string.IsNullOrEmpty(vm.Photo) ? null : vm.Photo.ToUpper(),
+                ActiveUnactive = string.IsNullOrEmpty(vm.ActiveUnactive) ? null : vm.ActiveUnactive.ToUpper(),
+                CollegeName = string.IsNullOrEmpty(vm.CollegeName) ? null : vm.CollegeName.ToUpper(),
             };
 
 
@@ -103,5 +121,13 @@ namespace CRM.Controllers
             }
             return null;
         }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _employeeRepository.Delete(id);
+            return Json(new { success = true, data = "Success" });
+        }
+
     }
 }

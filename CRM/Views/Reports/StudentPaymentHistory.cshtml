@@ -5,250 +5,485 @@
     var baseUrl = ViewBag.BaseUrl;
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
 <style>
     :root {
-        /* 🌈 Vibrant Light Palette */
-        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --gradient-emerald: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        --gradient-amber: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        --gradient-rose: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        /* 🏢 Light Background System */
-        --bg-deep: #f4f7f6;
-        --bg-card: #ffffff;
-        --bg-card-alt: #f8fafc;
-        --bg-input: #ffffff;
-        --border-glow: rgba(102, 126, 234, 0.15);
-        /* 🎨 Text & Accent Colors */
-        --text-primary: #1e293b;
-        --text-muted: #64748b;
-        --accent-purple: #667eea;
-        --accent-cyan: #4facfe;
-        --accent-pink: #f093fb;
+        --clr-primary: #4f46e5;
+        --clr-primary-light: #6366f1;
+        --clr-primary-soft: #eef2ff;
+        --clr-primary-glow: rgba(79,70,229,.18);
+        --clr-teal: #0d9488;
+        --clr-teal-soft: #f0fdfa;
+        --clr-teal-glow: rgba(13,148,136,.15);
+        --clr-amber: #d97706;
+        --clr-amber-soft: #fffbeb;
+        --clr-amber-glow: rgba(217,119,6,.15);
+        --clr-sky: #0284c7;
+        --clr-sky-soft: #f0f9ff;
+        --clr-emerald: #059669;
+        --clr-emerald-soft: #ecfdf5;
+        --clr-emerald-glow: rgba(5,150,105,.15);
+        --clr-rose: #e11d48;
+        --clr-rose-soft: #fff1f2;
+        --clr-rose-glow: rgba(225,29,72,.12);
+        --clr-violet: #7c3aed;
+        --clr-violet-soft: #f5f3ff;
+        --clr-bg: #f1f5f9;
+        --clr-card: #ffffff;
+        --clr-card-alt: #f8fafc;
+        --clr-text: #1e293b;
+        --clr-text-secondary: #334155;
+        --clr-text-muted: #64748b;
+        --clr-text-faint: #94a3b8;
+        --clr-border: #e2e8f0;
+        --clr-border-light: #f1f5f9;
+        --clr-input-bg: #ffffff;
+        --shadow-xs: 0 1px 2px rgba(0,0,0,.03);
+        --shadow-sm: 0 1px 3px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.03);
+        --shadow-md: 0 4px 16px rgba(0,0,0,.06);
+        --shadow-lg: 0 10px 30px rgba(0,0,0,.08);
+        --radius-lg: 20px;
+        --radius: 14px;
+        --radius-sm: 10px;
+        --radius-xs: 8px;
+        --transition: .25s cubic-bezier(.4,0,.2,1);
     }
 
     .content-wrapper {
-        background: var(--bg-deep) !important;
+        background: var(--clr-bg) !important;
         min-height: 100vh;
+        position: relative;
     }
+
+        .content-wrapper::before {
+            content: '';
+            position: fixed;
+            top: -150px;
+            right: -100px;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(79,70,229,.04) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .content-wrapper::after {
+            content: '';
+            position: fixed;
+            bottom: -100px;
+            left: -80px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(13,148,136,.03) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
 
     .content-header {
         background: transparent !important;
     }
 
-    /* Breadcrumb */
+    .top-strip {
+        height: 3px;
+        background: linear-gradient(90deg, var(--clr-primary), var(--clr-sky), var(--clr-teal), var(--clr-emerald), var(--clr-amber), var(--clr-rose), var(--clr-primary));
+        background-size: 300% 100%;
+        animation: stripMove 8s linear infinite;
+    }
+
+    @@keyframes stripMove {
+        0% {
+            background-position: 0% 0%;
+        }
+
+        100% {
+            background-position: 300% 0%;
+        }
+    }
+
     .breadcrumb {
-        background: rgba(102, 126, 234, 0.06) !important;
-        border: 1px solid rgba(102, 126, 234, 0.12);
-        border-radius: 10px;
+        background: var(--clr-card) !important;
+        border: 1px solid var(--clr-border);
+        border-radius: var(--radius-sm) !important;
         padding: 10px 18px !important;
+        box-shadow: var(--shadow-xs);
     }
 
     .breadcrumb-item a {
-        color: var(--accent-purple) !important;
+        color: var(--clr-primary) !important;
         font-weight: 600;
-        font-size: 0.85rem;
+        font-size: .82rem;
         text-decoration: none;
+        transition: var(--transition);
     }
 
-    .breadcrumb-item.active a {
-        color: var(--text-primary) !important;
+        .breadcrumb-item a:hover {
+            color: var(--clr-teal) !important;
+        }
+
+    .breadcrumb-item.active {
+        color: var(--clr-text-muted) !important;
+        font-weight: 500;
+        font-size: .82rem;
     }
 
     .breadcrumb-item + .breadcrumb-item::before {
-        color: var(--text-muted) !important;
+        color: var(--clr-text-faint) !important;
+        content: "›";
     }
 
-    /* Main Card */
-    .main-card {
-        background: var(--bg-card) !important;
-        border: 1px solid rgba(102, 126, 234, 0.1);
-        border-radius: 20px !important;
-        box-shadow: 0 8px 24px rgba(102, 126, 234, 0.08) !important;
+    .page-banner {
+        background: linear-gradient(135deg, #4338ca 0%, #4f46e5 30%, #6366f1 60%, #7c3aed 100%);
+        border-radius: var(--radius-lg);
+        padding: 28px 32px;
+        margin-bottom: 24px;
+        position: relative;
         overflow: hidden;
+        box-shadow: 0 8px 32px rgba(79,70,229,.28), inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+
+        .page-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -8%;
+            width: 280px;
+            height: 280px;
+            background: rgba(255,255,255,.06);
+            border-radius: 50%;
+            animation: bannerFloat 9s ease-in-out infinite;
+        }
+
+        .page-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -60%;
+            left: 15%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,.04);
+            border-radius: 50%;
+            animation: bannerFloat 12s ease-in-out infinite reverse;
+        }
+
+    @@keyframes bannerFloat {
+        0%, 100% {
+            transform: translateY(0) scale(1);
+        }
+
+        50% {
+            transform: translateY(-16px) scale(1.04);
+        }
+    }
+
+    .page-banner h2 {
+        color: #fff;
+        font-size: 1.55rem;
+        font-weight: 800;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+        letter-spacing: -.02em;
+        text-shadow: 0 2px 10px rgba(0,0,0,.12);
+    }
+
+    .page-banner p {
+        color: rgba(255,255,255,.8);
+        margin: 6px 0 0;
+        font-size: .88rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .page-banner .banner-icon {
+        position: absolute;
+        right: 28px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 3.2rem;
+        color: rgba(255,255,255,.1);
+        z-index: 1;
+    }
+
+    .main-card {
+        background: var(--clr-card) !important;
+        border: 1px solid var(--clr-border) !important;
+        border-radius: var(--radius-lg) !important;
+        box-shadow: var(--shadow-md) !important;
+        overflow: visible !important;
         position: relative;
     }
 
-        .main-card::before {
+        .main-card .card-body {
+            padding: 0 !important;
+        }
+
+    .filter-section {
+        padding: 24px 28px 20px;
+        border-bottom: 1px solid var(--clr-border);
+    }
+
+    .filter-section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+        .filter-section-header .filter-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-xs);
+            background: var(--clr-primary-soft);
+            color: var(--clr-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem;
+        }
+
+        .filter-section-header h3 {
+            font-size: .92rem;
+            font-weight: 700;
+            color: var(--clr-text);
+            margin: 0;
+        }
+
+        .filter-section-header .filter-divider {
+            flex: 1;
+            height: 1px;
+            background: var(--clr-border);
+            margin-left: 8px;
+        }
+
+    .filter-row {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        align-items: flex-end;
+    }
+
+    .filter-field {
+        flex: 1;
+        min-width: 150px;
+    }
+
+        .filter-field label {
+            display: block;
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--clr-text-muted);
+            margin-bottom: 6px;
+        }
+
+        .filter-field .form-control,
+        .filter-field select.form-control {
+            background: var(--clr-input-bg) !important;
+            border: 1.5px solid var(--clr-border) !important;
+            color: var(--clr-text) !important;
+            border-radius: var(--radius-xs) !important;
+            padding: 9px 13px;
+            font-size: .86rem;
+            height: auto !important;
+            box-shadow: none !important;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+            .filter-field .form-control::placeholder {
+                color: var(--clr-text-faint) !important;
+            }
+
+            .filter-field .form-control:focus {
+                border-color: var(--clr-primary) !important;
+                box-shadow: 0 0 0 3px var(--clr-primary-glow) !important;
+                outline: none;
+                background: #fff !important;
+            }
+
+        .filter-field select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8.825L.35 3.175l.7-.7L6 7.425l4.95-4.95.7.7z'/%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 12px center !important;
+            padding-right: 32px !important;
+        }
+
+            .filter-field select.form-control option {
+                background: var(--clr-input-bg);
+                color: var(--clr-text);
+            }
+
+    .filter-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-search {
+        background: var(--clr-primary);
+        border: none;
+        color: #fff;
+        font-weight: 700;
+        border-radius: var(--radius-sm);
+        padding: 10px 28px;
+        font-size: .86rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 3px 12px var(--clr-primary-glow);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn-search::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-primary);
-            z-index: 2;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+            transition: .5s;
         }
 
-        .main-card .card-body {
-            padding: 2rem !important;
+        .btn-search:hover::before {
+            left: 100%;
         }
 
-    /* Filter Fieldset */
-    .scheduler-border {
-        border: 1px solid var(--border-glow) !important;
-        border-radius: 16px !important;
-        padding: 1.5rem 1.5rem 1rem !important;
-        background: rgba(102, 126, 234, 0.02);
-    }
-
-        .scheduler-border legend {
-            background: var(--bg-card) !important;
-            color: var(--accent-purple) !important;
-            font-size: 0.95rem !important;
-            font-weight: 700 !important;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            padding: 0 16px !important;
-            width: auto !important;
-            border: none !important;
-            margin-bottom: 0.8rem !important;
-        }
-
-        /* Form Controls */
-        .scheduler-border label {
-            color: var(--text-muted) !important;
-            font-size: 0.78rem;
-            font-weight: 600;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
-        .scheduler-border .form-control {
-            background: var(--bg-input) !important;
-            border: 1px solid #cbd5e1 !important;
-            color: var(--text-primary) !important;
-            border-radius: 10px !important;
-            padding: 8px 14px;
-            font-size: 0.88rem;
-            transition: all 0.3s ease;
-        }
-
-            .scheduler-border .form-control::placeholder {
-                color: #94a3b8 !important;
-            }
-
-            .scheduler-border .form-control:focus {
-                border-color: var(--accent-purple) !important;
-                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
-            }
-
-        .scheduler-border select.form-control option {
-            background: var(--bg-input);
-            color: var(--text-primary);
-        }
-
-    /* Buttons */
-    .btn-glow-search {
-        background: var(--gradient-primary) !important;
-        border: none !important;
-        color: #fff !important;
-        font-weight: 700;
-        border-radius: 12px !important;
-        padding: 9px 28px !important;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        transition: all 0.3s ease;
-    }
-
-        .btn-glow-search:hover {
+        .btn-search:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-            color: #fff !important;
+            box-shadow: 0 6px 20px rgba(79,70,229,.3);
         }
 
-    .btn-glow-reset {
-        background: #ffffff !important;
-        border: 1px solid rgba(102, 126, 234, 0.3) !important;
-        color: var(--accent-purple) !important;
+        .btn-search:active {
+            transform: translateY(0);
+        }
+
+    .btn-reset {
+        background: var(--clr-card);
+        border: 1.5px solid var(--clr-border);
+        color: var(--clr-text-muted);
         font-weight: 700;
-        border-radius: 12px !important;
-        padding: 9px 28px !important;
-        transition: all 0.3s ease;
+        border-radius: var(--radius-sm);
+        padding: 10px 24px;
+        font-size: .86rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: var(--transition);
     }
 
-        .btn-glow-reset:hover {
-            background: rgba(102, 126, 234, 0.05) !important;
+        .btn-reset:hover {
+            border-color: var(--clr-amber);
+            color: var(--clr-amber);
+            background: var(--clr-amber-soft);
             transform: translateY(-2px);
-            color: var(--accent-purple) !important;
         }
 
-    .btn-glow-excel {
-        background: var(--gradient-emerald) !important;
-        border: none !important;
-        color: #fff !important;
+        .btn-reset .fa-rotate-right {
+            transition: var(--transition);
+        }
+
+        .btn-reset:hover .fa-rotate-right {
+            transform: rotate(180deg);
+        }
+
+    .btn-export {
+        margin-left: auto;
+        background: var(--clr-emerald);
+        border: none;
+        color: #fff;
         font-weight: 700;
-        border-radius: 12px !important;
-        padding: 9px 22px !important;
-        box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
-        transition: all 0.3s ease;
-        float: right;
-    }
-
-        .btn-glow-excel:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
-            color: #fff !important;
-        }
-
-    .btn-view-history {
-        background: rgba(79, 172, 254, 0.1) !important;
-        border: 1px solid rgba(79, 172, 254, 0.3) !important;
-        color: #3b82f6 !important;
-        font-weight: 600;
-        border-radius: 8px !important;
-        padding: 4px 12px !important;
-        font-size: 0.8rem;
-        transition: all 0.2s ease;
-        text-decoration: none !important;
-    }
-
-        .btn-view-history:hover {
-            background: #3b82f6 !important;
-            color: #ffffff !important;
-        }
-
-    /* Stat Cards */
-    .stat-card {
-        border-radius: 18px !important;
-        padding: 1.2rem 1.4rem !important;
+        border-radius: var(--radius-sm);
+        padding: 10px 22px;
+        font-size: .86rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 3px 12px var(--clr-emerald-glow);
+        transition: var(--transition);
         position: relative;
         overflow: hidden;
-        border: none !important;
-        min-height: 105px;
+    }
+
+        .btn-export::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+            transition: .5s;
+        }
+
+        .btn-export:hover::before {
+            left: 100%;
+        }
+
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(5,150,105,.3);
+        }
+
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        padding: 24px 28px;
+    }
+
+    .stat-card {
+        border-radius: var(--radius) !important;
+        padding: 18px 20px !important;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid transparent !important;
         display: flex;
         align-items: center;
-        gap: 1rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        gap: 14px;
+        transition: transform .3s ease, box-shadow .3s ease;
+        min-height: 95px;
     }
 
         .stat-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-3px);
         }
 
-        .stat-card::before {
+        .stat-card::after {
             content: '';
             position: absolute;
-            top: -30%;
-            right: -20%;
-            width: 120px;
-            height: 120px;
+            top: -25%;
+            right: -15%;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,.1);
+            pointer-events: none;
         }
 
-    .stat-icon {
-        width: 56px;
-        height: 56px;
-        border-radius: 14px;
+    .stat-icon-box {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         color: #fff;
         flex-shrink: 0;
         position: relative;
         z-index: 1;
-        background: rgba(255,255,255,0.25);
+        background: rgba(255,255,255,.2);
     }
 
     .stat-body {
@@ -257,154 +492,70 @@
     }
 
     .stat-label {
-        font-size: 0.72rem;
+        font-size: .68rem;
         font-weight: 700;
-        letter-spacing: 1.2px;
+        letter-spacing: .08em;
         text-transform: uppercase;
-        color: rgba(255,255,255,0.9);
+        color: rgba(255,255,255,.85);
         margin-bottom: 2px;
     }
 
     .stat-value {
-        font-size: 1.55rem;
+        font-size: 1.4rem;
         font-weight: 800;
         color: #fff;
         line-height: 1.2;
+        word-break: break-word;
     }
 
-    .stat-card.card-fee {
-        background: var(--gradient-primary) !important;
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.25);
+    .stat-card.stat-primary {
+        background: linear-gradient(135deg, #4f46e5, #6366f1);
+        border-color: rgba(99,102,241,.2) !important;
+        box-shadow: 0 6px 20px rgba(79,70,229,.2);
     }
 
-    .stat-card.card-paid {
-        background: var(--gradient-emerald) !important;
-        box-shadow: 0 8px 20px rgba(17, 153, 142, 0.25);
+    .stat-card.stat-emerald {
+        background: linear-gradient(135deg, #059669, #10b981);
+        border-color: rgba(16,185,129,.2) !important;
+        box-shadow: 0 6px 20px rgba(5,150,105,.2);
     }
 
-    .stat-card.card-dues {
-        background: var(--gradient-amber) !important;
-        box-shadow: 0 8px 20px rgba(240, 147, 251, 0.25);
+    .stat-card.stat-rose {
+        background: linear-gradient(135deg, #e11d48, #f43f5e);
+        border-color: rgba(244,63,94,.2) !important;
+        box-shadow: 0 6px 20px rgba(225,29,72,.2);
     }
 
-    .stat-card.card-date {
-        background: var(--gradient-rose) !important;
-        box-shadow: 0 8px 20px rgba(79, 172, 254, 0.25);
+    .stat-card.stat-sky {
+        background: linear-gradient(135deg, #0284c7, #0ea5e9);
+        border-color: rgba(14,165,233,.2) !important;
+        box-shadow: 0 6px 20px rgba(2,132,199,.2);
     }
 
-    /* Table */
-    .table-wrapper {
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid #e2e8f0;
-        background: var(--bg-card);
+    .stat-card {
+        animation: fadeSlideUp .5s ease-out both;
     }
 
-    #tblStudentList {
-        width: 100% !important;
-        background: var(--bg-card) !important;
-    }
-
-        #tblStudentList thead tr {
-            background: var(--gradient-primary) !important;
+        .stat-card:nth-child(1) {
+            animation-delay: .05s;
         }
 
-        #tblStudentList thead th {
-            background: transparent !important;
-            color: #fff !important;
-            font-size: 0.76rem !important;
-            font-weight: 700 !important;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 14px 12px !important;
-            border-bottom: none !important;
-            white-space: nowrap;
+        .stat-card:nth-child(2) {
+            animation-delay: .1s;
         }
 
-        #tblStudentList tbody tr {
-            background: var(--bg-card) !important;
-            transition: background 0.2s ease;
+        .stat-card:nth-child(3) {
+            animation-delay: .15s;
         }
 
-            #tblStudentList tbody tr:nth-child(even) {
-                background: var(--bg-card-alt) !important;
-            }
-
-            #tblStudentList tbody tr:hover {
-                background: rgba(102, 126, 234, 0.04) !important;
-            }
-
-        #tblStudentList tbody td {
-            color: var(--text-primary) !important;
-            font-size: 0.88rem;
-            padding: 10px 12px !important;
-            border-color: #e2e8f0 !important;
-            white-space: nowrap;
-            vertical-align: middle;
+        .stat-card:nth-child(4) {
+            animation-delay: .2s;
         }
 
-            #tblStudentList tbody td:first-child {
-                color: var(--accent-purple) !important;
-                font-weight: 700;
-            }
-
-    /* Loader */
-    .overlay {
-        background: rgba(255, 255, 255, 0.85) !important;
-        border-radius: 16px;
-        z-index: 10;
-    }
-
-        .overlay i {
-            color: var(--accent-purple) !important;
-        }
-
-    /* Section Title */
-    .section-title {
-        font-size: 1.6rem;
-        font-weight: 900;
-        color: var(--text-primary);
-        letter-spacing: -0.5px;
-        margin-bottom: 1.5rem;
-        position: relative;
-        padding-left: 18px;
-    }
-
-        .section-title::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 4px;
-            bottom: 4px;
-            width: 5px;
-            border-radius: 4px;
-            background: var(--gradient-primary);
-        }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: #f1f5f9;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: var(--accent-purple);
-        border-radius: 4px;
-    }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-cyan);
-        }
-
-    /* Animations */
     @@keyframes fadeSlideUp {
         from {
             opacity: 0;
-            transform: translateY(18px);
+            transform: translateY(14px);
         }
 
         to {
@@ -413,175 +564,563 @@
         }
     }
 
-    .stat-card {
-        animation: fadeSlideUp 0.6s ease-out both;
+    .table-section {
+        padding: 0 28px 28px;
     }
 
-        .stat-card:nth-child(1) {
-            animation-delay: 0.05s;
+    .table-section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 14px;
+    }
+
+        .table-section-header h3 {
+            font-size: .92rem;
+            font-weight: 700;
+            color: var(--clr-text);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .stat-card:nth-child(2) {
-            animation-delay: 0.12s;
+            .table-section-header h3 i {
+                color: var(--clr-primary);
+                font-size: .85rem;
+            }
+
+    .record-count {
+        font-size: .75rem;
+        font-weight: 600;
+        color: var(--clr-text-muted);
+        background: var(--clr-primary-soft);
+        padding: 4px 12px;
+        border-radius: 20px;
+    }
+
+    .table-wrapper {
+        border-radius: var(--radius);
+        overflow: hidden;
+        border: 1px solid var(--clr-border);
+        background: var(--clr-card);
+    }
+
+    #tblStudentList {
+        width: 100% !important;
+        background: var(--clr-card) !important;
+        margin: 0 !important;
+    }
+
+        #tblStudentList thead tr {
+            background: linear-gradient(135deg, #4338ca 0%, #4f46e5 50%, #6366f1 100%) !important;
         }
 
-        .stat-card:nth-child(3) {
-            animation-delay: 0.19s;
+        #tblStudentList thead th {
+            background: transparent !important;
+            color: #fff !important;
+            font-size: .72rem !important;
+            font-weight: 700 !important;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            padding: 12px 14px !important;
+            border-bottom: none !important;
+            white-space: nowrap;
+            position: relative;
         }
 
-        .stat-card:nth-child(4) {
-            animation-delay: 0.26s;
+            #tblStudentList thead th:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 20%;
+                height: 60%;
+                width: 1px;
+                background: rgba(255,255,255,.12);
+            }
+
+            #tblStudentList thead th.col-index {
+                width: 50px;
+                text-align: center;
+            }
+
+            #tblStudentList thead th.col-action {
+                text-align: center;
+            }
+
+        #tblStudentList tbody tr {
+            background: var(--clr-card) !important;
+            transition: background .15s ease;
         }
+
+            #tblStudentList tbody tr:nth-child(even) {
+                background: var(--clr-card-alt) !important;
+            }
+
+            #tblStudentList tbody tr:hover {
+                background: var(--clr-primary-soft) !important;
+            }
+
+        #tblStudentList tbody td {
+            color: var(--clr-text-secondary) !important;
+            font-size: .85rem;
+            padding: 10px 14px !important;
+            border-color: var(--clr-border-light) !important;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+
+            #tblStudentList tbody td:first-child {
+                color: var(--clr-primary) !important;
+                font-weight: 800;
+                font-size: .78rem;
+                text-align: center;
+                width: 50px;
+            }
+
+            #tblStudentList tbody td:nth-child(2) {
+                color: var(--clr-text) !important;
+                font-weight: 600;
+            }
+
+            #tblStudentList tbody td:nth-child(9) {
+                font-weight: 700;
+                color: var(--clr-text) !important;
+                font-variant-numeric: tabular-nums;
+            }
+
+            #tblStudentList tbody td:nth-child(10) {
+                font-weight: 700;
+                color: var(--clr-emerald) !important;
+                font-variant-numeric: tabular-nums;
+            }
+
+            #tblStudentList tbody td:nth-child(11) {
+                font-weight: 700;
+                color: var(--clr-rose) !important;
+                font-variant-numeric: tabular-nums;
+            }
+
+            #tblStudentList tbody td:nth-child(12) {
+                color: var(--clr-amber) !important;
+                font-weight: 600;
+                font-variant-numeric: tabular-nums;
+            }
+
+            #tblStudentList tbody td:nth-child(14) {
+                text-align: center;
+            }
+
+        #tblStudentList tbody tr.row-zero-due {
+            background: rgba(16,185,129,.03) !important;
+        }
+
+            #tblStudentList tbody tr.row-zero-due:nth-child(even) {
+                background: rgba(16,185,129,.05) !important;
+            }
+
+        #tblStudentList tbody tr.row-high-due {
+            background: rgba(225,29,72,.03) !important;
+        }
+
+            #tblStudentList tbody tr.row-high-due:nth-child(even) {
+                background: rgba(225,29,72,.05) !important;
+            }
+
+    .badge-paid {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: 6px;
+        font-size: .72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .03em;
+        background: #ecfdf5;
+        color: #065f46;
+    }
+
+    .badge-due {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: 6px;
+        font-size: .72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .03em;
+        background: #fff1f2;
+        color: #9f1239;
+    }
+
+    .btn-view-history {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: var(--clr-primary-soft);
+        border: 1px solid rgba(79,70,229,.2);
+        color: var(--clr-primary) !important;
+        font-weight: 600;
+        border-radius: var(--radius-xs);
+        padding: 5px 14px;
+        font-size: .78rem;
+        transition: var(--transition);
+        text-decoration: none !important;
+        cursor: pointer;
+    }
+
+        .btn-view-history:hover {
+            background: var(--clr-primary) !important;
+            color: #fff !important;
+            border-color: var(--clr-primary);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px var(--clr-primary-glow);
+        }
+
+        .btn-view-history i {
+            font-size: .72rem;
+            transition: var(--transition);
+        }
+
+        .btn-view-history:hover i {
+            transform: scale(1.15);
+        }
+
+    .overlay {
+        background: rgba(255,255,255,.92) !important;
+        border-radius: var(--radius);
+        z-index: 10;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+    }
+
+        .overlay i {
+            color: var(--clr-primary) !important;
+            font-size: 1.5rem !important;
+        }
+
+    #tblStudentList_wrapper .dataTables_info {
+        color: var(--clr-text-muted) !important;
+        font-size: .8rem;
+        padding: 12px 0 !important;
+    }
+
+    #tblStudentList_wrapper .dataTables_paginate {
+        padding: 12px 0 !important;
+    }
+
+        #tblStudentList_wrapper .dataTables_paginate .paginate_button {
+            color: var(--clr-text-muted) !important;
+            border: 1px solid var(--clr-border) !important;
+            border-radius: var(--radius-xs) !important;
+            margin: 0 2px !important;
+            font-size: .82rem !important;
+            background: var(--clr-card) !important;
+            transition: var(--transition);
+        }
+
+            #tblStudentList_wrapper .dataTables_paginate .paginate_button:hover {
+                background: var(--clr-primary-soft) !important;
+                color: var(--clr-primary) !important;
+                border-color: rgba(79,70,229,.25) !important;
+            }
+
+            #tblStudentList_wrapper .dataTables_paginate .paginate_button.current {
+                background: var(--clr-primary) !important;
+                color: #fff !important;
+                border-color: var(--clr-primary) !important;
+            }
+
+    #tblStudentList_wrapper .dataTables_length label {
+        color: var(--clr-text-muted) !important;
+        font-size: .82rem;
+    }
+
+    #tblStudentList_wrapper .dataTables_length select {
+        border: 1px solid var(--clr-border) !important;
+        border-radius: var(--radius-xs) !important;
+        padding: 4px 8px;
+        font-size: .82rem;
+        margin-left: 6px;
+        background: var(--clr-card) !important;
+        color: var(--clr-text) !important;
+    }
+
+    #tblStudentList_wrapper .dataTables_filter label {
+        color: var(--clr-text-muted) !important;
+        font-size: .82rem;
+    }
+
+    #tblStudentList_wrapper .dataTables_filter input {
+        border: 1px solid var(--clr-border) !important;
+        border-radius: var(--radius-xs) !important;
+        padding: 5px 10px;
+        font-size: .82rem;
+        margin-left: 6px;
+        background: var(--clr-card) !important;
+        color: var(--clr-text) !important;
+    }
+
+        #tblStudentList_wrapper .dataTables_filter input:focus {
+            border-color: var(--clr-primary) !important;
+            box-shadow: 0 0 0 3px var(--clr-primary-glow) !important;
+            outline: none;
+        }
+
+    ::selection {
+        background: rgba(79,70,229,.15);
+        color: var(--clr-text);
+    }
+
+    ::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--clr-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #c7d2e0;
+        border-radius: 4px;
+    }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--clr-primary-light);
+        }
+
+    @@media (max-width: 1200px) {
+        .stats-row {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .page-banner {
+            padding: 20px;
+        }
+
+            .page-banner h2 {
+                font-size: 1.2rem;
+            }
+
+            .page-banner .banner-icon {
+                display: none;
+            }
+
+        .filter-row {
+            flex-direction: column;
+        }
+
+        .filter-field {
+            min-width: 100%;
+        }
+
+        .stats-row {
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 18px;
+        }
+
+        .filter-section {
+            padding: 18px;
+        }
+
+        .table-section {
+            padding: 0 18px 18px;
+        }
+
+        .filter-actions {
+            flex-direction: column;
+        }
+
+            .filter-actions .btn-export {
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filter-actions .btn-search,
+            .filter-actions .btn-reset {
+                width: 100%;
+                justify-content: center;
+            }
+    }
+
+    @@media (max-width: 576px) {
+        .stats-row {
+            grid-template-columns: 1fr;
+        }
+    }
 
     @@media (prefers-reduced-motion: reduce) {
         .stat-card {
             animation: none !important;
         }
 
-            .btn-glow-search:hover, .btn-glow-reset:hover, .btn-glow-excel:hover, .stat-card:hover {
+            .btn-search:hover, .btn-reset:hover, .btn-export:hover,
+            .stat-card:hover, .btn-view-history:hover {
                 transform: none !important;
             }
+
+        .top-strip {
+            animation: none !important;
+        }
+
+        .page-banner::before, .page-banner::after {
+            animation: none !important;
+        }
     }
 </style>
 
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+    <div class="top-strip"></div>
+
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><a href="#">Reports</a></li>
-                        <li class="breadcrumb-item active"><a href="#">Student Fee</a></li>
+                        <li class="breadcrumb-item active">Student Fee</li>
                     </ol>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
-        <div class="card main-card">
-            <div class="card-body">
-                <div class="dataTables_wrapper dt-bootstrap4">
+        <div class="container-fluid">
 
-                    <h2 class="section-title">Student Fee Report</h2>
+            <div class="page-banner">
+                <h2><i class="fa-solid fa-indian-rupee-sign" style="margin-right:10px;opacity:.7"></i>Student Fee Report</h2>
+                <p>Track fee collection status — total, paid, and outstanding dues by student</p>
+                <div class="banner-icon"><i class="fa-solid fa-receipt"></i></div>
+            </div>
 
-                    <fieldset class="scheduler-border">
-                        <legend class="scheduler-border">Filters</legend>
+            <div class="card main-card">
+                <div class="card-body">
 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input id="txtSearch" class="form-control" type="search" placeholder="Search Student..." aria-label="Search">
-                                </div>
+                    <div class="filter-section">
+                        <div class="filter-section-header">
+                            <div class="filter-icon"><i class="fa-solid fa-filter"></i></div>
+                            <h3>Filters</h3>
+                            <div class="filter-divider"></div>
+                        </div>
+
+                        <div class="filter-row">
+                            <div class="filter-field">
+                                <label for="txtSearch">Student Name</label>
+                                <input id="txtSearch" class="form-control" type="search" placeholder="Search name..." aria-label="Search">
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Session</label>
-                                    <select id="ddlSession" asp-items="Model.SessionList" class="form-control"> <option>Select</option></select>
-                                </div>
+                            <div class="filter-field">
+                                <label for="ddlSession">Session</label>
+                                <select id="ddlSession" asp-items="Model.SessionList" class="form-control">
+                                    <option value="">All Sessions</option>
+                                </select>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Year</label>
-                                    <select id="ddlYear" asp-items="Model.YearList" class="form-control"> <option>Select</option></select>
-                                </div>
+                            <div class="filter-field">
+                                <label for="ddlYear">Year</label>
+                                <select id="ddlYear" asp-items="Model.YearList" class="form-control">
+                                    <option value="">All Years</option>
+                                </select>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Class</label>
-                                    <select id="ddlClass" asp-items="Model.ClassList" class="form-control"> <option>Select</option></select>
-                                </div>
+                            <div class="filter-field">
+                                <label for="ddlClass">Class</label>
+                                <select id="ddlClass" asp-items="Model.ClassList" class="form-control">
+                                    <option value="">All Classes</option>
+                                </select>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Course</label>
-                                    <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"> <option>Select</option></select>
-                                </div>
+                            <div class="filter-field">
+                                <label for="ddlCourse">Course</label>
+                                <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control">
+                                    <option value="">All Courses</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="row" style="margin-bottom:5px !important">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-2">
-                                <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn btn-glow-search"><i class="fas fa-search"></i> Search</button>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="reset" class="btn btn-glow-reset" onclick="Reset()"><i class="fas fa-rotate-right"></i> Reset</button>
-                            </div>
-                            <div class="col-md-3"></div>
-                            <div class="col-md-2">
-                                <form id="frmDownloadExcel"></form>
-                                <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn btn-glow-excel"><i class="fas fa-file-excel"></i> Export</button>
-                            </div>
+                        <div class="filter-actions">
+                            <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn-search">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                            <button type="reset" class="btn-reset" onclick="Reset()">
+                                <i class="fas fa-rotate-right"></i> Reset
+                            </button>
+                            <form id="frmDownloadExcel" style="display:none;"></form>
+                            <button type="submit" id="btnDownloadExcel" onclick="DownloadExcel()" class="btn-export">
+                                <i class="fas fa-file-excel"></i> Export Excel
+                            </button>
                         </div>
-                    </fieldset>
+                    </div>
 
-                    <!-- Stat Cards -->
-                    <div class="row" style="margin-top:1.5rem;">
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="stat-card card-fee">
-                                <div class="stat-icon"><i class="fas fa-coins"></i></div>
-                                <div class="stat-body">
-                                    <div class="stat-label">Total Fee</div>
-                                    <div id="spnTotalStudent" class="stat-value">000</div>
-                                </div>
+                    <div class="stats-row">
+                        <div class="stat-card stat-primary">
+                            <div class="stat-icon-box"><i class="fas fa-coins"></i></div>
+                            <div class="stat-body">
+                                <div class="stat-label">Total Fee</div>
+                                <div id="spnTotalStudent" class="stat-value">0</div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="stat-card card-paid">
-                                <div class="stat-icon"><i class="fas fa-hand-holding-dollar"></i></div>
-                                <div class="stat-body">
-                                    <div class="stat-label">Paid</div>
-                                    <div id="spnAmount" class="stat-value">00</div>
-                                </div>
+                        <div class="stat-card stat-emerald">
+                            <div class="stat-icon-box"><i class="fas fa-hand-holding-dollar"></i></div>
+                            <div class="stat-body">
+                                <div class="stat-label">Total Paid</div>
+                                <div id="spnAmount" class="stat-value">0</div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="stat-card card-dues">
-                                <div class="stat-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-                                <div class="stat-body">
-                                    <div class="stat-label">Dues</div>
-                                    <div id="spnDues" class="stat-value">000</div>
-                                </div>
+                        <div class="stat-card stat-rose">
+                            <div class="stat-icon-box"><i class="fas fa-file-invoice-dollar"></i></div>
+                            <div class="stat-body">
+                                <div class="stat-label">Total Dues</div>
+                                <div id="spnDues" class="stat-value">0</div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="stat-card card-date">
-                                <div class="stat-icon"><i class="fas fa-calendar-days"></i></div>
-                                <div class="stat-body">
-                                    <div class="stat-label">Date Info</div>
-                                    <div id="spnFromTo" class="stat-value" style="font-size:1.1rem;">00</div>
-                                </div>
+                        <div class="stat-card stat-sky">
+                            <div class="stat-icon-box"><i class="fas fa-users"></i></div>
+                            <div class="stat-body">
+                                <div class="stat-label">Students</div>
+                                <div id="spnFromTo" class="stat-value">0</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Table -->
-                    <div class="row" style="margin-top:1.5rem;">
-                        <div class="col-sm-12">
-                            <div id="Loader" class="overlay" style="display:none;"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
+                    <div class="table-section">
+                        <div class="table-section-header">
+                            <div style="display:flex;align-items:center;">
+                                <h3><i class="fa-solid fa-table-list"></i> Fee Details</h3>
+                                <span class="record-count" id="recordCount">0 records</span>
+                            </div>
+                        </div>
+
+                        <div style="position:relative;">
+                            <div id="Loader" class="overlay" style="display:none;position:absolute;inset:0;z-index:10;">
+                                <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                            </div>
 
                             <div class="table-wrapper">
                                 <table id="tblStudentList" class="table table-bordered table-striped dataTable dtr-inline">
                                     <thead>
                                         <tr role="row">
-                                            <th class="sorting sorting_asc" style="width: 10px">#</th>
-                                            <th class="sorting">Student Name</th>
-                                            <th class="sorting">Father Name</th>
-                                            <th class="sorting">Mobile No</th>
-                                            <th class="sorting">Session</th>
-                                            <th class="sorting">Year</th>
-                                            <th class="sorting">Class</th>
-                                            <th class="sorting">Course</th>
-                                            <th class="sorting">Total Fee</th>
-                                            <th class="sorting">Paid Fee</th>
-                                            <th class="sorting">Due Fee</th>
-                                            <th class="sorting">Discount</th>
-                                            <th class="sorting">Discount By</th>
-                                            <th class="sorting">View History</th>
+                                            <th class="col-index">#</th>
+                                            <th>Student Name</th>
+                                            <th>Father Name</th>
+                                            <th>Mobile No</th>
+                                            <th>Session</th>
+                                            <th>Year</th>
+                                            <th>Class</th>
+                                            <th>Course</th>
+                                            <th>Total Fee</th>
+                                            <th>Paid</th>
+                                            <th>Due</th>
+                                            <th>Discount</th>
+                                            <th>Discount By</th>
+                                            <th class="col-action">History</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -592,6 +1131,7 @@
 
                 </div>
             </div>
+
         </div>
     </section>
 </div>
@@ -602,10 +1142,6 @@
         var studentTable;
 
         window.onload = function () {
-            // Date picker (kept in case needed elsewhere)
-            $('#reservationdate, #reservationEnddate').datetimepicker({
-                format: 'DD/MM/YYYY'
-            });
             SearchStudent();
         };
 
@@ -615,19 +1151,16 @@
 
         function Reset() {
             $("#txtSearch").val('');
-            $('#ddlSession option:selected').prop("selected", false);
-            $('#ddlYear option:selected').prop("selected", false);
-            $('#ddlClass option:selected').prop("selected", false);
-            $('#ddlCourse option:selected').prop("selected", false);
+            $('#ddlSession, #ddlYear, #ddlClass, #ddlCourse').val('');
             SearchStudent();
         }
 
         function SearchStudent() {
             var name = $("#txtSearch").val();
-            var varSession = $('#ddlSession option:selected').text();
-            var varYear = $('#ddlYear option:selected').text();
-            var varClass = $('#ddlClass option:selected').text();
-            var varCourse = $('#ddlCourse option:selected').text();
+            var varSession = $('#ddlSession').val();
+            var varYear = $('#ddlYear').val();
+            var varClass = $('#ddlClass').val();
+            var varCourse = $('#ddlCourse').val();
             $("#Loader").show();
 
             $.post(BASE_URL + "/Reports/FeeReport", {
@@ -638,7 +1171,7 @@
                 course: varCourse
             },
             function (res) {
-                TableData(res)
+                TableData(res);
             });
         }
 
@@ -648,49 +1181,82 @@
             var varTotalFee = 0;
             var varTotalPaid = 0;
             var varTotalDue = 0;
-            var varRemaningFee = 0;
+            var studentCount = 0;
 
-            $.each(tableData.data, function (index, element) {
+            if (tableData && tableData.data && tableData.data.length > 0) {
+                $.each(tableData.data, function (index, element) {
+                    studentCount++;
 
-                varRemaningFee = element.totalFeeAfterDiscount - element.paidAmount;
+                    var totalFee = parseFloat(element.totalFeeAfterDiscount) || 0;
+                    var paid = parseFloat(element.paidAmount) || 0;
+                    var remaining = totalFee - paid;
+                    var discount = parseFloat(element.scholership) || 0;
 
+                    varTotalFee += totalFee;
+                    varTotalPaid += paid;
+                    varTotalDue += remaining;
+
+                    var rowClass = '';
+                    if (remaining <= 0) {
+                        rowClass = ' class="row-zero-due"';
+                    } else if (remaining > totalFee * 0.5) {
+                        rowClass = ' class="row-high-due"';
+                    }
+
+                    var dueContent;
+                    if (remaining <= 0) {
+                        dueContent = '<span class="badge-paid"><i class="fas fa-check" style="font-size:.6rem"></i> Clear</span>';
+                    } else {
+                        dueContent = remaining.toLocaleString('en-IN');
+                    }
+
+                    var studentId = element.studentId || 0;
+                    var viewLink = '<a class="btn-view-history" href="../Student/PromodeStudent?id=' + studentId + '"><i class="fas fa-eye"></i> View</a>';
+
+                    $("#tblStudentList").append(
+                        "<tr" + rowClass + ">" +
+                        "<td>" + studentCount + "</td>" +
+                        "<td>" + (element.studentName || '') + "</td>" +
+                        "<td>" + (element.fatherName || '') + "</td>" +
+                        "<td>" + (element.mobileNoOne || '') + "</td>" +
+                        "<td>" + (element.session || '') + "</td>" +
+                        "<td>" + (element.year || '') + "</td>" +
+                        "<td>" + (element.class || '') + "</td>" +
+                        "<td>" + (element.course || '') + "</td>" +
+                        "<td>" + totalFee.toLocaleString('en-IN') + "</td>" +
+                        "<td>" + paid.toLocaleString('en-IN') + "</td>" +
+                        "<td>" + dueContent + "</td>" +
+                        "<td>" + discount.toLocaleString('en-IN') + "</td>" +
+                        "<td>" + (element.scholershipBy || '') + "</td>" +
+                        "<td>" + viewLink + "</td>" +
+                        "</tr>"
+                    );
+                });
+            } else {
                 $("#tblStudentList").append(
-                    "<tr>" +
-                    "<td>" + (index + 1) + "</td>" +
-                    "<td>" + element.studentName + "</td>" +
-                    "<td>" + element.fatherName + "</td>" +
-                    "<td>" + element.mobileNoOne + "</td>" +
-                    "<td>" + element.session + "</td>" +
-                    "<td>" + element.year + "</td>" +
-                    "<td>" + element.class + "</td>" +
-                    "<td>" + element.course + "</td>" +
-                    "<td>" + element.totalFeeAfterDiscount + "</td>" +
-                    "<td>" + element.paidAmount + "</td>" +
-                    "<td>" + varRemaningFee + "</td>" +
-                    "<td>" + element.scholership + "</td>" +
-                    "<td>" + element.scholership + "</td>" +
-                    "<td><a class='btn btn-view-history' href='../Student/PromodeStudent?id=5023'><i class='fas fa-eye'></i> View</a></td>" +
-                    "</tr>"
+                    '<tr><td colspan="14" style="text-align:center;padding:50px 20px;color:var(--clr-text-faint);">' +
+                    '<i class="fa-solid fa-inbox" style="font-size:2.2rem;display:block;margin-bottom:12px;color:#cbd5e1;"></i>' +
+                    '<div style="font-size:.9rem;font-weight:500;">No fee records found</div>' +
+                    '<div style="font-size:.78rem;margin-top:4px;">Try adjusting your filters and search again</div>' +
+                    '</td></tr>'
                 );
+            }
 
-                varTotalFee = varTotalFee + element.totalFeeAfterDiscount;
-                varTotalPaid = varTotalPaid + element.paidAmount;
-                varTotalDue = varTotalDue + varRemaningFee;
-            });
+            $("#spnTotalStudent").text(varTotalFee.toLocaleString('en-IN'));
+            $("#spnAmount").text(varTotalPaid.toLocaleString('en-IN'));
+            $("#spnDues").text(varTotalDue.toLocaleString('en-IN'));
+            $("#spnFromTo").text(studentCount);
+            $("#recordCount").text(studentCount + ' record' + (studentCount !== 1 ? 's' : ''));
 
-            $("#spnTotalStudent").text(varTotalFee);
-            $("#spnAmount").text(varTotalPaid);
-            $("#spnDues").text(varTotalDue);
             $("#Loader").hide();
         }
 
-        //----------Download excel file-------------
         function ExcelDownload() {
             var name = $("#txtSearch").val();
-            var varClass = $('#ddlClass option:selected').text();
-            var varSubject = $('#ddlSubject option:selected').text();
-            var varCourse = $('#ddlCourse option:selected').text();
-            var varRegPvt = $('#ddlRegPvt option:selected').text();
+            var varClass = $('#ddlClass').val();
+            var varSubject = $('#ddlSubject') ? $('#ddlSubject').val() : '';
+            var varCourse = $('#ddlCourse').val();
+            var varRegPvt = $('#ddlRegPvt') ? $('#ddlRegPvt').val() : '';
 
             $.post(BASE_URL + "/Student/DownloadExcel", {
                 name: name,
@@ -700,7 +1266,7 @@
                 regPvt: varRegPvt
             },
             function (res) {
-                TableData(res)
+                TableData(res);
             });
         }
     </script>

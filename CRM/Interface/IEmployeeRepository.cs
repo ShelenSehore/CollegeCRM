@@ -10,5 +10,6 @@ namespace CRM.Interface
     {
         public List<Employee> GetAll();
         public int Add(Employee model);
+        public void Delete(int id);
     }
 }
