@@ -37,9 +37,10 @@ namespace CRM.Controllers
             var getData = _employeeRepository.GetAll();
             if (getData != null) 
             {
-                EmployeeViewForModel obj = new EmployeeViewForModel();
+               
                 foreach (var row in getData) 
                 {
+                    EmployeeViewForModel obj = new EmployeeViewForModel();
                     obj.Id = row.Id;
                     obj.Name = row.Name;
                     obj.MobileNo = row.MobileNo;
