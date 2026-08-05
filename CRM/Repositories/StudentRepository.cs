@@ -99,7 +99,10 @@ namespace CRM.Repositories
         public bool UpdateClassDetail(Student model)
         {
             var student = _context.Student.FirstOrDefault(x => x.Id == model.Id);
-
+            string strSession = student.Session;
+            string strClass = student.Class;
+            string strCourse = student.Course;
+            string strYear = student.Year;
             if (student != null)
             {
                 student.Session = model.Session;
@@ -109,9 +112,22 @@ namespace CRM.Repositories
                 student.UpdateDatetime = model.UpdateDatetime;
                 student.UpdatedBy = model.UpdatedBy;
                 var status = _context.SaveChanges();
-                return true;
+
             }
-            return false;
+            var studentHistory = _context.StudentHistory.FirstOrDefault(x => x.StudentId == student.Id && x.Session == strSession && x.Classs == strClass && x.Course == strCourse && x.Year == strYear);
+            if (studentHistory != null)
+            {
+                studentHistory.Session = model.Session;
+                studentHistory.Classs = model.Class;
+                studentHistory.Course = model.Course;
+                studentHistory.Year = model.Year;
+                studentHistory.UpdateDate = DateTime.Now;
+                studentHistory.UpdateBy = model.UpdatedBy;
+                var status = _context.SaveChanges();
+            }
+
+
+            return true;
         }
 
         public bool PromoteStudentDetail(Student model)

@@ -2818,6 +2818,10 @@
                         <tr>
                             <th style="width:50px">#</th>
                             <th>Form No</th>
+                            <th>Enrolment No</th>
+                            <th>Roll No</th>
+                            <th>TC Submit</th>
+                            <th>Exam Form</th>
                             <th>Session</th>
                             <th>Cast</th>
                             <th>Gender</th>
@@ -3212,8 +3216,9 @@
 
             if (total === 0) { $("#emptyState").show(); $("#paginationFooter").hide(); }
             else { $("#emptyState").hide(); $("#paginationFooter").show(); }
-            debugger;
+            
             $.each(pageData, function (i, e) {
+                debugger;
                 var globalIdx = startIdx + i + 1;
                 var isChecked = checkedIds[e.studentHistoryId] ? 'checked' : '';
                 var rcls = resultRowClass(e.result);
@@ -3222,6 +3227,10 @@
                     '<tr class="' + rcls + '">' +
                     '<td class="c-idx">' + globalIdx + '</td>' +
                     '<td class="c-form">' + (e.admissionForm || '-') + '</td>' +
+                    '<td class="c-form">' + (e.enrolNo || '-') + '</td>' +
+                    '<td class="c-form">' + (e.rollNo || '-') + '</td>' +
+                    '<td class="c-form">' + (e.tcIssue || '-') + '</td>' +
+                    '<td class="c-form">' + (e.examFormSubmited || '-') + '</td>' +
                     '<td><span class="c-session">' + (e.session || '-') + '</span></td>' +
                     '<td class="c-meta">' + esc(castVal) + '</td>' +
                     '<td class="c-meta">' + (e.gender || '-') + '</td>' +
@@ -3428,12 +3437,17 @@
 
             var rowsHtml = '';
             $.each(data, function (index, el) {
+                
                 var cls = classifyResult(el.result);
                 var rLabel = (el.result || '').toUpperCase().trim() || 'N/A';
                 var castVal = el.cast || el.Cast || '-';
                 rowsHtml += '<tr>' +
                     '<td class="pd-idx">' + (index + 1) + '</td>' +
                     '<td class="pd-form">' + esc(el.admissionForm || '-') + '</td>' +
+                    '<td class="pd-form">' + esc(el.enrolNo || '-') + '</td>' +
+                    '<td class="pd-form">' + esc(el.rollNo || '-') + '</td>' +
+                    '<td class="pd-form">' + esc(el.tcIssue || '-') + '</td>' +
+                    '<td class="pd-form">' + esc(el.examFormSubmited || '-') + '</td>' +
                     '<td><span class="pd-tag session">' + esc(el.session || '-') + '</span></td>' +
                     '<td class="pd-muted">' + esc(castVal) + '</td>' +
                     '<td class="pd-muted">' + esc(el.gender || '-') + '</td>' +

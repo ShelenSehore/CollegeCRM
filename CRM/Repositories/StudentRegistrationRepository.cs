@@ -89,7 +89,7 @@ namespace CRM.Repositories
             }
             if (!string.IsNullOrWhiteSpace(classes) && (classes != "Select"))
             {
-                query = query.Where(x => x.Subject.ToLower().Contains(classes.ToLower()));
+                query = query.Where(x => x.Subject.ToLower()== classes.ToLower());
             }
             if (!string.IsNullOrWhiteSpace(year) && (year != "Select"))
             {

@@ -1115,11 +1115,9 @@ namespace CRM.Controllers
             stuObj.UpdateDatetime = DateTime.Now;
             stuObj.UpdatedBy = "Update Admin";
 
+            //-------Update Into Student and History both table-------
             var checkStatus = _repoStudent.UpdateClassDetail(stuObj);
             
-            var check = UpdateStudentHistory(stuObj.Id);
-
-
             return Json(new { success = true, data = true });
         }
 

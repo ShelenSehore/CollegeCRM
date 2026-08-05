@@ -1,159 +1,790 @@
 ﻿@model IEnumerable<CRM.ModelsForView.EmployeeViewForModel>
 
-@{ Layout = "~/Views/Shared/_MasterLayout.cshtml";
-                var baseUrl = ViewBag.BaseUrl; }
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    var baseUrl = ViewBag.BaseUrl;
+}
 
+<style>
+    /* ── Reset scoped to content-wrapper only ── */
+    .content-wrapper {
+        background: #f0f2f5;
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
 
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item active"><a href="#">Employee</a></li>
-                    </ol>
+    .content-wrapper .content-header {
+        padding: 0;
+        margin-bottom: 0;
+    }
+
+    /* ── Page Title Bar ── */
+    .page-title-bar {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        padding: 28px 0 24px;
+        margin: -20px -20px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-title-bar::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .page-title-bar::after {
+        content: '';
+        position: absolute;
+        bottom: -60%;
+        left: 20%;
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .page-title-bar h1 {
+        color: #ffffff;
+        font-size: 1.65rem;
+        font-weight: 700;
+        margin: 0 0 4px;
+        letter-spacing: -0.3px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .page-title-bar .subtitle {
+        color: #94a3b8;
+        font-size: 0.875rem;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .breadcrumb-custom {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .breadcrumb-custom li {
+        font-size: 0.8rem;
+    }
+
+    .breadcrumb-custom a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .breadcrumb-custom a:hover {
+        color: #e2e8f0;
+    }
+
+    .breadcrumb-custom .separator {
+        color: #475569;
+        font-size: 0.7rem;
+    }
+
+    .breadcrumb-custom .current {
+        color: #e2e8f0;
+        font-weight: 500;
+    }
+
+    /* ── Stats Row ── */
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin: 24px 0;
+    }
+
+    .stat-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+        border: 1px solid #f1f5f9;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+
+    .stat-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .stat-icon.blue { background: #eff6ff; color: #3b82f6; }
+    .stat-icon.green { background: #ecfdf5; color: #10b981; }
+    .stat-icon.amber { background: #fffbeb; color: #f59e0b; }
+    .stat-icon.purple { background: #faf5ff; color: #8b5cf6; }
+
+    .stat-info .stat-number {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: #1e293b;
+        line-height: 1.2;
+    }
+
+    .stat-info .stat-label {
+        font-size: 0.78rem;
+        color: #94a3b8;
+        margin-top: 2px;
+    }
+
+    /* ── Toolbar ── */
+    .toolbar-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+        border: 1px solid #f1f5f9;
+    }
+
+    .toolbar-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .search-box {
+        position: relative;
+    }
+
+    .search-box input {
+        border: 1.5px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 8px 14px 8px 38px;
+        font-size: 0.85rem;
+        width: 260px;
+        background: #f8fafc;
+        color: #334155;
+        transition: all 0.2s;
+        outline: none;
+    }
+
+    .search-box input:focus {
+        border-color: #3b82f6;
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+
+    .search-box input::placeholder {
+        color: #a0aec0;
+    }
+
+    .search-box i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #a0aec0;
+        font-size: 0.85rem;
+    }
+
+    .filter-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        color: #64748b;
+        background: #ffffff;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+    }
+
+    .filter-chip:hover {
+        border-color: #cbd5e1;
+        background: #f8fafc;
+    }
+
+    .filter-chip.active {
+        border-color: #3b82f6;
+        color: #3b82f6;
+        background: #eff6ff;
+    }
+
+    .btn-add-employee {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 20px;
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.25s;
+        box-shadow: 0 1px 3px rgba(59,130,246,0.3);
+    }
+
+    .btn-add-employee:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+    .btn-add-employee:active {
+        transform: translateY(0);
+    }
+
+    /* ── Table Card ── */
+    .table-card {
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+        border: 1px solid #f1f5f9;
+    }
+
+    .table-card table {
+        margin: 0;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table-card thead {
+        background: #f8fafc;
+        border-bottom: 1.5px solid #e2e8f0;
+    }
+
+    .table-card thead th {
+        padding: 14px 18px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #64748b;
+        border: none;
+        white-space: nowrap;
+    }
+
+    .table-card tbody tr {
+        border-bottom: 1px solid #f1f5f9;
+        transition: background 0.15s;
+    }
+
+    .table-card tbody tr:last-child {
+        border-bottom: none;
+    }
+
+    .table-card tbody tr:hover {
+        background: #f8fafc;
+    }
+
+    .table-card tbody td {
+        padding: 14px 18px;
+        font-size: 0.875rem;
+        color: #334155;
+        vertical-align: middle;
+        border: none;
+    }
+
+    /* ── Employee Name Cell ── */
+    .employee-name {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .employee-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        object-fit: cover;
+        background: #e2e8f0;
+        flex-shrink: 0;
+    }
+
+    .employee-avatar-placeholder {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: #ffffff;
+        flex-shrink: 0;
+    }
+
+    .avatar-bg-1 { background: linear-gradient(135deg, #3b82f6, #6366f1); }
+    .avatar-bg-2 { background: linear-gradient(135deg, #10b981, #14b8a6); }
+    .avatar-bg-3 { background: linear-gradient(135deg, #f59e0b, #f97316); }
+    .avatar-bg-4 { background: linear-gradient(135deg, #8b5cf6, #a855f7); }
+    .avatar-bg-5 { background: linear-gradient(135deg, #ef4444, #f43f5e); }
+    .avatar-bg-6 { background: linear-gradient(135deg, #06b6d4, #0ea5e9); }
+
+    .employee-name-text {
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    /* ── Badge ── */
+    .badge-cell {
+        text-align: center;
+    }
+
+    .dept-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.76rem;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .dept-badge.dept-hr { background: #fef3c7; color: #92400e; }
+    .dept-badge.dept-it { background: #dbeafe; color: #1e40af; }
+    .dept-badge.dept-finance { background: #d1fae5; color: #065f46; }
+    .dept-badge.dept-sales { background: #fce7f3; color: #9d174d; }
+    .dept-badge.dept-default { background: #f1f5f9; color: #475569; }
+
+    .designation-text {
+        font-size: 0.84rem;
+        color: #64748b;
+    }
+
+    .subject-text {
+        font-size: 0.84rem;
+        color: #64748b;
+    }
+
+    .mobile-text {
+        font-size: 0.84rem;
+        color: #475569;
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Action Buttons ── */
+    .action-group {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .btn-action {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1.5px solid #e2e8f0;
+        background: #ffffff;
+        color: #64748b;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+
+    .btn-action:hover {
+        transform: translateY(-1px);
+    }
+
+    .btn-action.view:hover {
+        background: #eff6ff;
+        border-color: #93c5fd;
+        color: #2563eb;
+    }
+
+    .btn-action.edit:hover {
+        background: #ecfdf5;
+        border-color: #6ee7b7;
+        color: #059669;
+    }
+
+    .btn-action.delete:hover {
+        background: #fef2f2;
+        border-color: #fca5a5;
+        color: #dc2626;
+    }
+
+    .btn-action .action-tooltip {
+        display: none;
+        position: absolute;
+        bottom: calc(100% + 6px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1e293b;
+        color: #fff;
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        border-radius: 5px;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+
+    .btn-action {
+        position: relative;
+    }
+
+    .btn-action:hover .action-tooltip {
+        display: block;
+    }
+
+    /* ── Row Number ── */
+    .row-number {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #cbd5e1;
+        min-width: 24px;
+        text-align: center;
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: #e2e8f0;
+        margin-bottom: 16px;
+    }
+
+    .empty-state h3 {
+        color: #64748b;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .empty-state p {
+        color: #94a3b8;
+        font-size: 0.85rem;
+    }
+
+    /* ── Animations ── */
+    @@keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in {
+        animation: fadeInUp 0.4s ease-out both;
+    }
+
+    .delay-1 { animation-delay: 0.05s; }
+    .delay-2 { animation-delay: 0.1s; }
+    .delay-3 { animation-delay: 0.15s; }
+    .delay-4 { animation-delay: 0.2s; }
+
+    /* ── Responsive ── */
+    @@media (max-width: 768px) {
+        .page-title-bar { padding: 20px 0; }
+        .page-title-bar h1 { font-size: 1.3rem; }
+        .toolbar-card { flex-direction: column; align-items: stretch; }
+        .toolbar-left { flex-direction: column; }
+        .search-box input { width: 100%; }
+        .stats-row { grid-template-columns: repeat(2, 1fr); }
+        .table-card { overflow-x: auto; }
+        .table-card table { min-width: 700px; }
+    }
+
+    @@media (max-width: 480px) {
+        .stats-row { grid-template-columns: 1fr; }
+    }
+
+    /* ── Hide the old content-header breadcrumb ── */
+    .content-wrapper > .content-header {
+        display: none;
+    }
+</style>
+
+<div class="content-wrapper" style="padding: 20px;">
+
+    <!-- Page Title Bar -->
+    <div class="page-title-bar animate-in">
+        <div class="container-fluid" style="padding: 0 20px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+                <div>
+                    <ul class="breadcrumb-custom">
+                        <li><a href="#"><i class="fas fa-home"></i></a></li>
+                        <li class="separator"><i class="fas fa-chevron-right"></i></li>
+                        <li><a href="#">Dashboard</a></li>
+                        <li class="separator"><i class="fas fa-chevron-right"></i></li>
+                        <li class="current">Employee List</li>
+                    </ul>
+                    <h1 style="margin-top:10px;">Employee Directory</h1>
+                    <p class="subtitle">Manage and view all employees in the organization</p>
                 </div>
+                <a href="@ViewBag.BaseUrl/Employe/Add" class="btn-add-employee">
+                    <i class="fas fa-plus"></i>
+                    Add Employee
+                </a>
             </div>
-        </div><!-- /.container-fluid -->
-    </section>
+        </div>
+    </div>
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <!-- left column -->
-                <div class="col-md-12">
+    <!-- Main Content -->
+    <section class="content" style="padding: 0; margin-top: 0;">
+        <div class="container-fluid" style="padding: 0;">
 
-                    
-                    <a href="@ViewBag.BaseUrl/Employe/Add" class="btn btn-success">
-                        <i class="far fa-circle nav-icon"></i>
-                        Add new Employee
-                    </a>
-
-                    <!-- general form elements -->
-                    <div class="card card-primary">
-                        <table class="table table-striped projects">
-                            <thead>
-                                <tr>
-                                    <th style="width: 1%">
-                                        #
-                                    </th>
-                                    <th style="width:8%">
-                                        Name
-                                    </th>
-                                    <th style="width: 8%" class="text-center">
-                                        Mobile NO
-                                    </th>
-                                    <th style="width: 8%" class="text-center">
-                                        Department
-                                    </th>
-                                    <th style="width: 8%" class="text-center">
-                                        Designation
-                                    </th>
-                                    <th style="width: 8%" class="text-center">
-                                        Subject
-                                    </th>
-                                    <th style="width: 8%" class="text-center">
-                                        Profile
-                                    </th>
-                                    <th style="width: 8%" class="text-center">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{ int i = 1; }
-                                @foreach (var item in Model)
-                                {
-                                <tr>
-                                    <td>@i</td>
-                                    <td>@item.Name</td>
-                                    <td>@item.MobileNo</td>
-                                    <td>@item.Department</td>
-                                    <td>@item.Designation</td>
-                                    <td>@item.Subject</td>
-                                    <td>
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item">
-                                                <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar.png">
-                                            </li>
-                                        </ul>
-                                    </td>
-                                    <td>
-
-                                        <a class="btn btn-primary btn-sm" href="#">
-                                            <i class="fas fa-folder">
-                                            </i>
-                                            View
-                                        </a>
-                                        <a class="btn btn-info btn-sm" href="#">
-                                            <i class="fas fa-pencil-alt">
-                                            </i>
-                                            Edit
-                                        </a>
-                                        <a class="btn btn-danger btn-sm" onclick="deleteEmployee(@item.Id)">
-                                            <i class="fas fa-trash">
-                                            </i>
-                                            Delete
-                                        </a>
-
-                                    </td>
-                                    
-                                </tr>i++;
-                                        }
-                            </tbody>
-                        </table>
-
-
-
+            <!-- Stats Row -->
+            <div class="stats-row animate-in delay-1">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="totalEmployees">@(Model != null ? Model.Count() : 0)</div>
+                        <div class="stat-label">Total Employees</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="totalDepts">@(Model != null ? Model.Select(m => m.Department).Distinct().Count() : 0)</div>
+                        <div class="stat-label">Departments</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon amber">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="totalDesignations">@(Model != null ? Model.Select(m => m.Designation).Distinct().Count() : 0)</div>
+                        <div class="stat-label">Designations</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="totalSubjects">@(Model != null ? Model.Select(m => m.Subject).Distinct().Count() : 0)</div>
+                        <div class="stat-label">Subjects</div>
                     </div>
                 </div>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+
+            <!-- Toolbar -->
+            <div class="toolbar-card animate-in delay-2">
+                <div class="toolbar-left">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search by name, mobile, department..." oninput="filterTable()">
+                    </div>
+                    <div class="filter-chip active" onclick="toggleFilter(this, 'all')">
+                        <i class="fas fa-th-list"></i> All
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:0.8rem; color:#94a3b8;" id="resultCount">@(Model != null ? Model.Count() : 0) results</span>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-card animate-in delay-3">
+                @if (Model != null && Model.Any())
+                {
+                    <table id="employeeTable">
+                        <thead>
+                            <tr>
+                                <th style="width:50px;">#</th>
+                                <th>Employee</th>
+                                <th>Mobile</th>
+                                <th class="badge-cell">Department</th>
+                                <th>Designation</th>
+                                <th>Subject</th>
+                                <th style="width:130px; text-align:center;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int i = 1;
+                                var avatarBgs = new[] { "avatar-bg-1", "avatar-bg-2", "avatar-bg-3", "avatar-bg-4", "avatar-bg-5", "avatar-bg-6" };
+                            }
+                            @foreach (var item in Model)
+                            {
+                                var bgClass = avatarBgs[(i - 1) % avatarBgs.Length];
+                                var initials = !string.IsNullOrEmpty(item.Name) ? item.Name.Length >= 2 ? item.Name.Substring(0, 2).ToUpper() : item.Name.ToUpper() : "??";
+                                var deptLower = (item.Department ?? "").ToLower();
+                                var deptClass = deptLower.Contains("hr") ? "dept-hr"
+                                              : deptLower.Contains("it") ? "dept-it"
+                                              : deptLower.Contains("finance") || deptLower.Contains("account") ? "dept-finance"
+                                              : deptLower.Contains("sales") || deptLower.Contains("market") ? "dept-sales"
+                                              : "dept-default";
+                                <tr data-name="@(item.Name?.ToLower() ?? "")" data-mobile="@(item.MobileNo?.ToLower() ?? "")" data-dept="@(item.Department?.ToLower() ?? "")" data-designation="@(item.Designation?.ToLower() ?? "")" data-subject="@(item.Subject?.ToLower() ?? "")">
+                                    <td><span class="row-number">@i</span></td>
+                                    <td>
+                                        <div class="employee-name">
+                                            <div class="employee-avatar-placeholder @bgClass">@initials</div>
+                                            <span class="employee-name-text">@(item.Name ?? "—")</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="mobile-text">@(item.MobileNo ?? "—")</span></td>
+                                    <td class="badge-cell">
+                                        <span class="dept-badge @deptClass">@(item.Department ?? "—")</span>
+                                    </td>
+                                    <td><span class="designation-text">@(item.Designation ?? "—")</span></td>
+                                    <td><span class="subject-text">@(item.Subject ?? "—")</span></td>
+                                    <td>
+                                        <div class="action-group" style="justify-content:center;">
+                                            <a class="btn-action view" href="#">
+                                                <i class="fas fa-eye"></i>
+                                                <span class="action-tooltip">View</span>
+                                            </a>
+                                            <a class="btn-action edit" href="@ViewBag.BaseUrl/Employe/Edit/@item.Id">
+                                                <i class="fas fa-pen"></i>
+                                                <span class="action-tooltip">Edit</span>
+                                            </a>
+                                            <button class="btn-action delete" onclick="deleteEmployee(@item.Id)">
+                                                <i class="fas fa-trash-alt"></i>
+                                                <span class="action-tooltip">Delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <i class="fas fa-user-slash"></i>
+                        <h3>No Employees Found</h3>
+                        <p>Start by adding your first employee to the directory.</p>
+                        <a href="@ViewBag.BaseUrl/Employe/Add" class="btn-add-employee" style="margin-top:16px; display:inline-flex;">
+                            <i class="fas fa-plus"></i> Add Employee
+                        </a>
+                    </div>
+                }
+            </div>
+
+        </div>
     </section>
-    <!-- /.content -->
 </div>
-
-
 
 @section Scripts {
     <script type="text/javascript">
-        // INSERT
         var BASE_URL = "@baseUrl";
         var Toast;
 
-        //--info--error-warning-question
         window.onload = function () {
-
             Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 1000
+                timer: 1500,
+                timerProgressBar: true,
             });
-
-
         };
 
-        function Alert(icon, title, className) {
+        function Alert(icon, title) {
             Toast.fire({
                 icon: icon,
                 title: title,
-                class: className,
-            })
+            });
         }
 
+        // ── Live Search / Filter ──
+        function filterTable() {
+            var query = document.getElementById('searchInput').value.toLowerCase().trim();
+            var rows = document.querySelectorAll('#employeeTable tbody tr');
+            var visibleCount = 0;
 
-        // DELETE
-        function deleteEmployee(id) {
-            if (confirm("Are you sure?")) {
-                $.post(BASE_URL + "/Employe/Delete", { id: id }, function () {
-                    Alert('warning', 'Deleted succeefully.', 'bg-success');
-                    location.reload();
-                });
+            rows.forEach(function (row) {
+                var name = row.getAttribute('data-name') || '';
+                var mobile = row.getAttribute('data-mobile') || '';
+                var dept = row.getAttribute('data-dept') || '';
+                var designation = row.getAttribute('data-designation') || '';
+                var subject = row.getAttribute('data-subject') || '';
+
+                var combined = name + ' ' + mobile + ' ' + dept + ' ' + designation + ' ' + subject;
+
+                if (combined.includes(query)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            document.getElementById('resultCount').textContent = visibleCount + ' result' + (visibleCount !== 1 ? 's' : '');
+        }
+
+        // ── Filter Chips ──
+        function toggleFilter(el, filter) {
+            document.querySelectorAll('.filter-chip').forEach(function (chip) {
+                chip.classList.remove('active');
+            });
+            el.classList.add('active');
+
+            // Reset search when "All" is selected
+            if (filter === 'all') {
+                document.getElementById('searchInput').value = '';
+                filterTable();
             }
+        }
+
+        // ── Delete with SweetAlert ──
+        function deleteEmployee(id) {
+            Swal.fire({
+                title: 'Delete Employee?',
+                text: "This action cannot be undone.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Yes, delete it',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post(BASE_URL + "/Employe/Delete", { id: id }, function () {
+                        Alert('success', 'Employee deleted successfully.');
+                        setTimeout(function () { location.reload(); }, 600);
+                    }).fail(function () {
+                        Alert('error', 'Something went wrong.');
+                    });
+                }
+            });
         }
     </script>
 }

@@ -1959,7 +1959,8 @@
                                     <th>Class</th>
                                     <th>Course</th>
                                     <th>Mobile</th>
-                                  
+                                    <th>Alternet Mobile</th>
+
                                 </tr>
                             </thead>
                             <tbody id="tableBody"></tbody>
@@ -2233,6 +2234,7 @@
             var startIndex = (currentPage - 1) * pageSize;
 
             $.each(pageData, function (index, element) {
+                
                 var globalIndex = startIndex + index;
                 var delay = Math.min(index * 0.03, 0.8);
 
@@ -2265,6 +2267,7 @@
                     '<td><span class="info-tag subject">' + esc(element.class) + '</span></td>' +
                     '<td><span class="info-tag course">' + esc(element.course) + '</span></td>' +
                     '<td><span class="mobile-pill"><i class="fas fa-phone"></i> ' + esc(element.mobileNoOne) + '</span></td>' +
+                    '<td><span class="mobile-pill"><i class="fas fa-phone"></i> ' + esc(element.mobileNoTwo) + '</span></td>' +
                     '</tr>';
 
                 $("#tblStudentList").append(row);

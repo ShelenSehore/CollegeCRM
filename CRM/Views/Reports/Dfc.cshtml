@@ -337,7 +337,6 @@
                 color: var(--clr-text);
             }
 
-        /* Date picker input group */
         .filter-field .input-group.date {
             display: flex;
         }
@@ -362,7 +361,6 @@
                 background: var(--clr-primary-light) !important;
             }
 
-    /* Hidden advanced filters */
     .advanced-filters {
         display: none;
         margin-top: 16px;
@@ -387,7 +385,6 @@
         }
     }
 
-    /* Filter Actions */
     .filter-actions {
         display: flex;
         gap: 10px;
@@ -605,7 +602,6 @@
         box-shadow: 0 6px 20px rgba(2,132,199,.2);
     }
 
-    /* Stat card animations */
     .stat-card {
         animation: fadeSlideUp .5s ease-out both;
     }
@@ -761,17 +757,151 @@
                 font-variant-numeric: tabular-nums;
             }
 
-        /* Total Row */
-        #tblStudentList tbody tr.TotalRow {
-            background: linear-gradient(90deg, var(--clr-primary-soft), #f5f3ff) !important;
+        /* ===== DATE SUBTOTAL ROW ===== */
+        #tblStudentList tbody tr.DateSubtotalRow {
+            background: linear-gradient(90deg, var(--clr-teal-soft), #e6faf7) !important;
         }
 
-            #tblStudentList tbody tr.TotalRow td {
-                font-weight: 800 !important;
-                color: var(--clr-primary) !important;
-                font-size: .88rem !important;
-                border-top: 2px solid rgba(79,70,229,.15) !important;
+            #tblStudentList tbody tr.DateSubtotalRow:hover {
+                background: linear-gradient(90deg, #d5f5f0, #e6faf7) !important;
             }
+
+            #tblStudentList tbody tr.DateSubtotalRow td {
+                color: var(--clr-teal) !important;
+                font-weight: 700 !important;
+                font-size: .84rem !important;
+                border-top: 2px solid rgba(13,148,136,.18) !important;
+                border-bottom: 1px solid rgba(13,148,136,.08) !important;
+                padding-top: 11px !important;
+                padding-bottom: 11px !important;
+            }
+
+                #tblStudentList tbody tr.DateSubtotalRow td:first-child {
+                    color: var(--clr-teal) !important;
+                }
+
+                #tblStudentList tbody tr.DateSubtotalRow td:nth-child(7) {
+                    color: var(--clr-teal) !important;
+                    font-weight: 800 !important;
+                    font-size: .88rem !important;
+                }
+
+        /* ===== HEAD SUBTOTAL ROW ===== */
+        #tblStudentList tbody tr.HeadSubtotalRow {
+            background: linear-gradient(90deg, var(--clr-amber-soft), #fef9ee) !important;
+        }
+
+            #tblStudentList tbody tr.HeadSubtotalRow:hover {
+                background: linear-gradient(90deg, #fef3cd, #fef9ee) !important;
+            }
+
+            #tblStudentList tbody tr.HeadSubtotalRow td {
+                color: var(--clr-amber) !important;
+                font-weight: 600 !important;
+                font-size: .82rem !important;
+                font-style: italic;
+                border-bottom: 1px dashed rgba(217,119,6,.12) !important;
+                padding-top: 8px !important;
+                padding-bottom: 8px !important;
+            }
+
+                #tblStudentList tbody tr.HeadSubtotalRow td:first-child {
+                    color: var(--clr-amber) !important;
+                    font-style: normal;
+                }
+
+                #tblStudentList tbody tr.HeadSubtotalRow td:nth-child(7) {
+                    color: var(--clr-amber) !important;
+                    font-weight: 800 !important;
+                    font-style: normal;
+                    font-size: .85rem !important;
+                }
+
+        /* ===== GRAND TOTAL ROW ===== */
+        #tblStudentList tbody tr.GrandTotalRow {
+            background: linear-gradient(135deg, #4338ca 0%, #4f46e5 50%, #6366f1 100%) !important;
+            box-shadow: 0 4px 18px rgba(79,70,229,.22);
+        }
+
+            #tblStudentList tbody tr.GrandTotalRow td {
+                color: #fff !important;
+                font-weight: 800 !important;
+                font-size: .95rem !important;
+                border-top: 2px solid rgba(255,255,255,.2) !important;
+                border-bottom: none !important;
+                padding: 15px 14px !important;
+                letter-spacing: .02em;
+            }
+
+                #tblStudentList tbody tr.GrandTotalRow td:first-child {
+                    color: rgba(255,255,255,.7) !important;
+                    font-size: .85rem !important;
+                }
+
+                #tblStudentList tbody tr.GrandTotalRow td:last-child {
+                    font-size: 1.05rem !important;
+                }
+
+        /* ===== HEAD SUMMARY HEADER ===== */
+        #tblStudentList tbody tr.HeadSummaryHeader td {
+            background: linear-gradient(135deg, #0f172a, #1e293b) !important;
+            color: #fff !important;
+            font-weight: 800 !important;
+            font-size: .78rem !important;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            padding: 13px 14px !important;
+            border: none !important;
+        }
+
+        /* ===== HEAD SUMMARY ROW ===== */
+        #tblStudentList tbody tr.HeadSummaryRow {
+            background: var(--clr-card-alt) !important;
+        }
+
+            #tblStudentList tbody tr.HeadSummaryRow:hover {
+                background: var(--clr-sky-soft) !important;
+            }
+
+            #tblStudentList tbody tr.HeadSummaryRow td {
+                font-size: .84rem !important;
+                color: var(--clr-text-muted) !important;
+                border-bottom: 1px solid var(--clr-border-light) !important;
+                padding: 9px 14px !important;
+            }
+
+                #tblStudentList tbody tr.HeadSummaryRow td:first-child {
+                    color: var(--clr-text-faint) !important;
+                }
+
+                #tblStudentList tbody tr.HeadSummaryRow td:nth-child(3) {
+                    color: var(--clr-text) !important;
+                    font-weight: 600 !important;
+                }
+
+                #tblStudentList tbody tr.HeadSummaryRow td:last-child {
+                    color: var(--clr-sky) !important;
+                    font-weight: 700 !important;
+                    font-variant-numeric: tabular-nums;
+                }
+
+        /* ===== HEAD-WISE TOTAL ROW ===== */
+        #tblStudentList tbody tr.HeadWiseTotalRow {
+            background: linear-gradient(135deg, #0f172a, #1e293b) !important;
+        }
+
+            #tblStudentList tbody tr.HeadWiseTotalRow td {
+                color: #fff !important;
+                font-weight: 800 !important;
+                font-size: .9rem !important;
+                padding: 14px 14px !important;
+                border: none !important;
+            }
+
+                #tblStudentList tbody tr.HeadWiseTotalRow td:first-child {
+                    color: rgba(255,255,255,.5) !important;
+                    font-size: .8rem !important;
+                }
 
     /* Remove default DataTables styling conflicts */
     #tblStudentList_wrapper .dataTables_info {
@@ -847,30 +977,6 @@
         .overlay i {
             color: var(--clr-primary) !important;
             font-size: 1.5rem !important;
-        }
-
-    /* ========== EMPTY STATE ========== */
-    .empty-state {
-        text-align: center;
-        padding: 60px 20px;
-        color: var(--clr-text-faint);
-    }
-
-        .empty-state i {
-            font-size: 2.5rem;
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .empty-state p {
-            font-size: .9rem;
-            font-weight: 500;
-        }
-
-        .empty-state span {
-            font-size: .78rem;
-            display: block;
-            margin-top: 4px;
         }
 
     /* ========== SELECTION ========== */
@@ -1216,11 +1322,9 @@
         var studentTable;
 
         window.onload = function () {
-            // Date picker
             $('#reservationdate, #reservationEnddate').datetimepicker({
                 format: 'DD/MM/YYYY'
             });
-
             SearchStudent();
         };
 
@@ -1247,7 +1351,6 @@
         }
 
         function Reset() {
-            // Reset selects to first option
             $('#ddlHead, #ddlPaymentMode, #ddlSession, #ddlYear, #ddlClass, #ddlCourse').each(function () {
                 $(this).val('');
             });
@@ -1295,51 +1398,247 @@
             $("#spnFromTo").text(dateDisplay);
         }
 
+        // ===================================================================
+        //  FORMAT HELPER — Indian number formatting
+        // ===================================================================
+        function fmt(amount) {
+            return amount.toLocaleString('en-IN');
+        }
+
+        // ===================================================================
+        //  DATE PARSER — Converts DD/MM/YYYY (or DD/MM/YYYY HH:mm) to
+        //  YYYY-MM-DD for correct chronological sorting
+        // ===================================================================
+        function toSortableDate(displayDate) {
+            if (!displayDate) return '';
+            var datePart = displayDate.split(' ')[0];
+            var parts = datePart.split('/');
+            if (parts.length === 3) {
+                return parts[2].padStart(4, '0') + '-' + parts[1].padStart(2, '0') + '-' + parts[0].padStart(2, '0');
+            }
+            return displayDate;
+        }
+
+        // ===================================================================
+        //  ROW BUILDER HELPERS
+        // ===================================================================
+        function addDataRow(idx, date, head, cls, student, father, amount) {
+            $("#tblStudentList").append(
+                '<tr>' +
+                '<td>' + idx + '</td>' +
+                '<td>' + date + '</td>' +
+                '<td>' + head + '</td>' +
+                '<td>' + cls + '</td>' +
+                '<td>' + student + '</td>' +
+                '<td>' + father + '</td>' +
+                '<td>' + fmt(amount) + '</td>' +
+                '</tr>'
+            );
+        }
+
+        function addHeadSubtotal(idx, headName, total) {
+            $("#tblStudentList").append(
+                '<tr class="HeadSubtotalRow">' +
+                '<td>' + idx + '</td>' +
+                '<td></td>' +
+                '<td><i class="fa-solid fa-angle-right" style="margin-right:6px;opacity:.45"></i>' + headName + ' Subtotal</td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td>' + fmt(total) + '</td>' +
+                '</tr>'
+            );
+        }
+
+        function addDateSubtotal(idx, dateStr, total) {
+            $("#tblStudentList").append(
+                '<tr class="DateSubtotalRow">' +
+                '<td>' + idx + '</td>' +
+                '<td><i class="fa-solid fa-calendar-day" style="margin-right:6px;opacity:.55"></i>Date Total: ' + dateStr + '</td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td>' + fmt(total) + '</td>' +
+                '</tr>'
+            );
+        }
+
+        function addGrandTotal(idx, total) {
+            $("#tblStudentList").append(
+                '<tr class="GrandTotalRow">' +
+                '<td>' + idx + '</td>' +
+                '<td colspan="5"><i class="fa-solid fa-calculator" style="margin-right:8px;opacity:.7"></i>GRAND TOTAL</td>' +
+                '<td>' + fmt(total) + '</td>' +
+                '</tr>'
+            );
+        }
+
+        function addHeadSummaryHeader() {
+            $("#tblStudentList").append(
+                '<tr class="HeadSummaryHeader"><td colspan="7">' +
+                '<i class="fa-solid fa-layer-group" style="margin-right:8px"></i>HEAD-WISE SUMMARY</td></tr>'
+            );
+        }
+
+        function addHeadSummaryRow(idx, headName, total) {
+            $("#tblStudentList").append(
+                '<tr class="HeadSummaryRow">' +
+                '<td>' + idx + '</td>' +
+                '<td></td>' +
+                '<td>' + headName + '</td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td>' + fmt(total) + '</td>' +
+                '</tr>'
+            );
+        }
+
+        function addHeadSummaryTotal(idx, total) {
+            $("#tblStudentList").append(
+                '<tr class="HeadWiseTotalRow">' +
+                '<td>' + idx + '</td>' +
+                '<td colspan="5"><i class="fa-solid fa-list-check" style="margin-right:8px;opacity:.7"></i>HEAD-WISE TOTAL</td>' +
+                '<td>' + fmt(total) + '</td>' +
+                '</tr>'
+            );
+        }
+
+        function appendEmptyState() {
+            $("#tblStudentList").append(
+                '<tr><td colspan="7" style="text-align:center;padding:40px 20px;color:var(--clr-text-faint);">' +
+                '<i class="fa-solid fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;color:#cbd5e1;"></i>' +
+                '<div style="font-size:.9rem;font-weight:500;">No transactions found</div>' +
+                '<div style="font-size:.78rem;margin-top:4px;">Try adjusting your filters and search again</div>' +
+                '</td></tr>'
+            );
+        }
+
+        function updateStats(count, total) {
+            $("#spnTotalStudent").text(count);
+            $("#spnAmount").text(fmt(total));
+            $("#recordCount").text(count + ' record' + (count !== 1 ? 's' : ''));
+        }
+
+        // ===================================================================
+        //  MAIN TABLE BUILDER — Groups by Date → Head, inserts subtotals
+        // ===================================================================
         function TableData(tableData) {
             $("#tblStudentList tbody").empty();
 
-            var rowCount = 0;
-            var varAmount = 0;
+            var grandTotal = 0;
+            var actualCount = 0;
+            var displayIndex = 0;
 
             if (tableData && tableData.data && tableData.data.length > 0) {
-                $.each(tableData.data, function (index, element) {
-                    rowCount++;
-                    var isTotal = (element.head === 'Total');
-                    var rowClass = isTotal ? ' class="TotalRow"' : '';
 
-                    var amountStr = element.amount || '0';
-                    var rowHtml = '<tr' + rowClass + '>' +
-                        '<td>' + rowCount + '</td>' +
-                        '<td>' + (isTotal ? '' : (element.createDateTimeDisplay || '')) + '</td>' +
-                        '<td>' + (element.head || '') + '</td>' +
-                        '<td>' + (element.className || '') + '</td>' +
-                        '<td>' + (element.studentName || '') + '</td>' +
-                        '<td>' + (element.fatherName || '') + '</td>' +
-                        '<td>' + amountStr + '</td>' +
-                        '</tr>';
-
-                    $("#tblStudentList").append(rowHtml);
-
-                    if (element.totalAmount) {
-                        varAmount += parseFloat(element.totalAmount) || 0;
-                    }
+                // Exclude any server-side total rows
+                var data = tableData.data.filter(function (el) {
+                    return !(el.head === 'Total' || el.head === 'total');
                 });
+
+                if (data.length === 0) {
+                    appendEmptyState();
+                    updateStats(0, 0);
+                    $("#Loader").hide();
+                    return;
+                }
+
+                actualCount = data.length;
+
+                // Sort by date (chronological), then by head name (alphabetical)
+                data.sort(function (a, b) {
+                    var dA = toSortableDate(a.createDateTimeDisplay);
+                    var dB = toSortableDate(b.createDateTimeDisplay);
+                    if (dA < dB) return -1;
+                    if (dA > dB) return 1;
+                    return (a.head || '').localeCompare(b.head || '');
+                });
+
+                var prevDate = null;   // Date-only part for grouping (DD/MM/YYYY)
+                var prevHead = null;
+                var dateSum = 0;
+                var headSum = 0;
+                var headTotals = {};   // Accumulator for head-wise summary at bottom
+
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+                    var amt = parseFloat(item.amount) || 0;
+                    var dtFull = item.createDateTimeDisplay || '';      // Full datetime for display
+                    var dt = dtFull.split(' ')[0];                      // Date only for grouping
+                    var hd = item.head || '';
+
+                    // Accumulate head-wise total for summary section
+                    headTotals[hd] = (headTotals[hd] || 0) + amt;
+
+                    // --- Head changed within the SAME date → insert head subtotal ---
+                    if (prevDate === dt && prevHead !== null && prevHead !== hd) {
+                        displayIndex++;
+                        addHeadSubtotal(displayIndex, prevHead, headSum);
+                        headSum = 0;
+                    }
+
+                    // --- Date changed → flush remaining head subtotal + date subtotal ---
+                    if (prevDate !== null && prevDate !== dt) {
+                        if (headSum > 0) {
+                            displayIndex++;
+                            addHeadSubtotal(displayIndex, prevHead, headSum);
+                            headSum = 0;
+                        }
+                        displayIndex++;
+                        addDateSubtotal(displayIndex, prevDate, dateSum);
+                        dateSum = 0;
+                    }
+
+                    // --- Regular data row ---
+                    displayIndex++;
+                    addDataRow(displayIndex, dtFull, hd, item.className || '', item.studentName || '', item.fatherName || '', amt);
+
+                    grandTotal += amt;
+                    dateSum += amt;
+                    headSum += amt;
+
+                    prevDate = dt;
+                    prevHead = hd;
+                }
+
+                // --- Flush last head subtotal ---
+                if (headSum > 0 && prevHead) {
+                    displayIndex++;
+                    addHeadSubtotal(displayIndex, prevHead, headSum);
+                }
+
+                // --- Flush last date subtotal ---
+                if (dateSum > 0 && prevDate) {
+                    displayIndex++;
+                    addDateSubtotal(displayIndex, prevDate, dateSum);
+                }
+
+                // --- Grand Total ---
+                displayIndex++;
+                addGrandTotal(displayIndex, grandTotal);
+
+                // --- Head-wise Summary Section ---
+                addHeadSummaryHeader();
+
+                var sortedHeads = Object.keys(headTotals).sort();
+                var headSummaryTotal = 0;
+                for (var j = 0; j < sortedHeads.length; j++) {
+                    displayIndex++;
+                    var hAmt = headTotals[sortedHeads[j]];
+                    headSummaryTotal += hAmt;
+                    addHeadSummaryRow(displayIndex, sortedHeads[j], hAmt);
+                }
+
+                displayIndex++;
+                addHeadSummaryTotal(displayIndex, headSummaryTotal);
+
             } else {
-                // Empty state
-                $("#tblStudentList").append(
-                    '<tr><td colspan="7" style="text-align:center;padding:40px 20px;color:var(--clr-text-faint);">' +
-                    '<i class="fa-solid fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;color:#cbd5e1;"></i>' +
-                    '<div style="font-size:.9rem;font-weight:500;">No transactions found</div>' +
-                    '<div style="font-size:.78rem;margin-top:4px;">Try adjusting your filters and search again</div>' +
-                    '</td></tr>'
-                );
+                appendEmptyState();
             }
 
-            // Update stats
-            $("#spnTotalStudent").text(rowCount);
-            $("#spnAmount").text(varAmount.toLocaleString('en-IN'));
-            $("#recordCount").text(rowCount + ' record' + (rowCount !== 1 ? 's' : ''));
-
+            updateStats(actualCount, grandTotal);
             $("#Loader").hide();
         }
 
@@ -1364,4 +1663,4 @@
             );
         }
     </script>
-}
+}}
