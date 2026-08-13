@@ -18,6 +18,7 @@ namespace CRM.Models
         public string AdmissionForm { get; set; }
         public string AdmissionDate { get; set; }  //----
         public string PassingYear { get; set; }
+        public string LastClassPassYear { get; set; }
         public string Board { get; set; }
         public string MaxMark { get; set; }
         public string ObtMark { get; set; }

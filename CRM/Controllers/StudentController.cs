@@ -1182,7 +1182,7 @@ namespace CRM.Controllers
         //--------------------- Save Acadmic Detail--------------
         public IActionResult UpdateAcadmicDetail(int id, string varAcademicYear, string varAcadmicSession,
             string varAcadmicClass, string varAcadmicCourse, string varSchoolName, string varBoard, string varMaxMark,
-            string varObtMark, string varResult, string varParcent, string varAdmissionFormNo)
+            string varObtMark, string varResult, string varParcent, string varAdmissionFormNo, string varAcademicLastClassPassYear)
 
         {
          
@@ -1196,6 +1196,9 @@ namespace CRM.Controllers
 
             if (!string.IsNullOrEmpty(varAcademicYear))
                 objAcademy.PassingYear = varAcademicYear.ToUpper();
+
+            if (!string.IsNullOrEmpty(varAcademicLastClassPassYear))
+                objAcademy.LastClassPassYear = varAcademicLastClassPassYear.ToUpper();
 
 
             objAcademy.Session = varAcadmicSession;

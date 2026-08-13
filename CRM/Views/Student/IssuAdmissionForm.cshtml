@@ -1579,7 +1579,12 @@
 
                                     <div class="student-detail-item">
                                         <div class="detail-label">Form No</div>
-                                        <input type="number" id="txtFormNumber" class="form-control"/>
+                                        <input type="number" id="txtFormNumber" class="form-control" />
+                                    </div>
+
+                                    <div class="student-detail-item">
+                                        <div class="detail-label">Issue Date</div>
+                                        <input type="date" id="txtIssueDate" class="form-control" />
                                     </div>
 
                                 </div>
@@ -1681,6 +1686,7 @@
             var varYear = $('#ddlYear option:selected').text();
             var varSession = $('#ddlSession option:selected').text();
             var varStatus = $('#ddlStatus option:selected').text();
+            var varIssueDate = $('#txtIssueDate').val();
 
             $.post(BASE_URL + "/Student/IssueAdmissionFormList", {
                 name: name,

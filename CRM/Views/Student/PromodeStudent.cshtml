@@ -110,6 +110,10 @@
                             <button class="tab-btn" data-tab="History" onclick="switchTab('History', this)">
                                 <i class="fas fa-history"></i> History
                             </button>
+
+                            <button class="tab-btn" data-tab="ExamForm" onclick="switchTab('ExamForm', this)">
+                                <i class="fas fa-history"></i> Exam Form
+                            </button>
                         </div>
 
                         <!-- Tab Content -->
@@ -287,10 +291,9 @@
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
-                            </tr>
-seNo++;
-                        }
-                    }
+                            </tr>seNo++;
+                                            }
+                                        }
                                         @if (Model.AcadmicList == null || !Model.AcadmicList.Any())
                                         {
                             <tr>
@@ -301,8 +304,7 @@ seNo++;
                                         <p>Add the first academic detail below.</p>
                                     </div>
                                 </td>
-                            </tr>
-}
+                            </tr>}
                                     </tbody>
                                 </table>
                                 <div style="margin-top:1rem;">
@@ -361,10 +363,9 @@ seNo++;
                                         <i class="fas fa-eye"></i> View
                                     </span>
                                 </td>
-                            </tr>
-docIdx++;
-                        }
-                    }
+                            </tr>docIdx++;
+                                            }
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -461,10 +462,9 @@ docIdx++;
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </td>
-                            </tr>
-hi++;
-                        }
-                    }
+                            </tr>hi++;
+                                            }
+                                        }
                                         @if (Model.StudentHistoryList == null || !Model.StudentHistoryList.Any())
                                         {
                             <tr>
@@ -475,11 +475,16 @@ hi++;
                                         <p>History will appear after promotions.</p>
                                     </div>
                                 </td>
-                            </tr>
-}
+                            </tr>}
                                     </tbody>
                                 </table>
                             </div>
+
+                            <!-- ── Exam Form ── -->
+                            <div class="tab-pane" id="ExanForm" style="display:none;">
+                                Exam from Detail will come
+                            </div>
+
 
                         </div>
                     </div>
@@ -726,7 +731,16 @@ hi++;
                     </div>
                     <div class="mf-group">
                         <label>Board *</label>
-                        <input type="text" id="txtBoard" asp-for="Board" placeholder="Board">
+                        
+                        <select id="ddlBoard" asp-for="Board">
+                            <option value="">Select</option>
+                            <option>MPBOARD</option>
+                            <option>CBSC</option>
+                            <option>OTHER BOARD</option>
+                            <option>OPEN BOARD</option>
+                            <option>OPEN SCHOOL</option>
+                            <option>BU</option>
+                        </select>
                     </div>
                     <div class="mf-group">
                         <label>Max Marks *</label>
@@ -748,6 +762,11 @@ hi++;
                     <div class="mf-group">
                         <label>Percentage *</label>
                         <input type="text" id="txtParcent" asp-for="Parcent" placeholder="Percentage">
+                    </div>
+
+                    <div class="mf-group">
+                        <label>Last Class Passing Year *</label>
+                        <input id="txtAcademicLastYear" type="number" asp-for="PassingYear" placeholder="Year">
                     </div>
                 </div>
             </div>
@@ -1016,10 +1035,10 @@ hi++;
             var ok = true;
             if (!validateField("#txtAcademicYear", "Year required")) ok = false;
             if (!validateField("#txtSchoolName", "School name required")) ok = false;
-            if (!validateField("#txtBoard", "Board required")) ok = false;
             if (!validateField("#txtMaxMark", "Max marks required")) ok = false;
             if (!validateField("#txtObtMark", "Obtained marks required")) ok = false;
             if (!validateField("#txtParcent", "Percentage required")) ok = false;
+            if (!validateField("#ddlBoard", "Form no required")) ok = false;
             if (!validateField("#txtAcademicAdmissionFormNo", "Form no required")) ok = false;
             if (!validateField("#ddlAcadmicSession", "Select session", "dropdown")) ok = false;
             if (!validateField("#ddlAcadmicClass", "Select class", "dropdown")) ok = false;
@@ -1034,12 +1053,13 @@ hi++;
                 varAcadmicClass: $('#ddlAcadmicClass option:selected').text(),
                 varAcadmicCourse: $('#ddlAcadmicCourse option:selected').text(),
                 varSchoolName: $('#txtSchoolName').val(),
-                varBoard: $('#txtBoard').val(),
+                varBoard: $('#ddlBoard  option:selected').val(),
                 varMaxMark: $('#txtMaxMark').val(),
                 varObtMark: $('#txtObtMark').val(),
                 varResult: $('#ddlResult option:selected').text(),
                 varParcent: $('#txtParcent').val(),
-                varAdmissionFormNo: $('#txtAcademicAdmissionFormNo').val()
+                varAdmissionFormNo: $('#txtAcademicAdmissionFormNo').val(),
+                varAcademicLastClassPassYear: $('#txtAcademicLastYear').val()
             }, function (res) {
                 $("#modal-Academic").modal("hide");
                 Alert('success', 'Academic detail saved successfully!');
