@@ -2257,7 +2257,7 @@
 
                 var isChecked = selectedIds.has(String(element.id));
                 var checkedAttr = isChecked ? ' checked' : '';
-
+             
                 var row =
                     '<tr style="animation-delay:' + delay + 's">' +
                     '<td class="col-num">' + (globalIndex + 1) + '</td>' +
@@ -2267,7 +2267,7 @@
                     '<td><span class="info-tag subject">' + esc(element.class) + '</span></td>' +
                     '<td><span class="info-tag course">' + esc(element.course) + '</span></td>' +
                     '<td><span class="mobile-pill"><i class="fas fa-phone"></i> ' + esc(element.mobileNoOne) + '</span></td>' +
-                    '<td><span class="mobile-pill"><i class="fas fa-phone"></i> ' + esc(element.mobileNoTwo) + '</span></td>' +
+                    '<td><span class="mobile-pill"><i class="fas fa-phone"></i> ' + esc(element.fatherMobileNo) + '</span></td>' +
                     '</tr>';
 
                 $("#tblStudentList").append(row);

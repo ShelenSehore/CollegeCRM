@@ -1589,7 +1589,7 @@ namespace CRM.Controllers
 
 
         //-------------Save Form Detail-----------
-        public IActionResult SaveFormDetail(int id, int varFormNo, string varSession, string varClass, string varCourse, string varYear)
+        public IActionResult SaveFormDetail(int id, int varFormNo, string varSession, string varClass, string varCourse, string varYear, string varIssueDate)
         {
             if (varFormNo == null)
                 return Json(new { success = false });
@@ -1602,7 +1602,12 @@ namespace CRM.Controllers
             obj.Course = varCourse;
             obj.Year = varYear;
             obj.Status = "ISSUE";
-            obj.CreatedDate = System.DateTime.Now;
+
+            if(!string.IsNullOrEmpty(varIssueDate))
+            obj.CreatedDate = Convert.ToDateTime(varIssueDate);
+            else
+                obj.CreatedDate = System.DateTime.Now;
+
             var check =   _repoIssueAdmissionForm.Add(obj);
 
             return Json(new { success = true});
