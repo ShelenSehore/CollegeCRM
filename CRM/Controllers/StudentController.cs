@@ -1562,9 +1562,9 @@ namespace CRM.Controllers
         }
 
 
-        public IActionResult IssueAdmissionFormList(string name, string classes, string course, string year, string session, string status)
+        public IActionResult IssueAdmissionFormList(string name, string classes, string course, string year, string session, string status, string fromDate, string toDate)
         {
-            var data = _repoIssueAdmissionForm.ListForIssueAdmissionForm(session, classes, course, year, name, status);
+            var data = _repoIssueAdmissionForm.ListForIssueAdmissionForm(session, classes, course, year, name, status, fromDate, toDate);
             return Json(new { success = true, data = data });
         }
 

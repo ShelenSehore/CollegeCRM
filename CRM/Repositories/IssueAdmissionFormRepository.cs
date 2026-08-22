@@ -3,6 +3,7 @@ using CRM.Models;
 using CRM.ModelsForView;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace CRM.Repositories
                           string @class,
                           string course,
                           string year,
-                          string studentName, string status)
+                          string studentName, string status, string fromDate, string ToDate)
         {
 
             List<IssueAdmissionFormViewModel> resultList = new List<IssueAdmissionFormViewModel>();
@@ -80,6 +81,28 @@ namespace CRM.Repositories
                  result = result.Where(x => x.FormStatus == null);
                 else
                   result = result.Where(x => x.FormStatus == status);
+            }
+
+            if(!string.IsNullOrWhiteSpace(fromDate))
+            {
+                DateTime fromDatedt = DateTime.ParseExact(
+                    fromDate,
+                    "dd/MM/yyyy",
+                    CultureInfo.InvariantCulture
+                ).Date;
+
+                result = result.Where(x => x.CreatedDate.Date >= fromDatedt.Date);
+            }
+
+            if (!string.IsNullOrWhiteSpace(ToDate))
+            {
+                DateTime toDatedt = DateTime.ParseExact(
+                    ToDate,
+                    "dd/MM/yyyy",
+                    CultureInfo.InvariantCulture
+                ).Date.AddDays(1);
+
+                result = result.Where(x => x.CreatedDate.Date < toDatedt.Date);
             }
             //---------------Result build-------------
             if (result != null)

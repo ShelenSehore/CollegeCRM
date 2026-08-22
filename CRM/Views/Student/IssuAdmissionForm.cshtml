@@ -1434,6 +1434,26 @@
                             <label>Search Name</label>
                             <input id="txtSearch" class="form-control" type="search" placeholder="Type student name..." aria-label="Search">
                         </div>
+                        <div class="filter-field">
+                            <label for="txtFromDate">From Date</label>
+                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                <input id="txtFromDate" type="text" class="form-control datetimepicker-input" data-target="#reservationdate" placeholder="DD/MM/YYYY" />
+                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label for="txtToDate">To Date</label>
+                            <div class="input-group date" id="reservationEnddate" data-target-input="nearest">
+                                <input id="txtToDate" type="text" class="form-control datetimepicker-input" data-target="#reservationEnddate" placeholder="DD/MM/YYYY" />
+                                <div class="input-group-append" data-target="#reservationEnddate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                     <div class="filter-actions">
                         <button type="button" id="btnSearch" onclick="SearchStudent()" class="btn-search">
@@ -1584,7 +1604,7 @@
 
                                     <div class="student-detail-item">
                                         <div class="detail-label">Issue Date</div>
-                                        <input type="date" id="txtIssueDate" class="form-control" />
+                                        <input type="date" id="txtIssueDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
                                     </div>
 
                                 </div>
@@ -1623,6 +1643,10 @@
         // ═══════════════════════════════════════════════════
         window.onload = function () {
 
+            $('#reservationdate, #reservationEnddate').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+
             Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -1651,6 +1675,8 @@
             SearchStudent();
         };
 
+      
+
         function Alert(icon, title) {
             Toast.fire({
                 icon: icon,
@@ -1671,7 +1697,8 @@
             $('#ddlCourse option:first').prop("selected", true);
             $('#ddlYear option:first').prop("selected", true);
             $('#ddlStatus option:first').prop("selected", true);
-            
+            $("#txtFromDate").val('');
+            $("#txtToDate").val('');
             currentPage = 1;
             SearchStudent();
         }
@@ -1687,14 +1714,17 @@
             var varSession = $('#ddlSession option:selected').text();
             var varStatus = $('#ddlStatus option:selected').text();
             var varIssueDate = $('#txtIssueDate').val();
-
+            var varfromDate = $('#txtFromDate').val();
+            var toDate = $('#txtToDate').val();
             $.post(BASE_URL + "/Student/IssueAdmissionFormList", {
                 name: name,
                 classes: varClass,
                 course: varCourse,
                 year: varYear,
                 session: varSession,
-                status: varStatus
+                status: varStatus,
+                fromDate: varfromDate,
+                toDate: toDate
             }, function (res) {
                 
                 allStudentData = res.data || [];
@@ -1789,7 +1819,7 @@
                 
                 var badgeClass = getCourseBadgeClass(element.course);
                 var rowNum = startIndex + index + 1;  // Global row number across pages
-
+               
                 $("#tblStudentList tbody").append(
                     '<tr style="animation:fadeInUp 0.3s ease forwards;animation-delay:' + (index * 0.02) + 's;opacity:0;">' +
                     '<td><span class="row-index">' + rowNum + '</span></td>' +
@@ -1797,7 +1827,7 @@
                     '<td><span class="form-no">' + (element.formYear || '-') + '</span></td>' +
                     '<td><span class="form-no"><i class="fas fa-hashtag" style="font-size:0.65rem;"></i> ' + (element.formNo || '-') + '</span></td>' +
                     '<td><span class="form-no">' + (element.formStatus || '-') + '</span></td>' +
-                    '<td><span class="form-no">' + element.createDateTimeDisplay + '</span></td>' +
+                    '<td><span class="form-no">' + element.createdDate + '</span></td>' +
                     
                     '<td><span class="student-name">' + (element.studentName || '-') + '</span></td>' +
                     '<td><span class="father-name">' + (element.fatherName || '-') + '</span></td>' +

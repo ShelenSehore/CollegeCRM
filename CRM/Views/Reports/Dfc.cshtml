@@ -1298,6 +1298,8 @@
                                             <th class="sorting">Date</th>
                                             <th class="sorting">Head</th>
                                             <th class="sorting">Class</th>
+                                            <th class="sorting">Course</th>
+                                            <th class="sorting">Year</th>
                                             <th class="sorting">Student Name</th>
                                             <th class="sorting">Father Name</th>
                                             <th class="sorting">Amount</th>
@@ -1422,13 +1424,15 @@
         // ===================================================================
         //  ROW BUILDER HELPERS
         // ===================================================================
-        function addDataRow(idx, date, head, cls, student, father, amount) {
+        function addDataRow(idx, date, head, cls, cur, yer, student, father, amount) {
             $("#tblStudentList").append(
                 '<tr>' +
                 '<td>' + idx + '</td>' +
                 '<td>' + date + '</td>' +
                 '<td>' + head + '</td>' +
                 '<td>' + cls + '</td>' +
+                '<td>' + cur + '</td>' +
+                '<td>' + yer + '</td>' +
                 '<td>' + student + '</td>' +
                 '<td>' + father + '</td>' +
                 '<td>' + fmt(amount) + '</td>' +
@@ -1593,7 +1597,8 @@
 
                     // --- Regular data row ---
                     displayIndex++;
-                    addDataRow(displayIndex, dtFull, hd, item.className || '', item.studentName || '', item.fatherName || '', amt);
+                    
+                    addDataRow(displayIndex, dtFull, hd, item.class, item.course, item.year  || '', item.studentName || '', item.fatherName || '', amt);
 
                     grandTotal += amt;
                     dateSum += amt;

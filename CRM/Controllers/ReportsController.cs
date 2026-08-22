@@ -297,10 +297,7 @@ namespace CRM.Controllers
         public IActionResult GetDfcList(string had, string paymentMode, string reciptNo, string fromDate, string toDate, string name,
             string session, string year, string classes, string course)
         {
-
             var data = _repoStudTransaction.DFCListNew(had, paymentMode, reciptNo, fromDate, toDate);
-
-
             return Json(new { success = true, data = data });
         }
 
