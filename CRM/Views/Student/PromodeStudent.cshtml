@@ -2009,6 +2009,30 @@ hi++;
                     toast.addEventListener('mouseleave', Swal.resumeTimer);
                 }
             });
+
+
+            //-----------Acadmic Setion
+            $("#txtMaxMark, #txtObtMark").on("input", function () {
+
+                var maxMarks = parseFloat($("#txtMaxMark").val()) || 0;
+                var obtainedMarks = parseFloat($("#txtObtMark").val()) || 0;
+
+                if (maxMarks > 0) {
+
+                    var percentage = (obtainedMarks / maxMarks) * 100;
+
+                    // Don't allow percentage above 100
+                    if (percentage > 100) {
+                        percentage = 100;
+                    }
+
+                    $("#txtParcent").val(percentage.toFixed(2));
+                }
+                else {
+                    $("#txtParcent").val("");
+                }
+            });
+
         };
 
         function Alert(icon, title) {
@@ -2258,7 +2282,7 @@ hi++;
         function ViewDocument(element) {
             debugger;
             var imgSrc = $(element).attr("src");
-            $("#imgViewDocument").attr("src", "~"+imgSrc);
+            $("#imgViewDocument").attr("src", imgSrc);
             $("#modal-ViewDocument").modal("show");
         }
         s
