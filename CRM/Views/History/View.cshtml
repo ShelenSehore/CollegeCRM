@@ -235,7 +235,7 @@
         /* ── Form Fields ── */
         .PersonalDetailLable {
             font-weight: 600;
-            font-size: 11px;
+            font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
             color: #64748b !important;
@@ -681,14 +681,15 @@
                                     <b>Session</b> <a class="float-right">@Model.Session</a>
                                 </li>
                                 <li class="list-group-item">
+                                    <b>Year</b> <a class="float-right">@Model.Year</a>
+                                </li>
+                                <li class="list-group-item">
                                     <b>Class</b> <a class="float-right">@Model.Class</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Course</b> <a class="float-right">@Model.Course</a>
                                 </li>
-                                <li class="list-group-item">
-                                    <b>Year</b> <a class="float-right">@Model.Year</a>
-                                </li>
+
                             </ul>
                         </div>
                     </div>
@@ -715,7 +716,11 @@
                                     <div class="row">
 
                                         <div class="col-md-3">
-                                            <label class="PersonalDetailLable">Name</label>
+                                            <label class="PersonalDetailLable">Gender</label>
+                                            <input asp-for="Gender" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Student Name</label>
                                             <input asp-for="StudentName" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
@@ -727,36 +732,36 @@
                                             <input asp-for="MotherName" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
-                                            <label class="PersonalDetailLable">Mobile No</label>
-                                            <input asp-for="MobileNoOne" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-3">
                                             <label class="PersonalDetailLable">DOB</label>
                                             <input asp-for="DOB" type="date" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Caste</label>
+                                            <input asp-for="Caste" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Mobile No</label>
+                                            <input asp-for="MobileNoOne" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Father Mobile</label>
                                             <input asp-for="FatherMobileNo" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">Gender</label>
-                                            <input asp-for="Gender" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">Minority</label>
-                                            <input asp-for="Minority" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">Caste</label>
-                                            <input asp-for="Caste" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <label class="PersonalDetailLable">TC</label>
                                             <input asp-for="TC" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3>
+                                            <label class="PersonalDetailLable">Minority</label>
+                                            <input asp-for="Minority" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
                                             <label class="PersonalDetailLable">PH</label>
                                             <input asp-for="PH" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Samagra ID</label>
+                                            <input asp-for="SamagraID" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
                                         <div class="col-md-3">
                                             <label class="PersonalDetailLable">Aadhaar No</label>
@@ -766,17 +771,13 @@
                                             <label class="PersonalDetailLable">ABC No</label>
                                             <input asp-for="AbcNo" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">Samagra ID</label>
-                                            <input asp-for="SamagraID" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
                                         <div class="col-md-8">
                                             <label class="PersonalDetailLable">Address</label>
                                             <textarea asp-for="Address" readonly="readonly" class="form-control PersonalDetailText" rows="2"></textarea>
                                         </div>
-                                        <div class="col-md-2 d-flex align-items-end">
+                                        <div class="col-md-4 d-flex align-items-end">
                                             <a data-toggle='modal' data-target='#modal-Personal' class="btn btn-edit" href="#">
-                                                <i class="fas fa-pencil-alt mr-1"></i> Edit
+                                                <i class="fas fa-pencil-alt mr-4"></i> Edit
                                             </a>
                                         </div>
                                     </div>
@@ -786,55 +787,57 @@
                                 <div class="tab-pane" id="College">
                                     <div class="section-chip"><i class="fas fa-university"></i> College Details</div>
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <label class="PersonalDetailLable">Session</label>
                                             <input asp-for="Session" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">Class</label>
-                                            <input asp-for="Class" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">Course</label>
-                                            <input asp-for="Course" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <label class="PersonalDetailLable">Year</label>
                                             <input asp-for="Year" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">New / Old</label>
-                                            <input asp-for="NewOld" readonly="readonly" class="form-control PersonalDetailText" />
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Class</label>
+                                            <input asp-for="Class" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">Reg / Ex</label>
-                                            <input asp-for="RegEx" readonly="readonly" class="form-control PersonalDetailText" />
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Course</label>
+                                            <input asp-for="Course" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">ExamForm Submited</label>
-                                            <input asp-for="ExamFormSubmited" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">Medium</label>
-                                            <input asp-for="Medium" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">Result</label>
-                                            <input asp-for="Result" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">Admission Form No</label>
-                                            <input asp-for="AdmissionFormNo" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="PersonalDetailLable">Enroll No</label>
-                                            <input asp-for="EnRollNo" readonly="readonly" class="form-control PersonalDetailText" />
-                                        </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <label class="PersonalDetailLable">Admission Date</label>
                                             <input asp-for="AdmissionDate" type="date" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Admission Form No</label>
+                                            <input asp-for="AdmissionFormNo" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">New / Old</label>
+                                            <input asp-for="NewOld" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Reg / Ex</label>
+                                            <input asp-for="RegEx" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">ExamForm Submited</label>
+                                            <input asp-for="ExamFormSubmited" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Medium</label>
+                                            <input asp-for="Medium" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Result</label>
+                                            <input asp-for="Result" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="PersonalDetailLable">Enroll No</label>
+                                            <input asp-for="EnRollNo" readonly="readonly" class="form-control PersonalDetailText" />
+                                        </div>
+
+                                        <div class="col-md-3">
                                             <label class="PersonalDetailLable">Roll No</label>
                                             <input asp-for="RollNo" readonly="readonly" class="form-control PersonalDetailText" />
                                         </div>
@@ -866,7 +869,7 @@
                                                         <th>Session</th>
                                                         <th>School / College</th>
                                                         <th>Board</th>
-                                                        <th>Year</th>
+                                                        <th>Passing Class</th>
                                                         <th>Result</th>
                                                         <th>Obtain</th>
                                                         <th style="width: 70px">Action</th>
@@ -878,20 +881,21 @@
                                                         int SeNo = 1;
                                                         foreach (var AcadmicRow in Model.AcadmicList)
                                                         {
-                                                            <tr>
-                                                                <td>@SeNo</td>
-                                                                <td>@AcadmicRow.Session</td>
-                                                                <td>@AcadmicRow.SchoolName</td>
-                                                                <td>@AcadmicRow.Board</td>
-                                                                <td>@AcadmicRow.PassingYear</td>
-                                                                <td><span class="badge @((AcadmicRow.Result == "PASS") ? "badge-success" : "badge-danger") px-2 py-1" style="font-size:11px;border-radius:6px;">@AcadmicRow.Result</span></td>
-                                                                <td>@AcadmicRow.ObtMark / @AcadmicRow.MaxMark</td>
-                                                                <td>
-                                                                    <a class="btn btn-delete" onclick="deleteAcadmicDetail(@AcadmicRow.Id)">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
+                                                    <tr>
+                                                        <td>@SeNo</td>
+                                                        <td>@AcadmicRow.Session</td>
+                                                        <td>@AcadmicRow.SchoolName</td>
+                                                        <td>@AcadmicRow.Board</td>
+                                                        <td>@AcadmicRow.PassingYear</td>
+                                                        <td>@AcadmicRow.LastClassPassYear</td>
+                                                        <td><span class="badge @((AcadmicRow.Result == "PASS") ? "badge-success" : "badge-danger") px-2 py-1" style="font-size:11px;border-radius:6px;">@AcadmicRow.Result</span></td>
+                                                        <td>@AcadmicRow.ObtMark / @AcadmicRow.MaxMark</td>
+                                                        <td>
+                                                            <a class="btn btn-delete" onclick="deleteAcadmicDetail(@AcadmicRow.Id)">
+                                                                <i class="fas fa-trash"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
                                                             SeNo = SeNo + 1;
                                                         }
                                                     }
@@ -965,7 +969,7 @@
 
 <!-- ═══════════ MODAL: PERSONAL ═══════════ -->
 <div class="modal fade" id="modal-Personal">
-    <div class="modal-dialog" style="min-width:750px !important; width:750px !important">
+    <div class="modal-dialog" style="min-width:1050px !important; width:750px !important">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"><i class="fas fa-user-edit mr-2"></i> Personal Detail</h4>
@@ -976,7 +980,15 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <label>First Name</label>
+                        <label>Gender</label>
+                        <select id="ddlGender" asp-for="Gender" class="form-control">
+                            <option>Select</option>
+                            <option>MALE</option>
+                            <option>FEMALE</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Student Name</label>
                         <input id="txtStudentName" asp-for="StudentName" class="form-control">
                     </div>
                     <div class="col-md-3">
@@ -988,59 +1000,59 @@
                         <input id="txtMotherName" asp-for="MotherName" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label>Mobile No</label>
-                        <input id="txtMobileNo" asp-for="MobileNoOne" class="form-control">
-                    </div>
-                    <div class="col-md-3">
                         <label>DOB</label>
                         <input id="txtDOB" asp-for="DOB" type="date" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label>Father Mobile</label>
-                        <input id="txtFatherMobileNo" asp-for="FatherMobileNo" class="form-control">
-                    </div>
-                    <div class="col-md-2">
-                        <label>Gender</label>
-                        <select id="ddlGender" asp-for="Gender" class="form-control">
-                            <option>Select</option>
-                            <option>Male</option>
-                            <option>Female</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label>Minority</label>
-                        <select id="ddlMinority" asp-for="Minority" class="form-control">
-                            <option>Select</option>
-                            <option>Yes</option>
-                            <option>No</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
                         <label>Caste</label>
                         <select id="ddlCaset" asp-for="Caste" class="form-control">
                             <option>Select</option>
-                            <option>Gen</option>
+                            <option>GEN</option>
                             <option>OBC</option>
                             <option>SC</option>
                             <option>ST</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
+                        <label>Mobile No</label>
+                        <input id="txtMobileNo" asp-for="MobileNoOne" class="form-control">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Father Mobile</label>
+                        <input id="txtFatherMobileNo" asp-for="FatherMobileNo" class="form-control">
+                    </div>
+                    <div class="col-md-3">
                         <label>TC Submitted</label>
                         <select id="ddlTC" asp-for="TC" class="form-control">
                             <option>Select</option>
-                            <option>Yes</option>
-                            <option>No</option>
+                            <option>YES</option>
+                            <option>NO</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
+
+                    <div class="col-md-3">
+                        <label>Minority</label>
+                        <select id="ddlMinority" asp-for="Minority" class="form-control">
+                            <option>Select</option>
+                            <option>YES</option>
+                            <option>NO</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
                         <label>Is Handicapped</label>
                         <select id="ddlPH" asp-for="PH" class="form-control">
                             <option>Select</option>
-                            <option>Yes</option>
-                            <option>No</option>
+                            <option>YES</option>
+                            <option>NO</option>
                         </select>
                     </div>
+                    <div class="col-md-3">
+                        <label>Samagra ID</label>
+                        <input id="txtSamagraID" asp-for="SamagraID" class="form-control">
+                    </div>
+
                     <div class="col-md-3">
                         <label>Aadhaar No</label>
                         <input id="txtAadhaarNo" asp-for="AadhaarNo" class="form-control">
@@ -1049,10 +1061,7 @@
                         <label>ABC No</label>
                         <input id="txtAbcNo" asp-for="AbcNo" class="form-control">
                     </div>
-                    <div class="col-md-2">
-                        <label>Samagra ID</label>
-                        <input id="txtSamagraID" asp-for="SamagraID" class="form-control">
-                    </div>
+
                     <div class="col-md-8">
                         <label>Address</label>
                         <textarea id="txtAddress" asp-for="Address" class="form-control" rows="2"></textarea>
@@ -1069,7 +1078,7 @@
 
 <!-- ═══════════ MODAL: COLLEGE ═══════════ -->
 <div class="modal fade" id="modal-College">
-    <div class="modal-dialog" style="min-width:750px !important; width:750px !important">
+    <div class="modal-dialog" style="min-width:1050px !important; width:750px !important">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"><i class="fas fa-university mr-2"></i> College Details</h4>
@@ -1079,6 +1088,14 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-md-3">
+                        <label>Admission Date</label>
+                        <input id="txtAdmissionDate" asp-for="AdmissionDate" type="date" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Admission Form No</label>
+                        <input id="txtAdmissionFormNo" type="number" asp-for="AdmissionFormNo" class="form-control" placeholder="Form No">
+                    </div>
                     <div class="col-md-3">
                         <label>New / Old</label>
                         <select id="ddlNewOld" asp-for="NewOld" class="form-control">
@@ -1100,35 +1117,29 @@
                         <label>Medium</label>
                         <select id="ddlMedium" asp-for="Medium" class="form-control">
                             <option>Select</option>
-                            <option>Hindi</option>
-                            <option>English</option>
+                            <option>HINDI</option>
+                            <option>ENGLISH</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <label>Admission Form No</label>
-                        <input id="txtAdmissionFormNo" type="number" asp-for="AdmissionFormNo" class="form-control" placeholder="Form No">
-                    </div>
-                    <div class="col-md-4">
+
+                    <div class="col-md-3">
                         <label>Enroll No</label>
                         <input id="txtEnRollNo" asp-for="EnRollNo" class="form-control" placeholder="Enroll No">
                     </div>
-                    <div class="col-md-4">
-                        <label>Admission Date</label>
-                        <input id="txtAdmissionDate" asp-for="AdmissionDate" type="date" class="form-control">
-                    </div>
-                    <div class="col-md-4">
+
+                    <div class="col-md-3">
                         <label>Roll No</label>
                         <input id="txtRollNo" asp-for="RollNo" class="form-control" placeholder="Roll No">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label>Scholar No</label>
                         <input id="txtSchoolarNo" asp-for="SchoolarNo" class="form-control" placeholder="Scholar No">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label>Sub Code</label>
                         <input id="txtSubCode" asp-for="SubCode" class="form-control" placeholder="Sub Code">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label>Exam Form Submited </label>
                         <select id="ddlExamFormSubmited" asp-for="ExamFormSubmited" class="form-control">
                             <option value="">Select</option>
@@ -1136,13 +1147,16 @@
                             <option>NO</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <label>Result </label>
+                    <div class="col-md-3">
+                        <label>Result</label>
                         <select id="ddlResult" asp-for="Result" class="form-control">
                             <option value="">Select</option>
                             <option>PASS</option>
                             <option>FAIL</option>
-                            <option>NC</option>
+                            <option>ATKT</option>
+                            <option>SUPPLE</option>
+                            <option>AWAITED</option>
+                            <option>NULL</option>
                         </select>
                     </div>
 
@@ -1158,7 +1172,7 @@
 
 <!-- ═══════════ MODAL: ACADEMIC ═══════════ -->
 <div class="modal fade" id="modal-Academic">
-    <div class="modal-dialog" style="min-width:750px !important; width:750px !important">
+    <div class="modal-dialog" style="min-width:1050px !important; width:750px !important">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"><i class="fas fa-book-open mr-2"></i> Academic Details</h4>
@@ -1168,18 +1182,6 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-3">
-                        <label>Admission Form No</label>
-                        <input type="text" asp-for="AdmissionFormNo" id="txtAcademicAdmissionFormNo" class="form-control" placeholder="Admission Form No">
-                    </div>
-                    <div class="col-md-3">
-                        <label>12th School Name</label>
-                        <input id="txtSchoolName" type="text" asp-for="SchoolName" class="form-control" placeholder="12th School Name">
-                    </div>
-                    <div class="col-md-3">
-                        <label>Passing Year</label>
-                        <input id="txtAcademicYear" type="number" asp-for="PassingYear" class="form-control" placeholder="Passing Year">
-                    </div>
                     <div class="col-md-3">
                         <label>Session</label>
                         <select id="ddlAcadmicSession" asp-for="Session" asp-items="Model.SessionList" class="form-control">
@@ -1198,6 +1200,20 @@
                             <option>Select</option>
                         </select>
                     </div>
+
+                    <div class="col-md-3">
+                        <label>Admission Form No</label>
+                        <input type="text" asp-for="AdmissionFormNo" id="txtAcademicAdmissionFormNo" class="form-control" placeholder="Admission Form No">
+                    </div>
+                    <div class="col-md-3">
+                        <label>12th School Name</label>
+                        <input id="txtSchoolName" type="text" asp-for="SchoolName" class="form-control" placeholder="12th School Name">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Passing Class</label>
+                        <input id="txtAcademicYear" type="number" asp-for="PassingYear" class="form-control" placeholder="Passing Year">
+                    </div>                                      
+
                     <div class="col-md-3">
                         <label>Board</label>
                         <input type="text" id="txtBoard" asp-for="Board" class="form-control" placeholder="Board">
@@ -1216,7 +1232,10 @@
                             <option>Select</option>
                             <option>PASS</option>
                             <option>FAIL</option>
-                            <option>NC</option>
+                            <option>ATKT</option>
+                            <option>SUPPLE</option>
+                            <option>AWAITED</option>
+                            <option>NULL</option>
                         </select>
                     </div>
                     <div class="col-md-3">

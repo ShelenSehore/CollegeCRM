@@ -2958,7 +2958,7 @@
         }
 
         window.onload = function () {
-            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession, #ddlSearchResult, #ddlRegularPrivate, #ddlNewOldEx").change(function () {
+            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession, #ddlSearchResult, #ddlRegularPrivate, #ddlNewOldEx, #ddlExamFormSubmited, #ddlTcSubmited").change(function () {
                 currentPage = 1;
                 SearchStudent();
             });
@@ -3063,6 +3063,8 @@
             $('#tableLoading').show();
             $('#emptyState').hide();
 
+           
+
             $.post(BASE_URL + "/History/SearchOldStudentList", {
                 name: $("#txtSearch").val(),
                 classes: $('#ddlClass option:selected').text(),
@@ -3073,10 +3075,10 @@
                 result: $('#ddlSearchResult option:selected').text(),
                 formNo: $("#txtFormNo").val(),
                 enrollmentNo: $("#txtEnrollmentNo").val(),
-                regularprivate: $('#ddlRegularPrivate option:selected').text(),
+                regularprivate: $("#ddlRegularPrivate option:selected").text(),
                 newoldex: $('#ddlNewOldEx option:selected').text(),
-                examFormSubmited: $('#ddlExamFormSubmited option:selected').text(),
-                tcSubmited: $('#ddlTcSubmited option:selected').text(),
+                examFormSubmited: $("#ddlExamFormSubmited option:selected").text(),
+                tcSubmited: $("#ddlTcSubmited option:selected").text(),
             }).done(function (res) {
                 currentData = res.data || [];
                 currentPage = 1;
