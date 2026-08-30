@@ -1328,6 +1328,10 @@
                 format: 'DD/MM/YYYY'
             });
             SearchStudent();
+            $('#ddlHead, #ddlPaymentMode, #ddlSession, #ddlYear, #ddlClass, #ddlCourse').each(function () {
+                SearchStudent();
+            });
+
         };
 
         // ===== Toggle Advanced Filters =====

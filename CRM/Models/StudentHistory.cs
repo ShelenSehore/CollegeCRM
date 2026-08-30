@@ -50,8 +50,8 @@ namespace CRM.Models
         public DateTime UpdateDate { get; set; }
         public string UpdateBy { get; set; }
         public string PassoutTC { get; set; }
-        
 
+        public string LastClassPassYear { get; set; }
 
 
 

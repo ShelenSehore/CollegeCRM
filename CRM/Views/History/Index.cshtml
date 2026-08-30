@@ -2714,6 +2714,14 @@
                     <label>Course</label>
                     <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control"><option value="">Select</option></select>
                 </div>
+                <div class="col-md-1 col-sm-4 col-6">
+                    <label>MALE / FEMALE</label>
+                    <select id="ddlMaleFemale" class="form-control">
+                        <option value="">Select</option>
+                        <option>MALE</option>
+                        <option>FEMALE</option>
+                    </select>
+                </div>
                 <div class="col-md-2 col-sm-4 col-6">
                     <label>Regular/Private</label>
                     <select id="ddlRegularPrivate" class="form-control">
@@ -2817,6 +2825,13 @@
                     <thead>
                         <tr>
                             <th style="width:50px">#</th>
+                            <th style="width:85px">View</th>
+                            <th style="width:50px">
+                                <label class="chk-all-wrap">
+                                    <input type="checkbox" id="chkSelectAll" onchange="toggleSelectAll(this)">
+                                    <span class="chk-all-box"></span>
+                                </label>
+                            </th>
                             <th>Form No</th>
                             <th>Enrolment No</th>
                             <th>Roll No</th>
@@ -2833,13 +2848,8 @@
                             <th>Mobile</th>
                             <th>Medium</th>
                             <th>Result</th>
-                            <th style="width:85px">View</th>
-                            <th style="width:50px">
-                                <label class="chk-all-wrap">
-                                    <input type="checkbox" id="chkSelectAll" onchange="toggleSelectAll(this)">
-                                    <span class="chk-all-box"></span>
-                                </label>
-                            </th>
+
+
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -2958,7 +2968,7 @@
         }
 
         window.onload = function () {
-            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession, #ddlSearchResult, #ddlRegularPrivate, #ddlNewOldEx, #ddlExamFormSubmited, #ddlTcSubmited").change(function () {
+            $("#ddlClass, #ddlYear, #ddlCourse, #ddlSession, #ddlSearchResult, #ddlRegularPrivate, #ddlNewOldEx, #ddlExamFormSubmited, #ddlTcSubmited, #ddlMaleFemale").change(function () {
                 currentPage = 1;
                 SearchStudent();
             });
@@ -3052,7 +3062,7 @@
             $('#ddlTcSubmited').val('');
             $('#ddlRegularPrivate').val('');
             $('#ddlNewOldEx').val('');
-            
+            $('#ddlMaleFemale').val('');
             checkedIds = {}; currentPage = 1;
             SearchStudent();
         }
@@ -3079,6 +3089,7 @@
                 newoldex: $('#ddlNewOldEx option:selected').text(),
                 examFormSubmited: $("#ddlExamFormSubmited option:selected").text(),
                 tcSubmited: $("#ddlTcSubmited option:selected").text(),
+                maleFemale: $("#ddlMaleFemale option:selected").text(),
             }).done(function (res) {
                 currentData = res.data || [];
                 currentPage = 1;
@@ -3219,7 +3230,7 @@
             else { $("#emptyState").hide(); $("#paginationFooter").show(); }
             
             $.each(pageData, function (i, e) {
-                debugger;
+         
                 var globalIdx = startIdx + i + 1;
                 var isChecked = checkedIds[e.studentHistoryId] ? 'checked' : '';
                 var rcls = resultRowClass(e.result);
@@ -3227,6 +3238,8 @@
                 tbody.append(
                     '<tr class="' + rcls + '">' +
                     '<td class="c-idx">' + globalIdx + '</td>' +
+                    '<td><a class="btn-table-view" href="../History/View?id=' + e.studentHistoryId + '"><i class="fas fa-eye"></i> View</a></td>' +
+                    '<td><label class="chk-wrap"><input type="checkbox" id="' + e.studentHistoryId + '" name="chkStudent" ' + isChecked + ' onchange="toggleCheck(\'' + e.studentHistoryId + '\', this.checked)"><span class="chk-box"></span></label></td>' +
                     '<td class="c-form">' + (e.admissionForm || '-') + '</td>' +
                     '<td class="c-form">' + (e.enrolNo || '-') + '</td>' +
                     '<td class="c-form">' + (e.rollNo || '-') + '</td>' +
@@ -3243,8 +3256,7 @@
                     '<td class="c-mobile">' + (e.mobileNo || '-') + '</td>' +
                     '<td class="c-mobile">' + (e.medium || '-') + '</td>' +
                     '<td>' + resTag(e.result) + '</td>' +
-                    '<td><a class="btn-table-view" href="../History/View?id=' + e.studentHistoryId + '"><i class="fas fa-eye"></i> View</a></td>' +
-                    '<td><label class="chk-wrap"><input type="checkbox" id="' + e.studentHistoryId + '" name="chkStudent" ' + isChecked + ' onchange="toggleCheck(\'' + e.studentHistoryId + '\', this.checked)"><span class="chk-box"></span></label></td>' +
+                   
                     '</tr>'
                 );
             });

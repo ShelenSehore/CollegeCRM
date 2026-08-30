@@ -132,11 +132,36 @@ namespace CRM.Repositories
                 if (!string.IsNullOrEmpty(reciptNo))
                     query = query.Where(x => x.RecNumber == reciptNo);
 
-                if (!string.IsNullOrEmpty(fromDate) && !string.IsNullOrEmpty(toDate))
+                //if (!string.IsNullOrEmpty(fromDate) && !string.IsNullOrEmpty(toDate))
+                //{
+                //    query = query.Where(x => x.CreateDateTime > Convert.ToDateTime(fromDate) && x.CreateDateTime < Convert.ToDateTime(fromDate));
+                //}
+
+                //-------------------
+                if (!string.IsNullOrWhiteSpace(fromDate))
                 {
-                    query = query.Where(x => x.CreateDateTime > Convert.ToDateTime(fromDate) && x.CreateDateTime < Convert.ToDateTime(fromDate));
+                    DateTime fromDatedt = DateTime.ParseExact(
+                        fromDate,
+                        "MM/dd/yyyy",
+                        CultureInfo.InvariantCulture
+                    ).Date;
+
+                    query = query.Where(x => x.CreateDateTime.Date >= fromDatedt.Date);
                 }
-                    
+
+                if (!string.IsNullOrWhiteSpace(toDate))
+                {
+                    DateTime toDatedt = DateTime.ParseExact(
+                        toDate,
+                        "MM/dd/yyyy",
+                        CultureInfo.InvariantCulture
+                    ).Date.AddDays(1);
+
+                    query = query.Where(x => x.CreateDateTime.Date < toDatedt.Date);
+                }
+
+                //---------------
+
 
                 if (!string.IsNullOrEmpty(name))
                     query = query.Where(x => x.StudentName.Contains(name));

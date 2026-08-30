@@ -150,6 +150,39 @@ namespace CRM.Repositories
                 student.RegPvt = model.RegPvt;
                 student.ExamFormSubmited = model.ExamFormSubmited;
                 student.Result = model.Result;
+                student.LastClassPassYear = model.LastClassPassYear;
+                student.UpdateDate = model.UpdateDate;
+                student.UpdateBy = model.UpdateBy;
+
+                var status = _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+
+        public bool UpdateHisotryAcademyForHistoryPage(StudentHistory model)
+        {
+            var student = _context.StudentHistory.FirstOrDefault(x => x.StudentHistoryId == model.StudentHistoryId);
+
+            if (student != null)
+            {
+                student.AdmissionForm = model.AdmissionForm;
+                student.AdmissionDate = student.AdmissionDate;
+                student.NewOld = model.NewOld;
+                student.Medium = model.Medium;
+                //student.Session = model.Session;
+                //student.Class = model.Class;
+                //student.Course = model.Course;
+                //student.Year = model.Year;
+                student.EnrolNo = model.EnrolNo;
+                student.RollNo = model.RollNo;
+                student.ScholerNo = model.ScholerNo;
+                student.SubCode = model.SubCode;
+                student.RegPvt = model.RegPvt;
+                student.ExamFormSubmited = model.ExamFormSubmited;
+                student.Result = model.Result;
+                student.LastClassPassYear = model.LastClassPassYear;
                 student.UpdateDate = model.UpdateDate;
                 student.UpdateBy = model.UpdateBy;
 
@@ -216,7 +249,7 @@ namespace CRM.Repositories
                           string year,
                           string studentName, string rollNum, string result, string formNo, 
                           string enrollmentNo, string regulerprivate, string newoldex,
-                           string examFormSubmited, string tcSubmited)
+                           string examFormSubmited, string tcSubmited, string maleFemale)
         {
             IQueryable<StudentHistory> query = _context.StudentHistory.OrderBy(x=>x.StudentName);
 
@@ -272,6 +305,10 @@ namespace CRM.Repositories
             if (!string.IsNullOrWhiteSpace(tcSubmited) && (tcSubmited != "Select"))
             {
                 query = query.Where(x => x.TCIssue.ToLower().Contains(tcSubmited.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(maleFemale) && (maleFemale != "Select"))
+            {
+                query = query.Where(x => x.Gender.ToLower().Contains(maleFemale.ToLower()));
             }
 
             return query.ToList();

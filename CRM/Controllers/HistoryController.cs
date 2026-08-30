@@ -123,11 +123,11 @@ namespace CRM.Controllers
 
         public IActionResult SearchOldStudentList(string name, string classes, string year, string course, string session, 
                                 string rollNum, string result, string formNo, string enrollmentNo, string regularprivate, 
-            string newoldex, string examFormSubmited, string tcSubmited)
+            string newoldex, string examFormSubmited, string tcSubmited, string maleFemale)
         {
             //--------Get List
             var data = _historyStudentRepo.GetByStudentHistoryPage(session, classes, course, year, name, rollNum, result, formNo, 
-                                                                      enrollmentNo, regularprivate, newoldex, examFormSubmited, tcSubmited);
+                                                                      enrollmentNo, regularprivate, newoldex, examFormSubmited, tcSubmited, maleFemale);
 
             return Json(new { success = true, data = data });
         }
@@ -347,11 +347,10 @@ namespace CRM.Controllers
         }
 
 
-        //--------------------- Save Update Detail--------------
-        public IActionResult UpdateCollegeDetail(int id, string varSession, string varNewOld, string varMedium,
-            string varClass, string varCourse, string varYear, string varAdmissionFormNo, string varEnRollNo,
-             string varAdmissionDate, string varRollNo, string varSchoolarNo, string varSubCode, string varRegEx,
-             string varExamFormSubmited, string varResult)
+        //--------------------- Save Update Detail------------------------
+        public IActionResult UpdateCollegeDetail(int id, string varAcademicYear, string varAcadmicSession,
+            string varAcadmicClass, string varAcadmicCourse, string varSchoolName, string varBoard, string varMaxMark,
+            string varObtMark, string varResult, string varParcent, string varAdmissionFormNo, string varAcademicLastClassPassYear)
 
         {
             StudentHistory stuObj = new StudentHistory();
@@ -361,38 +360,32 @@ namespace CRM.Controllers
                 stuObj.AdmissionForm = Convert.ToInt32(varAdmissionFormNo);
 
 
-            if (!string.IsNullOrEmpty(varAdmissionDate))
-                stuObj.AdmissionDate = Convert.ToDateTime(varAdmissionDate);
+            if (!string.IsNullOrEmpty(varAcademicYear))
+                stuObj.Year = varAcademicYear;
+
+            if (!string.IsNullOrEmpty(varAcadmicSession))
+                stuObj.Session = varAcadmicSession;
+
+            if (!string.IsNullOrEmpty(varAcadmicClass))
+                stuObj.Classs = varAcadmicClass;
+
+            if (!string.IsNullOrEmpty(varAcadmicCourse))
+                stuObj.Course = varAcadmicCourse;
+
+            if (!string.IsNullOrEmpty(varResult))
+                stuObj.Result = varSchoolName;
 
 
-            stuObj.NewOld = varNewOld;
-            stuObj.Medium = varMedium;
-            //stuObj.Session = varSession;   //-------------varSession
-            //stuObj.Class = varClass;  //-------------Class
-            //stuObj.Course = varCourse;  //-------Course
-            //stuObj.Year = varYear;  //----------Year
-            if (!string.IsNullOrEmpty(varEnRollNo))
-                stuObj.EnrolNo = varEnRollNo.ToUpper();
+            if (!string.IsNullOrEmpty(varAcademicLastClassPassYear))
+                stuObj.LastClassPassYear = varAcademicLastClassPassYear;
 
-            if (!string.IsNullOrEmpty(varRollNo))
-                stuObj.RollNo = varRollNo.ToUpper();
-
-                stuObj.ExamFormSubmited = varExamFormSubmited;
-
-                stuObj.Result = varResult;
+           
 
 
-            if (!string.IsNullOrEmpty(varSchoolarNo))
-                stuObj.ScholerNo = varSchoolarNo.ToUpper();
-
-            if (!string.IsNullOrEmpty(varSubCode))
-                stuObj.SubCode = varSubCode.ToUpper();
-
-            stuObj.RegPvt = varRegEx;
             stuObj.UpdateDate = DateTime.Now;
             stuObj.UpdateBy = "Update Admin";
 
-            var teee = _historyStudentRepo.UpdateHisotryCollegeDetailForHistoryPage(stuObj);
+            var teee = _historyStudentRepo.UpdateHisotryAcademyForHistoryPage(stuObj);
 
             return Json(new { success = true, data = true });
         }

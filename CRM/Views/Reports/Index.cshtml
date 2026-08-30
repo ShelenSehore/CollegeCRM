@@ -1067,7 +1067,7 @@
                             <div class="filter-field wide">
                                 <label for="ddlHead">Fee Head</label>
                                 <select id="ddlHead" class="form-control">
-                                    <option value="">All Heads</option>
+                                    <option value="">Select</option>
                                     <option>Admission fees</option>
                                     <option>Identity card fees</option>
                                     <option>Tuition fees</option>
@@ -1097,7 +1097,7 @@
                             <div class="filter-field">
                                 <label for="ddlPaymentMode">Payment Mode</label>
                                 <select id="ddlPaymentMode" class="form-control">
-                                    <option value="">All Modes</option>
+                                    <option value="">Select</option>
                                     <option>Cash</option>
                                     <option>Online</option>
                                     <option>Check</option>
@@ -1136,25 +1136,25 @@
                             <div class="filter-field">
                                 <label for="ddlSession">Session</label>
                                 <select id="ddlSession" asp-items="Model.SessionList" class="form-control">
-                                    <option value="">All Sessions</option>
+                                    <option value="">Select</option>
                                 </select>
                             </div>
                             <div class="filter-field">
                                 <label for="ddlYear">Year</label>
                                 <select id="ddlYear" asp-items="Model.YearList" class="form-control">
-                                    <option value="">All Years</option>
+                                    <option value="">Select</option>
                                 </select>
                             </div>
                             <div class="filter-field">
                                 <label for="ddlClass">Class</label>
                                 <select id="ddlClass" asp-items="Model.ClassList" class="form-control">
-                                    <option value="">All Classes</option>
+                                    <option value="">Select</option>
                                 </select>
                             </div>
                             <div class="filter-field">
                                 <label for="ddlCourse">Course</label>
                                 <select id="ddlCourse" asp-items="Model.SubjectList" class="form-control">
-                                    <option value="">All Courses</option>
+                                    <option value="">Select</option>
                                 </select>
                             </div>
                         </div>
@@ -1269,11 +1269,19 @@
                 format: 'DD/MM/YYYY'
             });
             SearchStudent();
+
+            $("#ddlHead, #ddlPaymentMode, #ddlSession, #ddlYear, #ddlClass, #ddlCourse").change(function () {
+                SearchStudent();
+            });
+
         };
 
         function DownloadExcel() {
             $('form#frmDownloadExcel').submit();
         }
+       
+
+
 
         function Reset() {
             // Reset all selects to empty value
@@ -1287,16 +1295,17 @@
         }
 
         function SearchStudent() {
-            var varHad = $('#ddlHead').val();
-            var varPaymentMode = $('#ddlPaymentMode').val();
+            debugger;
+            var varHad = $('#ddlHead option:selected').text();
+            var varPaymentMode = $('#ddlPaymentMode option:selected').text();
             var varReciptNo = $("#txtReciptNo").val();
             var varFromDate = $("#txtFromDate").val();
             var varToDate = $("#txtToDate").val();
             var name = $("#txtSearch").val();
-            var varSession = $('#ddlSession').val();
-            var varYear = $('#ddlYear').val();
-            var varClass = $('#ddlClass').val();
-            var varCourse = $('#ddlCourse').val();
+            var varSession = $('#ddlSession option:selected').text();
+            var varYear = $('#ddlYear option:selected').text();
+            var varClass = $('#ddlClass option:selected').text();
+            var varCourse = $('#ddlCourse option:selected').text();
             $("#Loader").show();
 
             $.post(BASE_URL + "/Reports/GetStudentList", {

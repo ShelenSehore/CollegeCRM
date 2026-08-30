@@ -1122,6 +1122,41 @@ namespace CRM.Controllers
         }
 
 
+        //--------------------- Save Personal Detail--------------
+        public IActionResult ActiveDective(int id, string status)
+        {
+
+
+            //-----------Update Student Table-------------
+            Student stuObj = new Student();
+            stuObj.Id = id;
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                if (status.ToUpper() == "DEACTIVE")
+                {
+                    stuObj.IsActive = false;
+                }
+                else
+                {
+                    stuObj.IsActive = true;
+                }
+            }
+            else {
+                stuObj.IsActive = true;
+            }
+
+
+
+            stuObj.UpdateDatetime = DateTime.Now;
+            stuObj.UpdatedBy = "Update Admin";
+
+            var checkStatus = _repoStudent.ActiveDeactive(stuObj);
+
+            return Json(new { success = true, data = true });
+        }
+
+
         //--------------------- Save Update Detail-----------------
         public IActionResult UpdateCollegeDetail(int id, string varSession, string varNewOld, string varMedium,
             string varClass, string varCourse, string varYear, string varAdmissionFormNo, string varEnRollNo,

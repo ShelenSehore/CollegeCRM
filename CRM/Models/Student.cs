@@ -48,5 +48,10 @@ namespace CRM.Models
         public string ExamFormSubmited { get; set; }
 
         public string PassoutTC { get; set; }
+
+        public bool IsActive { get; set; } = true;
+
+
+
     }
 }

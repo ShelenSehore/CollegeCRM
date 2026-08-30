@@ -2016,6 +2016,8 @@
                             <thead>
                                 <tr>
                                     <th style="width:50px;text-align:center">#</th>
+                                    <th style="width:90px;text-align:center">View</th>
+                                    <th style="width:55px;text-align:center">Select</th>
                                     <th>Form No</th>
                                     <th>Enrolment No</th>
                                     <th>Roll No</th>
@@ -2028,8 +2030,7 @@
                                     <th>Class</th>
                                     <th>Course</th>
                                     <th>Mobile</th>
-                                    <th style="width:90px;text-align:center">View</th>
-                                    <th style="width:55px;text-align:center">Select</th>
+
                                 </tr>
                             </thead>
                             <tbody id="tableBody"></tbody>
@@ -2321,7 +2322,7 @@
             var startIndex = (currentPage - 1) * pageSize;
 
             $.each(pageData, function (index, element) {
-                debugger;
+                
                 var globalIndex = startIndex + index;
                 var delay = Math.min(index * 0.03, 0.8);
 
@@ -2348,6 +2349,8 @@
                 var row =
                     '<tr style="animation-delay:' + delay + 's">' +
                     '<td class="col-num">' + (globalIndex + 1) + '</td>' +
+                    '<td style="text-align:center"><a class="btn-view" href="../Student/PromodeStudent?id=' + esc(element.id) + '" title="View Details"><i class="fas fa-eye"></i> View</a></td>' +
+                    '<td style="text-align:center"><label class="custom-check"><input id="' + esc(element.id) + '" name="chkStudent" type="checkbox"' + checkedAttr + '><span class="checkmark"></span></label></td>' +
                     '<td><div class="formno-cell"><span class="formno-badge">' + esc(element.admissionFormNo) + '</span></div></td>' +
                     '<td class="col-num">' + esc(element.enRollNo) + '</td>' +
                     '<td class="col-num">' + esc(element.rollNo) + '</td>' +
@@ -2360,8 +2363,7 @@
                     '<td><span class="info-tag subject">' + esc(element.class) + '</span></td>' +
                     '<td><span class="info-tag course">' + esc(element.course) + '</span></td>' +
                     '<td><span class="mobile-pill"><i class="fas fa-phone"></i> ' + esc(element.mobileNoOne) + '</span></td>' +
-                    '<td style="text-align:center"><a class="btn-view" href="../Student/PromodeStudent?id=' + esc(element.id) + '" title="View Details"><i class="fas fa-eye"></i> View</a></td>' +
-                    '<td style="text-align:center"><label class="custom-check"><input id="' + esc(element.id) + '" name="chkStudent" type="checkbox"' + checkedAttr + '><span class="checkmark"></span></label></td>' +
+                    
                     '</tr>';
 
                 $("#tblStudentList").append(row);

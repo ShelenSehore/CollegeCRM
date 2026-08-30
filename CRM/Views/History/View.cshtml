@@ -1212,7 +1212,12 @@
                     <div class="col-md-3">
                         <label>Passing Class</label>
                         <input id="txtAcademicYear" type="number" asp-for="PassingYear" class="form-control" placeholder="Passing Year">
-                    </div>                                      
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Last Class Passing Year *</label>
+                        <input id="txtAcademicLastYear" type="number" asp-for="PassingYear" placeholder="Last Class Passing Year">
+                    </div>
 
                     <div class="col-md-3">
                         <label>Board</label>
@@ -1437,8 +1442,10 @@
         }
 
         function SaveAcadmicDetail() {
+           
             var IsValidate = true;
             if (!validateField("#txtAcademicYear", "Academic Year required")) IsValidate = false;
+            if (!validateField("#txtAcademicLastYear", "Last Passing Year required")) IsValidate = false;
             if (!validateField("#txtSchoolName", "School Name required")) IsValidate = false;
             if (!validateField("#txtBoard", "Board required")) IsValidate = false;
             if (!validateField("#txtMaxMark", "Max Mark required")) IsValidate = false;
@@ -1449,9 +1456,9 @@
             if (!validateField("#ddlAcadmicClass", "Select Academic Class", "dropdown")) IsValidate = false;
             if (!validateField("#ddlAcadmicCourse", "Select Academic Course", "dropdown")) IsValidate = false;
             if (!validateField("#ddlResult", "Select Result", "dropdown")) IsValidate = false;
-
+            IsValidate = true;
             if (!IsValidate) return;
-
+           
             var varid = $("#hdnStudentID").val();
             var varAcademicYear = $('#txtAcademicYear').val();
             var varAcadmicSession = $('#ddlAcadmicSession option:selected').text();
@@ -1464,9 +1471,9 @@
             var varResult = $('#ddlResult option:selected').text();
             var varParcent = $('#txtParcent').val();
             var varAdmissionFormNo = $('#txtAcademicAdmissionFormNo').val();
-
+            var varAcademicLastClassPassYear = $('#txtAcademicLastYear').val();
             if (IsValidate) {
-                $.post(BASE_URL + "/Student/UpdateCollegeDetail", {
+                $.post(BASE_URL + "/History/UpdateCollegeDetail", {
                     id: varid,
                     varAcademicYear: varAcademicYear,
                     varAcadmicSession: varAcadmicSession,
@@ -1478,7 +1485,8 @@
                     varObtMark: varObtMark,
                     varResult: varResult,
                     varParcent: varParcent,
-                    varAdmissionFormNo: varAdmissionFormNo
+                    varAdmissionFormNo: varAdmissionFormNo,
+                    varAcademicLastClassPassYear: varAcademicLastClassPassYear
                 },
                 function (res) {
                     $("#modal-Academic").modal("hide");

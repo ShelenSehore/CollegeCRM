@@ -1168,8 +1168,11 @@ body {
                             <div class="edu-header">
                                 <i class="fas fa-graduation-cap"></i>
                                 <span>Education</span>
-                                <a data-toggle="modal" data-target="#modal-ChangeClass" class="btn-edit-float-right" href="#" style="text-decoration:none;">
-                                    <i class="fas fa-pen"></i> Edit
+                                <a data-toggle="modal" data-target="#modal-ChangeClass" class="btn-edit-float-right" href="#" style="text-decoration: none; color: #4a4747">
+                                    Edit <i class="fas fa-pen"></i>
+                                </a>
+                                <a data-toggle="modal" data-target="#modal-ActiveDeActive" class="btn-edit-float-right" href="#" style="text-decoration: none; color: #6c0303">
+                                    Deactive <i class="fas delete"></i>
                                 </a>
                             </div>
                             <div class="edu-body">
@@ -1388,29 +1391,28 @@ body {
                                         {
                                             int seNo = 1;
                                             foreach (var AcadmicRow in Model.AcadmicList)
-                                            {                                              
-                                        <tr>
-                                            <td><span class="row-num">@seNo</span></td>
-                                            <td><span class="tag tag-violet">@AcadmicRow.Session</span></td>
-                                            <td>@AcadmicRow.SchoolName</td>
-                                            <td>@AcadmicRow.Board</td>
-                                            <td>@AcadmicRow.PassingYear</td>
-                                            <td>@AcadmicRow.LastClassPassYear</td>
-                                            <td>
-                                                <span class="tag @(AcadmicRow.Result == "PASS" ? "tag-emerald" : AcadmicRow.Result == "FAIL" ? "tag-rose" : "tag-amber")">
-                                                    @AcadmicRow.Result
-                                                </span>
-                                            </td>
-                                            <td><span class="marks-highlight">@AcadmicRow.ObtMark</span> / @AcadmicRow.MaxMark</td>
-                                            <td>
-                                                <button class="btn-icon-sm delete" title="Delete" onclick="deleteAcadmicDetail(@AcadmicRow.Id)">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-seNo++;
-                        }
-                    }
+                                            {
+                            <tr>
+                                <td><span class="row-num">@seNo</span></td>
+                                <td><span class="tag tag-violet">@AcadmicRow.Session</span></td>
+                                <td>@AcadmicRow.SchoolName</td>
+                                <td>@AcadmicRow.Board</td>
+                                <td>@AcadmicRow.PassingYear</td>
+                                <td>@AcadmicRow.LastClassPassYear</td>
+                                <td>
+                                    <span class="tag @(AcadmicRow.Result == "PASS" ? "tag-emerald" : AcadmicRow.Result == "FAIL" ? "tag-rose" : "tag-amber")">
+                                        @AcadmicRow.Result
+                                    </span>
+                                </td>
+                                <td><span class="marks-highlight">@AcadmicRow.ObtMark</span> / @AcadmicRow.MaxMark</td>
+                                <td>
+                                    <button class="btn-icon-sm delete" title="Delete" onclick="deleteAcadmicDetail(@AcadmicRow.Id)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>seNo++;
+                                            }
+                                        }
                                         @if (Model.AcadmicList == null || !Model.AcadmicList.Any())
                                         {
                             <tr>
@@ -1421,8 +1423,7 @@ seNo++;
                                         <p>Add the first academic detail below.</p>
                                     </div>
                                 </td>
-                            </tr>
-}
+                            </tr>}
                                     </tbody>
                                 </table>
                                 <div style="margin-top:1rem;">
@@ -1481,10 +1482,9 @@ seNo++;
                                         <i class="fas fa-eye"></i> View
                                     </span>
                                 </td>
-                            </tr>
-docIdx++;
-                        }
-                    }
+                            </tr>docIdx++;
+                                            }
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -1581,10 +1581,9 @@ docIdx++;
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </td>
-                            </tr>
-hi++;
-                        }
-                    }
+                            </tr>hi++;
+                                            }
+                                        }
                                         @if (Model.StudentHistoryList == null || !Model.StudentHistoryList.Any())
                                         {
                             <tr>
@@ -1595,8 +1594,7 @@ hi++;
                                         <p>History will appear after promotions.</p>
                                     </div>
                                 </td>
-                            </tr>
-}
+                            </tr>}
                                     </tbody>
                                 </table>
                             </div>
@@ -1610,7 +1608,7 @@ hi++;
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       <tr><td>  <input asp-for="ExamFormSubmited" readonly></td></tr>
+                                        <tr><td>  <input asp-for="ExamFormSubmited" readonly></td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -1991,6 +1989,30 @@ hi++;
 </div>
 
 
+
+<!-- ═══════ MODAL: Active/DeActive ═══════ -->
+<div class="modal fade" id="modal-ActiveDeActive" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="max-width:400px;" role="document">
+        <div class="modal-content">
+            <div class="modal-header-bar violet">
+                <h4><span class="icon-circle"><i class="fas fa-user"></i></span> Deactive Student</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Aru you sure ?
+            </div>
+            <div class="modal-footer-bar">
+                <button type="button" class="btn-modal-cancel" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn-modal-save" onclick="ActvieDeativeSave()">
+                    <i class="fas fa-check"></i> Deactive
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
@@ -2155,6 +2177,21 @@ hi++;
             });
         }
 
+        // ── Change Class ──
+        function ActvieDeativeSave() {
+           
+
+            $.post(BASE_URL + "/Student/ActiveDective", {
+                id: $("#hdnStudentID").val(),
+                status: "DEACTIVE"
+            }, function (res) {
+                $("#modal-Personal").modal("hide");
+                Alert('success', 'Class changed successfully!');
+                setTimeout(function () { location.reload(true); }, 600);
+            });
+        }
+
+
 
         // ── Save College ──
         function SaveCollegeDetail() {
@@ -2280,7 +2317,7 @@ hi++;
 
         // ── View Document ──
         function ViewDocument(element) {
-            debugger;
+
             var imgSrc = $(element).attr("src");
             $("#imgViewDocument").attr("src", imgSrc);
             $("#modal-ViewDocument").modal("show");

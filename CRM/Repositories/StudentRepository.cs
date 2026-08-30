@@ -130,6 +130,18 @@ namespace CRM.Repositories
             return true;
         }
 
+        public bool ActiveDeactive(Student model)
+        {
+            var student = _context.Student.FirstOrDefault(x => x.Id == model.Id);
+           
+            if (student != null)
+            {
+                student.IsActive = model.IsActive;
+                var status = _context.SaveChanges();
+            }
+            return true;
+        }
+
         public bool PromoteStudentDetail(Student model)
         {
             var student = _context.Student.FirstOrDefault(x => x.Id == model.Id);
@@ -469,16 +481,24 @@ namespace CRM.Repositories
         public DashboardModelView DashboardDetail() 
         {
 
-            DashboardModelView dashboardModelView = new DashboardModelView();
+            try {
+                DashboardModelView dashboardModelView = new DashboardModelView();
 
-            var varStudentList = _context.Student.ToList();
-            if (varStudentList != null) 
+                var varStudentList = _context.Student.ToList();
+                if (varStudentList != null)
+                {
+                    dashboardModelView.TotalStudent = varStudentList.Count();
+                }
+
+
+                return dashboardModelView;
+            }
+            catch (Exception ex)
             {
-                dashboardModelView.TotalStudent = varStudentList.Count();
+                throw ex;
             }
 
-
-            return dashboardModelView;
+          
 
         }
 
