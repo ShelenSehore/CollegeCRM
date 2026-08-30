@@ -251,7 +251,7 @@ namespace CRM.Repositories
                           string enrollmentNo, string regulerprivate, string newoldex,
                            string examFormSubmited, string tcSubmited, string maleFemale)
         {
-            IQueryable<StudentHistory> query = _context.StudentHistory.OrderBy(x=>x.StudentName);
+            IQueryable<StudentHistory> query = _context.StudentHistory.Where(x=>x.IsActive==true).OrderBy(x=>x.StudentName);
 
             if (!string.IsNullOrWhiteSpace(studentName))
             {

@@ -139,6 +139,21 @@ namespace CRM.Repositories
                 student.IsActive = model.IsActive;
                 var status = _context.SaveChanges();
             }
+            var studentHistory = _context.StudentHistory.Where(x => x.StudentId == student.Id).ToList();
+            if (studentHistory.Count()>0)
+            {
+
+                studentHistory.ForEach(x =>
+                {
+                    x.IsActive = false;
+                    x.UpdateDate = DateTime.Now;
+                    x.UpdateBy = model.UpdatedBy;
+                });
+
+                var status = _context.SaveChanges();
+            }
+
+
             return true;
         }
 
@@ -391,7 +406,7 @@ namespace CRM.Repositories
         {
             try { 
             
-            IQueryable<Student> query = _context.Student.OrderBy(x=>x.StudentName);
+            IQueryable<Student> query = _context.Student.Where(x=>x.IsActive==true).OrderBy(x=>x.StudentName);
                 //-----TC issue Skip
                 query = query.Where(x => x.PassoutTC != "ISSUE");
 

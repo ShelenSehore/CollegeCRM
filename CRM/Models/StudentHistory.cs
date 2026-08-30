@@ -54,7 +54,7 @@ namespace CRM.Models
         public string LastClassPassYear { get; set; }
 
 
-
+        public bool IsActive { get; set; } = true;
 
 
 
