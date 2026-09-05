@@ -308,7 +308,7 @@ namespace CRM.Repositories
             }
             if (!string.IsNullOrWhiteSpace(maleFemale) && (maleFemale != "Select"))
             {
-                query = query.Where(x => x.Gender.ToLower().Contains(maleFemale.ToLower()));
+                query = query.Where(x => x.Gender.ToLower() == maleFemale.ToLower());
             }
 
             return query.ToList();
