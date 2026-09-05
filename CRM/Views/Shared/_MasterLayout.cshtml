@@ -18,7 +18,6 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="~/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <!-- Theme style -->
     <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
     <!-- overlayScrollbars -->
@@ -27,37 +26,770 @@
     <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
 
     <style type="text/css">
-        fieldset {
-            background-color: #FBFEE6
+        :root {
+            --crm-gradient-start: #6366f1;
+            --crm-gradient-mid: #8b5cf6;
+            --crm-gradient-end: #a855f7;
+            --crm-accent: #f59e0b;
+            --crm-accent-2: #06b6d4;
+            --crm-accent-3: #ec4899;
+            --crm-sidebar-bg-start: #1e1b4b;
+            --crm-sidebar-bg-mid: #312e81;
+            --crm-sidebar-bg-end: #3730a3;
+            --crm-nav-bg: #ffffff;
+            --crm-card-glow: rgba(99, 102, 241, 0.15);
+            --crm-text-light: #e0e7ff;
+            --crm-text-muted: #a5b4fc;
+            --crm-tree-line: rgba(165, 180, 252, 0.2);
         }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--crm-gradient-start) transparent;
+        }
+        *::-webkit-scrollbar { width: 6px; height: 6px; }
+        *::-webkit-scrollbar-track { background: transparent; }
+        *::-webkit-scrollbar-thumb { background: var(--crm-gradient-start); border-radius: 10px; }
+        *::-webkit-scrollbar-thumb:hover { background: var(--crm-gradient-end); }
+
+        /* ========== SIDEBAR ========== */
+        .main-sidebar {
+            background: linear-gradient(180deg, var(--crm-sidebar-bg-start) 0%, var(--crm-sidebar-bg-mid) 40%, var(--crm-sidebar-bg-end) 100%) !important;
+            box-shadow: 4px 0 25px rgba(99, 102, 241, 0.3) !important;
+        }
+
+        .brand-link {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(168, 85, 247, 0.15) 100%) !important;
+            border-bottom: 1px solid rgba(165, 180, 252, 0.15) !important;
+            padding: 0.9rem 1rem !important;
+        }
+
+        .brand-text {
+            color: #fff !important;
+            font-weight: 700 !important;
+            font-size: 1.25rem !important;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+        .brand-text::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--crm-accent);
+            border-radius: 50%;
+            margin-right: 8px;
+            box-shadow: 0 0 10px var(--crm-accent);
+            vertical-align: middle;
+        }
+
+        .user-panel {
+            border-bottom: 1px solid rgba(165, 180, 252, 0.12) !important;
+        }
+        .user-panel .info a {
+            color: var(--crm-text-light) !important;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-block !important;
+        }
+        .user-panel .info a:hover {
+            background: rgba(139, 92, 246, 0.25);
+            color: #fff !important;
+        }
+
+        /* Sidebar nav items */
+        .sidebar .nav-link {
+            color: var(--crm-text-muted) !important;
+            border-radius: 10px !important;
+            margin: 2px 8px !important;
+            padding: 0.6rem 1rem !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .sidebar .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0;
+            width: 3px; height: 100%;
+            background: linear-gradient(180deg, var(--crm-accent), var(--crm-accent-3));
+            border-radius: 0 3px 3px 0;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        .sidebar .nav-link:hover {
+            background: rgba(139, 92, 246, 0.2) !important;
+            color: #fff !important;
+            transform: translateX(3px);
+        }
+        .sidebar .nav-link:hover::before {
+            transform: scaleY(1);
+        }
+        .sidebar .nav-link.active,
+        .sidebar .nav-link.nav-link-active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.25)) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+        .sidebar .nav-link.active::before,
+        .sidebar .nav-link.nav-link-active::before {
+            transform: scaleY(1);
+        }
+
+        .sidebar .nav-icon {
+            color: var(--crm-text-muted) !important;
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link:hover .nav-icon,
+        .sidebar .nav-link.active .nav-icon {
+            color: var(--crm-accent) !important;
+            filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.4));
+        }
+
+        .sidebar .nav-link p {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .sidebar .nav-link .right {
+            color: var(--crm-text-muted) !important;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .sidebar .nav-item.menu-open > .nav-link .right {
+            transform: rotate(-90deg);
+            color: var(--crm-accent) !important;
+        }
+
+        /* Treeview sub-items */
+        .nav-treeview {
+            padding-left: 0.5rem !important;
+        }
+        .nav-treeview .nav-link {
+            margin: 1px 8px 1px 14px !important;
+            padding: 0.45rem 0.8rem 0.45rem 1.2rem !important;
+            background: transparent !important;
+        }
+        .nav-treeview .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--crm-tree-line);
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+        }
+        .nav-treeview .nav-link:hover::after,
+        .nav-treeview .nav-link.active::after {
+            background: var(--crm-accent-2);
+            box-shadow: 0 0 8px var(--crm-accent-2);
+            width: 8px; height: 8px;
+        }
+        .nav-treeview .nav-link .far.fa-circle {
+            display: none !important;
+        }
+        .nav-treeview .nav-link p {
+            padding-left: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .nav-treeview .nav-link:hover {
+            background: rgba(6, 182, 212, 0.12) !important;
+            color: #e0f2fe !important;
+        }
+        .nav-treeview .nav-link.active {
+            background: rgba(6, 182, 212, 0.18) !important;
+            color: #67e8f9 !important;
+        }
+        .nav-treeview .nav-link.active .nav-icon,
+        .nav-treeview .nav-link:hover .nav-icon {
+            color: var(--crm-accent-2) !important;
+        }
+
+        /* ========== NAVBAR ========== */
+        .main-header {
+            background: #fff !important;
+            border-bottom: 2px solid transparent !important;
+            border-image: linear-gradient(90deg, var(--crm-gradient-start), var(--crm-accent), var(--crm-accent-3), var(--crm-accent-2)) 1 !important;
+            box-shadow: 0 2px 15px rgba(99, 102, 241, 0.08) !important;
+            height: 56px;
+        }
+        .main-header .nav-link {
+            color: #64748b !important;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 0 2px;
+        }
+        .main-header .nav-link:hover {
+            color: var(--crm-gradient-start) !important;
+            background: rgba(99, 102, 241, 0.06);
+        }
+
+        .navbar-badge {
+            font-size: 0.6rem !important;
+            padding: 2px 5px !important;
+        }
+        .badge-danger {
+            background: linear-gradient(135deg, #ef4444, #ec4899) !important;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+        }
+        .badge-warning {
+            background: linear-gradient(135deg, #f59e0b, #f97316) !important;
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Navbar search */
+        .navbar-search-block {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            padding: 8px;
+        }
+        .navbar-search-block .form-control {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .navbar-search-block .form-control:focus {
+            border-color: var(--crm-gradient-start);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        /* Logout button */
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+            border: none !important;
+            border-radius: 10px !important;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 10px rgba(239, 68, 68, 0.3);
+            transition: all 0.3s ease !important;
+            margin: 10px 8px 10px 4px;
+        }
+        .btn-danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.45) !important;
+        }
+
+        /* Dropdown menus */
+        .dropdown-menu {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1) !important;
+            overflow: hidden;
+        }
+        .dropdown-header {
+            background: linear-gradient(135deg, var(--crm-gradient-start), var(--crm-gradient-end)) !important;
+            color: #fff !important;
+            font-weight: 600;
+            border-radius: 0 !important;
+            padding: 10px 16px !important;
+        }
+        .dropdown-item {
+            transition: all 0.2s ease;
+            padding: 10px 16px !important;
+        }
+        .dropdown-item:hover {
+            background: linear-gradient(90deg, rgba(99,102,241,0.06), rgba(168,85,247,0.06)) !important;
+            color: var(--crm-gradient-start) !important;
+        }
+        .dropdown-divider {
+            border-color: #f1f5f9;
+        }
+        .dropdown-footer {
+            background: linear-gradient(135deg, rgba(99,102,241,0.04), rgba(168,85,247,0.04)) !important;
+            color: var(--crm-gradient-start) !important;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* ========== CONTENT AREA ========== */
+        .content-wrapper {
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #fdf4ff 100%) !important;
+            min-height: calc(100vh - 56px - 52px);
+        }
+
+        /* Cards */
+        .card {
+            border: 1px solid rgba(99, 102, 241, 0.08) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 20px rgba(99, 102, 241, 0.06) !important;
+            transition: all 0.3s ease !important;
+            overflow: hidden;
+        }
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06), 0 8px 30px rgba(99, 102, 241, 0.12) !important;
+            transform: translateY(-2px);
+        }
+        .card-header {
+            border-bottom: 1px solid rgba(99, 102, 241, 0.08) !important;
+            background: linear-gradient(135deg, rgba(99,102,241,0.03), rgba(168,85,247,0.03)) !important;
+            padding: 1rem 1.25rem;
+        }
+        .card-title {
+            color: #1e293b !important;
+            font-weight: 700;
+        }
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        /* Info box / small boxes */
+        .info-box {
+            border-radius: 14px !important;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+            transition: all 0.3s ease;
+        }
+        .info-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1) !important;
+        }
+        .info-box-icon {
+            border-radius: 14px 0 0 14px !important;
+        }
+        .small-box {
+            border-radius: 16px !important;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .small-box:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important;
+        }
+        .small-box .icon > i {
+            transition: transform 0.4s ease;
+        }
+        .small-box:hover .icon > i {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        /* Tables */
+        .table {
+            color: #334155;
+        }
+        .table thead th {
+            background: linear-gradient(135deg, var(--crm-gradient-start), var(--crm-gradient-end)) !important;
+            color: #fff !important;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none !important;
+            padding: 12px 16px !important;
+        }
+        .table thead th:first-child {
+            border-radius: 10px 0 0 0 !important;
+        }
+        .table thead th:last-child {
+            border-radius: 0 10px 0 0 !important;
+        }
+        .table tbody tr {
+            transition: all 0.2s ease;
+        }
+        .table tbody tr:hover {
+            background: linear-gradient(90deg, rgba(99,102,241,0.04), rgba(168,85,247,0.04)) !important;
+        }
+        .table tbody td {
+            border-color: #f1f5f9 !important;
+            padding: 10px 16px !important;
+            vertical-align: middle;
+        }
+
+        /* ========== FORMS ========== */
+        fieldset {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 30%, #fde68a 100%) !important;
+            border-radius: 16px !important;
+            border: 2px solid #fbbf24 !important;
+            box-shadow: 0 2px 12px rgba(251, 191, 36, 0.1);
+            transition: all 0.3s ease;
+        }
+        fieldset:hover {
+            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.18);
+        }
+
         fieldset.scheduler-border {
-            border: 1px groove #ddd !important;
-            padding: 0 1.4em 1.4em 1.4em !important;
+            padding: 1.4em 1.4em 1.4em 1.4em !important;
             margin: 0 0 1.5em 0 !important;
-            -webkit-box-shadow: 0px 0px 0px 0px #000;
-            box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.1) !important;
         }
 
         legend.scheduler-border {
-            width: inherit; /* Or auto */
-            padding: 0 10px; /* To give a bit of padding on the left and right */
+            width: inherit;
+            padding: 0 12px;
             border-bottom: none;
+            font-weight: 700;
+            color: #92400e;
+            font-size: 1rem;
+            float: none;
         }
 
+        .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px !important;
+            padding: 0.55rem 1rem;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .form-control:focus {
+            border-color: var(--crm-gradient-start);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+            background: #fff;
+        }
 
+        .form-group label {
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 4px;
+        }
 
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%236366f1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 14px;
+            padding-right: 2.5rem;
+        }
 
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--crm-gradient-start), var(--crm-gradient-end)) !important;
+            border: none !important;
+            border-radius: 10px !important;
+            font-weight: 600;
+            box-shadow: 0 3px 12px rgba(99, 102, 241, 0.35);
+            transition: all 0.3s ease !important;
+            padding: 0.5rem 1.5rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5) !important;
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+        }
 
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            border: none !important;
+            border-radius: 10px !important;
+            font-weight: 600;
+            box-shadow: 0 3px 12px rgba(16, 185, 129, 0.35);
+            transition: all 0.3s ease !important;
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5) !important;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+            border: none !important;
+            border-radius: 10px !important;
+            font-weight: 600;
+            box-shadow: 0 3px 12px rgba(245, 158, 11, 0.35);
+            transition: all 0.3s ease !important;
+        }
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5) !important;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
+            border: none !important;
+            border-radius: 10px !important;
+            font-weight: 600;
+            box-shadow: 0 3px 12px rgba(6, 182, 212, 0.35);
+            transition: all 0.3s ease !important;
+        }
+        .btn-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5) !important;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #64748b, #475569) !important;
+            border: none !important;
+            border-radius: 10px !important;
+            font-weight: 600;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-default {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0) !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 10px !important;
+            font-weight: 600;
+            color: #475569 !important;
+            transition: all 0.3s ease !important;
+        }
+        .btn-default:hover {
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1) !important;
+            transform: translateY(-1px);
+        }
+
+        /* Pagination */
+        .page-item .page-link {
+            border-radius: 8px !important;
+            margin: 0 3px;
+            border: 1px solid #e2e8f0 !important;
+            color: #6366f1 !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .page-item .page-link:hover {
+            background: rgba(99, 102, 241, 0.08);
+            border-color: #6366f1 !important;
+            transform: translateY(-1px);
+        }
+        .page-item.active .page-link {
+            background: linear-gradient(135deg, var(--crm-gradient-start), var(--crm-gradient-end)) !important;
+            border-color: transparent !important;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+        }
+
+        /* ========== FOOTER ========== */
+        .main-footer {
+            background: linear-gradient(90deg, #1e1b4b, #312e81, #3730a3) !important;
+            color: var(--crm-text-muted) !important;
+            border-top: 2px solid transparent !important;
+            border-image: linear-gradient(90deg, var(--crm-accent), var(--crm-accent-3), var(--crm-accent-2)) 1 !important;
+            font-size: 0.85rem;
+            padding: 12px 20px;
+            letter-spacing: 0.3px;
+        }
+
+        /* ========== CONTROL SIDEBAR ========== */
+        .control-sidebar-dark {
+            background: linear-gradient(180deg, #1e1b4b, #312e81) !important;
+        }
+
+        /* ========== MISC ========== */
+        /* Breadcrumbs */
+        .breadcrumb {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 8px 16px;
+            border: 1px solid rgba(99, 102, 241, 0.08);
+        }
+        .breadcrumb-item a {
+            color: var(--crm-gradient-start);
+            font-weight: 500;
+        }
+        .breadcrumb-item.active {
+            color: #64748b;
+        }
+
+        /* Alerts */
+        .alert {
+            border-radius: 12px !important;
+            border: none !important;
+            font-weight: 500;
+        }
+        .alert-success {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0) !important;
+            color: #065f46 !important;
+        }
+        .alert-danger {
+            background: linear-gradient(135deg, #fee2e2, #fecaca) !important;
+            color: #991b1b !important;
+        }
+        .alert-warning {
+            background: linear-gradient(135deg, #fef3c7, #fde68a) !important;
+            color: #92400e !important;
+        }
+        .alert-info {
+            background: linear-gradient(135deg, #cffafe, #a5f3fc) !important;
+            color: #155e75 !important;
+        }
+
+        /* Modal */
+        .modal-content {
+            border-radius: 16px !important;
+            border: none !important;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+            overflow: hidden;
+        }
+        .modal-header {
+            background: linear-gradient(135deg, var(--crm-gradient-start), var(--crm-gradient-end)) !important;
+            color: #fff !important;
+            border-bottom: none !important;
+            padding: 1rem 1.5rem;
+        }
+        .modal-header .close {
+            color: #fff !important;
+            opacity: 0.8;
+            text-shadow: none;
+        }
+        .modal-header .close:hover {
+            opacity: 1;
+        }
+
+        /* Tabs */
+        .nav-tabs {
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .nav-tabs .nav-link {
+            color: #64748b;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px 10px 0 0 !important;
+            padding: 0.7rem 1.2rem;
+            transition: all 0.3s ease;
+        }
+        .nav-tabs .nav-link:hover {
+            color: var(--crm-gradient-start);
+            background: rgba(99, 102, 241, 0.05);
+            border-bottom: 2px solid var(--crm-gradient-start);
+        }
+        .nav-tabs .nav-link.active {
+            color: var(--crm-gradient-start);
+            background: #fff;
+            border-bottom: 2px solid var(--crm-gradient-start);
+        }
+
+        /* Toast / SweetAlert overrides */
+        .swal2-popup {
+            border-radius: 16px !important;
+        }
+
+        /* Preloader */
+        .preloader {
+            background: linear-gradient(135deg, #1e1b4b, #312e81) !important;
+        }
+
+        /* Content header */
+        .content-header {
+            padding: 16px 20px 8px;
+        }
+        .content-header h1 {
+            color: #1e293b;
+            font-weight: 800;
+            font-size: 1.6rem;
+            position: relative;
+            display: inline-block;
+        }
+        .content-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--crm-gradient-start), var(--crm-accent));
+            border-radius: 2px;
+        }
+
+        /* Badge variants */
+        .badge {
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+        }
+        .badge-success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+        }
+        .badge-info {
+            background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
+        }
+        .badge-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+            color: #fff !important;
+        }
+        .badge-primary {
+            background: linear-gradient(135deg, var(--crm-gradient-start), var(--crm-gradient-end)) !important;
+        }
+
+        /* Callout */
+        .callout {
+            border-radius: 12px !important;
+            border-left-width: 4px !important;
+        }
+
+        /* Timeline */
+        .timeline-item .timeline-body {
+            border-radius: 10px;
+        }
+
+        /* Input group */
+        .input-group-text {
+            border-radius: 10px 0 0 10px !important;
+            border: 2px solid #e2e8f0;
+            border-right: none;
+            background: #f8fafc;
+            color: #6366f1;
+            font-weight: 600;
+        }
+        .input-group .form-control {
+            border-radius: 0 10px 10px 0 !important;
+        }
+        .input-group-append .btn {
+            border-radius: 0 10px 10px 0 !important;
+        }
+
+        /* Responsive tweaks */
+        @@media (max-width: 768px) {
+            .brand-text {
+                font-size: 1rem !important;
+            }
+            .content-wrapper {
+                background: #f8fafc !important;
+            }
+            .main-footer {
+                text-align: center;
+            }
+        }
+
+        /* Subtle floating animation for sidebar brand */
+        @@keyframes subtlePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .brand-text::before {
+            animation: subtlePulse 2s ease-in-out infinite;
+        }
+
+        /* Smooth page transitions */
+        .content-wrapper {
+            animation: fadeSlideIn 0.4s ease-out;
+        }
+        @@keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Print styles */
+        @@media print {
+            .main-sidebar, .main-header, .main-footer, .control-sidebar {
+                display: none !important;
+            }
+            .content-wrapper {
+                margin-left: 0 !important;
+                background: #fff !important;
+            }
+        }
     </style>
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 
-    
-
     <div class="wrapper">
 
-        <!-- Preloader -->
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -99,7 +831,6 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
                             <div class="media">
                                 <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
@@ -111,11 +842,9 @@
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
                             </div>
-                            <!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
                             <div class="media">
                                 <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
@@ -127,11 +856,9 @@
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
                             </div>
-                            <!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
                             <div class="media">
                                 <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
@@ -143,7 +870,6 @@
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
                             </div>
-                            <!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
@@ -190,7 +916,7 @@
                     <a asp-controller="Home"
                        asp-action="Logout"
                        class="btn btn-danger">
-                        Logout
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
                     </a>
                 </li>
             </ul>
@@ -207,16 +933,13 @@
             <div class="sidebar">
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-
                     <div class="info">
-                        <a href="../Dashboard" class="d-block">Dashboard</a>
+                        <a href="../Dashboard" class="d-block"><i class="fas fa-home mr-2"></i>Dashboard</a>
                     </div>
                 </div>
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -227,12 +950,11 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@ViewBag.BaseUrl/Class" class="nav-link">
+                                    <a href="@ViewBag.BaseUrl/Session" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Class</p>
+                                        <p>Session</p>
                                     </a>
                                 </li>
-
                                 <li class="nav-item">
                                     <a href="@ViewBag.BaseUrl/Year" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -240,9 +962,9 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@ViewBag.BaseUrl/Session" class="nav-link">
+                                    <a href="@ViewBag.BaseUrl/Class" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Session</p>
+                                        <p>Class</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -257,13 +979,12 @@
                                         <p>Fee</p>
                                     </a>
                                 </li>
-
                             </ul>
                         </li>
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="nav-icon fas fa-user-tie"></i>
                                 <p>
                                     Employee
                                     <i class="fas fa-angle-left right"></i>
@@ -271,25 +992,24 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@ViewBag.BaseUrl/Employe/Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>List</p>
-                                    </a>
-                                </li>
-                            </ul>                           
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
                                     <a href="@ViewBag.BaseUrl/Employe/add" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add New Employee</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="@ViewBag.BaseUrl/Employe/Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Employee List</p>
+                                    </a>
+                                </li>
+
                             </ul>
                         </li>
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="nav-icon fas fa-graduation-cap"></i>
                                 <p>
                                     Admission
                                     <i class="fas fa-angle-left right"></i>
@@ -297,24 +1017,24 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@ViewBag.BaseUrl/Admission/Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>List</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
                                     <a href="@ViewBag.BaseUrl/Admission/NewAdmission" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>New Admission</p>
                                     </a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a href="@ViewBag.BaseUrl/Admission/Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Students List</p>
+                                    </a>
+                                </li>
 
                             </ul>
                         </li>
+
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-user-graduate"></i>
                                 <p>
                                     Student
                                     <i class="fas fa-angle-left right"></i>
@@ -324,28 +1044,27 @@
                                 <li class="nav-item">
                                     <a href="@ViewBag.BaseUrl/Student/List" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>List</p>
+                                        <p>Students List</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@ViewBag.BaseUrl/Student/IssuAdmissionForm" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Issue Admisison Form</p>
+                                        <p>Issue Admission Form</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="@ViewBag.BaseUrl/Student/Report" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Report</p>
+                                        <p>Phone No Report</p>
                                     </a>
                                 </li>
-
                             </ul>
                         </li>
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="nav-icon fas fa-history"></i>
                                 <p>
                                     Old Student
                                     <i class="fas fa-angle-left right"></i>
@@ -355,16 +1074,15 @@
                                 <li class="nav-item">
                                     <a href="@ViewBag.BaseUrl/History/index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>List</p>
+                                        <p>Old Data Students List</p>
                                     </a>
                                 </li>
-
                             </ul>
                         </li>
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="nav-icon fas fa-rupee-sign"></i>
                                 <p>
                                     Fees
                                     <i class="fas fa-angle-left right"></i>
@@ -374,7 +1092,7 @@
                                 <li class="nav-item">
                                     <a href="@ViewBag.BaseUrl/Payment/Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Search Student</p>
+                                        <p>Student Payments</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -386,7 +1104,7 @@
                                 <li class="nav-item">
                                     <a href="@ViewBag.BaseUrl/Payment/ReciptList" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Receipt List</p>
+                                        <p>Receipt Reprint List</p>
                                     </a>
                                 </li>
                             </ul>
@@ -394,7 +1112,7 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="nav-icon fas fa-chart-bar"></i>
                                 <p>
                                     Reports
                                     <i class="fas fa-angle-left right"></i>
@@ -404,7 +1122,7 @@
                                 <li class="nav-item">
                                     <a href="@ViewBag.BaseUrl/Reports/Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Transaciton</p>
+                                        <p>Transaction</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -422,10 +1140,9 @@
                                 <li class="nav-item">
                                     <a href="@ViewBag.BaseUrl/Reports/StudentPaymentHistory" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Student Payment Hisotry</p>
+                                        <p>Student Payment History</p>
                                     </a>
                                 </li>
-
                             </ul>
                         </li>
 
@@ -440,8 +1157,9 @@
         @RenderBody()
         @RenderSection("Scripts", required: false)
         <!-- /.content-wrapper -->
+
         <footer class="main-footer">
-            All rights reserved.
+            <strong>College CRM</strong> &mdash; All rights reserved.
         </footer>
 
         <!-- Control Sidebar -->

@@ -1767,7 +1767,7 @@
                         <div class="stat-value" id="statTcNotSubmitted">0</div>
                     </div>
                 </div>
-           
+
                 <div class="stat-card session">
                     <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
                     <div class="stat-info">
@@ -2043,7 +2043,7 @@
                 </div>
 
             </div>
-</section>
+    </section>
 </div>
 
 <!-- ===== PRINT PREVIEW OVERLAY ===== -->
@@ -2206,7 +2206,7 @@
             var tcSubmitted = 0;
             var tcNotSubmitted = 0;
 
-            
+
             $.each(data, function (i, el) {
                 if (el.session) sessions.add(el.session);
                 if (el.year) years.add(el.year);
@@ -2247,7 +2247,7 @@
             var varExamFormSubmited = $('#ddlExamFormSubmited option:selected').text();
             var varTcSubmited = $('#ddlTCSubmited option:selected').text();
             var varAdmisisonType = $('#ddlAdmisisonType option:selected').text();
-            
+
 
             $.post(BASE_URL + "/Student/SearchList", {
                 name: name,
@@ -2322,7 +2322,7 @@
             var startIndex = (currentPage - 1) * pageSize;
 
             $.each(pageData, function (index, element) {
-                
+
                 var globalIndex = startIndex + index;
                 var delay = Math.min(index * 0.03, 0.8);
 
@@ -2363,7 +2363,7 @@
                     '<td><span class="info-tag subject">' + esc(element.class) + '</span></td>' +
                     '<td><span class="info-tag course">' + esc(element.course) + '</span></td>' +
                     '<td><span class="mobile-pill"><i class="fas fa-phone"></i> ' + esc(element.mobileNoOne) + '</span></td>' +
-                    
+
                     '</tr>';
 
                 $("#tblStudentList").append(row);

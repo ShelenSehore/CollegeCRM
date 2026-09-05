@@ -1453,6 +1453,8 @@
                 '<td></td>' +
                 '<td></td>' +
                 '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
                 '<td>' + fmt(total) + '</td>' +
                 '</tr>'
             );
@@ -1467,6 +1469,8 @@
                 '<td></td>' +
                 '<td></td>' +
                 '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
                 '<td>' + fmt(total) + '</td>' +
                 '</tr>'
             );
@@ -1476,7 +1480,7 @@
             $("#tblStudentList").append(
                 '<tr class="GrandTotalRow">' +
                 '<td>' + idx + '</td>' +
-                '<td colspan="5"><i class="fa-solid fa-calculator" style="margin-right:8px;opacity:.7"></i>GRAND TOTAL</td>' +
+                '<td colspan="7"><i class="fa-solid fa-calculator" style="margin-right:8px;opacity:.7"></i>GRAND TOTAL</td>' +
                 '<td>' + fmt(total) + '</td>' +
                 '</tr>'
             );
@@ -1484,7 +1488,7 @@
 
         function addHeadSummaryHeader() {
             $("#tblStudentList").append(
-                '<tr class="HeadSummaryHeader"><td colspan="7">' +
+                '<tr class="HeadSummaryHeader"><td colspan="9">' +
                 '<i class="fa-solid fa-layer-group" style="margin-right:8px"></i>HEAD-WISE SUMMARY</td></tr>'
             );
         }
@@ -1498,6 +1502,8 @@
                 '<td></td>' +
                 '<td></td>' +
                 '<td></td>' +
+                '<td></td>' +
+                '<td></td>' +
                 '<td>' + fmt(total) + '</td>' +
                 '</tr>'
             );
@@ -1507,7 +1513,7 @@
             $("#tblStudentList").append(
                 '<tr class="HeadWiseTotalRow">' +
                 '<td>' + idx + '</td>' +
-                '<td colspan="5"><i class="fa-solid fa-list-check" style="margin-right:8px;opacity:.7"></i>HEAD-WISE TOTAL</td>' +
+                '<td colspan="7"><i class="fa-solid fa-list-check" style="margin-right:8px;opacity:.7"></i>HEAD-WISE TOTAL</td>' +
                 '<td>' + fmt(total) + '</td>' +
                 '</tr>'
             );

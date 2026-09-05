@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
     var baseUrl = ViewBag.BaseUrl;
+    var departments = Model?.Select(m => m.Department).Where(d => !string.IsNullOrEmpty(d)).Distinct().OrderBy(d => d).ToList() ?? new List<string>();
 }
 
 <style>
@@ -12,10 +13,9 @@
         font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
 
-    .content-wrapper .content-header {
-        padding: 0;
-        margin-bottom: 0;
-    }
+        .content-wrapper .content-header {
+            display: none;
+        }
 
     /* ── Page Title Bar ── */
     .page-title-bar {
@@ -26,45 +26,45 @@
         overflow: hidden;
     }
 
-    .page-title-bar::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -10%;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
-        border-radius: 50%;
-    }
+        .page-title-bar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
 
-    .page-title-bar::after {
-        content: '';
-        position: absolute;
-        bottom: -60%;
-        left: 20%;
-        width: 250px;
-        height: 250px;
-        background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
-        border-radius: 50%;
-    }
+        .page-title-bar::after {
+            content: '';
+            position: absolute;
+            bottom: -60%;
+            left: 20%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
 
-    .page-title-bar h1 {
-        color: #ffffff;
-        font-size: 1.65rem;
-        font-weight: 700;
-        margin: 0 0 4px;
-        letter-spacing: -0.3px;
-        position: relative;
-        z-index: 1;
-    }
+        .page-title-bar h1 {
+            color: #ffffff;
+            font-size: 1.65rem;
+            font-weight: 700;
+            margin: 0 0 4px;
+            letter-spacing: -0.3px;
+            position: relative;
+            z-index: 1;
+        }
 
-    .page-title-bar .subtitle {
-        color: #94a3b8;
-        font-size: 0.875rem;
-        margin: 0;
-        position: relative;
-        z-index: 1;
-    }
+        .page-title-bar .subtitle {
+            color: #94a3b8;
+            font-size: 0.875rem;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
 
     .breadcrumb-custom {
         display: flex;
@@ -77,29 +77,29 @@
         z-index: 1;
     }
 
-    .breadcrumb-custom li {
-        font-size: 0.8rem;
-    }
+        .breadcrumb-custom li {
+            font-size: 0.8rem;
+        }
 
-    .breadcrumb-custom a {
-        color: #94a3b8;
-        text-decoration: none;
-        transition: color 0.2s;
-    }
+        .breadcrumb-custom a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
 
-    .breadcrumb-custom a:hover {
-        color: #e2e8f0;
-    }
+            .breadcrumb-custom a:hover {
+                color: #e2e8f0;
+            }
 
-    .breadcrumb-custom .separator {
-        color: #475569;
-        font-size: 0.7rem;
-    }
+        .breadcrumb-custom .separator {
+            color: #475569;
+            font-size: 0.7rem;
+        }
 
-    .breadcrumb-custom .current {
-        color: #e2e8f0;
-        font-weight: 500;
-    }
+        .breadcrumb-custom .current {
+            color: #e2e8f0;
+            font-weight: 500;
+        }
 
     /* ── Stats Row ── */
     .stats-row {
@@ -121,10 +121,10 @@
         transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .stat-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-    }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+        }
 
     .stat-icon {
         width: 46px;
@@ -137,10 +137,25 @@
         flex-shrink: 0;
     }
 
-    .stat-icon.blue { background: #eff6ff; color: #3b82f6; }
-    .stat-icon.green { background: #ecfdf5; color: #10b981; }
-    .stat-icon.amber { background: #fffbeb; color: #f59e0b; }
-    .stat-icon.purple { background: #faf5ff; color: #8b5cf6; }
+        .stat-icon.blue {
+            background: #eff6ff;
+            color: #3b82f6;
+        }
+
+        .stat-icon.green {
+            background: #ecfdf5;
+            color: #10b981;
+        }
+
+        .stat-icon.amber {
+            background: #fffbeb;
+            color: #f59e0b;
+        }
+
+        .stat-icon.purple {
+            background: #faf5ff;
+            color: #8b5cf6;
+        }
 
     .stat-info .stat-number {
         font-size: 1.35rem;
@@ -181,35 +196,42 @@
         position: relative;
     }
 
-    .search-box input {
-        border: 1.5px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 8px 14px 8px 38px;
-        font-size: 0.85rem;
-        width: 260px;
-        background: #f8fafc;
-        color: #334155;
-        transition: all 0.2s;
-        outline: none;
-    }
+        .search-box input {
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 14px 8px 38px;
+            font-size: 0.85rem;
+            width: 260px;
+            background: #f8fafc;
+            color: #334155;
+            transition: all 0.2s;
+            outline: none;
+        }
 
-    .search-box input:focus {
-        border-color: #3b82f6;
-        background: #ffffff;
-        box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
-    }
+            .search-box input:focus {
+                border-color: #3b82f6;
+                background: #ffffff;
+                box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+            }
 
-    .search-box input::placeholder {
-        color: #a0aec0;
-    }
+            .search-box input::placeholder {
+                color: #a0aec0;
+            }
 
-    .search-box i {
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #a0aec0;
-        font-size: 0.85rem;
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 0.85rem;
+        }
+
+    .filter-chips {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
     }
 
     .filter-chip {
@@ -227,16 +249,43 @@
         user-select: none;
     }
 
-    .filter-chip:hover {
-        border-color: #cbd5e1;
-        background: #f8fafc;
+        .filter-chip:hover {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+        }
+
+        .filter-chip.active {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            background: #eff6ff;
+        }
+
+    .toolbar-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
-    .filter-chip.active {
-        border-color: #3b82f6;
-        color: #3b82f6;
-        background: #eff6ff;
+    .btn-toolbar {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        color: #64748b;
+        background: #ffffff;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
     }
+
+        .btn-toolbar:hover {
+            border-color: #cbd5e1;
+            color: #334155;
+            background: #f8fafc;
+        }
 
     .btn-add-employee {
         display: inline-flex;
@@ -253,17 +302,25 @@
         cursor: pointer;
         transition: all 0.25s;
         box-shadow: 0 1px 3px rgba(59,130,246,0.3);
+        position: relative;
+        z-index: 1;
     }
 
-    .btn-add-employee:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(59,130,246,0.4);
-        color: #ffffff;
-        text-decoration: none;
-    }
+        .btn-add-employee:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+            color: #ffffff;
+            text-decoration: none;
+        }
 
-    .btn-add-employee:active {
-        transform: translateY(0);
+        .btn-add-employee:active {
+            transform: translateY(0);
+        }
+
+    .result-count {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        white-space: nowrap;
     }
 
     /* ── Table Card ── */
@@ -275,40 +332,50 @@
         border: 1px solid #f1f5f9;
     }
 
+    .table-scroll {
+        overflow-x: auto;
+        max-height: 65vh;
+        overflow-y: auto;
+    }
+
     .table-card table {
         margin: 0;
         width: 100%;
         border-collapse: collapse;
+        min-width: 750px;
     }
 
     .table-card thead {
         background: #f8fafc;
         border-bottom: 1.5px solid #e2e8f0;
+        position: sticky;
+        top: 0;
+        z-index: 2;
     }
 
-    .table-card thead th {
-        padding: 14px 18px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: #64748b;
-        border: none;
-        white-space: nowrap;
-    }
+        .table-card thead th {
+            padding: 14px 18px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #64748b;
+            border: none;
+            white-space: nowrap;
+        }
 
     .table-card tbody tr {
         border-bottom: 1px solid #f1f5f9;
         transition: background 0.15s;
     }
 
-    .table-card tbody tr:last-child {
-        border-bottom: none;
-    }
+        .table-card tbody tr:last-child {
+            border-bottom: none;
+        }
 
-    .table-card tbody tr:hover {
-        background: #f8fafc;
-    }
+        .table-card tbody tr:hover {
+            background: #f8fafc;
+        }
 
     .table-card tbody td {
         padding: 14px 18px;
@@ -316,6 +383,11 @@
         color: #334155;
         vertical-align: middle;
         border: none;
+    }
+
+    /* ── Row hidden by filter ── */
+    .table-card tbody tr.row-hidden {
+        display: none;
     }
 
     /* ── Employee Name Cell ── */
@@ -347,12 +419,29 @@
         flex-shrink: 0;
     }
 
-    .avatar-bg-1 { background: linear-gradient(135deg, #3b82f6, #6366f1); }
-    .avatar-bg-2 { background: linear-gradient(135deg, #10b981, #14b8a6); }
-    .avatar-bg-3 { background: linear-gradient(135deg, #f59e0b, #f97316); }
-    .avatar-bg-4 { background: linear-gradient(135deg, #8b5cf6, #a855f7); }
-    .avatar-bg-5 { background: linear-gradient(135deg, #ef4444, #f43f5e); }
-    .avatar-bg-6 { background: linear-gradient(135deg, #06b6d4, #0ea5e9); }
+    .avatar-bg-1 {
+        background: linear-gradient(135deg, #3b82f6, #6366f1);
+    }
+
+    .avatar-bg-2 {
+        background: linear-gradient(135deg, #10b981, #14b8a6);
+    }
+
+    .avatar-bg-3 {
+        background: linear-gradient(135deg, #f59e0b, #f97316);
+    }
+
+    .avatar-bg-4 {
+        background: linear-gradient(135deg, #8b5cf6, #a855f7);
+    }
+
+    .avatar-bg-5 {
+        background: linear-gradient(135deg, #ef4444, #f43f5e);
+    }
+
+    .avatar-bg-6 {
+        background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+    }
 
     .employee-name-text {
         font-weight: 600;
@@ -373,11 +462,30 @@
         white-space: nowrap;
     }
 
-    .dept-badge.dept-hr { background: #fef3c7; color: #92400e; }
-    .dept-badge.dept-it { background: #dbeafe; color: #1e40af; }
-    .dept-badge.dept-finance { background: #d1fae5; color: #065f46; }
-    .dept-badge.dept-sales { background: #fce7f3; color: #9d174d; }
-    .dept-badge.dept-default { background: #f1f5f9; color: #475569; }
+        .dept-badge.dept-hr {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .dept-badge.dept-it {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .dept-badge.dept-finance {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .dept-badge.dept-sales {
+            background: #fce7f3;
+            color: #9d174d;
+        }
+
+        .dept-badge.dept-default {
+            background: #f1f5f9;
+            color: #475569;
+        }
 
     .designation-text {
         font-size: 0.84rem;
@@ -416,52 +524,49 @@
         cursor: pointer;
         transition: all 0.2s;
         text-decoration: none;
-    }
-
-    .btn-action:hover {
-        transform: translateY(-1px);
-    }
-
-    .btn-action.view:hover {
-        background: #eff6ff;
-        border-color: #93c5fd;
-        color: #2563eb;
-    }
-
-    .btn-action.edit:hover {
-        background: #ecfdf5;
-        border-color: #6ee7b7;
-        color: #059669;
-    }
-
-    .btn-action.delete:hover {
-        background: #fef2f2;
-        border-color: #fca5a5;
-        color: #dc2626;
-    }
-
-    .btn-action .action-tooltip {
-        display: none;
-        position: absolute;
-        bottom: calc(100% + 6px);
-        left: 50%;
-        transform: translateX(-50%);
-        background: #1e293b;
-        color: #fff;
-        font-size: 0.7rem;
-        padding: 4px 8px;
-        border-radius: 5px;
-        white-space: nowrap;
-        pointer-events: none;
-    }
-
-    .btn-action {
         position: relative;
     }
 
-    .btn-action:hover .action-tooltip {
-        display: block;
-    }
+        .btn-action:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-action.view:hover {
+            background: #eff6ff;
+            border-color: #93c5fd;
+            color: #2563eb;
+        }
+
+        .btn-action.edit:hover {
+            background: #ecfdf5;
+            border-color: #6ee7b7;
+            color: #059669;
+        }
+
+        .btn-action.delete:hover {
+            background: #fef2f2;
+            border-color: #fca5a5;
+            color: #dc2626;
+        }
+
+        .btn-action .action-tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 5px;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .btn-action:hover .action-tooltip {
+            display: block;
+        }
 
     /* ── Row Number ── */
     .row-number {
@@ -478,58 +583,334 @@
         padding: 60px 20px;
     }
 
-    .empty-state i {
-        font-size: 3rem;
-        color: #e2e8f0;
-        margin-bottom: 16px;
+        .empty-state .empty-icon-wrap {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+            .empty-state .empty-icon-wrap i {
+                font-size: 2rem;
+                color: #cbd5e1;
+                margin: 0;
+            }
+
+        .empty-state h3 {
+            color: #475569;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .empty-state p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+    /* ── View Modal ── */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15,23,42,0.5);
+        backdrop-filter: blur(4px);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
     }
 
-    .empty-state h3 {
-        color: #64748b;
-        font-size: 1.1rem;
+        .modal-overlay.active {
+            display: flex;
+        }
+
+    .modal-card {
+        background: #ffffff;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 480px;
+        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        animation: modalIn 0.25s ease-out;
+        overflow: hidden;
+    }
+
+    @@keyframes modalIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #1e293b, #334155);
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+        .modal-header .modal-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .modal-header .modal-name {
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .modal-header .modal-dept {
+            color: #94a3b8;
+            font-size: 0.82rem;
+            margin-top: 2px;
+        }
+
+    .modal-body {
+        padding: 24px;
+    }
+
+    .modal-detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+        .modal-detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .modal-detail-row .detail-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .modal-detail-row .detail-label i {
+                width: 16px;
+                text-align: center;
+                font-size: 0.78rem;
+            }
+
+        .modal-detail-row .detail-value {
+            font-size: 0.875rem;
+            color: #1e293b;
+            font-weight: 600;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-word;
+        }
+
+    .modal-footer {
+        padding: 16px 24px;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+
+    .btn-modal {
+        padding: 9px 20px;
+        border-radius: 8px;
+        font-size: 0.84rem;
         font-weight: 600;
-        margin-bottom: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        border: none;
     }
 
-    .empty-state p {
-        color: #94a3b8;
-        font-size: 0.85rem;
+    .btn-modal-close {
+        background: #f1f5f9;
+        color: #475569;
     }
+
+        .btn-modal-close:hover {
+            background: #e2e8f0;
+        }
+
+    .btn-modal-edit {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: #fff;
+        box-shadow: 0 1px 3px rgba(16,185,129,0.3);
+    }
+
+        .btn-modal-edit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16,185,129,0.4);
+            color: #fff;
+            text-decoration: none;
+        }
 
     /* ── Animations ── */
     @@keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(12px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .animate-in {
         animation: fadeInUp 0.4s ease-out both;
     }
 
-    .delay-1 { animation-delay: 0.05s; }
-    .delay-2 { animation-delay: 0.1s; }
-    .delay-3 { animation-delay: 0.15s; }
-    .delay-4 { animation-delay: 0.2s; }
+    .delay-1 {
+        animation-delay: 0.05s;
+    }
 
-    /* ── Responsive ── */
+    .delay-2 {
+        animation-delay: 0.1s;
+    }
+
+    .delay-3 {
+        animation-delay: 0.15s;
+    }
+
+    /* ── No-results inline state ── */
+    .no-filter-results {
+        display: none;
+        text-align: center;
+        padding: 48px 20px;
+    }
+
+        .no-filter-results i {
+            font-size: 2.2rem;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+        }
+
+        .no-filter-results h4 {
+            color: #64748b;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .no-filter-results p {
+            color: #94a3b8;
+            font-size: 0.82rem;
+        }
+
+    /* ── Responsive: Mobile card view ── */
     @@media (max-width: 768px) {
-        .page-title-bar { padding: 20px 0; }
-        .page-title-bar h1 { font-size: 1.3rem; }
-        .toolbar-card { flex-direction: column; align-items: stretch; }
-        .toolbar-left { flex-direction: column; }
-        .search-box input { width: 100%; }
-        .stats-row { grid-template-columns: repeat(2, 1fr); }
-        .table-card { overflow-x: auto; }
-        .table-card table { min-width: 700px; }
+        .page-title-bar {
+            padding: 20px 0;
+        }
+
+            .page-title-bar h1 {
+                font-size: 1.3rem;
+            }
+
+        .toolbar-card {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .toolbar-left {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .search-box input {
+            width: 100%;
+        }
+
+        .stats-row {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .table-card thead {
+            display: none;
+        }
+
+        .table-card table,
+        .table-card tbody,
+        .table-card tr,
+        .table-card td {
+            display: block;
+            width: 100%;
+            min-width: 0 !important;
+        }
+
+        .table-card tr {
+            padding: 16px;
+            border-bottom: 1px solid #f1f5f9;
+            position: relative;
+        }
+
+        .table-card td {
+            padding: 2px 0;
+            border: none !important;
+            text-align: left !important;
+        }
+
+            .table-card td:first-child {
+                display: none;
+            }
+
+            .table-card td:last-child {
+                margin-top: 10px;
+            }
+
+        .mobile-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .mobile-field {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            font-size: 0.82rem;
+        }
+
+        .mobile-field-label {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .mobile-field-value {
+            color: #334155;
+            font-weight: 600;
+        }
     }
 
     @@media (max-width: 480px) {
-        .stats-row { grid-template-columns: 1fr; }
-    }
-
-    /* ── Hide the old content-header breadcrumb ── */
-    .content-wrapper > .content-header {
-        display: none;
+        .stats-row {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 
@@ -550,14 +931,12 @@
                     <h1 style="margin-top:10px;">Employee Directory</h1>
                     <p class="subtitle">Manage and view all employees in the organization</p>
                 </div>
-
+                <a href="@ViewBag.BaseUrl/Employe/Add" class="btn-add-employee">
+                    <i class="fas fa-plus"></i>
+                    Add Employee
+                </a>
             </div>
         </div>
-
-        <a href="@ViewBag.BaseUrl/Employe/Add" class="btn-add-employee">
-            <i class="fas fa-plus"></i>
-            Add Employee
-        </a>
     </div>
 
     <!-- Main Content -->
@@ -567,36 +946,28 @@
             <!-- Stats Row -->
             <div class="stats-row animate-in delay-1">
                 <div class="stat-card">
-                    <div class="stat-icon blue">
-                        <i class="fas fa-users"></i>
-                    </div>
+                    <div class="stat-icon blue"><i class="fas fa-users"></i></div>
                     <div class="stat-info">
                         <div class="stat-number" id="totalEmployees">@(Model != null ? Model.Count() : 0)</div>
                         <div class="stat-label">Total Employees</div>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon green">
-                        <i class="fas fa-building"></i>
-                    </div>
+                    <div class="stat-icon green"><i class="fas fa-building"></i></div>
                     <div class="stat-info">
-                        <div class="stat-number" id="totalDepts">@(Model != null ? Model.Select(m => m.Department).Distinct().Count() : 0)</div>
+                        <div class="stat-number" id="totalDepts">@departments.Count</div>
                         <div class="stat-label">Departments</div>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon amber">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
+                    <div class="stat-icon amber"><i class="fas fa-briefcase"></i></div>
                     <div class="stat-info">
                         <div class="stat-number" id="totalDesignations">@(Model != null ? Model.Select(m => m.Designation).Distinct().Count() : 0)</div>
                         <div class="stat-label">Designations</div>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon purple">
-                        <i class="fas fa-book-open"></i>
-                    </div>
+                    <div class="stat-icon purple"><i class="fas fa-book-open"></i></div>
                     <div class="stat-info">
                         <div class="stat-number" id="totalSubjects">@(Model != null ? Model.Select(m => m.Subject).Distinct().Count() : 0)</div>
                         <div class="stat-label">Subjects</div>
@@ -611,12 +982,29 @@
                         <i class="fas fa-search"></i>
                         <input type="text" id="searchInput" placeholder="Search by name, mobile, department..." oninput="filterTable()">
                     </div>
-                    <div class="filter-chip active" onclick="toggleFilter(this, 'all')">
-                        <i class="fas fa-th-list"></i> All
+                    <div class="filter-chips" id="filterChips">
+                        <div class="filter-chip active" onclick="toggleFilter(this, 'all')" data-filter="all">
+                            <i class="fas fa-th-list"></i> All
+                        </div>
+                        @foreach (var dept in departments)
+                        {
+                            var deptLower = dept.ToLower();
+                            var chipIcon = deptLower.Contains("hr") ? "fa-users-cog"
+                                         : deptLower.Contains("it") ? "fa-laptop-code"
+                                         : deptLower.Contains("finance") || deptLower.Contains("account") ? "fa-coins"
+                                         : deptLower.Contains("sales") || deptLower.Contains("market") ? "fa-chart-line"
+                                         : "fa-building";
+                            <div class="filter-chip" onclick="toggleFilter(this, '@deptLower')" data-filter="@deptLower">
+                                <i class="fas @chipIcon"></i> @dept
+                            </div>
+                        }
                     </div>
                 </div>
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <span style="font-size:0.8rem; color:#94a3b8;" id="resultCount">@(Model != null ? Model.Count() : 0) results</span>
+                <div class="toolbar-right">
+                    <button class="btn-toolbar" onclick="exportCSV()" title="Export to CSV">
+                        <i class="fas fa-file-download"></i> Export
+                    </button>
+                    <span class="result-count" id="resultCount"></span>
                 </div>
             </div>
 
@@ -624,75 +1012,96 @@
             <div class="table-card animate-in delay-3">
                 @if (Model != null && Model.Any())
                 {
-                    <table id="employeeTable">
-                        <thead>
-                            <tr>
-                                <th style="width:50px;">#</th>
-                                <th>Employee</th>
-                                <th>Mobile</th>
-                                <th class="badge-cell">Department</th>
-                                <th>Designation</th>
-                                <th>Subject</th>
-                                <th style="width:130px; text-align:center;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{ int i = 1;
-                                var avatarBgs = new[] { "avatar-bg-1", "avatar-bg-2", "avatar-bg-3", "avatar-bg-4", "avatar-bg-5", "avatar-bg-6" };
-                            }
-                            @foreach (var item in Model)
-                            {
-                                var bgClass = avatarBgs[(i - 1) % avatarBgs.Length];
-                                var initials = !string.IsNullOrEmpty(item.Name) ? item.Name.Length >= 2 ? item.Name.Substring(0, 2).ToUpper() : item.Name.ToUpper() : "??";
-                                var deptLower = (item.Department ?? "").ToLower();
-                                var deptClass = deptLower.Contains("hr") ? "dept-hr"
-                                              : deptLower.Contains("it") ? "dept-it"
-                                              : deptLower.Contains("finance") || deptLower.Contains("account") ? "dept-finance"
-                                              : deptLower.Contains("sales") || deptLower.Contains("market") ? "dept-sales"
-                                              : "dept-default";
-                                <tr data-name="@(item.Name?.ToLower() ?? "")" data-mobile="@(item.MobileNo?.ToLower() ?? "")" data-dept="@(item.Department?.ToLower() ?? "")" data-designation="@(item.Designation?.ToLower() ?? "")" data-subject="@(item.Subject?.ToLower() ?? "")">
-                                    <td><span class="row-number">@i</span></td>
-                                    <td>
-                                        <div class="employee-name">
-                                            <div class="employee-avatar-placeholder @bgClass">@initials</div>
-                                            <span class="employee-name-text">@(item.Name ?? "—")</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="mobile-text">@(item.MobileNo ?? "—")</span></td>
-                                    <td class="badge-cell">
-                                        <span class="dept-badge @deptClass">@(item.Department ?? "—")</span>
-                                    </td>
-                                    <td><span class="designation-text">@(item.Designation ?? "—")</span></td>
-                                    <td><span class="subject-text">@(item.Subject ?? "—")</span></td>
-                                    <td>
-                                        <div class="action-group" style="justify-content:center;">
-                                            <a class="btn-action view" href="#">
-                                                <i class="fas fa-eye"></i>
-                                                <span class="action-tooltip">View</span>
-                                            </a>
-                                            <a class="btn-action edit" href="@ViewBag.BaseUrl/Employe/Edit/@item.Id">
-                                                <i class="fas fa-pen"></i>
-                                                <span class="action-tooltip">Edit</span>
-                                            </a>
-                                            <button class="btn-action delete" onclick="deleteEmployee(@item.Id)">
-                                                <i class="fas fa-trash-alt"></i>
-                                                <span class="action-tooltip">Delete</span>
-                                            </button>
-                                        </div>
-                                    </td>
+                    <div class="table-scroll">
+                        <table id="employeeTable">
+                            <thead>
+                                <tr>
+                                    <th style="width:50px;">#</th>
+                                    <th>Employee</th>
+                                    <th>Mobile</th>
+                                    <th class="badge-cell">Department</th>
+                                    <th>Designation</th>
+                                    <th>Subject</th>
+                                    <th style="width:130px; text-align:center;">Actions</th>
                                 </tr>
-                                i++;
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @{ int i = 1;
+                                    var avatarBgs = new[] { "avatar-bg-1", "avatar-bg-2", "avatar-bg-3", "avatar-bg-4", "avatar-bg-5", "avatar-bg-6" };
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    var bgClass = avatarBgs[(i - 1) % avatarBgs.Length];
+                                    var initials = !string.IsNullOrEmpty(item.Name) ? item.Name.Length >= 2 ? item.Name.Substring(0, 2).ToUpper() : item.Name.ToUpper() : "??";
+                                    var deptLower = (item.Department ?? "").ToLower();
+                                    var deptClass = deptLower.Contains("hr") ? "dept-hr"
+                                                  : deptLower.Contains("it") ? "dept-it"
+                                                  : deptLower.Contains("finance") || deptLower.Contains("account") ? "dept-finance"
+                                                  : deptLower.Contains("sales") || deptLower.Contains("market") ? "dept-sales"
+                                                  : "dept-default";
+                                    <tr data-name="@(item.Name?.ToLower() ?? "")"
+                                        data-mobile="@(item.MobileNo?.ToLower() ?? "")"
+                                        data-dept="@deptLower"
+                                        data-designation="@(item.Designation?.ToLower() ?? "")"
+                                        data-subject="@(item.Subject?.ToLower() ?? "")"
+                                        data-id="@item.Id"
+                                        data-fullname="@(item.Name ?? "")"
+                                        data-fulldept="@(item.Department ?? "")"
+                                        data-fulldesig="@(item.Designation ?? "")"
+                                        data-fullsubject="@(item.Subject ?? "")"
+                                        data-avatar="@bgClass"
+                                        data-initials="@initials">
+                                        <td><span class="row-number">@i</span></td>
+                                        <td>
+                                            <div class="employee-name">
+                                                <div class="employee-avatar-placeholder @bgClass">@initials</div>
+                                                <span class="employee-name-text">@(item.Name ?? "—")</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="mobile-text">@(item.MobileNo ?? "—")</span></td>
+                                        <td class="badge-cell">
+                                            <span class="dept-badge @deptClass">@(item.Department ?? "—")</span>
+                                        </td>
+                                        <td><span class="designation-text">@(item.Designation ?? "—")</span></td>
+                                        <td><span class="subject-text">@(item.Subject ?? "—")</span></td>
+                                        <td>
+                                            <div class="action-group" style="justify-content:center;">
+                                                <a class="btn-action view" href="javascript:void(0)" onclick="viewEmployee(this)">
+                                                    <i class="fas fa-eye"></i>
+                                                    <span class="action-tooltip">View</span>
+                                                </a>
+                                                <a class="btn-action edit" href="@ViewBag.BaseUrl/Employe/Edit/@item.Id">
+                                                    <i class="fas fa-pen"></i>
+                                                    <span class="action-tooltip">Edit</span>
+                                                </a>
+                                                <button class="btn-action delete" onclick="deleteEmployee(@item.Id)">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                    <span class="action-tooltip">Delete</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- No filter results -->
+                    <div class="no-filter-results" id="noFilterResults">
+                        <i class="fas fa-search"></i>
+                        <h4>No matching employees</h4>
+                        <p>Try adjusting your search or filter criteria.</p>
+                    </div>
                 }
                 else
                 {
                     <div class="empty-state">
-                        <i class="fas fa-user-slash"></i>
+                        <div class="empty-icon-wrap">
+                            <i class="fas fa-user-slash"></i>
+                        </div>
                         <h3>No Employees Found</h3>
                         <p>Start by adding your first employee to the directory.</p>
-                        <a href="@ViewBag.BaseUrl/Employe/Add" class="btn-add-employee" style="margin-top:16px; display:inline-flex;">
+                        <a href="@ViewBag.BaseUrl/Employe/Add" class="btn-add-employee" style="display:inline-flex;">
                             <i class="fas fa-plus"></i> Add Employee
                         </a>
                     </div>
@@ -703,10 +1112,49 @@
     </section>
 </div>
 
+<!-- View Detail Modal -->
+<div class="modal-overlay" id="viewModal" onclick="closeModalOutside(event)">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalName">
+        <div class="modal-header">
+            <div class="modal-avatar" id="modalAvatar">AB</div>
+            <div>
+                <div class="modal-name" id="modalName">Employee Name</div>
+                <div class="modal-dept" id="modalDept">Department</div>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="modal-detail-row">
+                <span class="detail-label"><i class="fas fa-phone"></i> Mobile</span>
+                <span class="detail-value" id="modalMobile">—</span>
+            </div>
+            <div class="modal-detail-row">
+                <span class="detail-label"><i class="fas fa-briefcase"></i> Designation</span>
+                <span class="detail-value" id="modalDesig">—</span>
+            </div>
+            <div class="modal-detail-row">
+                <span class="detail-label"><i class="fas fa-book-open"></i> Subject</span>
+                <span class="detail-value" id="modalSubject">—</span>
+            </div>
+            <div class="modal-detail-row">
+                <span class="detail-label"><i class="fas fa-fingerprint"></i> Employee ID</span>
+                <span class="detail-value" id="modalId">—</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-modal btn-modal-close" onclick="closeModal()">Close</button>
+            <a class="btn-modal btn-modal-edit" id="modalEditLink" href="#">
+                <i class="fas fa-pen" style="margin-right:4px;"></i> Edit
+            </a>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script type="text/javascript">
         var BASE_URL = "@baseUrl";
+        var TOTAL_COUNT = @(Model != null ? Model.Count() : 0);
         var Toast;
+        var currentFilter = 'all';
 
         window.onload = function () {
             Toast = Swal.mixin({
@@ -716,20 +1164,36 @@
                 timer: 1500,
                 timerProgressBar: true,
             });
+            updateResultCount();
         };
 
         function Alert(icon, title) {
-            Toast.fire({
-                icon: icon,
-                title: title,
-            });
+            Toast.fire({ icon: icon, title: title });
+        }
+
+        // ── Update "Showing X of Y" ──
+        function updateResultCount() {
+            var visible = document.querySelectorAll('#employeeTable tbody tr:not(.row-hidden)').length;
+            var el = document.getElementById('resultCount');
+            if (TOTAL_COUNT === 0) {
+                el.textContent = '';
+            } else if (visible === TOTAL_COUNT) {
+                el.textContent = 'Showing all ' + TOTAL_COUNT;
+            } else {
+                el.textContent = 'Showing ' + visible + ' of ' + TOTAL_COUNT;
+            }
+
+            // Toggle no-filter-results
+            var noResults = document.getElementById('noFilterResults');
+            if (noResults) {
+                noResults.style.display = (TOTAL_COUNT > 0 && visible === 0) ? 'block' : 'none';
+            }
         }
 
         // ── Live Search / Filter ──
         function filterTable() {
             var query = document.getElementById('searchInput').value.toLowerCase().trim();
             var rows = document.querySelectorAll('#employeeTable tbody tr');
-            var visibleCount = 0;
 
             rows.forEach(function (row) {
                 var name = row.getAttribute('data-name') || '';
@@ -737,18 +1201,29 @@
                 var dept = row.getAttribute('data-dept') || '';
                 var designation = row.getAttribute('data-designation') || '';
                 var subject = row.getAttribute('data-subject') || '';
-
                 var combined = name + ' ' + mobile + ' ' + dept + ' ' + designation + ' ' + subject;
 
-                if (combined.includes(query)) {
-                    row.style.display = '';
-                    visibleCount++;
+                var matchesSearch = combined.includes(query);
+                var matchesFilter = (currentFilter === 'all') || (dept === currentFilter);
+
+                if (matchesSearch && matchesFilter) {
+                    row.classList.remove('row-hidden');
                 } else {
-                    row.style.display = 'none';
+                    row.classList.add('row-hidden');
                 }
             });
 
-            document.getElementById('resultCount').textContent = visibleCount + ' result' + (visibleCount !== 1 ? 's' : '');
+            reindexRows();
+            updateResultCount();
+        }
+
+        // ── Re-number visible rows ──
+        function reindexRows() {
+            var visible = document.querySelectorAll('#employeeTable tbody tr:not(.row-hidden)');
+            visible.forEach(function (row, idx) {
+                var numEl = row.querySelector('.row-number');
+                if (numEl) numEl.textContent = idx + 1;
+            });
         }
 
         // ── Filter Chips ──
@@ -757,12 +1232,78 @@
                 chip.classList.remove('active');
             });
             el.classList.add('active');
+            currentFilter = filter;
 
-            // Reset search when "All" is selected
             if (filter === 'all') {
                 document.getElementById('searchInput').value = '';
-                filterTable();
             }
+
+            filterTable();
+        }
+
+        // ── View Employee Modal ──
+        function viewEmployee(btnEl) {
+            var row = btnEl.closest('tr');
+            if (!row) return;
+
+            document.getElementById('modalAvatar').textContent = row.getAttribute('data-initials') || '??';
+            document.getElementById('modalAvatar').className = 'modal-avatar ' + (row.getAttribute('data-avatar') || 'avatar-bg-1');
+            document.getElementById('modalName').textContent = row.getAttribute('data-fullname') || '—';
+            document.getElementById('modalDept').textContent = row.getAttribute('data-fulldept') || '—';
+            document.getElementById('modalMobile').textContent = row.getAttribute('data-mobile') || '—';
+            document.getElementById('modalDesig').textContent = row.getAttribute('data-fulldesig') || '—';
+            document.getElementById('modalSubject').textContent = row.getAttribute('data-fullsubject') || '—';
+            document.getElementById('modalId').textContent = '#' + row.getAttribute('data-id');
+            document.getElementById('modalEditLink').href = BASE_URL + '/Employe/Edit/' + row.getAttribute('data-id');
+
+            document.getElementById('viewModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('viewModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closeModalOutside(e) {
+            if (e.target === document.getElementById('viewModal')) {
+                closeModal();
+            }
+        }
+
+        // ── Escape key closes modal ──
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ── Export CSV ──
+        function exportCSV() {
+            var rows = document.querySelectorAll('#employeeTable tbody tr:not(.row-hidden)');
+            if (rows.length === 0) {
+                Alert('info', 'No data to export.');
+                return;
+            }
+
+            var csv = 'ID,Name,Mobile,Department,Designation,Subject\n';
+            rows.forEach(function (row) {
+                var id = row.getAttribute('data-id');
+                var name = '"' + (row.getAttribute('data-fullname') || '').replace(/"/g, '""') + '"';
+                var mobile = '"' + (row.getAttribute('data-mobile') || '') + '"';
+                var dept = '"' + (row.getAttribute('data-fulldept') || '').replace(/"/g, '""') + '"';
+                var desig = '"' + (row.getAttribute('data-fulldesig') || '').replace(/"/g, '""') + '"';
+                var subject = '"' + (row.getAttribute('data-fullsubject') || '').replace(/"/g, '""') + '"';
+                csv += id + ',' + name + ',' + mobile + ',' + dept + ',' + desig + ',' + subject + '\n';
+            });
+
+            var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'Employees_' + new Date().toISOString().slice(0, 10) + '.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            Alert('success', 'CSV exported successfully.');
         }
 
         // ── Delete with SweetAlert ──
@@ -779,10 +1320,19 @@
                 reverseButtons: true,
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Show loading state
+                    Swal.fire({
+                        title: 'Deleting...',
+                        allowOutsideClick: false,
+                        didOpen: () => { Swal.showLoading(); }
+                    });
+
                     $.post(BASE_URL + "/Employe/Delete", { id: id }, function () {
+                        Swal.close();
                         Alert('success', 'Employee deleted successfully.');
                         setTimeout(function () { location.reload(); }, 600);
                     }).fail(function () {
+                        Swal.close();
                         Alert('error', 'Something went wrong.');
                     });
                 }
