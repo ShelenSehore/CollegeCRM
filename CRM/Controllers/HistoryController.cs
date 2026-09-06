@@ -357,7 +357,7 @@ namespace CRM.Controllers
             stuObj.StudentHistoryId = id;
 
             if (!string.IsNullOrEmpty(varAdmissionFormNo))
-                stuObj.AdmissionForm = Convert.ToInt32(varAdmissionFormNo);
+                stuObj.AdmissionForm = Convert.ToInt64(varAdmissionFormNo);
 
 
             if (!string.IsNullOrEmpty(varAcademicYear))
