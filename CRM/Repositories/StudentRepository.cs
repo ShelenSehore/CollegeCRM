@@ -490,6 +490,25 @@ namespace CRM.Repositories
             return false;
         }
 
+        public bool GetExamFrom(int id, string session, string year)
+        {
+            //var students = _context.ex.Where(x =>x.StudentName == id && x.Session== session && x.Year == year ).FirstOrDefault();
+
+            //if (students.Any())
+            //{
+            //    foreach (var student in students)
+            //    {
+            //        student.ExamFormSubmited = "Yes"; // Replace with your actual column name
+            //    }
+
+            //    // 4. Save all changes in one database transaction
+            //    _context.SaveChanges();
+            //    return true;
+            //}
+
+            return false;
+        }
+
 
         //---------------------For Dashboard---------------
 
@@ -678,6 +697,15 @@ namespace CRM.Repositories
 
 
         //------------------View History Student Detail--------------
+        public string GetAdmissionFormForPromossion(int id , string session, string year)
+        {
+            var detail =  _context.IssueAdmissionForm.Where(x => x.StudentId == id && x.Session == session && x.Year == year).FirstOrDefault();
+            if (detail != null)
+                return detail.FormNo.ToString();
+            else
+                return null;
+        }
+
         public StudentHistory StudentHistoryGetById(int id)
         {
 

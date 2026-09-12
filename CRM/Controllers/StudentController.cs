@@ -1649,5 +1649,14 @@ namespace CRM.Controllers
         }
 
 
+        //------------Get Fee Detail---------
+        public IActionResult GetAdmissionFormDetail(int id, string session, string year)
+        {
+            id = 10049;
+            var getAdmissionFormNumber = _repoStudent.GetAdmissionFormForPromossion(id, session, year);
+            return Json(new { success = true, data = getAdmissionFormNumber });
+        }
+
+
     }
 }

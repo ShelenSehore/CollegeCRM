@@ -1506,7 +1506,7 @@ body {
                                     </div>
                                     <div class="promo-form-field">
                                         <label>New Admission Form No</label>
-                                        <input id="txtPromoAdmiFormNo" type="number" placeholder="Form No">
+                                        <input id="txtPromoAdmiFormNo" readonly="readonly" type="number" placeholder="Form No">
                                     </div>
                                     <div class="promo-form-field">
                                         <label>New Admission Date</label>
@@ -2033,6 +2033,13 @@ body {
             });
 
 
+            //----------Promotion----------
+            /* Dropdowns → trigger fee Exam form */
+            $("#ddlPromotSession, #ddlPromoYear").change(function () {
+                GetExamForm();
+            });
+
+
             //-----------Acadmic Setion
             $("#txtMaxMark, #txtObtMark").on("input", function () {
 
@@ -2056,6 +2063,28 @@ body {
             });
 
         };
+
+        function GetExamForm()
+        {
+           var session = $('#ddlPromotSession option:selected').text();
+            var year = $('#ddlPromoYear option:selected').text();
+            if (session != "Select" && year != "Select")
+                $.post(BASE_URL + "/Student/GetAdmissionFormDetail", {
+                    id: $("#hdnStudentID").val(),
+                    session: session,
+                    year: year
+                }, function (res) {
+                    debugger;
+                    if (res.data != null)
+                        $("#txtPromoAdmiFormNo").val(res.data);
+                    else
+                        Alert('warning', 'Admission Form not filled yet.');
+
+                }).fail(function () {
+                    Alert('error', 'Error fetching fee details.');
+                });
+        }
+
 
         function Alert(icon, title) {
             Toast.fire({
@@ -2322,7 +2351,7 @@ body {
             $("#imgViewDocument").attr("src", imgSrc);
             $("#modal-ViewDocument").modal("show");
         }
-        s
+        
         // ── Clear modal fields on close ──
         $('#modal-Personal, #modal-College, #modal-Academic').on('hidden.bs.modal', function () {
             $(this).find('.is-invalid').removeClass('is-invalid');
