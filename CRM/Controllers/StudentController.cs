@@ -971,7 +971,7 @@ namespace CRM.Controllers
                 historyObj.Minority = SavedStudentTable.Minority;
                 historyObj.Address = SavedStudentTable.Address; //----
                 historyObj.MobileNo = SavedStudentTable.MobileNoOne;
-                historyObj.TCIssue = "No";//---
+                historyObj.TCIssue = SavedStudentTable.TC;
                 historyObj.SamagraId = SavedStudentTable.SamagraID; //---
                 historyObj.AdharNo = SavedStudentTable.AadhaarNo; //----
                 historyObj.AbcId = SavedStudentTable.AbcNo; //----
