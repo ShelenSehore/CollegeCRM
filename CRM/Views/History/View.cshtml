@@ -1386,50 +1386,48 @@
         }
 
         function SaveCollegeDetail() {
+
+            debugger;
             var IsValidate = true;
-            if (!validateField("#txtAdmissionFormNo", "AdmissionFormNo required")) IsValidate = false;
-            if (!validateField("#txtEnRollNo", "EnRollNo required")) IsValidate = false;
-            if (!validateField("#txtAdmissionDate", "AdmissionDate required")) IsValidate = false;
-            if (!validateField("#txtRollNo", "RollNo required")) IsValidate = false;
-            if (!validateField("#txtSchoolarNo", "SchoolarNo required")) IsValidate = false;
-            if (!validateField("#txtSubCode", "SubCode required")) IsValidate = false;
-            if (!validateField("#ddlNewOld", "Select NewOld", "dropdown")) IsValidate = false;
-            if (!validateField("#ddlMedium", "Select Medium", "dropdown")) IsValidate = false;
-            if (!validateField("#ddlRegEx", "Select RegEx", "dropdown")) IsValidate = false;
-            if (!validateField("#ddlExamFormSubmited", "Select Exam Form Submited", "dropdown")) IsValidate = false;
-            if (!validateField("#ddlResult", "Select Result", "dropdown")) IsValidate = false;
+            if (!validateField("#txtAdmissionDate", "AdmissionFormNo required")) IsValidate = false;
+            if (!validateField("#txtAdmissionFormNo", "EnRollNo required")) IsValidate = false;
+            if (!validateField("#ddlNewOld", "EnRollNo required", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlRegEx", "AdmissionDate required", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlMedium", "RollNo required", "dropdown")) IsValidate = false;
+            if (!validateField("#txtEnRollNo", "SchoolarNo required")) IsValidate = false;
+            if (!validateField("#txtRollNo", "SubCode required")) IsValidate = false;
+            if (!validateField("#txtSchoolarNo", "Select NewOld")) IsValidate = false;
+            if (!validateField("#txtSubCode", "Select Medium")) IsValidate = false;
+            if (!validateField("#ddlExamFormSubmited", "Select RegEx", "dropdown")) IsValidate = false;
+            if (!validateField("#ddlResult", "Select Exam Form Submited", "dropdown")) IsValidate = false;
+            
 
             if (!IsValidate) return;
 
             var varid = $("#hdnStudentID").val();
-            var varNewOld = $('#ddlNewOld option:selected').text();
-            var varMedium = $('#ddlMedium option:selected').text();
+            var varAdmissionDate = $('#txtAdmissionDate').text();
             var varAdmissionFormNo = $('#txtAdmissionFormNo').val();
+            var varNewOld  = $('#ddlNewOld option:selected').val();
+            var varRegEx  = $('#ddlRegEx option:selected').val();
+            var varMedium  = $('#ddlMedium option:selected').val();
             var varEnRollNo = $('#txtEnRollNo').val();
-            var varAdmissionDate = $('#txtAdmissionDate').val();
             var varRollNo = $('#txtRollNo').val();
             var varSchoolarNo = $('#txtSchoolarNo').val();
             var varSubCode = $('#txtSubCode').val();
-            var varRegEx = $('#ddlRegEx option:selected').text();
             var varExamFormSubmited = $('#ddlExamFormSubmited option:selected').text();
             var varResult = $('#ddlResult option:selected').text();
 
             if (IsValidate) {
                 $.post(BASE_URL + "/History/UpdateCollegeDetail", {
                     id: varid,
-                    varSession: "",
-                    varNewOld: varNewOld,
-                    varMedium: varMedium,
-                    varClass: "",
-                    varCourse: "",
-                    varYear: "",
-                    varAdmissionFormNo: varAdmissionFormNo,
-                    varEnRollNo: varEnRollNo,
                     varAdmissionDate: varAdmissionDate,
+                    varAdmissionFormNo: varAdmissionFormNo,
+                    varNewOld: varNewOld,
+                    varRegEx: varRegEx,
+                    varEnRollNo: varEnRollNo,
                     varRollNo: varRollNo,
                     varSchoolarNo: varSchoolarNo,
                     varSubCode: varSubCode,
-                    varRegEx: varRegEx,
                     varExamFormSubmited: varExamFormSubmited,
                     varResult: varResult
                 },
@@ -1473,7 +1471,7 @@
             var varAdmissionFormNo = $('#txtAcademicAdmissionFormNo').val();
             var varAcademicLastClassPassYear = $('#txtAcademicLastYear').val();
             if (IsValidate) {
-                $.post(BASE_URL + "/History/UpdateCollegeDetail", {
+                $.post(BASE_URL + "/History/UpdateAcademyDetail", {
                     id: varid,
                     varAcademicYear: varAcademicYear,
                     varAcadmicSession: varAcadmicSession,

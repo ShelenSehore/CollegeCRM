@@ -348,7 +348,61 @@ namespace CRM.Controllers
 
 
         //--------------------- Save Update Detail------------------------
-        public IActionResult UpdateCollegeDetail(int id, string varAcademicYear, string varAcadmicSession,
+        public IActionResult UpdateCollegeDetail(int id, string varAdmissionDate, string varAdmissionFormNo,
+            string varNewOld, string varRegEx, string varEnRollNo, string varRollNo, string varSchoolarNo,
+            string varSubCode, string varExamFormSubmited, string varResult)
+
+        {
+            StudentHistory stuObj = new StudentHistory();
+            stuObj.StudentHistoryId = id;
+
+            
+            if (!string.IsNullOrEmpty(varAdmissionDate))
+                stuObj.AdmissionDate = Convert.ToDateTime(varAdmissionDate);
+
+            if (!string.IsNullOrEmpty(varAdmissionFormNo))
+                stuObj.AdmissionForm = Convert.ToInt64(varAdmissionFormNo);
+
+            if (!string.IsNullOrEmpty(varNewOld))
+                stuObj.NewOld = varNewOld;
+
+            if (!string.IsNullOrEmpty(varRegEx))
+                stuObj.RegPvt = varRegEx;
+
+            if (!string.IsNullOrEmpty(varEnRollNo))
+                stuObj.Classs = varEnRollNo;
+
+            if (!string.IsNullOrEmpty(varRollNo))
+                stuObj.RollNo = varRollNo;
+
+            if (!string.IsNullOrEmpty(varSchoolarNo))
+                stuObj.ScholerNo = varSchoolarNo;
+
+
+            if (!string.IsNullOrEmpty(varSubCode))
+                stuObj.SubCode = varSubCode;
+
+            if (!string.IsNullOrEmpty(varExamFormSubmited))
+                stuObj.ExamFormSubmited = varExamFormSubmited;
+
+            if (!string.IsNullOrEmpty(varResult))
+                stuObj.Result = varResult;
+
+
+
+            stuObj.UpdateDate = DateTime.Now;
+            stuObj.UpdateBy = "Update Admin";
+
+            var teee = _historyStudentRepo.UpdateHisotryAcademyForHistoryPage(stuObj);
+
+            return Json(new { success = true, data = true });
+        }
+
+
+
+
+        //---------------------Colleg Save Update Detail------------------------
+        public IActionResult UpdateAcademyDetail(int id, string varAcademicYear, string varAcadmicSession,
             string varAcadmicClass, string varAcadmicCourse, string varSchoolName, string varBoard, string varMaxMark,
             string varObtMark, string varResult, string varParcent, string varAdmissionFormNo, string varAcademicLastClassPassYear)
 
@@ -379,7 +433,7 @@ namespace CRM.Controllers
             if (!string.IsNullOrEmpty(varAcademicLastClassPassYear))
                 stuObj.LastClassPassYear = varAcademicLastClassPassYear;
 
-           
+
 
 
             stuObj.UpdateDate = DateTime.Now;
